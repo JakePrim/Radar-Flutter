@@ -23,6 +23,7 @@ import com.linksu.video_manager_library.listener.OnVideoPlayBtnClickListener;
 import com.linksu.video_manager_library.listener.OnVideoPlayerListener;
 import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.PLMediaPlayer;
+import com.pili.pldroid.player.widget.PLVideoTextureView;
 import com.pili.pldroid.player.widget.PLVideoView;
 
 import java.io.File;
@@ -46,7 +47,7 @@ public class LVideoView extends FrameLayout implements View.OnClickListener, OnV
     /**
      * 核心播放器
      */
-    private PLVideoView videoView;
+    private PLVideoTextureView videoView;
     /**
      * 视频播放加载视图
      */
@@ -77,7 +78,7 @@ public class LVideoView extends FrameLayout implements View.OnClickListener, OnV
     public NewCircleTextProgressbar pg_voide_download;//下载进度
     public ImageView iv_video_download;// 下载按钮
     public FrameLayout fl_voide_download;// 下载view
-//    private TabFragMainBeanItemBean paramBean;//进入此页面带入
+    //    private TabFragMainBeanItemBean paramBean;//进入此页面带入
     private String finalpath;
 
 
@@ -112,7 +113,7 @@ public class LVideoView extends FrameLayout implements View.OnClickListener, OnV
      */
     public void initView() {
         fraVideoContainer = (FrameLayout) findViewById(R.id.fra_live_video_container);
-        videoView = (PLVideoView) findViewById(R.id.plvideoview);
+//        videoView = (PLVideoTextureView) findViewById(R.id.plvideoview);
         llErrorCover = (LinearLayout) findViewById(R.id.ll_live_video_error_cover);
         progressBar = (ProgressBar) findViewById(R.id.list_video_progress);
         erroIv = (ImageView) findViewById(R.id.erroIcon);
@@ -127,6 +128,7 @@ public class LVideoView extends FrameLayout implements View.OnClickListener, OnV
      * 初始化视频播放器
      */
     public void initVideoView() {
+        videoView = new PLVideoTextureView(context);
         videoView.setBackgroundColor(Color.BLACK);
         AVOptions options = new AVOptions();
         // 解码方式，codec＝1，硬解; codec=0, 软解
@@ -217,6 +219,10 @@ public class LVideoView extends FrameLayout implements View.OnClickListener, OnV
      * 添加播放器和控制器
      */
     private void addVideoViewWithContainer() {
+        if (videoView.getParent() != null) {
+            ((ViewGroup) (videoView.getParent())).removeView(videoView);
+        }
+        fraVideoContainer.addView(videoView);
         mController.setControllerParent(fraVideoContainer);
     }
 
@@ -438,16 +444,6 @@ public class LVideoView extends FrameLayout implements View.OnClickListener, OnV
                 }
             }, 500);
             start();
-            videoView.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (videoView != null) {
-                        if (plMediaPlayer != null && !plMediaPlayer.isPlaying()) {
-                            plMediaPlayer.start();
-                        }
-                    }
-                }
-            }, 200);
             if (mController != null) { // 自动播放时 拿到这个播放进度
                 mController.startVideoPlayingCallback(new LMediaController.OnVideoPlayingCallBack() {
                     @Override

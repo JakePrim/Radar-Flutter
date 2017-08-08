@@ -10,10 +10,10 @@
         android:layout_height="210dp"
         android:background="@android:color/black">
 
-        <com.pili.pldroid.player.widget.PLVideoView
-            android:id="@+id/plvideoview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        <!--<com.pili.pldroid.player.widget.PLVideoView-->
+            <!--android:id="@+id/plvideoview"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent" />-->
     </FrameLayout>
 
     <LinearLayout
