@@ -16,9 +16,10 @@
 视频列表滚动连播技术探究系列 http://www.jianshu.com/nb/15022458
 
 ## [视频列表滚动连播技术探究系列](http://www.jianshu.com/nb/15022458)
-[1、仿网易/QQ空间视频列表滚动连播炫酷效果(V1.0 挖坑之路)](http://www.jianshu.com/p/f89fc875ac14)。
-[2、仿网易/QQ空间视频列表滚动连播炫酷效果(V2.0 填坑之路)](http://www.jianshu.com/p/55e95eb37197)。
-[3、仿网易视频列表滚动连播炫酷效果(v3.0 稳定版-思想改变及优化)]() 稳定版-进行优化和思想上的改变。
+1. [仿网易/QQ空间视频列表滚动连播炫酷效果(V1.0 挖坑之路)](http://www.jianshu.com/p/f89fc875ac14)。
+2. [仿网易/QQ空间视频列表滚动连播炫酷效果(V2.0 填坑之路)](http://www.jianshu.com/p/55e95eb37197)。
+3. [仿网易视频列表滚动连播炫酷效果(v3.0 稳定版-思想改变及优化)]() 稳定版-进行优化和思想上的改变。
+4. [RecyclerView 平滑滚动可控制滚动速度的终极解决方案](http://www.jianshu.com/p/bae9e516aace)
 持续更新中.....
 
 > 看过1、2上面这两篇文章的同学，实现的思想基本上已经了解了，不熟悉的同学可以去看这两篇文章，通过1、2实现的效果，是存在一些问题的。
@@ -304,5 +305,27 @@
 
 ![最后的最后，请不要客气，尽情的砸issue或者pull request过来吧！(https://github.com/susussa/VideoFeed)
 
-![专题封面](http://upload-images.jianshu.io/upload_images/2005932-543b15ba17e17a16?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+## License
+   
+   MIT License
+   
+   Copyright (c) 2017 苏福鹿
+   
+   Permission is hereby granted, free of charge, to any person obtaining a copy
+   of this software and associated documentation files (the "Software"), to deal
+   in the Software without restriction, including without limitation the rights
+   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+   copies of the Software, and to permit persons to whom the Software is
+   furnished to do so, subject to the following conditions:
+   
+   The above copyright notice and this permission notice shall be included in all
+   copies or substantial portions of the Software.
+   
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   SOFTWARE.
 
