@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
     private ImageView iv_close_video_feed;
     private TextView mTv;
     private RecyclerView rl_video;
-    private LinearLayoutManager layoutManager;
+    private ScrollSpeedLinearLayoutManger layoutManager;
     private VideoAdapter adapter;
     private FrameLayout full_screen;
     //播放器
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
         mTv = (TextView) findViewById(R.id.tv_video_carry);
         full_screen = (FrameLayout) findViewById(R.id.full_screen);
         iv_close_video_feed = (ImageView) findViewById(R.id.iv_close_video_feed);
-        layoutManager = new LinearLayoutManager(this);
+        layoutManager = new ScrollSpeedLinearLayoutManger(this);
         rl_video.setLayoutManager(layoutManager);
         adapter.setRecyclerView(rl_video);
         rl_video.setAdapter(adapter);
@@ -330,8 +330,9 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
             }
             itemPosition = itemPosition + 1;
             playerPosition = itemPosition;
-            ((LinearLayoutManager) rl_video.getLayoutManager()).scrollToPositionWithOffset(playerPosition, 20);
-            aoutPlayVideo(rl_video);
+            rl_video.smoothScrollToPosition(itemPosition);
+//            ((LinearLayoutManager) rl_video.getLayoutManager()).scrollToPositionWithOffset(playerPosition, 20);
+//            aoutPlayVideo(rl_video);
         }
     }
 
@@ -426,8 +427,9 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
                 //开始播放下一个
                 itemPosition = itemPosition + 1;
                 playerPosition = itemPosition;
-                ((LinearLayoutManager) rl_video.getLayoutManager()).scrollToPositionWithOffset(itemPosition, 20);
-                aoutPlayVideo(rl_video);
+                rl_video.smoothScrollToPosition(itemPosition);
+//                ((LinearLayoutManager) rl_video.getLayoutManager()).scrollToPositionWithOffset(itemPosition, 20);
+//                aoutPlayVideo(rl_video);
                 break;
             case R.id.iv_close_video_feed:
                 finish();
