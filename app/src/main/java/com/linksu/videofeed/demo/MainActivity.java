@@ -1,13 +1,19 @@
 package com.linksu.videofeed.demo;
 
+import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -21,12 +27,19 @@ import com.linksu.video_manager_library.listener.OnVideoPlayerListener;
 import com.linksu.video_manager_library.ui.LVideoView;
 import com.linksu.videofeed.R;
 import com.linksu.videofeed.demo.bean.TabFragMainBeanItemBean;
+import com.linksu.videofeed.demo.listener.ItemClickListener;
+import com.linksu.videofeed.demo.manager.NetChangeManager;
+import com.linksu.videofeed.demo.receiver.NetworkConnectChangedReceiver;
+import com.linksu.videofeed.demo.utils.ScrollSpeedLinearLayoutManger;
+import com.linksu.videofeed.demo.utils.VisibilePercentsUtils;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements VideoFeedHolder.OnHolderVideoFeedListener, OnVideoPlayerListener, View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements VideoFeedHolder.OnHolderVideoFeedListener,
+        OnVideoPlayerListener,
+        View.OnClickListener,
+        NetworkConnectChangedReceiver.ConnectChangedListener{
 
     //是否处于滚动状态
     private boolean mScrollState = false;
@@ -63,8 +76,9 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
         super.onCreate(savedInstanceState);
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//不锁屏
-        StateBarUtils.setTranslucentColor(this);//沉浸式状态栏
+//        StateBarUtils.setTranslucentColor(this);//沉浸式状态栏
         setContentView(R.layout.activity_main);
+        setTransparentToStateBar();
         initArgs();
         initView();
         adapter.setList(itemBeens);
@@ -74,7 +88,18 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
      * 加载布局之前的操作
      */
     public void initArgs() {
-        adapter = new VideoAdapter(this);
+        adapter = new VideoAdapter(this, new ItemClickListener() {
+            @Override
+            public void onItemClick(View v, Object object) {
+                //手动点击下一个,暂停之前的 并显示蒙层
+                stopPlayer(playerPosition);
+                missVideoTips();
+                // 缓慢平滑的滚动到下一个
+                itemPosition = (int) object;
+                playerPosition = itemPosition;
+                rl_video.smoothScrollToPosition(itemPosition);
+            }
+        });
         for (int i = 0; i < 10; i++) {
             TabFragMainBeanItemBean itemBean = new TabFragMainBeanItemBean();
             itemBean.title = "看我的厉害:" + i;
@@ -111,6 +136,71 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
         mTv.setEnabled(false);
         lVideoView.setOnVideoPlayerListener(this);
         rl_video.addOnScrollListener(new VideoFeedScrollListener());
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
+    }
+
+    /**
+     * 透明状态栏
+     */
+    private void setTransparentToStateBar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            View decorView = getWindow().getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WindowManager.LayoutParams params = getWindow().getAttributes();
+            params.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | params.flags);
+        }
+    }
+
+    @Override
+    public void wifiNetwork(boolean flag) {
+        aoutPlayVideo(rl_video);
+    }
+
+    @Override
+    public void dataNetwork(boolean flag) {
+        Log.e("linksu", "onReceive(dataNetwork:273) 切换到数据流量");
+        if (!Constants.VIDEO_FEED_WIFI) {
+            dataNetwork(itemPosition);
+            aoutPlayVideo(rl_video);
+        }
+    }
+
+    @Override
+    public void notNetWork() {
+
+    }
+
+    /**
+     * 数据流量时显示的逻辑
+     *
+     * @param position
+     */
+    private void dataNetwork(int position) {
+        VideoFeedHolder childViewHolder = (VideoFeedHolder) rl_video.findViewHolderForAdapterPosition(position);
+        if (childViewHolder != null) {
+            View itemView = childViewHolder.itemView;
+            FrameLayout frameLayout = (FrameLayout) itemView.findViewById(R.id.ll_video);
+            frameLayout.removeAllViews();
+            lVideoView.stopVideoPlay();
+            TabFragMainBeanItemBean itemBean = itemBeens.get(position);
+            itemBean.videoProgress = currentPosition;
+            itemBean.mDuration = mDuration;
+            itemBeens.set(position, itemBean);
+        }
     }
 
     /**
@@ -200,28 +290,32 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
                 childViewHolder.registerVideoPlayerListener(this);
                 childViewHolder.goneMasked();
                 childViewHolder.playerWifi();
-//                int netType = NetChangeManager.getInstance().getNetType();
-//                if (netType == 1 || Constants.VIDEO_FEED_WIFI) { // WiFi的情况下，或者允许不是WiFi情况下继续播放
-                // 动态添加播放器
-                View itemView = childViewHolder.itemView;
-                FrameLayout frameLayout = (FrameLayout) itemView.findViewById(R.id.ll_video);
-                frameLayout.removeAllViews();
-                ViewGroup last = (ViewGroup) lVideoView.getParent();//找到videoitemview的父类，然后remove
-                if (last != null && last.getChildCount() > 0) {
-                    last.removeAllViews();
+                if (!NetChangeManager.getInstance().hasNet()) { // 无网络的情况
+                    Toast.makeText(this, "无法连接到网络,请稍后再试", Toast.LENGTH_SHORT).show();
+                } else {
+                    int netType = NetChangeManager.getInstance().getNetType();
+                    if (netType == 1 || Constants.VIDEO_FEED_WIFI) { // WiFi的情况下，或者允许不是WiFi情况下继续播放
+                        // 动态添加播放器
+                        View itemView = childViewHolder.itemView;
+                        FrameLayout frameLayout = (FrameLayout) itemView.findViewById(R.id.ll_video);
+                        frameLayout.removeAllViews();
+                        ViewGroup last = (ViewGroup) lVideoView.getParent();//找到videoitemview的父类，然后remove
+                        if (last != null && last.getChildCount() > 0) {
+                            last.removeAllViews();
+                        }
+                        frameLayout.addView(lVideoView);
+                        // 获取播放进度
+                        TabFragMainBeanItemBean itemBean = itemBeens.get(itemPosition);
+                        long videoProgress = itemBean.videoProgress;
+                        long duration = itemBean.mDuration;
+                        if (videoProgress != 0 && videoProgress != duration) { // 跳转到之前的进度，继续播放
+                            lVideoView.startLive(itemBean.video_url);
+                            lVideoView.setSeekTo(videoProgress);
+                        } else {//从头播放
+                            lVideoView.startLive(itemBean.video_url);
+                        }
+                    }
                 }
-                frameLayout.addView(lVideoView);
-                // 获取播放进度
-                TabFragMainBeanItemBean itemBean = itemBeens.get(itemPosition);
-                long videoProgress = itemBean.videoProgress;
-                long duration = itemBean.mDuration;
-                if (videoProgress != 0 && videoProgress != duration) { // 跳转到之前的进度，继续播放
-                    lVideoView.startLive(itemBean.video_url);
-                    lVideoView.setSeekTo(videoProgress);
-                } else {//从头播放
-                    lVideoView.startLive(itemBean.video_url);
-                }
-//                }
             }
         }
     }
@@ -307,13 +401,18 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
         }
     }
 
+    private boolean isPrepared;
+
     @Override
     public void onVideoPrepared() {
+        isPrepared = true;
     }
 
     @Override
     public void onVideoCompletion() {
         if (itemPosition != lastItemPosition) { //若播放的不是最后一个，播放完成自动播放下一个
+            isPrepared = false;
+            missVideoTips();
             VideoFeedHolder childViewHolder = (VideoFeedHolder) rl_video.findViewHolderForAdapterPosition(itemPosition);
             if (childViewHolder != null) {
                 // 播放完成将之前的播放进度清空
@@ -331,8 +430,6 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
             itemPosition = itemPosition + 1;
             playerPosition = itemPosition;
             rl_video.smoothScrollToPosition(itemPosition);
-//            ((LinearLayoutManager) rl_video.getLayoutManager()).scrollToPositionWithOffset(playerPosition, 20);
-//            aoutPlayVideo(rl_video);
         }
     }
 
@@ -370,14 +467,14 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
         this.currentPosition = currentPosition;
         this.mDuration = mDuration;
         if (itemPosition != lastItemPosition) { //若播放的不是最后一个，弹出播放下一个的提示
-            float percent = (float) ((double) currentPosition / (double) mDuration);
-            DecimalFormat fnum = new DecimalFormat("##0.0");
-            float c_percent = 0;
-            c_percent = Float.parseFloat(fnum.format(percent));
-            if (0.8 <= c_percent) {
-                videoTips();
-            } else {
-                missVideoTips();
+            int currentSeconds = (int) (currentPosition / 1000);
+            int totalSeconds = (int) (mDuration / 1000);
+            if (isPrepared) {
+                if ((totalSeconds - currentSeconds) <= 5) { //播放时间小于等于5s 时提示
+                    videoTips();
+                } else {
+                    missVideoTips();
+                }
             }
         }
     }
@@ -419,17 +516,13 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
     public void onClick(View v) {// 点击事件
         switch (v.getId()) {
             case R.id.tv_video_carry:
-//                itemPosition = itemPosition + 1;
-//                rl_video.smoothScrollToPosition(itemPosition);
-//                rl_video.smoothScrollBy(0, rl_video.getHeight());
+                missVideoTips();
                 //手动点击下一个,暂停之前的
                 stopPlayer(playerPosition);
                 //开始播放下一个
                 itemPosition = itemPosition + 1;
                 playerPosition = itemPosition;
                 rl_video.smoothScrollToPosition(itemPosition);
-//                ((LinearLayoutManager) rl_video.getLayoutManager()).scrollToPositionWithOffset(itemPosition, 20);
-//                aoutPlayVideo(rl_video);
                 break;
             case R.id.iv_close_video_feed:
                 finish();
@@ -438,14 +531,34 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
     }
 
     /**
+     * 返回键的处理
+     *
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            // 横屏播放的情况
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private NetworkConnectChangedReceiver connectChangedReceiver;
+
+    /**
      * Activity 不在前台时 暂停播放
      */
     @Override
     protected void onPause() {
         super.onPause();
-        if (!isThrumePause) {//若不是手动暂停，Activity进入后台自动暂停
-            lVideoView.onPause();
-        }
+        unregisterReceiver(connectChangedReceiver);
+        lVideoView.onThumePause();
     }
 
     /**
@@ -454,13 +567,14 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e("linksu",
-                "onResume(VideoFeedDetailAct.java:558) isThrumePause" + isThrumePause);
-        if (!isThrumePause) { //不是手动暂停且从后台进入前台
-            lVideoView.currentPlayer();
-        } else { //进入后台之前是暂停的状态,再次进入还是暂停的状态
-            lVideoView.startThumb();
+        if (connectChangedReceiver == null) {
+            connectChangedReceiver = new NetworkConnectChangedReceiver();
         }
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(connectChangedReceiver, filter);
+        connectChangedReceiver.setConnectChangeListener(this);
+        lVideoView.startThumb();
     }
 
     /**

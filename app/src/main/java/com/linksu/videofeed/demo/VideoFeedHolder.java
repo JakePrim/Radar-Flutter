@@ -13,6 +13,7 @@ import com.linksu.video_manager_library.listener.OnVideoPlayerListener;
 import com.linksu.video_manager_library.ui.LVideoView;
 import com.linksu.videofeed.R;
 import com.linksu.videofeed.demo.bean.TabFragMainBeanItemBean;
+import com.linksu.videofeed.demo.manager.NetChangeManager;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -87,19 +88,27 @@ class VideoFeedHolder extends RecyclerView.ViewHolder implements View.OnClickLis
      * 判断是不是WiFi的情况
      */
     public void playerWifi() {
-//        if (Constants.VIDEO_FEED_WIFI) {
-//            ll_not_wifi.setVisibility(View.GONE);
-//            iv_video_feed_start.setEnabled(false);
-//        } else {
-//            int netType = NetChangeManager.getInstance().getNetType();
-//            if (netType != 1) {// 不是WiFi下的情况
-//                ll_not_wifi.setVisibility(View.VISIBLE);
-//                iv_video_feed_start.setEnabled(true);
-//            } else {
-//                ll_not_wifi.setVisibility(View.GONE);
-//                iv_video_feed_start.setEnabled(false);
-//            }
-//        }
+        if (!NetChangeManager.getInstance().hasNet()) {
+            img.setVisibility(View.VISIBLE);
+            ll_not_wifi.setVisibility(View.GONE);
+            iv_video_feed_start.setEnabled(false);
+        } else {
+            if (Constants.VIDEO_FEED_WIFI) {
+                ll_not_wifi.setVisibility(View.GONE);
+                iv_video_feed_start.setEnabled(false);
+            } else {
+                int netType = NetChangeManager.getInstance().getNetType();
+                if (netType != 1) {// 不是WiFi下的情况
+                    img.setVisibility(View.GONE);
+                    video_masked.setVisibility(View.GONE);
+                    ll_not_wifi.setVisibility(View.VISIBLE);
+                    iv_video_feed_start.setEnabled(true);
+                } else {
+                    ll_not_wifi.setVisibility(View.GONE);
+                    iv_video_feed_start.setEnabled(false);
+                }
+            }
+        }
     }
 
     /**
@@ -108,6 +117,8 @@ class VideoFeedHolder extends RecyclerView.ViewHolder implements View.OnClickLis
     public void visMasked() {
         img.setVisibility(View.VISIBLE);
         video_masked.setVisibility(View.VISIBLE);
+        ll_not_wifi.setVisibility(View.GONE);
+        itemView.setEnabled(true);
     }
 
     /**
@@ -116,6 +127,8 @@ class VideoFeedHolder extends RecyclerView.ViewHolder implements View.OnClickLis
     public void goneMasked() {
         img.setVisibility(View.GONE);
         video_masked.setVisibility(View.GONE);
+        ll_not_wifi.setVisibility(View.GONE);
+        itemView.setEnabled(false);
     }
 
 

@@ -1,4 +1,4 @@
-package com.linksu.videofeed.demo;
+package com.linksu.videofeed.demo.utils;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

@@ -1,4 +1,4 @@
-package com.linksu.videofeed.demo;
+package com.linksu.videofeed.demo.utils;
 
 import android.graphics.Rect;
 import android.view.View;

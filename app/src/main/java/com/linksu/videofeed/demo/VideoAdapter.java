@@ -2,11 +2,13 @@ package com.linksu.videofeed.demo;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.linksu.videofeed.R;
+import com.linksu.videofeed.demo.listener.ItemClickListener;
 
 import java.util.List;
 
@@ -23,9 +25,11 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoFeedHolder> {
     private List mlist;
     private Context context;
     private RecyclerView recyclerView;
+    private ItemClickListener itemClickListener;
 
-    public VideoAdapter(Context context) {
+    public VideoAdapter(Context context, ItemClickListener itemClickListener) {
         this.context = context;
+        this.itemClickListener = itemClickListener;
     }
 
     @Override
@@ -50,8 +54,15 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoFeedHolder> {
     }
 
     @Override
-    public void onBindViewHolder(VideoFeedHolder holder, int position) {
+    public void onBindViewHolder(final VideoFeedHolder holder, final int position) {
         holder.update(position, mlist);
+        View itemView = holder.itemView;
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemClickListener.onItemClick(v, position);
+            }
+        });
     }
 
     @Override

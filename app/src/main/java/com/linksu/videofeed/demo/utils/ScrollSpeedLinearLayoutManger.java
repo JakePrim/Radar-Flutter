@@ -1,4 +1,4 @@
-package com.linksu.videofeed.demo;
+package com.linksu.videofeed.demo.utils;
 
 import android.content.Context;
 import android.graphics.PointF;
