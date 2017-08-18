@@ -31,6 +31,7 @@ import com.linksu.videofeed.demo.listener.ItemClickListener;
 import com.linksu.videofeed.demo.manager.NetChangeManager;
 import com.linksu.videofeed.demo.receiver.NetworkConnectChangedReceiver;
 import com.linksu.videofeed.demo.utils.ScrollSpeedLinearLayoutManger;
+import com.linksu.videofeed.demo.utils.StateBarUtils;
 import com.linksu.videofeed.demo.utils.VisibilePercentsUtils;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements VideoFeedHolder.OnHolderVideoFeedListener,
         OnVideoPlayerListener,
         View.OnClickListener,
-        NetworkConnectChangedReceiver.ConnectChangedListener{
+        NetworkConnectChangedReceiver.ConnectChangedListener {
 
     //是否处于滚动状态
     private boolean mScrollState = false;
@@ -76,9 +77,8 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
         super.onCreate(savedInstanceState);
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//不锁屏
-//        StateBarUtils.setTranslucentColor(this);//沉浸式状态栏
+        StateBarUtils.setTranslucentColor(this);//沉浸式状态栏
         setContentView(R.layout.activity_main);
-        setTransparentToStateBar();
         initArgs();
         initView();
         adapter.setList(itemBeens);
@@ -136,33 +136,6 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
         mTv.setEnabled(false);
         lVideoView.setOnVideoPlayerListener(this);
         rl_video.addOnScrollListener(new VideoFeedScrollListener());
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus && Build.VERSION.SDK_INT >= 19) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        }
-    }
-
-    /**
-     * 透明状态栏
-     */
-    private void setTransparentToStateBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            View decorView = getWindow().getDecorView();
-            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-            decorView.setSystemUiVisibility(option);
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            WindowManager.LayoutParams params = getWindow().getAttributes();
-            params.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | params.flags);
-        }
     }
 
     @Override
@@ -543,6 +516,9 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
             // 横屏播放的情况
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                return true;
+            } else {
+                finish();
                 return true;
             }
         }
