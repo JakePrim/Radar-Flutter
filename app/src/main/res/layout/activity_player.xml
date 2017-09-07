@@ -17,7 +17,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="介绍：仿网易/腾讯视频列表滚动连播炫酷效果" />
+        android:text="介绍：仿网易/腾讯视频列表滚动连播炫酷效果\n实现的功能:
+        \n1.滚动时不播放，但是要亮起，当前屏幕内，item view显示百分比最大的一个。停止滚动且手指抬起时自动播放。
+        \n2.播放完当前的视频，自动滚动到下一个并自动播放。
+        \n3.正在播放的当前视频，快要播放完毕时，弹出TextView提示播放下一个，点击TextView自动滚动到下一个。
+        \n4.播放视频的状态。
+        \n5.播放视频，当控制器隐藏时，播放器底边播放进度条显示。
+" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -46,7 +52,7 @@
                 android:id="@+id/cb_video"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MediaPlayer(原生播放器)" />
+                android:text="MediaPlayer(原生播放器 暂未完成)" />
         </RadioGroup>
 
     </LinearLayout>
