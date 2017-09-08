@@ -1,5 +1,5 @@
 Welcome to the VideoFeed wiki!
-中文版(https://github.com/susussa/VideoFeed/wiki/%E4%B8%AD%E6%96%87%E7%89%88)
+[中文版](https://github.com/susussa/VideoFeed/wiki/%E4%B8%AD%E6%96%87%E7%89%88)
 # VideoFeed
 ## update and modify BUG
 1. Modify the crash problem
