@@ -1,339 +1,338 @@
+Welcome to the VideoFeed wiki!
+中文版()
 # VideoFeed
-## 更新和修改BUG
-1. 修改上下滑动崩溃问题
+## update and modify BUG
+1. Modify the crash problem
 
-2. 优化滑动体验和动画效果
+2. Optimize the sliding experience and animation effects
 
-## 实现的功能
+## implementation of the function
 
-1. 滚动时不播放，但是要亮起，当前屏幕内，item view显示百分比最大的一个。
-2. 停止滚动且手指抬起时自动播放。
-3. 播放完当前的视频，自动滚动到下一个并自动播放。
-4. 正在播放的当前视频，快要播放完毕时，弹出TextView提示播放下一个，点击TextView自动滚动到下一个。
-5. Activity 在前台播放时，进入后台暂停播放，再进入前台时 自动播放视频。
-6. Activity 在前台暂停播放时，进入后台，再进入前台时 还是暂停播放之前的视频状态。
-7. Activity finish 的时候，停止播放 销毁。
-8. 播放视频，当控制器隐藏时，播放器底边播放进度条显示。
-9. 播放列表到最后一个时的操作判断。
+1. Scroll when not playing, but to light up, the current screen, item view shows the largest percentage of one.
+2. Stop scrolling and play automatically when the finger is raised.
+3. Play the current video, automatically scroll to the next and automatically play.
+4. is playing the current video, about to play when finished, pop up TextView prompt to play the next one, click TextView automatically scroll to the next.
+5. Activity in the foreground play, enter the background to suspend playback, and then enter the front of the automatic playback of video.
+6. Activity in the foreground pause playback, enter the background, and then enter the foreground or pause before playing the video state.
+7. When the activity finish, stop playing the destruction.
+8. Play the video, when the controller is hidden, the bottom of the player to play the progress bar display.
+9. Play the list to the last time to determine the operation.
 
-### 实现思路
-看下面这篇文章 从实现到优化的所有填坑的过程
-视频列表滚动连播技术探究系列 http://www.jianshu.com/nb/15022458
+### Implement ideas
+Look at the following article from the realization to the optimization of all the pit filling process
+Video List Scrolling and Broadcasting Technology Research Series http://www.jianshu.com/nb/15022458
 
-## [视频列表滚动连播技术探究系列](http://www.jianshu.com/nb/15022458)
-1. [仿网易/QQ空间视频列表滚动连播炫酷效果(V1.0 挖坑之路)](http://www.jianshu.com/p/f89fc875ac14)。
-2. [仿网易/QQ空间视频列表滚动连播炫酷效果(V2.0 填坑之路)](http://www.jianshu.com/p/55e95eb37197)。
-3. [仿网易视频列表滚动连播炫酷效果(v3.0 稳定版-思想改变及优化)]() 稳定版-进行优化和思想上的改变。
-4. [RecyclerView 平滑滚动可控制滚动速度的终极解决方案](http://www.jianshu.com/p/bae9e516aace)。
-5. [仿网易视频列表连播炫酷效果 - v3.1 升级版-细节优化(网络状态切换、item点击事件等)](http://www.jianshu.com/p/a4b82d9c3218)。
-持续更新中.....
+## [video list rolling broadcast technology exploration series] (http://www.jianshu.com/nb/15022458)
+1. [imitation NetEase / QQ space video list rolling continuous broadcast cool effect (V1.0 digging the road)] (http://www.jianshu.com/p/f89fc875ac14).
+2. [imitation Net easy / QQ space video list rolling continuous broadcast cool effect (V2.0 fill pit road)] (http://www.jianshu.com/p/55e95eb37197).
+3. Optimize and make changes in thought. () - Optimized and thoughtful changes (v3.0 stable version - thought change and optimization).
+4. [RecyclerView smooth rolling can control the rolling speed of the ultimate solution] (http://www.jianshu.com/p/bae9e516aace).
+5. [imitation NetEase video list continuous broadcast cool effect - v3.1 upgrade version - details optimization (network state switch, item click event, etc.)] (http://www.jianshu.com/p/a4b82d9c3218).
+Continued update .....
 
-> 看过1、2上面这两篇文章的同学，实现的思想基本上已经了解了，不熟悉的同学可以去看这两篇文章，通过1、2实现的效果，是存在一些问题的。
+> Read the above two of the two articles of the students, to achieve the basic idea has been understood, not familiar with the students can see these two articles, through the 1 to achieve the effect, there are some problems.
 
-### 存在哪些问题？
-1.  每个item中都有一个播放器，如何销毁呢？内存占用会很大？
-2. 全屏播放视频时，切换会有问题？
-3. 每个item的播放器都不容易控制？
-4. 全屏播放时，进度如何处理
+### What are the problems?
+1. Each item has a player, how to destroy it? Memory will be very large?
+2. When there is a full-screen video playback, will there be a problem with the switch?
+3. Each item player is not easy to control?
+4. When the full-screen playback, the progress of how to deal with
 
-###  如何解决问题？
-##### 思想上的转变
-> 动态添加播放器：而不是每个item的布局都有一个播放器，视频列表页Activity 全局就初始化一个播放器view，动态添加到列表item中，也就是说当要播放当前的item时将播放器添加到item预留的ViewGroup容器中 。同时列表更加流畅，易方便于播放的处理，销毁和停止播放器。
+### How do I fix the problem?
+##### Ideology change
+> Dynamically add the player: not the layout of each item has a player, video list page Activity to initialize a player view, dynamically added to the list item, that is to play when the current item will play Add to the ViewGroup container reserved for the item. While the list is more fluid, easy to play, handle and destroy and stop the player.
 
-> 全屏播放的处理: 在视频列表页的Activity 布局文件中预留一个ViewGroup容器，当点击全屏播放时，隐藏列表，并将列表的播放器移除列表，显示布局文件中预留的容器，将播放器添加到这个容器中，这样视频会继续从当前的进度播放，完全不用再去处理复杂的逻辑。这方法需要在Activity中预留一个放置播放器的宽高都match_parent的ViewGroup，大小切换就是把播放器添加到本来的小容器和添加到全屏的ViewGroup中来回切换，对于播放器的监听器也不用过多干预。
+> Full-screen playback processing: the video list page in the Activity layout file to reserve a ViewGroup container, when clicked full-screen playback, hide the list, and the list of players to remove the list, display the layout file in the container, The player is added to this container so that the video will continue to play from the current progress, without having to deal with the complicated logic at all. This method needs to be reserved in the Activity of a player placed in the width and height are match_parent ViewGroup, the size of the switch is to add the player to the original small container and added to the full-screen ViewGroup switch back and forth, the player's listener is not used Too much intervention.
 
-如看下图所示，全局只对一个播放器操作
-![逻辑图](http://upload-images.jianshu.io/upload_images/2005932-4466424a84ce3f36.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-是不是忽然之间貌似顿开，网易新闻或者腾讯新闻的视频列表也应该是这样实现的。
+As shown in the following figure, the global operation of only one player
+! [Logic diagram] (http://upload-images.jianshu.io/upload_images/2005932-4466424a84ce3f36.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+Is not suddenly seemingly Dayton, NetEase news or Tencent news video list should be so to achieve.
 
-#### 1. 如何动态的给item添加播放器
-- 在视频列表Activity 全局初始化一个播放器的view
+#### 1. How to dynamically add the player to the item
+- in the video list Activity global initialization of a player's view
 ```
-  lVideoView = new LVideoView(this);//初始化播放器
+  lVideoView = new LVideoView (this); // initialize the player
 ```
-- 停止滚动手指抬起时 动态添加播放器，开始播放视频，并获取之前的播放进度
+- stop rolling the finger when you dynamically add the player, start playing the video, and get the previous playback progress
 ```
-    private void aoutPlayVideo(final RecyclerView recyclerView) {
-        if (!lVideoView.isPlayer()) {
-            VideoFeedHolder childViewHolder = (VideoFeedHolder) recyclerView.findViewHolderForAdapterPosition(itemPosition);
-            if (childViewHolder != null) {
-                // 注册监听以及隐藏蒙层
-                childViewHolder.registerVideoPlayerListener(this);
-                childViewHolder.goneMasked();
-                childViewHolder.playerWifi();
-//                int netType = NetChangeManager.getInstance().getNetType();
-//                if (netType == 1 || Constants.VIDEO_FEED_WIFI) { // WiFi的情况下，或者允许不是WiFi情况下继续播放
-                // 动态添加播放器
-                View itemView = childViewHolder.itemView;
-                FrameLayout frameLayout = (FrameLayout) itemView.findViewById(R.id.ll_video);
-                frameLayout.removeAllViews();
-                ViewGroup last = (ViewGroup) lVideoView.getParent();//找到videoitemview的父类，然后remove
-                if (last != null && last.getChildCount() > 0) {
-                    last.removeAllViews();
-                }
-                frameLayout.addView(lVideoView);
-                // 获取播放进度
-                TabFragMainBeanItemBean itemBean = itemBeens.get(itemPosition);
-                long videoProgress = itemBean.videoProgress;
-                long duration = itemBean.mDuration;
-                if (videoProgress != 0 && videoProgress != duration) { // 跳转到之前的进度，继续播放
-                    lVideoView.startLive(itemBean.video_url);
-                    lVideoView.setSeekTo(videoProgress);
-                } else {//从头播放
-                    lVideoView.startLive(itemBean.video_url);
-                }
-//                }
-            }
-        }
-    }
+    private void aoutPlayVideo (final RecyclerView recyclerView) {
+        if (! lVideoView.isPlayer ()) {
+            VideoFeedHolder childViewHolder = (VideoFeedHolder) recyclerView.findViewHolderForAdapterPosition (itemPosition);
+            if (childViewHolder! = null) {
+                // register listen and hide the mask
+                childViewHolder.registerVideoPlayerListener (this);
+                childViewHolder.goneMasked ();
+                childViewHolder.playerWifi ();
+// int netType = NetChangeManager.getInstance (). getNetType ();
+// if (netType == 1 || Constants.VIDEO_FEED_WIFI) {// WiFi, or if it is not allowed to continue playing in WiFi
+                // Add the player dynamically
+                View itemView = childViewHolder.itemView;
+                FrameLayout frameLayout = (FrameLayout) itemView.findViewById (R.id.ll_video);
+                frameLayout.removeAllViews ();
+                ViewGroup last = (ViewGroup) lVideoView.getParent (); // find the parent class of videoitemview, and then remove
+                if (last! = null && last.getChildCount ()> 0) {
+                    last.removeAllViews ();
+                }
+                frameLayout.addView (lVideoView);
+                // Get the progress of the play
+                TabFragMainBeanItemBean itemBean = itemBeens.get (itemPosition);
+                long videoProgress = itemBean.videoProgress;
+                long duration = itemBean.mDuration;
+                if (videoProgress! = 0 && videoProgress! = duration) {// jump to the previous progress, continue to play
+                    lVideoView.startLive (itemBean.video_url);
+                    lVideoView.setSeekTo (videoProgress);
+                } else {// play from scratch
+                    lVideoView.startLive (itemBean.video_url);
+                }
+//}
+            }
+        }
+    }
 ```
-从上面代码中我们可以看出，拿到当前正要播放视频的item中的容器，并将播放器添加到容器中，如果之前有播放过，拿取播放进度，并跳转到之前的进度继续播放。
-- 滑动播放下一个视频时，停止播放上一个视频，并将播放器从item中移除记下当前item的播放进度，添加到下一个item的容器中，播放视频。
+From the above code we can see that you are going to play the video in the item container and add the player to the container. If there is a play before, take the progress of the play and jump to the previous progress Play.
+- When you play the next video while slipping, stop playing the previous video and remove the player from the item. Write down the progress of the current item, add it to the next item, and play the video.
 
 ```
-   private void stopPlayer(int position) {
-        VideoFeedHolder childViewHolder = (VideoFeedHolder) rl_video.findViewHolderForAdapterPosition(position);
-        if (childViewHolder != null) {
-            if (lVideoView.isPlayer()) { // 如果正在播放，则停止并记录播放进度，否则不调用这个方法
-                lVideoView.stopVideoPlay();
-                TabFragMainBeanItemBean itemBean = itemBeens.get(position);
-                itemBean.videoProgress = currentPosition;
-                itemBean.mDuration = mDuration;
-                itemBeens.set(position, itemBean);
-            }
-            childViewHolder.visMasked();//显示蒙层
-            View itemView = childViewHolder.itemView;
-            FrameLayout frameLayout = (FrameLayout) itemView.findViewById(R.id.ll_video);
-            frameLayout.removeAllViews();
-            childViewHolder.unRegisterVideoPlayerListener();// 注意我们需要解除上一个item的监听，不然会注册多个监听
-        }
-    }
+   private void stopPlayer (int position) {
+        VideoFeedHolder childViewHolder = (VideoFeedHolder) rl_video.findViewHolderForAdapterPosition (position);
+        if (childViewHolder! = null) {
+            if (lVideoView.isPlayer ()) {// If you are playing, stop and record the progress of the play, otherwise do not call this method
+                lVideoView.stopVideoPlay ();
+                TabFragMainBeanItemBean itemBean = itemBeens.get (position);
+                itemBean.videoProgress = currentPosition;
+                itemBean.mDuration = mDuration;
+                itemBeens.set (position, itemBean);
+            }
+            childViewHolder.visMasked (); // display the mask
+            View itemView = childViewHolder.itemView;
+            FrameLayout frameLayout = (FrameLayout) itemView.findViewById (R.id.ll_video);
+            frameLayout.removeAllViews ();
+            childViewHolder.unRegisterVideoPlayerListener (); / / Note that we need to lift the last item of the monitor, or will register multiple monitoring
+        }
+    }
 ```
 
-- 横竖屏切换时的处理，按照上面的实现思路，看下面的代码
+- vertical and horizontal screen when the switch, in accordance with the above realization of ideas, see the following code
 ```
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        lVideoView.onConfigurationChanged(newConfig);
-        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {// 竖屏
-            orientation = false;
-            full_screen.setVisibility(View.GONE);
-            full_screen.removeAllViews();
-            rl_video_feed.setVisibility(View.VISIBLE);
-            addPlayer(itemPosition);
-            int mShowFlags = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-            full_screen.setSystemUiVisibility(mShowFlags);
-        } else { // 横屏
-            orientation = true;
-            rl_video_feed.setVisibility(View.GONE);
-            ViewGroup viewGroup = (ViewGroup) lVideoView.getParent();
-            if (viewGroup == null)
-                return;
-            viewGroup.removeAllViews();
-            full_screen.addView(lVideoView);
-            full_screen.setVisibility(View.VISIBLE);
-            int mHideFlags =
-                    View.SYSTEM_UI_FLAG_LOW_PROFILE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-            full_screen.setSystemUiVisibility(mHideFlags);
-        }
-    }
+    @Override
+    public void onConfigurationChanged (Configuration newConfig) {
+        super.onConfigurationChanged (newConfig);
+        lVideoView.onConfigurationChanged (newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {// vertical screen
+            orientation = false;
+            full_screen.setVisibility (View.VISIBLE);
+            addPlayer (itemPosition);
+            int mShowFlags = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            full_screen.setSystemUiVisibility (mShowFlags);
+        } else {// horizontal screen
+            orientation = true;
+            rl_video_feed.setVisibility (View.GONE);
+            ViewGroup viewGroup = (ViewGroup) lVideoView.getParent ();
+            if (viewGroup == null)
+                return;
+            viewGroup.removeAllViews ();
+            full_screen.addView (lVideoView);
+            full_screen.setVisibility (View.VISIBLE);
+            int mHideFlags =
+                    View.SYSTEM_UI_FLAG_LOW_PROFILE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+            full_screen.setSystemUiVisibility (mHideFlags);
+        }
+    }
 
-  /**
-     * 添加播放器
-     *
-     * @param position
-     */
-    private void addPlayer(int position) {
-        VideoFeedHolder childViewHolder = (VideoFeedHolder) rl_video.findViewHolderForAdapterPosition(position);
-        if (childViewHolder != null) {
-            View itemView = childViewHolder.itemView;
-            FrameLayout frameLayout = (FrameLayout) itemView.findViewById(R.id.ll_video);
-            frameLayout.removeAllViews();
-            ViewGroup last = (ViewGroup) lVideoView.getParent();//找到videoitemview的父类，然后remove
-            if (last != null && last.getChildCount() > 0) {
-                last.removeAllViews();
-            }
-            frameLayout.addView(lVideoView);
-        }
-    }
+  / **
+     * Add player
+     *
+     * @param position
+     * /
+    private void addPlayer (int position) {
+        VideoFeedHolder childViewHolder = (VideoFeedHolder) rl_video.findViewHolderForAdapterPosition (position);
+        if (childViewHolder! = null) {
+            View itemView = childViewHolder.itemView;
+            FrameLayout frameLayout = (FrameLayout) itemView.findViewById (R.id.ll_video);
+            frameLayout.removeAllViews ();
+            ViewGroup last = (ViewGroup) lVideoView.getParent (); // find the parent class of videoitemview, and then remove
+            if (last! = null && last.getChildCount ()> 0) {
+                last.removeAllViews ();
+            }
+            frameLayout.addView (lVideoView);
+        }
+    }
 ```
-在Activity中预留一个放置播放器的宽高都match_parent的ViewGroup，大小切换就是把播放器添加到本来的小容器和添加到全屏的ViewGroup中来回切换，对于播放器的监听器也不用过多干预。
-> 注意改变播放器view的大小.
+In the Activity set aside a player placed in the width and height are match_parent ViewGroup, the size of the switch is to add the player to the original small container and added to the full-screen ViewGroup switch back and forth, the player's listener is not too much intervention The
+> Note to change the size of the player view.
 ```
- /**
-     * 大小屏切换播放器的处理
-     *
-     * @param newConfig
-     */
-    public void onConfigurationChanged(Configuration newConfig) {
-        ViewGroup.LayoutParams layoutParams = fraVideoContainer.getLayoutParams();
-        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) { //竖屏
-            layoutParams.height = (int) getResources().getDimension(R.dimen.live_video_height);
-            fraVideoContainer.setLayoutParams(layoutParams);
-        } else {// 横屏
-            layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
-            fraVideoContainer.setLayoutParams(layoutParams);
-        }
-    }
+ / **
+     * Size screen to switch the player's handling
+     *
+     * @param newConfig
+     * /
+    public void onConfigurationChanged (Configuration newConfig) {
+        ViewGroup.LayoutParams layoutParams = fraVideoContainer.getLayoutParams ();
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {// vertical screen
+            layoutParams.height = (int) getResources (). getDimension (R.dimen.live_video_height);
+            fraVideoContainer.setLayoutParams (layoutParams);
+        } else {// horizontal screen
+            layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+            fraVideoContainer.setLayoutParams (layoutParams);
+        }
+    }
 ```
-- Activity/Fragment 的生命周期中处理，整个全局我们就一个播放器，生命周期中就可以很好的处理这个播放器
+- Activity / Fragment the life cycle of the deal, the whole of us on a player, the life cycle can be a very good deal with this player
 ```
-/**
-     * Activity 不在前台时 暂停播放
-     */
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (!isThrumePause) {//若不是手动暂停，Activity进入后台自动暂停
-            lVideoView.onPause();
-        }
-    }
+/ **
+     * Activity is paused when it is not in the foreground
+     * /
+    @Override
+    protected void onPause () {
+        super.onPause ();
+        if (! isThrumePause) {/ / If not manually pause, Activity into the background automatically suspended
+            lVideoView.onPause ();
+        }
+    }
 
-    /**
-     * Activity 重新进入前台 播放逻辑
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.e("linksu",
-                "onResume(VideoFeedDetailAct.java:558) isThrumePause" + isThrumePause);
-        if (!isThrumePause) { //不是手动暂停且从后台进入前台
-            lVideoView.currentPlayer();
-        } else { //进入后台之前是暂停的状态,再次进入还是暂停的状态
-            lVideoView.startThumb();
-        }
-    }
+    / **
+     * Activity re - enter the foreground play logic
+     * /
+    @Override
+    protected void onResume () {
+        super.onResume ();
+        Log.e ("linksu",
+                "onResume (VideoFeedDetailAct.java:558) isThrumePause" + isThrumePause);
+        if (! isThrumePause) {// is not manually suspended and enters the foreground from the background
+            lVideoView.currentPlayer ();
+        } else {// Before entering the background is the state of the pause, again into the state or pause
+            lVideoView.startThumb ();
+        }
+    }
 
-    /**
-     * Activity 退出时 停止播放
-     */
-    @Override
-    public void finish() {
-        super.finish();
-        lVideoView.stopVideoPlay();
-    }
+    / **
+     * Activity stops when you exit
+     * /
+    @Override
+    public void finish () {
+        super.finish ();
+        lVideoView.stopVideoPlay ();
+    }
 
-    /**
-     * Activity 销毁时 销毁播放器
-     */
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        lVideoView.removeAllViews();
-    }
+    / **
+     * Destroy the player when it is destroyed
+     * /
+    @Override
+    protected void onDestroy () {
+        super.onDestroy ();
+        lVideoView.removeAllViews ();
+    }
 ```
-- 播放器的状态监听就可以在Activity/Fragment 中去处理，处理起来更加方便
+- the status of the player can be monitored in the Activity / Fragment to deal with, to deal with more convenient
 ```
 @Override
-    public void onVideoPrepared() { //准备播放
-    }
+    public void onVideoPrepared () {// ready to play
+    }
 
-    @Override
-    public void onVideoCompletion() {// 播放完成
-        if (itemPosition != lastItemPosition) { //若播放的不是最后一个，播放完成自动播放下一个
-            VideoFeedHolder childViewHolder = (VideoFeedHolder) rl_video.findViewHolderForAdapterPosition(itemPosition);
-            if (childViewHolder != null) {
-                // 播放完成将之前的播放进度清空
-                TabFragMainBeanItemBean itemBean = itemBeens.get(itemPosition);
-                itemBean.videoProgress = 0;
-                itemBean.mDuration = 0;
-                itemBeens.set(itemPosition, itemBean);
-                // 移除播放器
-                childViewHolder.visMasked();
-                View itemView = childViewHolder.itemView;
-                FrameLayout frameLayout = (FrameLayout) itemView.findViewById(R.id.ll_video);
-                frameLayout.removeAllViews();
-                childViewHolder.unRegisterVideoPlayerListener();// 注意我们需要解除上一个item的监听，不然会注册多个监听
-            }
-            itemPosition = itemPosition + 1;
-            playerPosition = itemPosition;
-            ((LinearLayoutManager) rl_video.getLayoutManager()).scrollToPositionWithOffset(playerPosition, 20);
-            aoutPlayVideo(rl_video);
-        }
-    }
+    @Override
+    public void onVideoCompletion () {// play is complete
+        if (itemPosition! = lastItemPosition) {/ / If the play is not the last one, the playback is complete automatically play the next
+            VideoFeedHolder childViewHolder = (VideoFeedHolder) rl_video.findViewHolderForAdapterPosition (itemPosition);
+            if (childViewHolder! = null) {
+                / / Playback is completed before the playback progress empty
+                TabFragMainBeanItemBean itemBean = itemBeens.get (itemPosition);
+                itemBean.videoProgress = 0;
+                itemBean.mDuration = 0;
+                itemBeens.set (itemPosition, itemBean);
+                // Remove the player
+                childViewHolder.visMasked ();
+                View itemView = childViewHolder.itemView;
+                FrameLayout frameLayout = (FrameLayout) itemView.findViewById (R.id.ll_video);
+                frameLayout.removeAllViews ();
+                childViewHolder.unRegisterVideoPlayerListener (); / / Note that we need to lift the last item of the monitor, or will register multiple monitoring
+            }
+            itemPosition = itemPosition + 1;
+            playerPosition = itemPosition;
+            ((LinearLayoutManager) rl_video.getLayoutManager ()). ScrollToPositionWithOffset (playerPosition, 20);
+            aoutPlayVideo (rl_video);
+        }
+    }
 
-    @Override
-    public void onVideoError(int i, String error) {
-    }
+    @Override
+    public void onVideoError (int i, String error) {
+    }
 
-    @Override
-    public void onBufferingUpdate() {
+    @Override
+public void onBufferingUpdate () {
 
-    }
+    }
 
-    @Override
-    public void onVideoStopped() { // 停止视频播放时，记录视频的播放位置
+    @Override
+    public void onVideoStopped () {// Stop video playback when recording video playback location
 
-    }
+    }
 
-    @Override
-    public void onVideoPause() { //暂停视频播放
+    @Override
+    public void onVideoPause () {// Pause video playback
 
-    }
+    }
 
-    @Override
-    public void onVideoThumbPause() { // 手动暂停视频播放
-        isThrumePause = true;
-    }
+    @Override
+    public void onVideoThumbPause () {// pause video playback manually
+        isThrumePause = true;
+    }
 
-    @Override
-    public void onVideoThumbStart() { // 手动开始视频播放
-        isThrumePause = false;
-    }
+    @Override
+    public void onVideoThumbStart () {// Manually start video playback
+        isThrumePause = false;
+    }
 
-    @Override
-    public void onVideoPlayingPro(long currentPosition, long mDuration, int mPlayStatus) {//获取播放进度
-        this.currentPosition = currentPosition;
-        this.mDuration = mDuration;
-        if (itemPosition != lastItemPosition) { //若播放的不是最后一个，弹出播放下一个的提示
-            float percent = (float) ((double) currentPosition / (double) mDuration);
-            DecimalFormat fnum = new DecimalFormat("##0.0");
-            float c_percent = 0;
-            c_percent = Float.parseFloat(fnum.format(percent));
-            if (0.8 <= c_percent) {
-                videoTips();
-            } else {
-                missVideoTips();
-            }
-        }
-    }
+    @Override
+    public void onVideoPlayingPro (long currentPosition, long mDuration, int mPlayStatus) {// Get play progress
+        this.currentPosition = currentPosition;
+        this.mDuration = mDuration;
+        if (itemPosition! = lastItemPosition) {/ / If the play is not the last one, pop-up play the next prompt
+            float percent = (float) ((double) currentPosition / (double) mDuration);
+            DecimalFormat fnum = new DecimalFormat ("## 0.0");
+            float c_percent = 0;
+            c_percent = Float.parseFloat (fnum.format (percent));
+            if (0.8 <= c_percent) {
+                videoTips ();
+            } else {
+                missVideoTips ();
+            }
+        }
+    }
 ```
 
-> 这样我们就完成了整个优化过程，其实就是一个带图的列表，动态的添加播放器，这样处理不仅内存消耗占的很少而且，没有任何复杂的逻辑。
+> So we completed the entire optimization process, in fact, is a list of the map, the dynamic to add the player, so that processing is not only accounted for very little memory, and no complicated logic.
 
-![最后的最后，请不要客气，尽情的砸issue或者pull request过来吧！(https://github.com/susussa/VideoFeed)
+! [Finally, please do not polite, enjoy the issue or pull request come over! (https://github.com/susussa/VideoFeed)
 
 ## License
 
-```   
-  MIT License
-   
-  Copyright (c) 2017 苏福鹿
-   
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-   of this software and associated documentation files (the "Software"), to deal
-   in the Software without restriction, including without limitation the rights
-   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-   copies of the Software, and to permit persons to whom the Software is
-   furnished to do so, subject to the following conditions:
-   
-  The above copyright notice and this permission notice shall be included in all
-   copies or substantial portions of the Software.
-   
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-   SOFTWARE.
-```   
-
+```
+  MIT license
+   
+  Copyright (c) 2017 Sufu deer
+   
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+   of this software and associated documentation files (the "Software"), to deal
+   in the Software without restriction, including without limitation the rights
+   to use, copy, modify, merge, publish, distribute, sublicense, and / or sell
+   copies of the Software, and to permit persons to whom the Software is
+   furnished to do so, subject to the following conditions:
+   
+  The above copyright notice and this permission notice shall be included in all
+   copies or gt copies of the Software.
+   
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   SOFTWARE.
+```
