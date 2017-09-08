@@ -27,12 +27,26 @@
                 <!--android:layout_height="match_parent" />-->
             </FrameLayout>
 
-            <ImageView
-                android:id="@+id/img"
+            <FrameLayout
+                android:id="@+id/fl_img"
                 android:layout_width="match_parent"
-                android:layout_height="205dp"
-                android:scaleType="fitXY"
-                android:src="@mipmap/test" />
+                android:layout_height="205dp">
+
+                <ImageView
+                    android:id="@+id/img"
+                    android:layout_width="match_parent"
+                    android:layout_height="205dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/test"/>
+
+                <ImageView
+                    android:id="@+id/btn_play"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/item_tv"
+                    android:layout_gravity="center"
+                    android:src="@drawable/icon_live_controller_play" />
+            </FrameLayout>
 
             <LinearLayout
                 android:id="@+id/ll_not_wifi"

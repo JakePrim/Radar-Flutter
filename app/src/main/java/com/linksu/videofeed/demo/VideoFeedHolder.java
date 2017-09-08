@@ -2,8 +2,11 @@ package com.linksu.videofeed.demo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,13 +34,14 @@ class VideoFeedHolder extends RecyclerView.ViewHolder implements View.OnClickLis
     private View video_masked;
     private TextView item_tv, tv_video_time, tv_video_readCount;
     private List<TabFragMainBeanItemBean> mlist;
-    private ImageView img;
+    private ImageView img, btn_play;
     private LinearLayout ll_not_wifi;
     private ImageView iv_video_feed_start;
     private TextView tv_video_shear, tv_video_more, tv_video_comment;
     private Context context;
     private FrameLayout ll_video;
     private TabFragMainBeanItemBean itemBean;
+    private FrameLayout fl_img;
 
     /**
      * 初始化view
@@ -58,6 +62,8 @@ class VideoFeedHolder extends RecyclerView.ViewHolder implements View.OnClickLis
         this.tv_video_shear = (TextView) itemView.findViewById(R.id.tv_video_shear);
         this.tv_video_more = (TextView) itemView.findViewById(R.id.tv_video_more);
         this.tv_video_comment = (TextView) itemView.findViewById(R.id.tv_video_comment);
+        this.fl_img = (FrameLayout) itemView.findViewById(R.id.fl_img);
+        this.btn_play = (ImageView) itemView.findViewById(R.id.btn_play);
         this.context = context;
         bindListener();
     }
@@ -70,6 +76,9 @@ class VideoFeedHolder extends RecyclerView.ViewHolder implements View.OnClickLis
         tv_video_more.setOnClickListener(this);
         tv_video_comment.setOnClickListener(this);
         iv_video_feed_start.setOnClickListener(this);
+        btn_play.setOnClickListener(this);
+        btn_play.setClickable(false);
+        btn_play.setEnabled(false);
     }
 
     /**
@@ -89,7 +98,7 @@ class VideoFeedHolder extends RecyclerView.ViewHolder implements View.OnClickLis
      */
     public void playerWifi() {
         if (!NetChangeManager.getInstance().hasNet()) {
-            img.setVisibility(View.VISIBLE);
+            fl_img.setVisibility(View.VISIBLE);
             ll_not_wifi.setVisibility(View.GONE);
             iv_video_feed_start.setEnabled(false);
         } else {
@@ -99,8 +108,8 @@ class VideoFeedHolder extends RecyclerView.ViewHolder implements View.OnClickLis
             } else {
                 int netType = NetChangeManager.getInstance().getNetType();
                 if (netType != 1) {// 不是WiFi下的情况
-                    img.setVisibility(View.GONE);
                     video_masked.setVisibility(View.GONE);
+                    fl_img.setVisibility(View.GONE);
                     ll_not_wifi.setVisibility(View.VISIBLE);
                     iv_video_feed_start.setEnabled(true);
                 } else {
@@ -115,22 +124,83 @@ class VideoFeedHolder extends RecyclerView.ViewHolder implements View.OnClickLis
      * 显示当前播放的 item 的蒙层和 图片
      */
     public void visMasked() {
-        img.setVisibility(View.VISIBLE);
-        video_masked.setVisibility(View.VISIBLE);
+//        fl_img.setVisibility(View.VISIBLE);
+//        video_masked.setVisibility(View.VISIBLE);
         ll_not_wifi.setVisibility(View.GONE);
         itemView.setEnabled(true);
+        tv_video_shear.setEnabled(false);
+        tv_video_more.setEnabled(false);
+        tv_video_comment.setEnabled(false);
+        btn_play.setClickable(false);
+        btn_play.setEnabled(false);
+        Animation animation = new AlphaAnimation(0.0f, 1.0f);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                video_masked.setVisibility(View.VISIBLE);
+                fl_img.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (fl_img.getVisibility() == View.GONE)
+                            fl_img.setVisibility(View.VISIBLE);
+                    }
+                }, 500);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        animation.setDuration(500);
+        video_masked.setAnimation(animation);
+
     }
 
     /**
      * 隐藏当前播放的 item 的蒙层和 图片
      */
     public void goneMasked() {
-        img.setVisibility(View.GONE);
-        video_masked.setVisibility(View.GONE);
-        ll_not_wifi.setVisibility(View.GONE);
         itemView.setEnabled(false);
+        ll_not_wifi.setVisibility(View.GONE);
+        tv_video_shear.setEnabled(true);
+        tv_video_more.setEnabled(true);
+        tv_video_comment.setEnabled(true);
+        btn_play.setClickable(true);
+        btn_play.setEnabled(true);
+        video_masked.setVisibility(View.GONE);
     }
 
+    public void missImg() {
+        Animation animation = new AlphaAnimation(1.0f, 0.0f);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                fl_img.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        animation.setDuration(500);
+        fl_img.setAnimation(animation);
+    }
+
+    public void startPlay() {
+        fl_img.setVisibility(View.GONE);
+    }
 
     @Override
     public void onClick(View v) {
@@ -152,6 +222,11 @@ class VideoFeedHolder extends RecyclerView.ViewHolder implements View.OnClickLis
                 break;
             case R.id.tv_video_more:
                 break;
+            case R.id.btn_play:
+                if (listener != null) {
+                    listener.thurmVideoPlayer();
+                }
+                break;
         }
     }
 
@@ -162,6 +237,8 @@ class VideoFeedHolder extends RecyclerView.ViewHolder implements View.OnClickLis
         void videoShare();
 
         void nightMode(boolean isNight);
+
+        void thurmVideoPlayer();
     }
 
     private OnHolderVideoFeedListener listener;

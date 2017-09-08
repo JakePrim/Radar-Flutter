@@ -248,9 +248,15 @@ public class LVideoView extends FrameLayout implements View.OnClickListener, OnV
                     }
                 }, 300);
             }
-            videoView.start();
             isPause = false;
             isVideoPlay = true;
+            try {
+                videoView.start();
+            } catch (Exception e) { //若遇到异常，重新开始播放
+                videoView.stopPlayback();
+                videoView.setVideoPath(finalpath);
+                videoView.start();
+            }
         }
     }
 
@@ -259,25 +265,17 @@ public class LVideoView extends FrameLayout implements View.OnClickListener, OnV
      */
     public void currentPlayer() {
         if (videoView != null) {
-            videoView.start();
+            try {
+                videoView.start();
+            } catch (Exception e) { //若遇到异常，重新开始播放
+                videoView.start();
+            }
         }
     }
 
     public boolean isPlayer() {
         return isVideoPlay;
     }
-
-    /**
-     * 更新视频下载状态
-     *
-     * @param url
-     */
-//    public void updateVideoDownLoadSate(String url) {
-//        FileEntity fileEntity = (FileEntity) DbHelper.getInstance().searchAsCulom(FileEntity.class, "url", url);
-//        if (fileEntity != null) {
-//            videoInit();
-//        }
-//    }
 
     /**
      * 手动暂停
@@ -291,38 +289,46 @@ public class LVideoView extends FrameLayout implements View.OnClickListener, OnV
         }
     }
 
+    public boolean isPlaying() {
+        return videoView.isPlaying();
+    }
+
+    /**
+     * 暂停播放
+     */
+    public void onPause() {
+        if (videoView != null && isVideoPlay) {
+            videoView.setVolume(0, 0);
+            isVideoPlaying = videoView.isPlaying();
+            videoView.pause();
+            isPause = true;
+            isVideoPlaying = videoView.isPlaying();
+            if (videoPlayerListener != null) {
+                videoPlayerListener.onVideoPause();
+            }
+        }
+    }
+
     /**
      * 手动暂停，从后台回来之后调用
      */
     public void startThumb() {
         if (videoView != null && isVideoPlay) {
-            if (!isVideoPlaying) {
-                videoView.setVolume(0, 0);
-                videoView.start();
-            } else {
-                videoView.start();
-                videoView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (videoView != null)
-                            videoView.setVolume(1, 1);
-                    }
-                }, 300);
-            }
-            if (progressBar != null) {
-                progressBar.setVisibility(GONE);
-            }
+            videoView.setVolume(0, 0);
+            videoView.start();
             videoView.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Log.e("linksu",
-                            "run(LVideoView.java:349)");
                     videoView.setVolume(1, 1);
                     videoView.pause();
                 }
-            }, 200);
+            }, 300);
         }
     }
+
+    private boolean isPlaying = true;
+
+    private boolean isOrientation;
 
     /**
      * 大小屏切换播放器的处理
@@ -332,17 +338,19 @@ public class LVideoView extends FrameLayout implements View.OnClickListener, OnV
     public void onConfigurationChanged(Configuration newConfig) {
         ViewGroup.LayoutParams layoutParams = fraVideoContainer.getLayoutParams();
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) { //竖屏
+            isOrientation = false;
             layoutParams.height = (int) getResources().getDimension(R.dimen.live_video_height);
             fraVideoContainer.setLayoutParams(layoutParams);
         } else {// 横屏
+            isOrientation = true;
             layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
             fraVideoContainer.setLayoutParams(layoutParams);
         }
-        if (videoView != null && isVideoPlay) {
-            isVideoPlaying = videoView.isPlaying();
-            if (!isVideoPlaying) {
-                startThumb();
-            }
+        if (isFinish) {
+            return;
+        }
+        if (!isPlaying) { //暂停的时候横竖品切换
+            startThumb();
         }
     }
 
@@ -352,7 +360,7 @@ public class LVideoView extends FrameLayout implements View.OnClickListener, OnV
     public void stopVideoPlay() {
         // videoView 不等于 null 且正在播放的时候 停止
         if (videoView != null && isVideoPlay) {
-            videoView.stopPlayback();
+            videoView.pause();
             isVideoPlay = false;
             if (progressBar != null) {
                 progressBar.setVisibility(GONE);
@@ -364,22 +372,14 @@ public class LVideoView extends FrameLayout implements View.OnClickListener, OnV
         }
     }
 
-    /**
-     * 暂停播放
-     */
-    public void onPause() {
-        if (videoView != null && isVideoPlay) {
-            isVideoPlaying = videoView.isPlaying();
-            videoView.pause();
-            isPause = true;
-            if (progressBar != null) {
-                progressBar.setVisibility(GONE);
-            }
-            if (videoPlayerListener != null) {
-                videoPlayerListener.onVideoPause();
-            }
+    public void onStop() {
+        if (videoView != null) {
+            videoView.stopPlayback();
+            isVideoPlay = false;
+            mController.stopVideoPlayingCallback();
         }
     }
+
 
     /**
      * 播放状态监听
@@ -455,6 +455,17 @@ public class LVideoView extends FrameLayout implements View.OnClickListener, OnV
         tvErrorCover.setText("重播");
     }
 
+    private boolean backstage = false;
+
+    /**
+     * 设置APP 是否进入后台
+     *
+     * @param flag
+     */
+    public void whetherHomeKey(boolean flag) {
+        this.backstage = flag;
+    }
+
     // 准备完毕后回调
     private PLMediaPlayer.OnPreparedListener mVideoPreparedListener = new PLMediaPlayer.OnPreparedListener() {
         @Override
@@ -483,6 +494,11 @@ public class LVideoView extends FrameLayout implements View.OnClickListener, OnV
                     }
                 }, 1000);
             }
+            if (backstage) {
+                if (videoView.isPlaying())
+                    videoView.pause();
+                return;
+            }
         }
     };
 
@@ -493,9 +509,18 @@ public class LVideoView extends FrameLayout implements View.OnClickListener, OnV
             switch (i) {
                 case 701:
                     // 开始缓冲
+                    // 开始缓冲
+                    llLoadingView.setVisibility(VISIBLE);
                     break;
                 case 702:
                     // 停止缓冲
+                    // 停止缓冲
+                    llLoadingView.setVisibility(GONE);
+                    break;
+                case 3://第一帧画像已经播放
+                    if (llLoadingView.getVisibility() == VISIBLE) {
+                        llLoadingView.setVisibility(GONE);
+                    }
                     break;
             }
             if (videoPlayerListener != null)
@@ -510,11 +535,16 @@ public class LVideoView extends FrameLayout implements View.OnClickListener, OnV
 
     @Override
     public void onClick(View v) {
+
     }
 
     @Override
     public void setOnVideoPlayBtnClick(boolean isPlay) {
         if (isPlay) { //开始播放 监听进度w
+            isPlaying = true;
+            if (videoPlayerListener != null) {
+                videoPlayerListener.onVideoThumbStart();
+            }
             if (mController != null) {
                 mController.startVideoPlayingCallback(new LMediaController.OnVideoPlayingCallBack() {
                     @Override
@@ -527,7 +557,10 @@ public class LVideoView extends FrameLayout implements View.OnClickListener, OnV
                 }, 1000);
             }
         } else { //暂停播放
-
+            isPlaying = false;
+            if (videoPlayerListener != null) {
+                videoPlayerListener.onVideoThumbPause();
+            }
         }
     }
 
@@ -571,15 +604,11 @@ public class LVideoView extends FrameLayout implements View.OnClickListener, OnV
 
     @Override
     public void onThumbPause() {
-        if (videoPlayerListener != null) {
-            videoPlayerListener.onVideoThumbPause();
-        }
+
     }
 
     @Override
     public void onStart() {
-        if (videoPlayerListener != null) {
-            videoPlayerListener.onVideoThumbStart();
-        }
+
     }
 }
