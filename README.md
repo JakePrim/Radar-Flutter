@@ -22,12 +22,12 @@ Welcome to the VideoFeed wiki!
 Look at the following article from the realization to the optimization of all the pit filling process
 Video List Scrolling and Broadcasting Technology Research Series http://www.jianshu.com/nb/15022458
 
-## [video list rolling broadcast technology exploration series] (http://www.jianshu.com/nb/15022458)
-1. [imitation NetEase / QQ space video list rolling continuous broadcast cool effect (V1.0 digging the road)] (http://www.jianshu.com/p/f89fc875ac14).
-2. [imitation Net easy / QQ space video list rolling continuous broadcast cool effect (V2.0 fill pit road)] (http://www.jianshu.com/p/55e95eb37197).
+## [video list rolling broadcast technology exploration series](http://www.jianshu.com/nb/15022458)
+1. [imitation NetEase / QQ space video list rolling continuous broadcast cool effect (V1.0 digging the road)](http://www.jianshu.com/p/f89fc875ac14).
+2. [imitation Net easy / QQ space video list rolling continuous broadcast cool effect (V2.0 fill pit road)](http://www.jianshu.com/p/55e95eb37197).
 3. Optimize and make changes in thought. () - Optimized and thoughtful changes (v3.0 stable version - thought change and optimization).
-4. [RecyclerView smooth rolling can control the rolling speed of the ultimate solution] (http://www.jianshu.com/p/bae9e516aace).
-5. [imitation NetEase video list continuous broadcast cool effect - v3.1 upgrade version - details optimization (network state switch, item click event, etc.)] (http://www.jianshu.com/p/a4b82d9c3218).
+4. [RecyclerView smooth rolling can control the rolling speed of the ultimate solution](http://www.jianshu.com/p/bae9e516aace).
+5. [imitation NetEase video list continuous broadcast cool effect - v3.1 upgrade version - details optimization (network state switch, item click event, etc.)](http://www.jianshu.com/p/a4b82d9c3218).
 Continued update .....
 
 > Read the above two of the two articles of the students, to achieve the basic idea has been understood, not familiar with the students can see these two articles, through the 1 to achieve the effect, there are some problems.
@@ -45,7 +45,7 @@ Continued update .....
 > Full-screen playback processing: the video list page in the Activity layout file to reserve a ViewGroup container, when clicked full-screen playback, hide the list, and the list of players to remove the list, display the layout file in the container, The player is added to this container so that the video will continue to play from the current progress, without having to deal with the complicated logic at all. This method needs to be reserved in the Activity of a player placed in the width and height are match_parent ViewGroup, the size of the switch is to add the player to the original small container and added to the full-screen ViewGroup switch back and forth, the player's listener is not used Too much intervention.
 
 As shown in the following figure, the global operation of only one player
-! [Logic diagram] (http://upload-images.jianshu.io/upload_images/2005932-4466424a84ce3f36.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+! [Logic diagram](http://upload-images.jianshu.io/upload_images/2005932-4466424a84ce3f36.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 Is not suddenly seemingly Dayton, NetEase news or Tencent news video list should be so to achieve.
 
 #### 1. How to dynamically add the player to the item
