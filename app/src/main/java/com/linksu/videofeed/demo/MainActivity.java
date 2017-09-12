@@ -399,7 +399,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
         isPrepared = false;
         Log.e("linksu",
                 "onVideoCompletion(MainActivity.java:401)" + itemPosition);
-        if (!orientation && itemPosition == itemBeens.size()) {
+        if (!orientation) {
             missVideoTips();
             VideoFeedHolder childViewHolder = (VideoFeedHolder) rl_video.findViewHolderForAdapterPosition(itemPosition);
             if (childViewHolder != null) {

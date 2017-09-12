@@ -266,6 +266,7 @@ public class LVideoView extends FrameLayout implements View.OnClickListener, OnV
     public void currentPlayer() {
         if (videoView != null) {
             try {
+                videoView.setVolume(1, 1);
                 videoView.start();
             } catch (Exception e) { //若遇到异常，重新开始播放
                 videoView.start();

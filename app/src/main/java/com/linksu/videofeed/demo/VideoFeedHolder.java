@@ -166,6 +166,7 @@ class VideoFeedHolder extends RecyclerView.ViewHolder implements View.OnClickLis
      * 隐藏当前播放的 item 的蒙层和 图片
      */
     public void goneMasked() {
+        video_masked.setVisibility(View.GONE);
         itemView.setEnabled(false);
         ll_not_wifi.setVisibility(View.GONE);
         tv_video_shear.setEnabled(true);
@@ -173,7 +174,6 @@ class VideoFeedHolder extends RecyclerView.ViewHolder implements View.OnClickLis
         tv_video_comment.setEnabled(true);
         btn_play.setClickable(true);
         btn_play.setEnabled(true);
-        video_masked.setVisibility(View.GONE);
     }
 
     public void missImg() {
