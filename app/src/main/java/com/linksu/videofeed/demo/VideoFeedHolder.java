@@ -133,33 +133,15 @@ class VideoFeedHolder extends RecyclerView.ViewHolder implements View.OnClickLis
         tv_video_comment.setEnabled(false);
         btn_play.setClickable(false);
         btn_play.setEnabled(false);
-        Animation animation = new AlphaAnimation(0.0f, 1.0f);
-        animation.setAnimationListener(new Animation.AnimationListener() {
+        video_masked.setVisibility(View.VISIBLE);
+        fl_img.setVisibility(View.VISIBLE);
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onAnimationStart(Animation animation) {
-                video_masked.setVisibility(View.VISIBLE);
-                fl_img.setVisibility(View.VISIBLE);
+            public void run() {
+                if (fl_img.getVisibility() == View.GONE)
+                    fl_img.setVisibility(View.VISIBLE);
             }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (fl_img.getVisibility() == View.GONE)
-                            fl_img.setVisibility(View.VISIBLE);
-                    }
-                }, 500);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        animation.setDuration(500);
-        video_masked.setAnimation(animation);
-
+        }, 500);
     }
 
     /**
@@ -206,7 +188,7 @@ class VideoFeedHolder extends RecyclerView.ViewHolder implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_video_feed_start:
-//                Constants.VIDEO_FEED_WIFI = true;
+                Constants.VIDEO_FEED_WIFI = true;
                 ll_not_wifi.setVisibility(View.GONE);
                 iv_video_feed_start.setEnabled(false);
                 if (listener != null) {

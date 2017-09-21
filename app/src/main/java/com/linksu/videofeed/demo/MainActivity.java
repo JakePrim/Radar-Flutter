@@ -39,8 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements VideoFeedHolder.OnHolderVideoFeedListener,
-        OnVideoPlayerListener,
-        View.OnClickListener,
+        OnVideoPlayerListener, View.OnClickListener,
         NetworkConnectChangedReceiver.ConnectChangedListener {
 
     //是否处于滚动状态
@@ -68,10 +67,13 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
     //播放器
     private LVideoView lVideoView;
 
-    private long currentPosition = 0;
-    private long mDuration = 0;
-
+    //其他
     private boolean orientation = false;//默认为竖屏的情况
+    private NetworkConnectChangedReceiver connectChangedReceiver;
+    private boolean isConnect;//控制网络状态的广播
+    private boolean isPrepared;// 判断视频是否准备完毕
+    private boolean isPlayer = false;
+    private boolean isFinsh = false;//判断视频是否播放完毕
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,6 +91,14 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
      * 加载布局之前的操作
      */
     public void initArgs() {
+        if (connectChangedReceiver == null) {
+            connectChangedReceiver = new NetworkConnectChangedReceiver();
+        }
+        isConnect = true;
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(connectChangedReceiver, filter);
+        connectChangedReceiver.setConnectChangeListener(this);
         adapter = new VideoAdapter(this, new ItemClickListener() {
             @Override
             public void onItemClick(View v, Object object) {
@@ -101,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
                 rl_video.smoothScrollToPosition(itemPosition);
             }
         });
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) { //模拟数据
             TabFragMainBeanItemBean itemBean = new TabFragMainBeanItemBean();
             itemBean.title = "看我的厉害:" + i;
             itemBean.video_url = "http://rmrbtest-image.peopleapp.com/upload/video/201707/1499914158feea8c512f348b4a.mp4";
@@ -141,11 +151,21 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
 
     @Override
     public void wifiNetwork(boolean flag) {
+        if (isFinsh && orientation) {
+            return;
+        }
+        if (isConnect) {//如果是第一次进来不走这一段
+            isConnect = false;
+            return;
+        }
         aoutPlayVideo(rl_video);
     }
 
     @Override
     public void dataNetwork(boolean flag) {
+        if (isFinsh && orientation) {
+            return;
+        }
         Log.e("linksu", "onReceive(dataNetwork:273) 切换到数据流量");
         if (!Constants.VIDEO_FEED_WIFI) {
             dataNetwork(itemPosition);
@@ -155,11 +175,11 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
 
     @Override
     public void notNetWork() {
-
+        Log.e("linksu", "notNetWork(MainActivity.java:179) 当前无网络");
     }
 
     /**
-     * 数据流量时显示的逻辑
+     * 数据流量时显示的逻辑,移除播放器，停止播放
      *
      * @param position
      */
@@ -170,10 +190,6 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
             FrameLayout frameLayout = (FrameLayout) itemView.findViewById(R.id.ll_video);
             frameLayout.removeAllViews();
             lVideoView.stopVideoPlay();
-            TabFragMainBeanItemBean itemBean = itemBeens.get(position);
-            itemBean.videoProgress = currentPosition;
-            itemBean.mDuration = mDuration;
-            itemBeens.set(position, itemBean);
         }
     }
 
@@ -213,8 +229,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
                 visibleItemCount = linearManager.getChildCount();
                 if (mScrollState) { //滚动
                     srcollVisible(recyclerView, firstItemPosition, lastItemPosition, visibleItemCount);
-                } else { //停止 第一次进入时调用此方法，进行播放第一个
-//                    ((LinearLayoutManager) rl_video.getLayoutManager()).scrollToPositionWithOffset(itemPosition, 20);
+                } else { //停止 进入时调用此方法，进行播放第一个
                     aoutPlayVideo(rl_video);
                 }
             }
@@ -281,14 +296,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
                         frameLayout.addView(lVideoView);
                         // 获取播放进度
                         TabFragMainBeanItemBean itemBean = itemBeens.get(itemPosition);
-                        long videoProgress = itemBean.videoProgress;
-                        long duration = itemBean.mDuration;
-                        if (videoProgress != 0 && videoProgress != duration) { // 跳转到之前的进度，继续播放
-                            lVideoView.startLive(itemBean.video_url);
-                            lVideoView.setSeekTo(videoProgress);
-                        } else {//从头播放
-                            lVideoView.startLive(itemBean.video_url);
-                        }
+                        lVideoView.startLive(itemBean.video_url);
                     }
                 }
             }
@@ -303,13 +311,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
     private void stopPlayer(int position) {
         VideoFeedHolder childViewHolder = (VideoFeedHolder) rl_video.findViewHolderForAdapterPosition(position);
         if (childViewHolder != null) {
-//            if (lVideoView.isPlayer()) { // 如果正在播放，则停止并记录播放进度，否则不调用这个方法
             lVideoView.stopVideoPlay();
-            TabFragMainBeanItemBean itemBean = itemBeens.get(position);
-            itemBean.videoProgress = currentPosition;
-            itemBean.mDuration = mDuration;
-            itemBeens.set(position, itemBean);
-//            }
             childViewHolder.visMasked();//显示蒙层
             View itemView = childViewHolder.itemView;
             FrameLayout frameLayout = (FrameLayout) itemView.findViewById(R.id.ll_video);
@@ -376,10 +378,6 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
         }
     }
 
-    private boolean isPrepared;
-    private boolean isPlayer = false;
-    private boolean isFinsh = false;
-
     @Override
     public void onVideoPrepared() {
         isPrepared = true;
@@ -397,17 +395,10 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
     public void onVideoCompletion() {
         isFinsh = true;
         isPrepared = false;
-        Log.e("linksu",
-                "onVideoCompletion(MainActivity.java:401)" + itemPosition);
         if (!orientation) {
             missVideoTips();
             VideoFeedHolder childViewHolder = (VideoFeedHolder) rl_video.findViewHolderForAdapterPosition(itemPosition);
             if (childViewHolder != null) {
-                // 播放完成将之前的播放进度清空
-                TabFragMainBeanItemBean itemBean = itemBeens.get(itemPosition);
-                itemBean.videoProgress = 0;
-                itemBean.mDuration = 0;
-                itemBeens.set(itemPosition, itemBean);
                 // 移除播放器
                 childViewHolder.visMasked();
                 View itemView = childViewHolder.itemView;
@@ -422,7 +413,11 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
     }
 
     @Override
-    public void onVideoError(int i, String error) {
+    public void onVideoError(int i, String error) {//视频错误时的处理
+        VideoFeedHolder childViewHolder = (VideoFeedHolder) rl_video.findViewHolderForAdapterPosition(itemPosition);
+        if (childViewHolder != null) {
+            childViewHolder.startPlay();
+        }
     }
 
     @Override
@@ -436,7 +431,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
     }
 
     @Override
-    public void onVideoPause() { //暂停视频播放
+    public void onVideoPause() { //暂停视频播放时的处理
 
     }
 
@@ -450,13 +445,19 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
         isThrumePause = false;
     }
 
+    int currentSeconds;
+    int totalSeconds;
+
     @Override
     public void onVideoPlayingPro(long currentPosition, long mDuration, int mPlayStatus) {//播放进度
-        this.currentPosition = currentPosition;
-        this.mDuration = mDuration;
         if (!orientation) { //若播放的不是最后一个，弹出播放下一个的提示
-            int currentSeconds = (int) (currentPosition / 1000);
-            int totalSeconds = (int) (mDuration / 1000);
+            try {
+                currentSeconds = (int) (currentPosition / 1000);
+                totalSeconds = (int) (mDuration / 1000);
+            } catch (Exception e) {
+                currentSeconds = 0;
+                totalSeconds = 0;
+            }
             if (isPrepared) {
                 if (totalSeconds != 0 && totalSeconds > 0 && (totalSeconds - currentSeconds) <= 5) { //播放时间小于等于5s 时提示
                     if (isFinsh) {
@@ -495,13 +496,14 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
     }
 
     @Override
-    public void videoShare() {
+    public void videoShare() {//分享
 
     }
 
 
     @Override
-    public void nightMode(boolean isNight) {
+    public void nightMode(boolean isNight) {//夜间模式
+
     }
 
     @Override
@@ -556,15 +558,15 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
         return false;
     }
 
-    private NetworkConnectChangedReceiver connectChangedReceiver;
-
     /**
      * Activity 不在前台时 暂停播放
      */
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(connectChangedReceiver);
+        if (isFinsh && orientation) {
+            return;
+        }
         lVideoView.whetherHomeKey(true);//防止正在加载视频时跳转到其他Activity 或进入后台 进行播放
         if (lVideoView.isPlaying()) {
             if (isThrumePause) {
@@ -581,13 +583,13 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
     @Override
     protected void onResume() {
         super.onResume();
-        if (connectChangedReceiver == null) {
-            connectChangedReceiver = new NetworkConnectChangedReceiver();
+        if (isFinsh && orientation) {//横屏播放完成视频的处理
+            return;
         }
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(connectChangedReceiver, filter);
-        connectChangedReceiver.setConnectChangeListener(this);
+        if (isConnect) {
+            //第一次进来禁止往下运行
+            return;
+        }
         lVideoView.whetherHomeKey(false);
         if (isThrumePause) { // 判断是暂停还是播放状态
             lVideoView.startThumb();
@@ -597,8 +599,18 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.e("linksu",
+                "onRestart(MainActivity.java:605)");
+    }
+
+    @Override
     protected void onStop() {//防止正在加载视频时跳转到其他Activity 或进入后台 进行播放
         super.onStop();
+        if (isFinsh && orientation) {
+            return;
+        }
         if (lVideoView.isPlaying()) {
             if (isThrumePause) {
                 lVideoView.onThumePause();
@@ -623,6 +635,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unregisterReceiver(connectChangedReceiver);
         lVideoView.unOnVideoPlayerListener();
         lVideoView.recycleVideoView();
     }
