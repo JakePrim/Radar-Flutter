@@ -1,5 +1,8 @@
 package com.linksu.videofeed.demo;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -12,13 +15,18 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +40,7 @@ import com.linksu.videofeed.demo.manager.NetChangeManager;
 import com.linksu.videofeed.demo.receiver.NetworkConnectChangedReceiver;
 import com.linksu.videofeed.demo.utils.ScrollSpeedLinearLayoutManger;
 import com.linksu.videofeed.demo.utils.StateBarUtils;
+import com.linksu.videofeed.demo.utils.ViewMeasureUtils;
 import com.linksu.videofeed.demo.utils.VisibilePercentsUtils;
 import com.linksu.videofeed.demo.view.FlingRecyclerView;
 
@@ -57,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
     // 加载数据相关
     private List<TabFragMainBeanItemBean> itemBeens = new ArrayList<>();
     // 布局相关
-    private RelativeLayout rl_video_feed;
     private ImageView iv_close_video_feed;
     private TextView mTv;
     private FlingRecyclerView rl_video;
@@ -74,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
     private boolean isPrepared;// 判断视频是否准备完毕
     private boolean isPlayer = false;
     private boolean isFinsh = false;//判断视频是否播放完毕
+
+    private FrameLayout fl_comment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -126,7 +136,6 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
     public void initView() {
         lVideoView = new LVideoView(this);//初始化播放器
         rl_video = (FlingRecyclerView) findViewById(R.id.rl_video);
-        rl_video_feed = (RelativeLayout) findViewById(R.id.rl_video_feed);
         mTv = (TextView) findViewById(R.id.tv_video_carry);
         full_screen = (FrameLayout) findViewById(R.id.full_screen);
         iv_close_video_feed = (ImageView) findViewById(R.id.iv_close_video_feed);
@@ -135,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
         adapter.setRecyclerView(rl_video);
         rl_video.setAdapter(adapter);
         adapter.setList(itemBeens);
+        fl_comment = (FrameLayout) findViewById(R.id.fl_comment);
         initListener();
     }
 
@@ -242,7 +252,8 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
      * @param recyclerView
      * @param firstItemPosition
      * @param lastItemPosition
-     * @param visibleItemCount  屏幕显示的item数量
+     * @param visibleItemCount
+     *         屏幕显示的item数量
      */
     private void srcollVisible(RecyclerView recyclerView, int firstItemPosition, int lastItemPosition, int visibleItemCount) {
         for (int i = 0; i < visibleItemCount; i++) {
@@ -352,7 +363,6 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
             orientation = false;
             full_screen.setVisibility(View.GONE);
             full_screen.removeAllViews();
-            rl_video_feed.setVisibility(View.VISIBLE);
             addPlayer(itemPosition);
             int mShowFlags = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -360,7 +370,6 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
             full_screen.setSystemUiVisibility(mShowFlags);
         } else { // 横屏
             orientation = true;
-            rl_video_feed.setVisibility(View.GONE);
             ViewGroup viewGroup = (ViewGroup) lVideoView.getParent();
             if (viewGroup == null)
                 return;
@@ -395,7 +404,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
     public void onVideoCompletion() {
         isFinsh = true;
         isPrepared = false;
-        if (!orientation) {
+        if (!orientation && !isComment) {
             missVideoTips();
             VideoFeedHolder childViewHolder = (VideoFeedHolder) rl_video.findViewHolderForAdapterPosition(itemPosition);
             if (childViewHolder != null) {
@@ -518,6 +527,81 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
         }
     }
 
+    private boolean isComment;
+    int y;
+    VideoFeedHolder viewHolder;
+    private static final String TAG = "MainActivity";
+    private int fromHight;//表示评论fragment 从哪个高度开始移动
+    private int toHight;//表示评论fragment 到哪个高度
+
+    @Override
+    public void intentComment() {
+        viewHolder = (VideoFeedHolder) getViewHolder();
+        if (viewHolder != null) {
+            layoutManager.setScrollEnabled(false);//禁止recyclerview 滑动
+            rl_video.setEnabled(false);
+            isComment = true;
+            final View itemView = viewHolder.ll_video;
+            y = ViewMeasureUtils.getViewLocation(itemView)[1];
+
+            fl_comment.setVisibility(View.VISIBLE);
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) fl_comment.getLayoutParams();
+            params.topMargin = (ViewMeasureUtils.getHeight(itemView) + y);
+            params.height = (ViewMeasureUtils.getDisplayMetrics(this).heightPixels - (ViewMeasureUtils.getHeight(itemView)));
+            Log.e(TAG, "intentComment: " + ViewMeasureUtils.getDisplayMetrics(this).heightPixels + " \n height:" +
+                    (ViewMeasureUtils.getDisplayMetrics(this).heightPixels
+                            - (ViewMeasureUtils.getHeight(itemView))));
+
+            translation(itemView, 0, -y);
+            translation(fl_comment, 0, -y);
+
+            Animation animation2 = new AlphaAnimation(0.0f, 1.0f);
+            animation2.setDuration(1000);
+            fl_comment.setAnimation(animation2);
+        }
+    }
+
+    /**
+     * 移动的属性动画
+     *
+     * @param view
+     * @param from
+     * @param to
+     */
+    private void translation(final View view, int from, int to) {
+        ObjectAnimator animator = ObjectAnimator.ofFloat(view, "translationY", from, to);
+        animator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (view.getTranslationY() == 0) {
+                    fl_comment.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        animator.setDuration(1000);
+        animator.start();
+    }
+
+    private RecyclerView.ViewHolder getViewHolder() {
+        return rl_video.findViewHolderForAdapterPosition(itemPosition);
+    }
+
     @Override
     public void onClick(View v) {// 点击事件
         switch (v.getId()) {
@@ -541,6 +625,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
      *
      * @param keyCode
      * @param event
+     *
      * @return
      */
     @Override
@@ -551,8 +636,25 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 return true;
             } else {
-                finish();
-                return true;
+                if (isComment) {
+//                    fl_comment.setVisibility(View.GONE);
+                    layoutManager.setScrollEnabled(true);
+                    isComment = false;
+                    if (viewHolder != null) {
+                        View itemView = viewHolder.ll_video;
+                        Animation animation2 = new AlphaAnimation(1.0f, 0.0f);
+                        animation2.setDuration(800);
+                        fl_comment.setAnimation(animation2);
+                        translation(itemView, -y, 0);
+                        translation(fl_comment, -y, 0);
+
+                    }
+                    return false;
+                } else {
+                    finish();
+                    return true;
+                }
+
             }
         }
         return false;

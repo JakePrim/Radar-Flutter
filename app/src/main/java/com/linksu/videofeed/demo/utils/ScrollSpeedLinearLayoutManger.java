@@ -21,6 +21,8 @@ import android.util.Log;
 public class ScrollSpeedLinearLayoutManger extends LinearLayoutManager {
 
 
+    private boolean isScrollEnabled = true;
+
     public ScrollSpeedLinearLayoutManger(Context context) {
         super(context, VERTICAL, false);
     }
@@ -64,6 +66,16 @@ public class ScrollSpeedLinearLayoutManger extends LinearLayoutManager {
         protected int getVerticalSnapPreference() {
             return SNAP_TO_START;
         }
+    }
+
+    public void setScrollEnabled(boolean flag) {
+        this.isScrollEnabled = flag;
+    }
+
+    @Override
+    public boolean canScrollVertically() {
+        //Similarly you can customize "canScrollHorizontally()" for managing horizontal scroll
+        return isScrollEnabled && super.canScrollVertically();
     }
 
 }

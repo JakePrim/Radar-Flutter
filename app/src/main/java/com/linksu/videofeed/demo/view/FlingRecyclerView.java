@@ -32,5 +32,4 @@ public class FlingRecyclerView extends RecyclerView {
         velocityY *= 0.5;
         return super.fling(velocityX, velocityY);
     }
-
 }

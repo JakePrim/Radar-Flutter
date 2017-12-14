@@ -336,6 +336,7 @@ public class LVideoView extends FrameLayout implements View.OnClickListener, OnV
      *
      * @param newConfig
      */
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         ViewGroup.LayoutParams layoutParams = fraVideoContainer.getLayoutParams();
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) { //竖屏

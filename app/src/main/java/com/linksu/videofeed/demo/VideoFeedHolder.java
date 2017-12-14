@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.linksu.video_manager_library.listener.OnVideoPlayerListener;
@@ -37,11 +39,14 @@ class VideoFeedHolder extends RecyclerView.ViewHolder implements View.OnClickLis
     private ImageView img, btn_play;
     private LinearLayout ll_not_wifi;
     private ImageView iv_video_feed_start;
-    private TextView tv_video_shear, tv_video_more, tv_video_comment;
+    private TextView tv_video_shear, tv_video_more;
     private Context context;
-    private FrameLayout ll_video;
+    public FrameLayout ll_video;
     private TabFragMainBeanItemBean itemBean;
     private FrameLayout fl_img;
+    public RelativeLayout rl_bottom;
+    public RelativeLayout rl;
+    public TextView tv_video_comment;
 
     /**
      * 初始化view
@@ -64,7 +69,10 @@ class VideoFeedHolder extends RecyclerView.ViewHolder implements View.OnClickLis
         this.tv_video_comment = (TextView) itemView.findViewById(R.id.tv_video_comment);
         this.fl_img = (FrameLayout) itemView.findViewById(R.id.fl_img);
         this.btn_play = (ImageView) itemView.findViewById(R.id.btn_play);
+        this.rl_bottom = (RelativeLayout) itemView.findViewById(R.id.rl_bottom);
+        this.rl = (RelativeLayout) itemView.findViewById(R.id.rl);
         this.context = context;
+
         bindListener();
     }
 
@@ -201,6 +209,9 @@ class VideoFeedHolder extends RecyclerView.ViewHolder implements View.OnClickLis
                 }
                 break;
             case R.id.tv_video_comment:
+                if (listener != null) {
+                    listener.intentComment();
+                }
                 break;
             case R.id.tv_video_more:
                 break;
@@ -221,6 +232,8 @@ class VideoFeedHolder extends RecyclerView.ViewHolder implements View.OnClickLis
         void nightMode(boolean isNight);
 
         void thurmVideoPlayer();
+
+        void intentComment();
     }
 
     private OnHolderVideoFeedListener listener;

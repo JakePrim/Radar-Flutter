@@ -1,30 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:clipChildren="false"
+             android:clipToPadding="false">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#000000"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:paddingTop="70dp">
 
         <RelativeLayout
             android:id="@+id/visiabile"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false">
 
             <FrameLayout
                 android:id="@+id/ll_video"
                 android:layout_width="match_parent"
                 android:layout_height="205dp"
                 android:background="#999999"
+                android:clipChildren="false"
+                android:clipToPadding="false"
                 android:orientation="vertical">
 
-                <!--<com.peopledailychina.activity.view.videoview.LVideoView-->
-                <!--android:id="@+id/lvideoview"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent" />-->
             </FrameLayout>
 
             <FrameLayout
@@ -45,7 +49,7 @@
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/item_tv"
                     android:layout_gravity="center"
-                    android:src="@drawable/icon_live_controller_play" />
+                    android:src="@drawable/icon_live_controller_play"/>
             </FrameLayout>
 
             <LinearLayout
@@ -64,14 +68,14 @@
                     android:gravity="center"
                     android:text="正在使用非WiFi网络，播放将产生流量费用"
                     android:textColor="#EBEBEB"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"/>
 
                 <ImageView
                     android:id="@+id/iv_video_feed_start"
                     android:layout_width="96dp"
                     android:layout_height="33dp"
                     android:layout_marginTop="17dp"
-                    android:src="#999999" />
+                    android:src="#999999"/>
             </LinearLayout>
 
             <TextView
@@ -85,7 +89,7 @@
                 android:paddingTop="5dp"
                 android:text="环保部督查发现北京重污染天气污染天气污染天气污染天气污染天气"
                 android:textColor="#9d9d9d"
-                android:textSize="17sp" />
+                android:textSize="17sp"/>
 
             <RelativeLayout
                 android:id="@+id/rl"
@@ -103,7 +107,7 @@
                     android:layout_height="wrap_content"
                     android:text="2017-08-09 10:21"
                     android:textColor="#595959"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
 
                 <TextView
                     android:id="@+id/tv_video_readCount"
@@ -112,10 +116,11 @@
                     android:layout_alignParentRight="true"
                     android:text="播放量：99999"
                     android:textColor="#595959"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rl"
@@ -129,9 +134,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:padding="10dp"
                     android:text="评论：9080"
                     android:textColor="#8d8d8d"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
 
                 <TextView
                     android:id="@+id/tv_video_shear"
@@ -139,18 +145,20 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:gravity="center"
+                    android:padding="10dp"
                     android:text="分享"
                     android:textColor="#8d8d8d"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
 
                 <TextView
                     android:id="@+id/tv_video_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:padding="10dp"
                     android:text="更多"
                     android:textColor="#8d8d8d"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
@@ -160,5 +168,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#B2000000"
-        android:visibility="visible" />
+        android:visibility="visible"/>
+
+
 </FrameLayout>

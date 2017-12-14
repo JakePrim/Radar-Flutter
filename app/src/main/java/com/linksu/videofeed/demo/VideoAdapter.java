@@ -34,6 +34,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoFeedHolder> {
 
     @Override
     public VideoFeedHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        parent.setClipChildren(false);
         View inflater = LayoutInflater.from(context).inflate(R.layout.item, parent, false);
         return new VideoFeedHolder(inflater, context);
     }
@@ -55,6 +56,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoFeedHolder> {
 
     @Override
     public void onBindViewHolder(final VideoFeedHolder holder, final int position) {
+
         holder.update(position, mlist);
         View itemView = holder.itemView;
         itemView.setOnClickListener(new View.OnClickListener() {
