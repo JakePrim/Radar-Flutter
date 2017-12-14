@@ -1,6 +1,7 @@
 package com.linksu.videofeed.demo;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.IntentFilter;
@@ -18,6 +19,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -112,6 +114,10 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
         adapter = new VideoAdapter(this, new ItemClickListener() {
             @Override
             public void onItemClick(View v, Object object) {
+                Log.e(TAG, "onItemClick: ");
+                if (isComment) {
+                    return;
+                }
                 //手动点击下一个,暂停之前的 并显示蒙层
                 stopPlayer(playerPosition);
                 missVideoTips();
@@ -130,6 +136,10 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
         }
     }
 
+    private FrameLayout fl_notclick;
+
+    private FrameLayout fl_translation_video;
+
     /**
      * 初始化view
      */
@@ -138,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
         rl_video = (FlingRecyclerView) findViewById(R.id.rl_video);
         mTv = (TextView) findViewById(R.id.tv_video_carry);
         full_screen = (FrameLayout) findViewById(R.id.full_screen);
+        fl_translation_video = (FrameLayout) findViewById(R.id.fl_translation_video);
         iv_close_video_feed = (ImageView) findViewById(R.id.iv_close_video_feed);
         layoutManager = new ScrollSpeedLinearLayoutManger(this);
         rl_video.setLayoutManager(layoutManager);
@@ -539,25 +550,20 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
         viewHolder = (VideoFeedHolder) getViewHolder();
         if (viewHolder != null) {
             layoutManager.setScrollEnabled(false);//禁止recyclerview 滑动
-            rl_video.setEnabled(false);
+            rl_video.setIntercept(true);
             isComment = true;
+
             final View itemView = viewHolder.ll_video;
             y = ViewMeasureUtils.getViewLocation(itemView)[1];
-
             fl_comment.setVisibility(View.VISIBLE);
+
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) fl_comment.getLayoutParams();
             params.topMargin = (ViewMeasureUtils.getHeight(itemView) + y);
             params.height = (ViewMeasureUtils.getDisplayMetrics(this).heightPixels - (ViewMeasureUtils.getHeight(itemView)));
-            Log.e(TAG, "intentComment: " + ViewMeasureUtils.getDisplayMetrics(this).heightPixels + " \n height:" +
-                    (ViewMeasureUtils.getDisplayMetrics(this).heightPixels
-                            - (ViewMeasureUtils.getHeight(itemView))));
 
-            translation(itemView, 0, -y);
-            translation(fl_comment, 0, -y);
+            translation(itemView, fl_comment, 0, -y);
+            translation(fl_comment, fl_comment, 0, -y);
 
-            Animation animation2 = new AlphaAnimation(0.0f, 1.0f);
-            animation2.setDuration(1000);
-            fl_comment.setAnimation(animation2);
         }
     }
 
@@ -568,30 +574,37 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
      * @param from
      * @param to
      */
-    private void translation(final View view, int from, int to) {
+    private void translation(final View view, final View secondView, final int from, final int to) {
         ObjectAnimator animator = ObjectAnimator.ofFloat(view, "translationY", from, to);
-        animator.addListener(new Animator.AnimatorListener() {
+
+        animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animation) {
-
-
+                if (view.getTranslationY() == 0) {
+                    ObjectAnimator animatorAlpha = ObjectAnimator.ofFloat(secondView, "alpha", 0, 1);
+                    animatorAlpha.setDuration(1000);
+                    animatorAlpha.start();
+                } else {
+                    addPlayer(itemPosition);
+                    ObjectAnimator animatorAlpha = ObjectAnimator.ofFloat(secondView, "alpha", 1, 0);
+                    animatorAlpha.setDuration(1000);
+                    animatorAlpha.start();
+                }
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
                 if (view.getTranslationY() == 0) {
-                    fl_comment.setVisibility(View.GONE);
+                    secondView.setVisibility(View.GONE);
+                }else {
+                    fl_translation_video.removeAllViews();
+                    ViewGroup last = (ViewGroup) lVideoView.getParent();//找到videoitemview的父类，然后remove
+                    if (last != null && last.getChildCount() > 0) {
+                        last.removeAllViews();
+                    }
+                    fl_translation_video.addView(lVideoView);
+
                 }
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
             }
         });
         animator.setDuration(1000);
@@ -637,17 +650,13 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
                 return true;
             } else {
                 if (isComment) {
-//                    fl_comment.setVisibility(View.GONE);
+                    rl_video.setIntercept(false);
                     layoutManager.setScrollEnabled(true);
                     isComment = false;
                     if (viewHolder != null) {
                         View itemView = viewHolder.ll_video;
-                        Animation animation2 = new AlphaAnimation(1.0f, 0.0f);
-                        animation2.setDuration(800);
-                        fl_comment.setAnimation(animation2);
-                        translation(itemView, -y, 0);
-                        translation(fl_comment, -y, 0);
-
+                        translation(itemView, fl_comment, -y, 0);
+                        translation(fl_comment, fl_comment, -y, 0);
                     }
                     return false;
                 } else {

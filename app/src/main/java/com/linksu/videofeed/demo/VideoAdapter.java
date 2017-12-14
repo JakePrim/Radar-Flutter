@@ -54,17 +54,26 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoFeedHolder> {
         }
     }
 
+    private static final String TAG = "VideoAdapter";
+
     @Override
     public void onBindViewHolder(final VideoFeedHolder holder, final int position) {
 
         holder.update(position, mlist);
-        View itemView = holder.itemView;
+        View itemView = holder.video_masked;
+
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 itemClickListener.onItemClick(v, position);
             }
         });
+    }
+
+    private boolean isIntercep = false;
+
+    public void setIntercep(boolean isIntercep) {
+        this.isIntercep = isIntercep;
     }
 
     @Override

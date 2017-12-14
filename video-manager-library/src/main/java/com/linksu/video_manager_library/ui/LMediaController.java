@@ -380,14 +380,17 @@ public class LMediaController extends FrameLayout implements IMediaController {
 
     @Override
     public void show() {
+        Log.e(TAG, "show: " );
         show(5000);
         if (onShowHidListenner != null) {
             onShowHidListenner.onShow();
         }
     }
 
+    private static final String TAG = "LMediaController";
     @Override
     public void show(int timeout) {
+        Log.e(TAG, "show: " );
 // 设置控件显示
         // 发送消息给handler开始循环发送消息实现播放进度更新
         if (!isControllerShow) {
@@ -412,6 +415,7 @@ public class LMediaController extends FrameLayout implements IMediaController {
 
     @Override
     public void hide() {
+        Log.e(TAG, "hide: " );
         if (isControllerShow) {
             mHandler.removeMessages(SET_PROGRESS_UPDATE_UI);
             setVisibility(View.INVISIBLE);

@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -213,6 +214,7 @@ public class LVideoView extends FrameLayout implements View.OnClickListener, OnV
         videoView.setOnErrorListener(mVideoErrorListener);
         videoView.setLooping(false);
     }
+
 
     /**
      * 添加播放器和控制器

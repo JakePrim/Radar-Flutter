@@ -33,7 +33,7 @@ import java.util.List;
  * ================================================
  */
 class VideoFeedHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    private View video_masked;
+    public View video_masked;
     private TextView item_tv, tv_video_time, tv_video_readCount;
     private List<TabFragMainBeanItemBean> mlist;
     private ImageView img, btn_play;

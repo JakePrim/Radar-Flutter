@@ -19,6 +19,13 @@
 
     </FrameLayout>
 
+    <FrameLayout
+        android:id="@+id/fl_translation_video"
+        android:layout_width="match_parent"
+        android:layout_height="205dp">
+
+    </FrameLayout>
+
     <ImageView
         android:id="@+id/iv_close_video_feed"
         android:layout_width="wrap_content"
