@@ -40,6 +40,8 @@ public class FlingRecyclerView extends RecyclerView {
         this.isIntercept = isIntercept;
     }
 
+
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent e) {
         if (isIntercept) {

@@ -10,21 +10,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <FrameLayout
+    <com.linksu.videofeed.demo.view.ContainerLayout
         android:id="@+id/fl_comment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#F1F1F1"
         android:visibility="gone">
 
-    </FrameLayout>
+    </com.linksu.videofeed.demo.view.ContainerLayout>
 
-    <FrameLayout
+    <com.linksu.videofeed.demo.view.ContainerLayout
         android:id="@+id/fl_translation_video"
         android:layout_width="match_parent"
         android:layout_height="205dp">
 
-    </FrameLayout>
+    </com.linksu.videofeed.demo.view.ContainerLayout>
 
     <ImageView
         android:id="@+id/iv_close_video_feed"

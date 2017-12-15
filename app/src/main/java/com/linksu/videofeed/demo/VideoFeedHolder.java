@@ -135,7 +135,7 @@ class VideoFeedHolder extends RecyclerView.ViewHolder implements View.OnClickLis
 //        fl_img.setVisibility(View.VISIBLE);
 //        video_masked.setVisibility(View.VISIBLE);
         ll_not_wifi.setVisibility(View.GONE);
-        itemView.setEnabled(true);
+//        itemView.setEnabled(true);
         tv_video_shear.setEnabled(false);
         tv_video_more.setEnabled(false);
         tv_video_comment.setEnabled(false);
@@ -157,7 +157,7 @@ class VideoFeedHolder extends RecyclerView.ViewHolder implements View.OnClickLis
      */
     public void goneMasked() {
         video_masked.setVisibility(View.GONE);
-        itemView.setEnabled(false);
+//        itemView.setEnabled(false);
         ll_not_wifi.setVisibility(View.GONE);
         tv_video_shear.setEnabled(true);
         tv_video_more.setEnabled(true);

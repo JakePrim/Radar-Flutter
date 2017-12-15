@@ -227,6 +227,8 @@ public class LVideoView extends FrameLayout implements View.OnClickListener, OnV
         mController.setControllerParent(fraVideoContainer);
     }
 
+
+
     /**
      * 开始播放
      *

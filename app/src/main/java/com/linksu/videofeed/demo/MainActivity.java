@@ -13,6 +13,7 @@ import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -44,6 +45,7 @@ import com.linksu.videofeed.demo.utils.ScrollSpeedLinearLayoutManger;
 import com.linksu.videofeed.demo.utils.StateBarUtils;
 import com.linksu.videofeed.demo.utils.ViewMeasureUtils;
 import com.linksu.videofeed.demo.utils.VisibilePercentsUtils;
+import com.linksu.videofeed.demo.view.ContainerLayout;
 import com.linksu.videofeed.demo.view.FlingRecyclerView;
 
 import java.util.ArrayList;
@@ -85,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
     private boolean isPlayer = false;
     private boolean isFinsh = false;//判断视频是否播放完毕
 
-    private FrameLayout fl_comment;
+    private ContainerLayout fl_comment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -138,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
 
     private FrameLayout fl_notclick;
 
-    private FrameLayout fl_translation_video;
+    private ContainerLayout fl_translation_video;
 
     /**
      * 初始化view
@@ -148,14 +150,14 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
         rl_video = (FlingRecyclerView) findViewById(R.id.rl_video);
         mTv = (TextView) findViewById(R.id.tv_video_carry);
         full_screen = (FrameLayout) findViewById(R.id.full_screen);
-        fl_translation_video = (FrameLayout) findViewById(R.id.fl_translation_video);
+        fl_translation_video = (ContainerLayout) findViewById(R.id.fl_translation_video);
         iv_close_video_feed = (ImageView) findViewById(R.id.iv_close_video_feed);
         layoutManager = new ScrollSpeedLinearLayoutManger(this);
         rl_video.setLayoutManager(layoutManager);
         adapter.setRecyclerView(rl_video);
         rl_video.setAdapter(adapter);
         adapter.setList(itemBeens);
-        fl_comment = (FrameLayout) findViewById(R.id.fl_comment);
+        fl_comment = (ContainerLayout) findViewById(R.id.fl_comment);
         initListener();
     }
 
@@ -550,13 +552,13 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
         viewHolder = (VideoFeedHolder) getViewHolder();
         if (viewHolder != null) {
             layoutManager.setScrollEnabled(false);//禁止recyclerview 滑动
-            rl_video.setIntercept(true);
+            // rl_video.setIntercept(false);
             isComment = true;
-
-            final View itemView = viewHolder.ll_video;
+            final FrameLayout itemView = viewHolder.ll_video;
             y = ViewMeasureUtils.getViewLocation(itemView)[1];
             fl_comment.setVisibility(View.VISIBLE);
-
+            itemView.requestFocus();
+            itemView.setFocusable(true);
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) fl_comment.getLayoutParams();
             params.topMargin = (ViewMeasureUtils.getHeight(itemView) + y);
             params.height = (ViewMeasureUtils.getDisplayMetrics(this).heightPixels - (ViewMeasureUtils.getHeight(itemView)));
@@ -576,7 +578,6 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
      */
     private void translation(final View view, final View secondView, final int from, final int to) {
         ObjectAnimator animator = ObjectAnimator.ofFloat(view, "translationY", from, to);
-
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -585,7 +586,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
                     animatorAlpha.setDuration(1000);
                     animatorAlpha.start();
                 } else {
-                    addPlayer(itemPosition);
+//                    addPlayer(itemPosition);
                     ObjectAnimator animatorAlpha = ObjectAnimator.ofFloat(secondView, "alpha", 1, 0);
                     animatorAlpha.setDuration(1000);
                     animatorAlpha.start();
@@ -596,14 +597,14 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
             public void onAnimationEnd(Animator animation) {
                 if (view.getTranslationY() == 0) {
                     secondView.setVisibility(View.GONE);
-                }else {
-                    fl_translation_video.removeAllViews();
-                    ViewGroup last = (ViewGroup) lVideoView.getParent();//找到videoitemview的父类，然后remove
-                    if (last != null && last.getChildCount() > 0) {
-                        last.removeAllViews();
-                    }
-                    fl_translation_video.addView(lVideoView);
-
+                } else {
+//                    rl_video.smoothScrollToPosition(itemPosition);
+//                    fl_translation_video.removeAllViews();
+//                    ViewGroup last = (ViewGroup) lVideoView.getParent();//找到videoitemview的父类，然后remove
+//                    if (last != null && last.getChildCount() > 0) {
+//                        last.removeAllViews();
+//                    }
+//                    fl_translation_video.addView(lVideoView);
                 }
             }
         });

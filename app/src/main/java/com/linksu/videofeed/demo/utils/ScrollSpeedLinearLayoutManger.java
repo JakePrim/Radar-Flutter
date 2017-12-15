@@ -55,7 +55,8 @@ public class ScrollSpeedLinearLayoutManger extends LinearLayoutManager {
 
         @Override
         public int calculateDtToFit(int viewStart, int viewEnd, int boxStart, int boxEnd, int snapPreference) {
-            return (boxStart + (boxEnd - boxStart) / 2) - (viewStart + (viewEnd - viewStart) / 2);
+//            return (boxStart + (boxEnd - boxStart) /2) - (viewStart + (viewEnd - viewStart)/2);
+            return (boxStart) - (viewStart);
         }
 
         protected float calculateSpeedPerPixel(DisplayMetrics displayMetrics) {
