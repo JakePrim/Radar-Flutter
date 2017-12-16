@@ -88,4 +88,6 @@ public interface IViewAdosorber {
      * DecorView {@link android.view.Window#ID_ANDROID_CONTENT}
      */
     FloatView getFloatView();
+
+    View getVideoPlayerView();
 }

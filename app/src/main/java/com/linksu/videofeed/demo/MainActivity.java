@@ -34,6 +34,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.adsorber_manager.adosorber.Adosorber;
+import com.example.adsorber_manager.adosorber.IViewAdosorber;
 import com.example.adsorber_manager.adosorber.ViewAdosorber;
 import com.linksu.video_manager_library.listener.OnVideoPlayerListener;
 import com.linksu.video_manager_library.ui.LVideoView;
@@ -99,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//不锁屏
         StateBarUtils.setTranslucentColor(this);//沉浸式状态栏
         setContentView(R.layout.activity_main);
-        viewAdosorber = new ViewAdosorber(this);
+//        viewAdosorber = new ViewAdosorber(this);
         initArgs();
         initView();
         adapter.setList(itemBeens);
@@ -150,7 +152,9 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
      * 初始化view
      */
     public void initView() {
-        lVideoView = new LVideoView(this);//初始化播放器
+//        lVideoView = new LVideoView(this);//初始化播放器
+//        IViewAdosorber attach =
+        lVideoView = (LVideoView) Adosorber.attach(this).getVideoPlayerView();
         rl_video = (FlingRecyclerView) findViewById(R.id.rl_video);
         mTv = (TextView) findViewById(R.id.tv_video_carry);
         full_screen = (FrameLayout) findViewById(R.id.full_screen);
@@ -288,7 +292,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
             // noting to do
         } else { // 说明亮起的已经不是当前的item了，是下一个或者之前的那个，我们停止变暗的item的播放
             missVideoTips();
-            viewAdosorber.detach();
+//            viewAdosorber.detach();
             stopPlayer(playerPosition);
             playerPosition = itemPosition;
         }
@@ -323,8 +327,9 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
 //                        }
 //                        frameLayout.addView(lVideoView);
 
-                        viewAdosorber.attach().adosorberView(childViewHolder.ll_video).into(recyclerView);
-                        lVideoView = viewAdosorber.getFloatView().getVideoPlayView();
+//                        viewAdosorber.attach().adosorberView(childViewHolder.ll_video).into(recyclerView);
+//                        lVideoView = viewAdosorber.getFloatView().getVideoPlayView();
+                        Adosorber.startPlayer(this, childViewHolder.ll_video, recyclerView);
                         // 获取播放进度
                         TabFragMainBeanItemBean itemBean = itemBeens.get(itemPosition);
                         lVideoView.startLive(itemBean.video_url);
@@ -342,6 +347,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
     private void stopPlayer(int position) {
         VideoFeedHolder childViewHolder = (VideoFeedHolder) rl_video.findViewHolderForAdapterPosition(position);
         if (childViewHolder != null) {
+            Adosorber.stopPlayer(this);
             lVideoView.stopVideoPlay();
             childViewHolder.visMasked();//显示蒙层
             View itemView = childViewHolder.itemView;
@@ -571,7 +577,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) fl_comment.getLayoutParams();
             params.topMargin = (ViewMeasureUtils.getHeight(itemView) + y);
             params.height = (ViewMeasureUtils.getDisplayMetrics(this).heightPixels - (ViewMeasureUtils.getHeight(itemView)));
-            translation(viewAdosorber.getFloatView(), fl_comment, 0, -y);
+            translation(Adosorber.getFloatView(this), fl_comment, 0, -y);
             translation(fl_comment, fl_comment, 0, -y);
 
         }
@@ -661,11 +667,8 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
                     rl_video.setIntercept(false);
                     layoutManager.setScrollEnabled(true);
                     isComment = false;
-                    if (viewHolder != null) {
-                        View itemView = viewHolder.ll_video;
-                        translation(viewAdosorber.getFloatView(), fl_comment, -y, 0);
-                        translation(fl_comment, fl_comment, -y, 0);
-                    }
+                    translation(Adosorber.getFloatView(this), fl_comment, -y, 0);
+                    translation(fl_comment, fl_comment, -y, 0);
                     return false;
                 } else {
                     finish();
@@ -754,6 +757,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Adosorber.destroy(this);
         unregisterReceiver(connectChangedReceiver);
         lVideoView.unOnVideoPlayerListener();
         lVideoView.recycleVideoView();

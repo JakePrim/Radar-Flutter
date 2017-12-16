@@ -12,7 +12,7 @@ import com.linksu.video_manager_library.ui.LVideoView;
 
 /**
  * Created by suful on 2017/12/16.
- * this is FloatView in the view top
+ * this is FloatView in the all view top
  */
 
 public class FloatView extends FrameLayout {

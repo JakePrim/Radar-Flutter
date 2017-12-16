@@ -1,7 +1,6 @@
 package com.example.adsorber_manager.adosorber;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.View;
@@ -100,7 +99,6 @@ public class ViewAdosorber implements IViewAdosorber, ViewTreeObserver.OnScrollC
         if (mAdosorberView != null) {
             mAdosorberView.getViewTreeObserver().removeOnScrollChangedListener(this);
         }
-
         if (mFloatView != null) {
             getDecorView().removeView(mFloatView);
         }
@@ -137,11 +135,8 @@ public class ViewAdosorber implements IViewAdosorber, ViewTreeObserver.OnScrollC
             attach();
         }
         this.mAdosorberView = adosorberView;
-        int id = mAdosorberView.getId();
-
         rebindViewToTracker(mFollowerView, adosorberView);
         adosorberView.getViewTreeObserver().addOnScrollChangedListener(this);
-        Log.e(TAG, "adosorberView: ");
         return this;
     }
 
@@ -151,9 +146,15 @@ public class ViewAdosorber implements IViewAdosorber, ViewTreeObserver.OnScrollC
         this.mAdosorberView = adosorberView;
         rebindViewToTracker(mFollowerView, mAdosorberView);
         adosorberView.getViewTreeObserver().addOnScrollChangedListener(this);
-        return null;
+        return this;
     }
 
+    /**
+     * 将悬浮的view 移到吸附的view上
+     *
+     * @param fromView 悬浮的view mFollowerView
+     * @param toView   吸附的view mAdosorberView
+     */
     private void rebindViewToTracker(View fromView, View toView) {
         int[] locTo = new int[2];
         toView.getLocationOnScreen(locTo);
@@ -211,8 +212,12 @@ public class ViewAdosorber implements IViewAdosorber, ViewTreeObserver.OnScrollC
     }
 
     @Override
-    public void onScrollChanged() {
+    public View getVideoPlayerView() {
+        return mFloatView.getVideoPlayView();
+    }
 
+    @Override
+    public void onScrollChanged() {
         moveCurrentView(mVerticalScrollView, mFollowerView, mAdosorberView);
     }
 
@@ -237,15 +242,6 @@ public class ViewAdosorber implements IViewAdosorber, ViewTreeObserver.OnScrollC
 
         Rect rect = new Rect();
         toView.getLocalVisibleRect(rect);
-
-//        Logger.w(TAG, "moveCurrentView: rect.top -> " + rect.top
-//                + " rect.bottom -> " + rect.bottom
-//                + " rect.left -> " + rect.left
-//                + " rect.right -> " + rect.right
-//                + " locTo[0] -> " + locTo[0]
-//                + " locTo[1] -> " + locTo[1]
-//                + " locFrom[0] -> " + locFrom[0]
-//                + " locFrom[1] -> " + locFrom[1]);
 
         if (rect.top != 0 || rect.bottom != toView.getHeight()
                 || rect.left != 0 || rect.right != toView.getWidth()) { //reach top,bottom,left,right
