@@ -34,6 +34,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.adsorber_manager.adosorber.ViewAdosorber;
 import com.linksu.video_manager_library.listener.OnVideoPlayerListener;
 import com.linksu.video_manager_library.ui.LVideoView;
 import com.linksu.videofeed.R;
@@ -89,6 +90,8 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
 
     private ContainerLayout fl_comment;
 
+    private ViewAdosorber viewAdosorber;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//不锁屏
         StateBarUtils.setTranslucentColor(this);//沉浸式状态栏
         setContentView(R.layout.activity_main);
+        viewAdosorber = new ViewAdosorber(this);
         initArgs();
         initView();
         adapter.setList(itemBeens);
@@ -265,8 +269,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
      * @param recyclerView
      * @param firstItemPosition
      * @param lastItemPosition
-     * @param visibleItemCount
-     *         屏幕显示的item数量
+     * @param visibleItemCount  屏幕显示的item数量
      */
     private void srcollVisible(RecyclerView recyclerView, int firstItemPosition, int lastItemPosition, int visibleItemCount) {
         for (int i = 0; i < visibleItemCount; i++) {
@@ -285,6 +288,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
             // noting to do
         } else { // 说明亮起的已经不是当前的item了，是下一个或者之前的那个，我们停止变暗的item的播放
             missVideoTips();
+            viewAdosorber.detach();
             stopPlayer(playerPosition);
             playerPosition = itemPosition;
         }
@@ -310,14 +314,17 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
                     int netType = NetChangeManager.getInstance().getNetType();
                     if (netType == 1 || Constants.VIDEO_FEED_WIFI) { // WiFi的情况下，或者允许不是WiFi情况下继续播放
                         // 动态添加播放器
-                        View itemView = childViewHolder.itemView;
-                        FrameLayout frameLayout = (FrameLayout) itemView.findViewById(R.id.ll_video);
-                        frameLayout.removeAllViews();
-                        ViewGroup last = (ViewGroup) lVideoView.getParent();//找到videoitemview的父类，然后remove
-                        if (last != null && last.getChildCount() > 0) {
-                            last.removeAllViews();
-                        }
-                        frameLayout.addView(lVideoView);
+//                        View itemView = childViewHolder.itemView;
+//                        FrameLayout frameLayout = (FrameLayout) itemView.findViewById(R.id.ll_video);
+//                        frameLayout.removeAllViews();
+//                        ViewGroup last = (ViewGroup) lVideoView.getParent();//找到videoitemview的父类，然后remove
+//                        if (last != null && last.getChildCount() > 0) {
+//                            last.removeAllViews();
+//                        }
+//                        frameLayout.addView(lVideoView);
+
+                        viewAdosorber.attach().adosorberView(childViewHolder.ll_video).into(recyclerView);
+                        lVideoView = viewAdosorber.getFloatView().getVideoPlayView();
                         // 获取播放进度
                         TabFragMainBeanItemBean itemBean = itemBeens.get(itemPosition);
                         lVideoView.startLive(itemBean.video_url);
@@ -556,14 +563,15 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
             isComment = true;
             final FrameLayout itemView = viewHolder.ll_video;
             y = ViewMeasureUtils.getViewLocation(itemView)[1];
+            int x = ViewMeasureUtils.getViewLocation(itemView)[0];
+            Log.e(TAG, "intentComment: y--> " + y + " x--> " + x);
             fl_comment.setVisibility(View.VISIBLE);
             itemView.requestFocus();
             itemView.setFocusable(true);
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) fl_comment.getLayoutParams();
             params.topMargin = (ViewMeasureUtils.getHeight(itemView) + y);
             params.height = (ViewMeasureUtils.getDisplayMetrics(this).heightPixels - (ViewMeasureUtils.getHeight(itemView)));
-
-            translation(itemView, fl_comment, 0, -y);
+            translation(viewAdosorber.getFloatView(), fl_comment, 0, -y);
             translation(fl_comment, fl_comment, 0, -y);
 
         }
@@ -639,7 +647,6 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
      *
      * @param keyCode
      * @param event
-     *
      * @return
      */
     @Override
@@ -656,7 +663,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
                     isComment = false;
                     if (viewHolder != null) {
                         View itemView = viewHolder.ll_video;
-                        translation(itemView, fl_comment, -y, 0);
+                        translation(viewAdosorber.getFloatView(), fl_comment, -y, 0);
                         translation(fl_comment, fl_comment, -y, 0);
                     }
                     return false;

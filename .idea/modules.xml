@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/VideoFeed.iml" filepath="$PROJECT_DIR$/.idea/VideoFeed.iml" />
       <module fileurl="file://E:\DNcode\VideoFeed\VideoFeed2.iml" filepath="E:\DNcode\VideoFeed\VideoFeed2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/adsorber-manager/adsorber-manager.iml" filepath="$PROJECT_DIR$/adsorber-manager/adsorber-manager.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://E:\DNcode\VideoFeed\app\app.iml" filepath="E:\DNcode\VideoFeed\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/list-visibility-manager/list-visibility-manager.iml" filepath="$PROJECT_DIR$/list-visibility-manager/list-visibility-manager.iml" />

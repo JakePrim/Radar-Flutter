@@ -1,1 +1,1 @@
-include ':app', ':video-manager-library', ':list-visibility-manager'
+include ':app', ':video-manager-library', ':list-visibility-manager', ':adsorber-manager'
