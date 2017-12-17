@@ -468,6 +468,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
     int currentSeconds;
     int totalSeconds;
 
+
     @Override
     public void onVideoPlayingPro(long currentPosition, long mDuration, int mPlayStatus) {//播放进度
         if (!orientation) { //若播放的不是最后一个，弹出播放下一个的提示
