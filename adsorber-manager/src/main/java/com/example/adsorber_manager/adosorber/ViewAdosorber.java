@@ -109,7 +109,9 @@ public class ViewAdosorber implements IViewAdosorber, ViewTreeObserver.OnScrollC
     @Override
     public IViewAdosorber hide() {
         if (mFloatView != null) {
-            mFloatView.setVisibility(View.INVISIBLE);
+            if (mFloatView.getVisibility() == View.VISIBLE) {
+                mFloatView.setVisibility(View.INVISIBLE);
+            }
         }
         return this;
     }
@@ -117,7 +119,9 @@ public class ViewAdosorber implements IViewAdosorber, ViewTreeObserver.OnScrollC
     @Override
     public IViewAdosorber show() {
         if (mFloatView != null) {
-            mFloatView.setVisibility(View.VISIBLE);
+            if (mFloatView.getVisibility() == View.INVISIBLE || mFloatView.getVisibility() == View.GONE) {
+                mFloatView.setVisibility(View.VISIBLE);
+            }
         }
         return this;
     }

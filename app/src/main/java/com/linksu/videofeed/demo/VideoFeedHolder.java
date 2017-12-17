@@ -32,7 +32,7 @@ import java.util.List;
  * 修订历史：
  * ================================================
  */
-class VideoFeedHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class VideoFeedHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     public View video_masked;
     private TextView item_tv, tv_video_time, tv_video_readCount;
     private List<TabFragMainBeanItemBean> mlist;

@@ -1,45 +1,36 @@
-package com.linksu.videofeed.demo;
+package com.linksu.videofeed.demo.fragment;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.net.ConnectivityManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.adsorber_manager.adosorber.Adosorber;
-import com.example.adsorber_manager.adosorber.IViewAdosorber;
 import com.example.adsorber_manager.adosorber.ViewAdosorber;
 import com.linksu.video_manager_library.listener.OnVideoPlayerListener;
 import com.linksu.video_manager_library.ui.LVideoView;
 import com.linksu.videofeed.R;
+import com.linksu.videofeed.demo.Constants;
+import com.linksu.videofeed.demo.VideoAdapter;
+import com.linksu.videofeed.demo.VideoFeedHolder;
 import com.linksu.videofeed.demo.bean.TabFragMainBeanItemBean;
 import com.linksu.videofeed.demo.listener.ItemClickListener;
 import com.linksu.videofeed.demo.manager.NetChangeManager;
@@ -54,7 +45,7 @@ import com.linksu.videofeed.demo.view.FlingRecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements VideoFeedHolder.OnHolderVideoFeedListener,
+public class VideoDetailFragment extends AppCompatActivity implements VideoFeedHolder.OnHolderVideoFeedListener,
         OnVideoPlayerListener, View.OnClickListener,
         NetworkConnectChangedReceiver.ConnectChangedListener {
 
@@ -89,10 +80,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
     private boolean isPrepared;// 判断视频是否准备完毕
     private boolean isPlayer = false;
     private boolean isFinsh = false;//判断视频是否播放完毕
-
     private ContainerLayout fl_comment;
-
-    private ViewAdosorber viewAdosorber;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -101,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//不锁屏
         StateBarUtils.setTranslucentColor(this);//沉浸式状态栏
         setContentView(R.layout.activity_main);
-//        viewAdosorber = new ViewAdosorber(this);
         initArgs();
         initView();
         adapter.setList(itemBeens);
