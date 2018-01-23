@@ -2,6 +2,7 @@ package com.primplayer.widget;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.view.View;
 
 import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.PlayerState;
@@ -24,7 +25,6 @@ interface IPrimPlayerView {
 
 
     void setSeekTo(long position);
-
 
     void recycleVideoView();
 

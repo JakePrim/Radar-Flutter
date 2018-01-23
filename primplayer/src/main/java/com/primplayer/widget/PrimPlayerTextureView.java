@@ -3,6 +3,7 @@ package com.primplayer.widget;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.support.annotation.AttrRes;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -29,7 +30,7 @@ import com.primplayer.R;
  * 修订历史：2.0.0 version
  * ================================================
  */
-public class PrimPlayerTextureView extends FrameLayout implements IPrimPlayerView,View.OnClickListener {
+public class PrimPlayerTextureView extends FrameLayout implements IPrimPlayerView, View.OnClickListener {
 
     public PrimPlayerTextureView(@NonNull Context context) {
         this(context, null);
@@ -115,7 +116,7 @@ public class PrimPlayerTextureView extends FrameLayout implements IPrimPlayerVie
     public void initPlayer(Context context) {
         player = new PLVideoTextureView(context);
         player.setBufferingIndicator(playerLoadingView);
-        player.setCoverView(ivPlayerCover);
+
     }
 
     @Override
@@ -127,6 +128,17 @@ public class PrimPlayerTextureView extends FrameLayout implements IPrimPlayerVie
     @Override
     public void setSeekTo(long position) {
 
+    }
+
+    public void setCoverView(View coverView, String url) {
+        ivPlayerCover.setVisibility(VISIBLE);
+        player.setCoverView(ivPlayerCover);
+    }
+
+    public void setCoverView(View coverView, @DrawableRes int res) {
+        ivPlayerCover.setVisibility(VISIBLE);
+        ivPlayerCover.setImageResource(res);
+        player.setCoverView(ivPlayerCover);
     }
 
     @Override
