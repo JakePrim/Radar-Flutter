@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/ll_player_network_status"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/color_242424"
+              android:gravity="center"
+              android:orientation="vertical"
+              android:visibility="gone">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/str_tv_not_wifi"
+        android:textColor="@color/color_EBEBEB"
+        android:textSize="13sp"/>
+
+    <ImageView
+        android:id="@+id/iv_player_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:src="@drawable/icon_video_feed_start"/>
+</LinearLayout>

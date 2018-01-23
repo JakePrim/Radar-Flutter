@@ -18,6 +18,7 @@ public class Adosorber {
      * follower view into DecorView, so we can handle it
      *
      * @param context
+     *
      * @return
      */
     public static IViewAdosorber attach(Activity context) {
@@ -66,6 +67,7 @@ public class Adosorber {
      * 判断当前吸附的view 和 新 吸附的view 是否是同一个view
      *
      * @param context
+     *
      * @return
      */
     public static boolean isSameAdosorberView(Activity context, View newAdosorberView) {

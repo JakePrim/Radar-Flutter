@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">primplayer</string>
+
+    <string name="player_error_icon_content_description">播放异常</string>
+    <string name="str_tv_replay">重播</string>
+    <string name="str_tv_not_wifi">正在使用非WiFi网络，播放将产生流量费用</string>
+</resources>

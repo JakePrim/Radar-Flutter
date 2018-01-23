@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="live_video_height">205dp</dimen>
+
+    <dimen name="tv_player_error">16sp</dimen>
+</resources>
