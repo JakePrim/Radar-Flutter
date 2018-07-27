@@ -24,7 +24,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.adsorber_manager.adosorber.Adosorber;
-import com.example.adsorber_manager.adosorber.ViewAdosorber;
 import com.linksu.video_manager_library.listener.OnVideoPlayerListener;
 import com.linksu.video_manager_library.ui.LVideoView;
 import com.linksu.videofeed.R;
@@ -88,7 +87,7 @@ public class VideoDetailFragment extends AppCompatActivity implements VideoFeedH
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//不锁屏
         StateBarUtils.setTranslucentColor(this);//沉浸式状态栏
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.default_cover_load_layout);
         initArgs();
         initView();
         adapter.setList(itemBeens);

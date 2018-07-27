@@ -3,39 +3,27 @@ package com.linksu.videofeed.demo;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.net.ConnectivityManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.adsorber_manager.adosorber.Adosorber;
-import com.example.adsorber_manager.adosorber.IViewAdosorber;
 import com.example.adsorber_manager.adosorber.ViewAdosorber;
 import com.linksu.video_manager_library.listener.OnVideoPlayerListener;
 import com.linksu.video_manager_library.ui.LVideoView;
@@ -100,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//不锁屏
         StateBarUtils.setTranslucentColor(this);//沉浸式状态栏
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.default_cover_load_layout);
 //        viewAdosorber = new ViewAdosorber(this);
         initArgs();
         initView();

@@ -7,6 +7,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -110,6 +111,8 @@ public class PrimPlayerTextureView extends FrameLayout implements IPrimPlayerVie
         llPlayerNetworkStatus = (LinearLayout) findViewById(R.id.ll_player_network_status);
         ivPlayerStart = (ImageView) findViewById(R.id.iv_player_start);
         initPlayer(context);
+        final TextureView textureView = player.getTextureView();
+
     }
 
     @Override

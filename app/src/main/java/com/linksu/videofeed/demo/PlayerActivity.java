@@ -7,12 +7,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.linksu.videofeed.R;
+import com.linksu.videofeed.demo.activity.VideoActivity;
 
 /**
  * ================================================
@@ -29,10 +27,14 @@ public class PlayerActivity extends AppCompatActivity implements View.OnClickLis
     private Button bt_start;
     private static int PLAYER_VIDEO_TYPE;
 
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
+
+
         rg_video = (RadioGroup) findViewById(R.id.rg_video);
         bt_start = (Button) findViewById(R.id.bt_start);
         initListener();
@@ -59,7 +61,7 @@ public class PlayerActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_start:
-                Intent intent = new Intent(this, MainActivity.class);
+                Intent intent = new Intent(this, VideoActivity.class);
                 intent.putExtra("type", PLAYER_VIDEO_TYPE);
                 startActivity(intent);
                 break;
