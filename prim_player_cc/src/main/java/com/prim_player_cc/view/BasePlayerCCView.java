@@ -23,9 +23,12 @@ import com.prim_player_cc.log.PrimLog;
 /**
  * @author prim
  * @version 1.0.0
- * @desc playerCC base view 播放器组件的view
- * 主要加载视图组件，同时还有播放操作
- * 如有其他逻辑可在继承此类基础上扩展
+ * @desc playerCC base view 播放器组件的基础view
+ * 主要承载了:
+ * 1、加载视图组件
+ * 2、加载呈现视频视图组件
+ * 3、同时还有播放操作
+ * 4、如有其他逻辑可在继承此类基础上扩展
  * @time 2018/7/24 - 下午5:08
  */
 public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCView {
@@ -137,7 +140,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
     /**
      * 获取视图总线组件view
      *
-     * @return
+     * @return {@link BusPlayerView}
      */
     @Override
     public BusPlayerView getBusCoverView() {

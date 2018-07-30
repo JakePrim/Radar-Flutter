@@ -33,8 +33,6 @@ public class PlayerActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
-
-
         rg_video = (RadioGroup) findViewById(R.id.rg_video);
         bt_start = (Button) findViewById(R.id.bt_start);
         initListener();
@@ -61,7 +59,7 @@ public class PlayerActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_start:
-                Intent intent = new Intent(this, VideoActivity.class);
+                Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra("type", PLAYER_VIDEO_TYPE);
                 startActivity(intent);
                 break;

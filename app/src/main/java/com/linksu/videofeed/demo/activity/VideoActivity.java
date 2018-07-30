@@ -26,7 +26,7 @@ public class VideoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
         playerCCView = (PlayerCCView) findViewById(R.id.player_cc);
-        playerCCView.usedDefaultCoverGroup();//使用默认的视图组
+//        playerCCView.usedDefaultCoverGroup();//使用默认的视图组
     }
 
     public void load(View view) {
