@@ -110,10 +110,6 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
         adapter = new VideoAdapter(this, new ItemClickListener() {
             @Override
             public void onItemClick(View v, Object object) {
-                Log.e(TAG, "onItemClick: ");
-                if (isComment) {
-                    return;
-                }
                 //手动点击下一个,暂停之前的 并显示蒙层
                 stopPlayer(playerPosition);
                 missVideoTips();
@@ -537,7 +533,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
         }
     }
 
-    private boolean isComment;
+    private boolean isComment = false;
     int y;
     VideoFeedHolder viewHolder;
     private static final String TAG = "MainActivity";
@@ -550,7 +546,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
         if (viewHolder != null) {
             layoutManager.setScrollEnabled(false);//禁止recyclerview 滑动
             // rl_video.setIntercept(false);
-            isComment = true;
+//            isComment = true;
             final FrameLayout itemView = viewHolder.ll_video;
             y = ViewMeasureUtils.getViewLocation(itemView)[1];
             int x = ViewMeasureUtils.getViewLocation(itemView)[0];
