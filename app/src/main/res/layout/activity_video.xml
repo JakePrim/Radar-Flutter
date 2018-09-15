@@ -19,22 +19,44 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
-            android:textColor="#ffffff"
             android:layout_marginLeft="5dp"
+            android:background="@color/colorPrimaryDark"
             android:onClick="load"
-            android:textSize="12sp"
-            android:text="添加load组件"/>
+            android:text="添加load组件"
+            android:textColor="#ffffff"
+            android:textSize="12sp" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
             android:layout_marginLeft="5dp"
-            android:textColor="#ffffff"
+            android:background="@color/colorPrimaryDark"
             android:onClick="removeLoad"
-            android:textSize="12sp"
-            android:text="移除load组件"/>
+            android:text="移除load组件"
+            android:textColor="#ffffff"
+            android:textSize="12sp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:background="@color/colorPrimary"
+            android:onClick="addControl"
+            android:text="添加control组件"
+            android:textColor="#ffffff"
+            android:textSize="12sp" />
+
+
     </LinearLayout>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorPrimary"
+        android:onClick="removeControl"
+        android:text="移除control组件"
+        android:textColor="#ffffff"
+        android:textSize="12sp" />
 </LinearLayout>

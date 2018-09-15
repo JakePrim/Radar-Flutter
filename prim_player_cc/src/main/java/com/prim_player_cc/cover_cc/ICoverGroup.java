@@ -27,7 +27,7 @@ public interface ICoverGroup {
 
     void loopCovers(OnLoopCoverListener loopCoverListener);
 
-    public interface OnLoopCoverListener {
+    interface OnLoopCoverListener {
         void getCover(ICover cover);
     }
 

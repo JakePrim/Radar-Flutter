@@ -2,6 +2,7 @@ package com.prim_player_cc.view;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -12,18 +13,23 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.prim_player_cc.cover_cc.CoverCCManager;
+import com.prim_player_cc.cover_cc.CoverGroup;
+import com.prim_player_cc.cover_cc.event.CoverEventCode;
 import com.prim_player_cc.decoder_cc.ProxyDecoderCC;
 import com.prim_player_cc.cover_cc.ICoverGroup;
-import com.prim_player_cc.cover_cc.defualt.DefalutControlCover;
+import com.prim_player_cc.cover_cc.defualt.DefaultControlCover;
 import com.prim_player_cc.cover_cc.defualt.DefaultCompleteCover;
 import com.prim_player_cc.cover_cc.defualt.DefaultCoverKey;
 import com.prim_player_cc.cover_cc.defualt.DefaultErrorCover;
 import com.prim_player_cc.cover_cc.defualt.DefaultLoadCover;
+import com.prim_player_cc.decoder_cc.listener.OnErrorListener;
+import com.prim_player_cc.decoder_cc.listener.OnPreparedListener;
 import com.prim_player_cc.source.PlayerSource;
 import com.prim_player_cc.log.PrimLog;
 import com.prim_player_cc.render_cc.IRender;
 import com.prim_player_cc.render_cc.RenderSurfaceView;
 import com.prim_player_cc.render_cc.RenderTextureView;
+import com.prim_player_cc.state.State;
 
 /**
  * @author prim
@@ -47,6 +53,8 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
     protected IRender render;
 
     protected View renderView;
+
+    protected ICoverGroup coverGroup;
 
     public BasePlayerCCView(@NonNull Context context) {
         this(context, null);
@@ -75,11 +83,20 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
     private void _init(Context context, AttributeSet attrs, int defStyleAttr) {
         PrimLog.d(TAG, "build player cc View");
         decoderCC = ProxyDecoderCC.getInstance();
+        //初始化视图组
+        coverGroup = new CoverGroup();
+        CoverCCManager.getInstance().setCoverGroup(coverGroup);
         //初始化视图组件总线的view
         busPlayerView = new BusPlayerView(context);
         //将视图组件总线view 添加到 视频组件基类view中 在最底层
         addView(busPlayerView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         initView();
+        _initListener();
+    }
+
+    private void _initListener() {
+        decoderCC.setPreparedListener(preparedListener);
+        decoderCC.setOnErrorListener(errorListener);
     }
 
     protected abstract void initView();
@@ -97,8 +114,9 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
     /**
      * 添加覆盖视图分组
      *
-     * @param coverGroup
+     * @param coverGroup {@link ICoverGroup}
      */
+    @Override
     public void setCoverGroup(ICoverGroup coverGroup) {
         if (busPlayerView != null) {
             busPlayerView.setCoverGroup(coverGroup);
@@ -119,13 +137,13 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
     }
 
     /**
-     * 切换播放器组件
+     * 切换解码器组件
      *
-     * @param playerId 播放器组件ID
+     * @param decoderId 解码器组件ID
      */
     @Override
-    public void switchPlayer(int playerId) {
-        decoderCC.switchDecoder(playerId);
+    public void switchDecoder(int decoderId) {
+        decoderCC.switchDecoder(decoderId);
     }
 
     /**
@@ -162,9 +180,9 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void usedDefaultCoverGroup() {
-        CoverCCManager.getInstance().setCoverGroup()
+        CoverCCManager.getInstance()
                 .addCover(DefaultCoverKey.DEFAULT_LOAD_COVER, new DefaultLoadCover(getContext()))
-                .addCover(DefaultCoverKey.DEFAULT_CONTROL_COVER, new DefalutControlCover(getContext()))
+                .addCover(DefaultCoverKey.DEFAULT_CONTROL_COVER, new DefaultControlCover(getContext()))
                 .addCover(DefaultCoverKey.DEFAULT_ERROR_COVER, new DefaultErrorCover(getContext()))
                 .addCover(DefaultCoverKey.DEFAULT_COMPLETE_COVER, new DefaultCompleteCover(getContext()));
         setCoverGroup(CoverCCManager.getInstance().getCoverGroup());
@@ -223,6 +241,26 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
 
         }
     }
+
+    //----------------- 播放监听相关 -------------------//
+    OnPreparedListener preparedListener = new OnPreparedListener() {
+        @Override
+        public void onPrepared(Bundle bundle, int i) {
+            if (busPlayerView != null) {
+                busPlayerView.dispatchPlayEvent(i, bundle);
+            }
+        }
+    };
+
+    OnErrorListener errorListener = new OnErrorListener() {
+        @Override
+        public boolean onError(Bundle bundle, int errorCode) {
+            return false;
+        }
+    };
+
+
+    //------------------ 播放控制相关 -------------------//
 
     /**
      * 开始播放
@@ -334,9 +372,9 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
     }
 
     /**
-     * 获取缓存
+     * 获取缓存进度
      *
-     * @return
+     * @return long
      */
     @Override
     public int getBufferPercentage() {

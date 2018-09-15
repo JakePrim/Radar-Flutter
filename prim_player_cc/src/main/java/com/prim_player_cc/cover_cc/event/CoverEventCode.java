@@ -1,4 +1,4 @@
-package com.prim_player_cc.cover_cc;
+package com.prim_player_cc.cover_cc.event;
 
 /**
  * @author prim
@@ -18,4 +18,8 @@ public class CoverEventCode {
     public static final int COVER_EVENT_STOP = 674;
 
     public static final int COVER_EVENT_START = 267;
+
+    public static final int COVER_PLAY_EVENT_NO_START = 1010;
+
+    public static final int COVER_PLAY_EVENT_YES_START = 640;
 }

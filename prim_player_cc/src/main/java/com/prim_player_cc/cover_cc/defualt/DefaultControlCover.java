@@ -14,11 +14,11 @@ import java.util.ArrayList;
  * @desc
  * @time 2018/7/27 - 下午3:04
  */
-public class DefalutControlCover extends BaseCover {
-    public DefalutControlCover(Context context) {
+public class DefaultControlCover extends BaseCover {
+    public DefaultControlCover(Context context) {
         super(context);
         setCoverLevelHeight(5);
-//        coverVisibility(View.GONE);
+        coverVisibility(View.GONE);
     }
 
     @Override
@@ -26,5 +26,4 @@ public class DefalutControlCover extends BaseCover {
         return View.inflate(context, R.layout.default_cover_control_layout, null);
     }
 
-    ArrayList arrayList;
 }

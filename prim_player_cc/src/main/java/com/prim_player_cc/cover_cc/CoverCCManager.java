@@ -35,14 +35,9 @@ public class CoverCCManager {
         return this;
     }
 
-    public CoverCCManager setCoverGroup() {
-        this.coverGroup = new CoverGroup();
-        return this;
-    }
-
     public CoverCCManager addCover(String key, ICover cover) {
         if (this.coverGroup == null) {
-            throw new RuntimeException("coverGroup must to be null,please setCoverGroup");
+            this.coverGroup = new CoverGroup();
         }
         this.coverGroup.addCover(key, cover);
         return this;

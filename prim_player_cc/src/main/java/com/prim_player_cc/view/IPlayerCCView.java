@@ -11,11 +11,13 @@ import com.prim_player_cc.state.PlayerState;
  * @time 2018/7/25 - 上午10:36
  */
 public interface IPlayerCCView {
-    void switchPlayer(int playerId);
+    void switchDecoder(int playerId);
 
     void setDataSource(PlayerSource dataSource);
 
     void setRenderView(int type);
+
+    void setCoverGroup(ICoverGroup coverGroup);
 
     BusPlayerView getBusPlayerView();
 

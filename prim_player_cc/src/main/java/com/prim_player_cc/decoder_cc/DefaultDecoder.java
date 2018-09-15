@@ -98,6 +98,8 @@ public class DefaultDecoder extends BaseDecoderCC {
         public void onPrepared(MediaPlayer mp) {
             PrimLog.d(TAG, "onPrepared");
             mp.start();
+            //下发准备完毕的监听事件
+            triggerPrepared(null,State.STATE_PREPARED);
         }
     };
 
@@ -151,7 +153,7 @@ public class DefaultDecoder extends BaseDecoderCC {
 
     @Override
     public void resume() {
-        mediaPlayer.release();
+        mediaPlayer.start();
     }
 
     @Override

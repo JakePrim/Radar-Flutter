@@ -15,6 +15,8 @@ import com.prim_player_cc.cover_cc.OnCoverEventListener;
 import com.prim_player_cc.cover_cc.OnCoverGroupChangeListener;
 import com.prim_player_cc.cover_cc.control.DefaultCoverControl;
 import com.prim_player_cc.cover_cc.control.ICoverControl;
+import com.prim_player_cc.cover_cc.event.CoverEventDispatcher;
+import com.prim_player_cc.cover_cc.event.IEventDispatcher;
 import com.prim_player_cc.log.PrimLog;
 import com.prim_player_cc.render_cc.IRender;
 import com.prim_player_cc.render_cc.IRenderControl;
@@ -33,6 +35,8 @@ public class BusPlayerView extends FrameLayout implements IBusCover {
     private ICoverControl coverControl;
 
     private IRenderControl renderControl;
+
+    private IEventDispatcher eventDispatcher;
 
     private static final String TAG = "BusPlayerView";
 
@@ -101,7 +105,7 @@ public class BusPlayerView extends FrameLayout implements IBusCover {
         if (this.coverGroup != null) {
             this.coverGroup.unBindCoverGroupChangeListener();
         }
-
+        this.eventDispatcher = new CoverEventDispatcher(coverGroup);
         this.coverGroup = coverGroup;
         //对视图组件进行排序 级别最低的 在视图底部 最高的在视图的顶部 从低到高进行排序
         this.coverGroup.coverSort();
@@ -115,20 +119,36 @@ public class BusPlayerView extends FrameLayout implements IBusCover {
         this.coverGroup.bindCoverGroupChangeListener(onCoverGroupChangeListener);
     }
 
+    /**
+     * 获取当前的覆盖视图组
+     * @return {@link ICoverGroup}
+     */
     @Override
     public ICoverGroup getCoverGroup() {
         return this.coverGroup;
     }
 
-    @Override
-    public void destroy() {
-        if (this.coverGroup != null) {
-            this.coverGroup.unBindCoverGroupChangeListener();
+    /**
+     * 给视图组件{@link ICover} 分发播放事件, 具体分发类请看{@link CoverEventDispatcher}
+     * @param eventCode 事件码
+     * @param bundle 传递的数据
+     */
+    public void dispatchPlayEvent(final int eventCode, final Bundle bundle){
+        if (eventDispatcher != null){
+            eventDispatcher.dispatchPlayEvent(eventCode,bundle);
         }
-        removeAllCovers();
-        removeRenderView();
     }
 
+    /**
+     * 给视图组件{@link ICover} 分发播放错误事件, 具体分发类请看{@link CoverEventDispatcher}
+     * @param eventCode 事件码
+     * @param bundle 传递的数据
+     */
+    public void dispatchErrorEvent(final int eventCode, final Bundle bundle){
+        if (eventDispatcher != null){
+            eventDispatcher.dispatchErrorEvent(eventCode,bundle);
+        }
+    }
 
     /**
      * 设置呈现视频的view
@@ -164,9 +184,10 @@ public class BusPlayerView extends FrameLayout implements IBusCover {
      */
     private void attachCover(String key, ICover cover) {
         if (cover instanceof BaseCover) {
+
             if (coverGroup != null) {
                 coverControl.removeAllCovers();
-                //对视图组件进行排序 级别最低的 在视图底部 最高的在视图的顶部 从低到高进行排序
+                //对视图组件重新进行排序 级别最低的 在视图底部 最高的在视图的顶部 从低到高进行排序
                 this.coverGroup.coverSort();
                 //找到所有视图组件，并将组件添加到控制器中 按从低到高的优先级加入到控制器中
                 this.coverGroup.loopCovers(new ICoverGroup.OnLoopCoverListener() {
@@ -235,5 +256,13 @@ public class BusPlayerView extends FrameLayout implements IBusCover {
         }
     };
 
+    @Override
+    public void destroy() {
+        if (this.coverGroup != null) {
+            this.coverGroup.unBindCoverGroupChangeListener();
+        }
+        removeAllCovers();
+        removeRenderView();
+    }
 
 }
