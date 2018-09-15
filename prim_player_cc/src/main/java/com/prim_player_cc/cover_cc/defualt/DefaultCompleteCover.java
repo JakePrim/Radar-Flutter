@@ -16,6 +16,7 @@ public class DefaultCompleteCover extends BaseCover {
     public DefaultCompleteCover(Context context) {
         super(context);
         setCoverLevelLow(1);
+        coverVisibility(View.GONE);
     }
 
     @Override

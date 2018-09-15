@@ -3,6 +3,7 @@ package com.prim_player_cc.view;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
@@ -15,6 +16,9 @@ import com.prim_player_cc.cover_cc.OnCoverGroupChangeListener;
 import com.prim_player_cc.cover_cc.control.DefaultCoverControl;
 import com.prim_player_cc.cover_cc.control.ICoverControl;
 import com.prim_player_cc.log.PrimLog;
+import com.prim_player_cc.render_cc.IRender;
+import com.prim_player_cc.render_cc.IRenderControl;
+import com.prim_player_cc.render_cc.RenderControl;
 
 /**
  * @author prim
@@ -28,6 +32,8 @@ public class BusPlayerView extends FrameLayout implements IBusCover {
 
     private ICoverControl coverControl;
 
+    private IRenderControl renderControl;
+
     private static final String TAG = "BusPlayerView";
 
     public BusPlayerView(@NonNull Context context) {
@@ -36,7 +42,7 @@ public class BusPlayerView extends FrameLayout implements IBusCover {
     }
 
     private void _init(Context context) {
-        PrimLog.d(TAG, "init Bus View");
+        PrimLog.d(TAG, "build Bus View");
         initRenderView(context);
         initCoverControl(context);
     }
@@ -47,7 +53,11 @@ public class BusPlayerView extends FrameLayout implements IBusCover {
      * @param context Context
      */
     private void initRenderView(Context context) {
-
+        renderControl = new RenderControl(context);
+        if (renderControl.getRenderRootView() != null) {
+            addView(renderControl.getRenderRootView(), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT));
+        }
     }
 
     /**
@@ -95,7 +105,7 @@ public class BusPlayerView extends FrameLayout implements IBusCover {
         this.coverGroup = coverGroup;
         //对视图组件进行排序 级别最低的 在视图底部 最高的在视图的顶部 从低到高进行排序
         this.coverGroup.coverSort();
-        //找到所有视图组件，并将组件添加到控制器中 按从低到高的顺序加入到控制器中
+        //找到所有视图组件，并将组件添加到控制器中 按从低到高的优先级加入到控制器中
         this.coverGroup.loopCovers(new ICoverGroup.OnLoopCoverListener() {
             @Override
             public void getCover(ICover cover) {
@@ -119,6 +129,19 @@ public class BusPlayerView extends FrameLayout implements IBusCover {
         removeRenderView();
     }
 
+
+    /**
+     * 设置呈现视频的view
+     * @param render view
+     */
+    @Override
+    public void setRenderView(View render) {
+        removeRenderView();
+        if (renderControl != null) {
+            renderControl.addRenderView(render);
+        }
+    }
+
     /**
      * 连接覆盖视图组件控制器，添加视图组件
      */
@@ -131,10 +154,35 @@ public class BusPlayerView extends FrameLayout implements IBusCover {
         }
     }
 
+
+    /**
+     * 动态插入视图组件，首先对视图组件按优先级重排序，然后在将组件添加到视图中
+     * 按优先级显示
+     *
+     * @param key 标志
+     * @param cover 实现的cover
+     */
+    private void attachCover(String key, ICover cover) {
+        if (cover instanceof BaseCover) {
+            if (coverGroup != null) {
+                coverControl.removeAllCovers();
+                //对视图组件进行排序 级别最低的 在视图底部 最高的在视图的顶部 从低到高进行排序
+                this.coverGroup.coverSort();
+                //找到所有视图组件，并将组件添加到控制器中 按从低到高的优先级加入到控制器中
+                this.coverGroup.loopCovers(new ICoverGroup.OnLoopCoverListener() {
+                    @Override
+                    public void getCover(ICover cover) {
+                        attachCover(cover);
+                    }
+                });
+            }
+        }
+    }
+
     /**
      * 连接覆盖视图组件控制器，移除视图组件
      */
-    private void detachCover(ICover cover) {
+    private void detachCover(String key, ICover cover) {
         if (cover instanceof BaseCover) {
             cover.bindCoverGroup(null);
             cover.unBindCoverEventListener();
@@ -143,8 +191,13 @@ public class BusPlayerView extends FrameLayout implements IBusCover {
         }
     }
 
+    /**
+     * 移除renderView
+     */
     private void removeRenderView() {
-
+        if (renderControl != null) {
+            renderControl.removeRenderView();
+        }
     }
 
     /**
@@ -173,12 +226,12 @@ public class BusPlayerView extends FrameLayout implements IBusCover {
     OnCoverGroupChangeListener onCoverGroupChangeListener = new OnCoverGroupChangeListener() {
         @Override
         public void onAddCover(String key, ICover cover) {
-            attachCover(cover);
+            attachCover(key, cover);
         }
 
         @Override
         public void onRemoveCover(String key, ICover cover) {
-            detachCover(cover);
+            detachCover(key, cover);
         }
     };
 

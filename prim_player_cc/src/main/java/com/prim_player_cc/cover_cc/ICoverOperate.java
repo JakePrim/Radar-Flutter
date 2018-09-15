@@ -20,4 +20,6 @@ public interface ICoverOperate {
     void coverRequestSeek(Bundle bundle);
 
     void coverRequestStart();
+
+
 }

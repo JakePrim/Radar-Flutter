@@ -1,10 +1,12 @@
 package com.prim_player_cc.cover_cc.defualt;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 
 import com.prim_player_cc.R;
 import com.prim_player_cc.cover_cc.BaseCover;
+import com.prim_player_cc.state.PlayerState;
 
 /**
  * @author prim
@@ -24,4 +26,8 @@ public class DefaultLoadCover extends BaseCover {
         return View.inflate(context, R.layout.default_cover_load_layout, null);
     }
 
+    @Override
+    public void onPlayEvent(@PlayerState int state, Bundle bundle) {
+        super.onPlayEvent(state, bundle);
+    }
 }

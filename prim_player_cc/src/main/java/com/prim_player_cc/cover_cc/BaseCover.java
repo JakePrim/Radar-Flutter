@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.IntRange;
 import android.view.View;
 
+import com.prim_player_cc.state.PlayerState;
+
 import java.lang.ref.WeakReference;
 
 /**
@@ -141,5 +143,10 @@ public abstract class BaseCover implements ICover, ICoverOperate {
     protected int setCoverLevelHeight(@IntRange(from = 0, to = 30) int p) {
         level = LEVEL_HEIGHT + p;
         return level;
+    }
+
+    @Override
+    public void onPlayEvent(@PlayerState int state, Bundle bundle) {
+
     }
 }

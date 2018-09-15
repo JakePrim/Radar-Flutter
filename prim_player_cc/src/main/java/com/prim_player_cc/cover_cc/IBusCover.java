@@ -1,6 +1,8 @@
 package com.prim_player_cc.cover_cc;
 
-/**
+import android.view.View;
+
+import com.prim_player_cc.render_cc.IRender; /**
  * @author prim
  * @version 1.0.0
  * @desc
@@ -12,4 +14,6 @@ public interface IBusCover {
     ICoverGroup getCoverGroup();
 
     void destroy();
+
+    void setRenderView(View render);
 }

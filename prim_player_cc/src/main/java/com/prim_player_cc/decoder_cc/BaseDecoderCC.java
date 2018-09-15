@@ -1,8 +1,13 @@
-package com.prim_player_cc.player_cc;
+package com.prim_player_cc.decoder_cc;
 
 import android.os.Bundle;
 
-import com.prim_player_cc.IPlayer;
+import com.prim_player_cc.decoder_cc.listener.OnBufferingUpdateListener;
+import com.prim_player_cc.decoder_cc.listener.OnCompletionListener;
+import com.prim_player_cc.decoder_cc.listener.OnErrorListener;
+import com.prim_player_cc.decoder_cc.listener.OnInfoListener;
+import com.prim_player_cc.decoder_cc.listener.OnPlayingListener;
+import com.prim_player_cc.decoder_cc.listener.OnPreparedListener;
 import com.prim_player_cc.state.PlayerState;
 import com.prim_player_cc.state.State;
 
@@ -11,11 +16,11 @@ import java.lang.ref.WeakReference;
 /**
  * @author prim
  * @version 1.0.0
- * @desc this is  the basic player component that
+ * @desc this is  the basic decoder component that
  * needs to inherit this base component
  * @time 2018/7/24 - 下午3:08
  */
-public abstract class BasePlayerCC implements IPlayer {
+public abstract class BaseDecoderCC implements IDecoder {
     protected @PlayerState
     int mCurrentState = State.STATE_IDEL;
 

@@ -1,8 +1,4 @@
-package com.prim_player_cc;
-
-import com.prim_player_cc.cover_cc.CoverGroup;
-import com.prim_player_cc.cover_cc.ICover;
-import com.prim_player_cc.cover_cc.ICoverGroup;
+package com.prim_player_cc.cover_cc;
 
 /**
  * @author prim
@@ -27,10 +23,8 @@ public class CoverCCManager {
     }
 
     private CoverCCManager() {
-        coverGroup = new CoverGroup();
+
     }
-
-
 
     public ICoverGroup getCoverGroup() {
         return coverGroup;
@@ -41,20 +35,37 @@ public class CoverCCManager {
         return this;
     }
 
+    public CoverCCManager setCoverGroup() {
+        this.coverGroup = new CoverGroup();
+        return this;
+    }
+
     public CoverCCManager addCover(String key, ICover cover) {
+        if (this.coverGroup == null) {
+            throw new RuntimeException("coverGroup must to be null,please setCoverGroup");
+        }
         this.coverGroup.addCover(key, cover);
         return this;
     }
 
     public <T extends ICover> T getCover(String key) {
+        if (this.coverGroup == null) {
+            throw new RuntimeException("coverGroup must to be null,please setCoverGroup");
+        }
         return coverGroup.getCover(key);
     }
 
     public void removeCover(String key) {
+        if (this.coverGroup == null) {
+            throw new RuntimeException("coverGroup must to be null,please setCoverGroup");
+        }
         this.coverGroup.removeCover(key);
     }
 
     public void removeAllCover() {
+        if (this.coverGroup == null) {
+            throw new RuntimeException("coverGroup must to be null,please setCoverGroup");
+        }
         this.coverGroup.clearCovers();
     }
 }

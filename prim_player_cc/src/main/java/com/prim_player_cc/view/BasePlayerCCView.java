@@ -6,26 +6,31 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
+import android.view.SurfaceHolder;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.prim_player_cc.ProxyPlayerCC;
-import com.prim_player_cc.cover_cc.CoverGroup;
+import com.prim_player_cc.cover_cc.CoverCCManager;
+import com.prim_player_cc.decoder_cc.ProxyDecoderCC;
 import com.prim_player_cc.cover_cc.ICoverGroup;
 import com.prim_player_cc.cover_cc.defualt.DefalutControlCover;
 import com.prim_player_cc.cover_cc.defualt.DefaultCompleteCover;
 import com.prim_player_cc.cover_cc.defualt.DefaultCoverKey;
 import com.prim_player_cc.cover_cc.defualt.DefaultErrorCover;
 import com.prim_player_cc.cover_cc.defualt.DefaultLoadCover;
-import com.prim_player_cc.data.PlayerSource;
+import com.prim_player_cc.source.PlayerSource;
 import com.prim_player_cc.log.PrimLog;
+import com.prim_player_cc.render_cc.IRender;
+import com.prim_player_cc.render_cc.RenderSurfaceView;
+import com.prim_player_cc.render_cc.RenderTextureView;
 
 /**
  * @author prim
  * @version 1.0.0
  * @desc playerCC base view 播放器组件的基础view
  * 主要承载了:
- * 1、加载视图组件
+ * 1、加载覆盖视图组件
  * 2、加载呈现视频视图组件
  * 3、同时还有播放操作
  * 4、如有其他逻辑可在继承此类基础上扩展
@@ -35,9 +40,13 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
 
     private static final String TAG = "BasePlayerCCView";
 
-    protected ProxyPlayerCC playerCC;
+    protected ProxyDecoderCC decoderCC;
 
-    protected BusPlayerView busCoverView;
+    protected BusPlayerView busPlayerView;
+
+    protected IRender render;
+
+    protected View renderView;
 
     public BasePlayerCCView(@NonNull Context context) {
         this(context, null);
@@ -64,12 +73,12 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
     }
 
     private void _init(Context context, AttributeSet attrs, int defStyleAttr) {
-        PrimLog.d(TAG, "init player cc View");
-        playerCC = ProxyPlayerCC.getInstance();
+        PrimLog.d(TAG, "build player cc View");
+        decoderCC = ProxyDecoderCC.getInstance();
         //初始化视图组件总线的view
-        busCoverView = new BusPlayerView(context);
+        busPlayerView = new BusPlayerView(context);
         //将视图组件总线view 添加到 视频组件基类view中 在最底层
-        addView(busCoverView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        addView(busPlayerView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         initView();
     }
 
@@ -77,12 +86,12 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
 
     @Override
     public void setLooping(boolean loop) {
-        playerCC.setLooping(loop);
+        decoderCC.setLooping(loop);
     }
 
     @Override
     public boolean isLooping() {
-        return playerCC.isLooping();
+        return decoderCC.isLooping();
     }
 
     /**
@@ -91,19 +100,20 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      * @param coverGroup
      */
     public void setCoverGroup(ICoverGroup coverGroup) {
-        if (busCoverView != null) {
-            busCoverView.setCoverGroup(coverGroup);
+        if (busPlayerView != null) {
+            busPlayerView.setCoverGroup(coverGroup);
         }
     }
 
     /**
      * 获取覆盖视图组
+     *
      * @return {@link ICoverGroup}
      */
     @Override
     public ICoverGroup getCoverGroup() {
-        if (busCoverView != null) {
-            return busCoverView.getCoverGroup();
+        if (busPlayerView != null) {
+            return busPlayerView.getCoverGroup();
         }
         return null;
     }
@@ -115,7 +125,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void switchPlayer(int playerId) {
-        playerCC.switchPlayer(playerId);
+        decoderCC.switchDecoder(playerId);
     }
 
     /**
@@ -125,7 +135,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void setDataSource(PlayerSource dataSource) {
-        playerCC.setDataSource(dataSource);
+        decoderCC.setDataSource(dataSource);
     }
 
     /**
@@ -134,7 +144,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      * 便不需要 本库中的view ，将此view绑定到组件播放器view
      */
     private void bindVideoView() {
-        playerCC.bindVideoView(this);
+        decoderCC.bindVideoView(this);
     }
 
     /**
@@ -143,8 +153,8 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      * @return {@link BusPlayerView}
      */
     @Override
-    public BusPlayerView getBusCoverView() {
-        return busCoverView;
+    public BusPlayerView getBusPlayerView() {
+        return busPlayerView;
     }
 
     /**
@@ -152,12 +162,66 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void usedDefaultCoverGroup() {
-        CoverGroup coverGroup = new CoverGroup();
-        coverGroup.addCover(DefaultCoverKey.DEFAULT_LOAD_COVER, new DefaultLoadCover(getContext()));
-        coverGroup.addCover(DefaultCoverKey.DEFAULT_CONTROL_COVER, new DefalutControlCover(getContext()));
-        coverGroup.addCover(DefaultCoverKey.DEFAULT_ERROR_COVER, new DefaultErrorCover(getContext()));
-        coverGroup.addCover(DefaultCoverKey.DEFAULT_COMPLETE_COVER, new DefaultCompleteCover(getContext()));
-        setCoverGroup(coverGroup);
+        CoverCCManager.getInstance().setCoverGroup()
+                .addCover(DefaultCoverKey.DEFAULT_LOAD_COVER, new DefaultLoadCover(getContext()))
+                .addCover(DefaultCoverKey.DEFAULT_CONTROL_COVER, new DefalutControlCover(getContext()))
+                .addCover(DefaultCoverKey.DEFAULT_ERROR_COVER, new DefaultErrorCover(getContext()))
+                .addCover(DefaultCoverKey.DEFAULT_COMPLETE_COVER, new DefaultCompleteCover(getContext()));
+        setCoverGroup(CoverCCManager.getInstance().getCoverGroup());
+    }
+
+
+    @Override
+    public void setRenderView(int type) {
+        switch (type) {
+            case IRender.SURFACE_VIEW:
+                render = new RenderSurfaceView(getContext());
+                addDefaultRenderView();
+                break;
+            case IRender.CUSTOM_VIEW:
+                renderView = decoderCC.getRenderView();
+                addCustomRenderView();
+                break;
+            default:
+                render = new RenderTextureView(getContext());
+                addDefaultRenderView();
+                break;
+        }
+    }
+
+    private void addCustomRenderView() {
+        decoderCC.setDisplay(null);
+        decoderCC.setSurface(null);
+        busPlayerView.setRenderView(renderView);
+    }
+
+    private void addDefaultRenderView() {
+        decoderCC.setDisplay(null);
+        decoderCC.setSurface(null);
+        render.updateRenderSize(decoderCC.getVideoWidth(), decoderCC.getVideoHeight());
+        render.setRenderCallback(new RenderCallBack());
+        renderView = render.getRenderView();
+        busPlayerView.setRenderView(renderView);
+    }
+
+    class RenderCallBack implements IRender.IRenderCallback {
+
+        @Override
+        public void surfaceCreated(SurfaceHolder holder) {
+            if (holder != null) {
+                decoderCC.setDisplay(holder);
+            }
+        }
+
+        @Override
+        public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+
+        }
+
+        @Override
+        public void surfaceDestroyed(SurfaceHolder holder) {
+
+        }
     }
 
     /**
@@ -165,7 +229,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void start() {
-        playerCC.start();
+        decoderCC.start();
     }
 
     /**
@@ -175,7 +239,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void start(long location) {
-        playerCC.start(location);
+        decoderCC.start(location);
     }
 
     /**
@@ -183,7 +247,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void pause() {
-        playerCC.pause();
+        decoderCC.pause();
     }
 
     /**
@@ -191,7 +255,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void resume() {
-        playerCC.resume();
+        decoderCC.resume();
     }
 
     /**
@@ -199,7 +263,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void reset() {
-        playerCC.reset();
+        decoderCC.reset();
     }
 
     /**
@@ -207,7 +271,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void stop() {
-        playerCC.stop();
+        decoderCC.stop();
     }
 
     /**
@@ -215,8 +279,8 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void destroy() {
-        playerCC.destroy();
-        busCoverView.destroy();
+        decoderCC.destroy();
+        busPlayerView.destroy();
     }
 
     /**
@@ -226,7 +290,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void seek(int position) {
-        playerCC.seek(position);
+        decoderCC.seek(position);
     }
 
     /**
@@ -236,7 +300,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public int getState() {
-        return playerCC.getState();
+        return decoderCC.getState();
     }
 
     /**
@@ -246,7 +310,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public boolean isPlaying() {
-        return playerCC.isPlaying();
+        return decoderCC.isPlaying();
     }
 
     /**
@@ -256,7 +320,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public long getCurrentPosition() {
-        return playerCC.getCurrentPosition();
+        return decoderCC.getCurrentPosition();
     }
 
     /**
@@ -266,7 +330,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public long getDuration() {
-        return playerCC.getDuration();
+        return decoderCC.getDuration();
     }
 
     /**
@@ -276,7 +340,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public int getBufferPercentage() {
-        return playerCC.getBufferPercentage();
+        return decoderCC.getBufferPercentage();
     }
 
     /**
@@ -287,7 +351,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void setVolume(float left, float right) {
-        playerCC.setVolume(left, right);
+        decoderCC.setVolume(left, right);
     }
 
     /**
@@ -297,6 +361,6 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void setSpeed(float m) {
-        playerCC.setSpeed(m);
+        decoderCC.setSpeed(m);
     }
 }

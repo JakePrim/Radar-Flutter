@@ -571,7 +571,7 @@ public class VideoDetailFragment extends AppCompatActivity implements VideoFeedH
                     animatorAlpha.setDuration(1000);
                     animatorAlpha.start();
                 } else {
-//                    addPlayer(itemPosition);
+//                    addDecoder(itemPosition);
                     ObjectAnimator animatorAlpha = ObjectAnimator.ofFloat(secondView, "alpha", 1, 0);
                     animatorAlpha.setDuration(1000);
                     animatorAlpha.start();

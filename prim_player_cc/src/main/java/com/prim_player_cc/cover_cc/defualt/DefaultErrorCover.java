@@ -16,6 +16,7 @@ public class DefaultErrorCover extends BaseCover {
     public DefaultErrorCover(Context context) {
         super(context);
         setCoverLevelLow(2);
+//        coverVisibility(View.GONE);
     }
 
     @Override

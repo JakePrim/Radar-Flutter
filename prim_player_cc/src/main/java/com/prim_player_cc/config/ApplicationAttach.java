@@ -14,14 +14,14 @@ public class ApplicationAttach {
 
     public static void attach(Application application) {
         if (application == null) {
-            throw new RuntimeException("player need use context,must set PlayerCC_Config.configBuild.init(application)");
+            throw new RuntimeException("player need use context,must set PlayerCC_Config.configBuild.build(application)");
         }
         mContext = application.getApplicationContext();
     }
 
     public static Context getApplicationContext() {
         if (mContext == null) {
-            throw new RuntimeException("player need use context,must set PlayerCC_Config.configBuild.init(application)");
+            throw new RuntimeException("player need use context,must set PlayerCC_Config.configBuild.build(application)");
         }
         return mContext;
     }

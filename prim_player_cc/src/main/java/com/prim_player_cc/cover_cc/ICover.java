@@ -1,6 +1,9 @@
 package com.prim_player_cc.cover_cc;
 
+import android.os.Bundle;
 import android.view.View;
+
+import com.prim_player_cc.state.PlayerState;
 
 /**
  * @author prim
@@ -26,6 +29,8 @@ public interface ICover {
     void unBindCoverEventListener();
 
     void bindCoverGroup(ICoverGroup coverGroup);
+
+    void onPlayEvent(@PlayerState int state, Bundle bundle);
 
     int LEVEL_LOW = 0;
 

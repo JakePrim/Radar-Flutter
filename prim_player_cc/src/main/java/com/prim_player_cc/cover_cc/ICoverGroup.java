@@ -11,11 +11,17 @@ import java.util.Map;
 public interface ICoverGroup {
     void addCover(String key, ICover cover);
 
+    void addCover(String key, ICover cover, boolean isListener);
+
     ICover removeCover(String key);
+
+    ICover removeCover(String key, boolean isListener);
 
     <T extends ICover> T getCover(String key);
 
     void clearCovers();
+
+    int getCoverCount();
 
     Map<String, ICover> getCovers();
 

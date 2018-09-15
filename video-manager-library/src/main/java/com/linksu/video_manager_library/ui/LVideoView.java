@@ -223,7 +223,7 @@ public class LVideoView extends FrameLayout implements View.OnClickListener, OnV
         if (videoView.getParent() != null) {
             ((ViewGroup) (videoView.getParent())).removeView(videoView);
         }
-        fraVideoContainer.addView(videoView);
+        fraVideoContainer.addView(videoView,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mController.setControllerParent(fraVideoContainer);
     }
 

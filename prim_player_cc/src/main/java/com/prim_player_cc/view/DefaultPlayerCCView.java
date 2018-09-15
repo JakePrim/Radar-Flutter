@@ -11,24 +11,24 @@ import android.util.Log;
 /**
  * @author prim
  * @version 1.0.0
- * @desc
+ * @desc 默认实现的播放器组件View
  * @time 2018/7/26 - 下午7:14
  */
-public class PlayerCCView extends BasePlayerCCView {
-    public PlayerCCView(@NonNull Context context) {
+public class DefaultPlayerCCView extends BasePlayerCCView {
+    public DefaultPlayerCCView(@NonNull Context context) {
         super(context);
     }
 
-    public PlayerCCView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public DefaultPlayerCCView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public PlayerCCView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public DefaultPlayerCCView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public PlayerCCView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public DefaultPlayerCCView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 

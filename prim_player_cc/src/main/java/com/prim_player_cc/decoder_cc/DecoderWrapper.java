@@ -1,27 +1,27 @@
-package com.prim_player_cc.data;
+package com.prim_player_cc.decoder_cc;
 
-import com.prim_player_cc.player_cc.BasePlayerCC;
+import com.prim_player_cc.decoder_cc.BaseDecoderCC;
 
 /**
  * @author prim
  * @version 1.0.0
- * @desc player wrapper,播放器的包装类，主要记录了播放器的ID 实现类class 说明desc
+ * @desc player wrapper,解码器的包装类，主要记录了解码器的ID 实现类class 说明desc
  * @time 2018/7/24 - 下午4:18
  */
-public class PlayerWrapper {
+public class DecoderWrapper {
 
     private int playerId;
 
-    private Class<? extends BasePlayerCC> playerClass;
+    private Class<? extends BaseDecoderCC> playerClass;
 
     private String playerDec;
 
-    public PlayerWrapper(int playerId, Class<? extends BasePlayerCC> playerClass) {
+    public DecoderWrapper(int playerId, Class<? extends BaseDecoderCC> playerClass) {
         this.playerId = playerId;
         this.playerClass = playerClass;
     }
 
-    public PlayerWrapper(int playerId, Class<? extends BasePlayerCC> playerClass, String playerDec) {
+    public DecoderWrapper(int playerId, Class<? extends BaseDecoderCC> playerClass, String playerDec) {
         this.playerId = playerId;
         this.playerClass = playerClass;
         this.playerDec = playerDec;
@@ -31,7 +31,7 @@ public class PlayerWrapper {
         return playerId;
     }
 
-    public Class<? extends BasePlayerCC> getPlayerClass() {
+    public Class<? extends BaseDecoderCC> getPlayerClass() {
         return playerClass;
     }
 
@@ -41,7 +41,7 @@ public class PlayerWrapper {
 
     @Override
     public String toString() {
-        return "PlayerWrapper{" +
+        return "DecoderWrapper{" +
                 "playerId=" + playerId +
                 ", playerClassName='" + playerClass.getSimpleName() + '\'' +
                 ", playerDec='" + playerDec + '\'' +

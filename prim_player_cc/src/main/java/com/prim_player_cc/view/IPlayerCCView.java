@@ -1,7 +1,7 @@
 package com.prim_player_cc.view;
 
 import com.prim_player_cc.cover_cc.ICoverGroup;
-import com.prim_player_cc.data.PlayerSource;
+import com.prim_player_cc.source.PlayerSource;
 import com.prim_player_cc.state.PlayerState;
 
 /**
@@ -15,7 +15,9 @@ public interface IPlayerCCView {
 
     void setDataSource(PlayerSource dataSource);
 
-    BusPlayerView getBusCoverView();
+    void setRenderView(int type);
+
+    BusPlayerView getBusPlayerView();
 
     ICoverGroup getCoverGroup();
 

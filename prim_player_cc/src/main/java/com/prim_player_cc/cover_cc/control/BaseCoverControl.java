@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author prim
  * @version 1.0.0
- * @desc
+ * @desc 覆盖视频组件控制器的基类
  * @time 2018/7/26 - 下午4:31
  */
 public abstract class BaseCoverControl implements ICoverControl {

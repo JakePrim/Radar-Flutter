@@ -312,6 +312,9 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
                         }
                         frameLayout.addView(lVideoView);
                         lVideoView.startLive(itemBean.video_url);
+
+                        lVideoView.setSeekTo(1000);
+
                     }
                 }
             }
@@ -580,7 +583,7 @@ public class MainActivity extends AppCompatActivity implements VideoFeedHolder.O
                     animatorAlpha.setDuration(1000);
                     animatorAlpha.start();
                 } else {
-//                    addPlayer(itemPosition);
+//                    addDecoder(itemPosition);
                     ObjectAnimator animatorAlpha = ObjectAnimator.ofFloat(secondView, "alpha", 1, 0);
                     animatorAlpha.setDuration(1000);
                     animatorAlpha.start();

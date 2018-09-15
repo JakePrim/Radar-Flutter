@@ -3,14 +3,14 @@ package com.prim_player_cc.config;
 import android.app.Application;
 import android.util.SparseArray;
 
-import com.prim_player_cc.data.PlayerWrapper;
+import com.prim_player_cc.decoder_cc.DecoderWrapper;
 import com.prim_player_cc.log.PrimLog;
-import com.prim_player_cc.player_cc.DefaultPlayer;
+import com.prim_player_cc.decoder_cc.DefaultDecoder;
 
 /**
  * @author prim
  * @version 1.0.0
- * @desc prim player cc config ,recommend application init config
+ * @desc prim player cc config ,recommend application build config
  * 需要在application中初始化播放器组件配置
  * @time 2018/7/24 - 下午2:14
  */
@@ -19,24 +19,24 @@ public class PlayerCC_Config {
     private static final String TAG = "PlayerCC_Config";
 
     /**
-     * 默认的播放器ID 使用的播放器是系统自带的player
+     * 默认的解码器ID 使用的解码器是系统自带的
      */
-    public static int DEFAULT_PLAYER_ID = -1;
+    public static int DEFAULT_DECODER_ID = -1;
 
     /**
-     * 记录当前使用播放器组件
+     * 记录当前使用解码器组件
      */
-    public static int usedPlayerId = DEFAULT_PLAYER_ID;
+    public static int usedDecoderId = DEFAULT_DECODER_ID;
 
     /**
      * 存储播放器仓库
      */
-    public static SparseArray<PlayerWrapper> mPlayers;
+    public static SparseArray<DecoderWrapper> mDecoders;
 
     static {
-        mPlayers = new SparseArray<>();
-        PlayerWrapper wrapper = new PlayerWrapper(DEFAULT_PLAYER_ID, DefaultPlayer.class, "default player");
-        mPlayers.put(DEFAULT_PLAYER_ID, wrapper);
+        mDecoders = new SparseArray<>();
+        DecoderWrapper wrapper = new DecoderWrapper(DEFAULT_DECODER_ID, DefaultDecoder.class, "default decoder");
+        mDecoders.put(DEFAULT_DECODER_ID, wrapper);
     }
 
     public static Builder configBuild() {
@@ -44,76 +44,96 @@ public class PlayerCC_Config {
     }
 
     /**
-     * get player
-     * 根据ID获取播放器
+     * get decoder
+     * 根据ID获取解码器
      *
-     * @return player ID
+     * @return decoder ID
      */
-    public static PlayerWrapper getPlayer(int playerId) {
-        return mPlayers.get(playerId);
+    public static DecoderWrapper getDecoder(int decoderId) {
+        return mDecoders.get(decoderId);
     }
 
     /**
-     * get used player
-     * 获取正在使用的播放器
+     * get used decoder
+     * 获取正在使用的解码器
      *
-     * @return {@link PlayerWrapper}
+     * @return {@link DecoderWrapper}
      */
-    public static PlayerWrapper getUsedPlayer() {
-        return getPlayer(usedPlayerId);
+    public static DecoderWrapper getUsedDecoder() {
+        return getDecoder(usedDecoderId);
     }
 
     /**
-     * set used player id
-     * 设置要使用的播放器ID
+     * set used decoder id
+     * 设置要使用的解码器ID
      *
-     * @param id player id
+     * @param id decoder id
      */
-    public static void setUsePlayerId(int id) {
-        usedPlayerId = id;
+    public static void setUseDecoderId(int id) {
+        usedDecoderId = id;
     }
 
     /**
-     * 获取挡墙使用的播放器ID
+     * 获取当前使用的解码器ID
      *
-     * @return player id
+     * @return decoder id
      */
-    public static int getUsePlayerId() {
-        return usedPlayerId;
+    public static int getUseDecoderId() {
+        return usedDecoderId;
     }
 
     /**
      * 检查播放器ID是否存在仓库中
      *
-     * @param id
-     * @return
+     * @param id decoder id
+     * @return boolean
      */
-    public static boolean checkPlayerId(int id) {
-        PlayerWrapper wrapper = getPlayer(id);
+    public static boolean checkDecoderId(int id) {
+        DecoderWrapper wrapper = getDecoder(id);
         return wrapper != null;
     }
 
     public static class Builder {
-        public Builder addPlayer(PlayerWrapper wrapper) {
+
+        /**
+         * 添加解码器
+         * @param wrapper 解码器包装类
+         * @return Builder
+         */
+        public Builder addDecoder(DecoderWrapper wrapper) {
             if (wrapper == null) {
-                throw new NullPointerException("PlayerWrapper must not to be null");
+                throw new NullPointerException("DecoderWrapper must not to be null");
             }
-            mPlayers.put(wrapper.getPlayerId(), wrapper);
+            mDecoders.put(wrapper.getPlayerId(), wrapper);
             return this;
         }
 
-        public Builder setUsePlayerId(int id) {
-            usedPlayerId = id;
+        /**
+         * 设置使用的解码器ID
+         * @param id player id
+         * @return Builder
+         */
+        public Builder setUseDecoderId(int id) {
+            usedDecoderId = id;
             return this;
         }
 
+        /**
+         * 设置是否开启日志信息
+         * @param enable true 开启 false 关闭
+         * @return Builder
+         */
         public Builder setLogEnable(boolean enable) {
             PrimLog.LOG_OPEN = enable;
             return this;
         }
 
-        public void init(Application application) {
-            PrimLog.d(TAG, "init success,usedPlayerId:" + usedPlayerId);
+        /**
+         * 调用次方法，初始化才完成
+         * @param application Application
+         */
+        public void build(Application application) {
+            PrimLog.d(TAG, "build success, usedDecoderId:" + usedDecoderId +" | 日志是否开启："+PrimLog.LOG_OPEN);
             ApplicationAttach.attach(application);
         }
     }

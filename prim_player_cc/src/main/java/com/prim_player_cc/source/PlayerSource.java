@@ -1,22 +1,54 @@
-package com.prim_player_cc.data;
+package com.prim_player_cc.source;
 
 import android.content.res.AssetFileDescriptor;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.FileDescriptor;
-import java.io.Serializable;
+import com.prim_player_cc.log.PrimLog;
+
 import java.util.HashMap;
 
 /**
  * @author prim
  * @version 1.0.0
- * @desc set player source data
+ * @desc set player source data 播放资源类
  * Parcelable 序列化比Serializable 性能高出几倍，如果序列化大量数据推荐使用Parcelable
  * @time 2018/7/24 - 下午2:47
  */
-public class PlayerSource implements Parcelable{
+public class PlayerSource<T extends Parcelable> implements Parcelable {
+
+    public PlayerSource() {
+    }
+
+    public PlayerSource(String url) {
+        this.url = url;
+    }
+
+    public PlayerSource(Uri uri) {
+        this.uri = uri;
+    }
+
+    public PlayerSource(String tag, String url) {
+        this.tag = tag;
+        this.url = url;
+    }
+
+    public PlayerSource(String tag, Uri uri) {
+        this.tag = tag;
+        this.uri = uri;
+    }
+
+    public PlayerSource(String tag, String id, String url, String title) {
+        this.tag = tag;
+        this.id = id;
+        this.url = url;
+        this.title = title;
+    }
+
+    public PlayerSource(T data) {
+        this.data = data;
+    }
 
     private String tag;
 
@@ -47,18 +79,22 @@ public class PlayerSource implements Parcelable{
 
     /**
      * extended field,if you want set other some data,you can set this field
-     *
      */
     private HashMap<String, Object> otherData;
 
     /**
      * set video headers
      */
-    private HashMap<String,String> headers;
+    private HashMap<String, String> headers;
 
 //    private FileDescriptor fileDescriptor;//TODO 序列化存在问题 暂时不使用
 
     private AssetFileDescriptor assetFileDescriptor;
+
+    /**
+     * set Parcelable
+     */
+    private T data;
 
     protected PlayerSource(Parcel in) {
         tag = in.readString();
@@ -71,6 +107,14 @@ public class PlayerSource implements Parcelable{
         headers = in.readHashMap(HashMap.class.getClassLoader());
 //        fileDescriptor = in.readFileDescriptor();
         assetFileDescriptor = in.readParcelable(AssetFileDescriptor.class.getClassLoader());
+        String dataClassName = in.readString();
+        try {
+            data = in.readParcelable(Class.forName(dataClassName).getClassLoader());
+        } catch (ClassNotFoundException e) {
+            if (PrimLog.LOG_OPEN) {
+                e.printStackTrace();
+            }
+        }
 
     }
 
@@ -102,7 +146,10 @@ public class PlayerSource implements Parcelable{
         dest.writeMap(otherData);
         dest.writeMap(headers);
 //        dest.write(fileDescriptor);
-        dest.writeParcelable(assetFileDescriptor,flags);
+        dest.writeParcelable(assetFileDescriptor, flags);
+        dest.writeString(data.getClass().getName());
+        dest.writeParcelable(data, flags);
+
     }
 
     public String getTag() {

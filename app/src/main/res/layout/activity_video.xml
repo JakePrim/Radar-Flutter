@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.prim_player_cc.view.PlayerCCView
+    <com.prim_player_cc.view.DefaultPlayerCCView
         android:id="@+id/player_cc"
         android:layout_width="match_parent"
         android:layout_height="250dp"

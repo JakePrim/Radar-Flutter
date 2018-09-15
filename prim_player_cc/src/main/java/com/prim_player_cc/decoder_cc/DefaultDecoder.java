@@ -1,4 +1,4 @@
-package com.prim_player_cc.player_cc;
+package com.prim_player_cc.decoder_cc;
 
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
@@ -11,7 +11,8 @@ import android.view.SurfaceHolder;
 import android.view.View;
 
 import com.prim_player_cc.config.ApplicationAttach;
-import com.prim_player_cc.data.PlayerSource;
+import com.prim_player_cc.source.PlayerSource;
+import com.prim_player_cc.log.PrimLog;
 import com.prim_player_cc.state.State;
 
 import java.io.IOException;
@@ -22,7 +23,7 @@ import java.io.IOException;
  * @desc default player 系统自带播放器组件，只处理播放相关的逻辑
  * @time 2018/7/24 - 下午4:06
  */
-public class DefaultPlayer extends BasePlayerCC {
+public class DefaultDecoder extends BaseDecoderCC {
 
     private MediaPlayer mediaPlayer;//播放器
 
@@ -30,7 +31,9 @@ public class DefaultPlayer extends BasePlayerCC {
 
     private long jumpStartPosition;
 
-    public DefaultPlayer() {
+    private static final String TAG = "DefaultDecoder";
+
+    public DefaultDecoder() {
         mediaPlayer = new MediaPlayer();
     }
 
@@ -73,27 +76,72 @@ public class DefaultPlayer extends BasePlayerCC {
     }
 
     private void initListener() {
-//        mediaPlayer.setOnPreparedListener();
-//        mediaPlayer.setOnInfoListener();
-//        mediaPlayer.setOnErrorListener();
-//        mediaPlayer.setOnBufferingUpdateListener();
-//        mediaPlayer.setOnCompletionListener();
-//        mediaPlayer.setOnTimedTextListener();
+        if (mediaPlayer == null) return;
+        mediaPlayer.setOnPreparedListener(onPreparedListener);
+        mediaPlayer.setOnInfoListener(onInfoListener);
+        mediaPlayer.setOnErrorListener(onErrorListener);
+        mediaPlayer.setOnBufferingUpdateListener(onBufferingUpdateListener);
+        mediaPlayer.setOnCompletionListener(onCompletionListener);
     }
 
     private void resetListener() {
-
+        if (mediaPlayer == null) return;
+        mediaPlayer.setOnPreparedListener(null);
+        mediaPlayer.setOnInfoListener(null);
+        mediaPlayer.setOnErrorListener(null);
+        mediaPlayer.setOnBufferingUpdateListener(null);
+        mediaPlayer.setOnCompletionListener(null);
     }
+
+    private MediaPlayer.OnPreparedListener onPreparedListener = new MediaPlayer.OnPreparedListener() {
+        @Override
+        public void onPrepared(MediaPlayer mp) {
+            PrimLog.d(TAG, "onPrepared");
+            mp.start();
+        }
+    };
+
+    private MediaPlayer.OnInfoListener onInfoListener = new MediaPlayer.OnInfoListener() {
+        @Override
+        public boolean onInfo(MediaPlayer mp, int what, int extra) {
+            PrimLog.d(TAG, "onInfo:" + what);
+            return false;
+        }
+    };
+
+    private MediaPlayer.OnErrorListener onErrorListener = new MediaPlayer.OnErrorListener() {
+        @Override
+        public boolean onError(MediaPlayer mp, int what, int extra) {
+            PrimLog.d(TAG, "onError:" + what);
+            return false;
+        }
+    };
+
+    private MediaPlayer.OnBufferingUpdateListener onBufferingUpdateListener = new MediaPlayer.OnBufferingUpdateListener() {
+        @Override
+        public void onBufferingUpdate(MediaPlayer mp, int percent) {
+            PrimLog.d(TAG, "onBufferingUpdate:" + percent);
+        }
+    };
+
+    private MediaPlayer.OnCompletionListener onCompletionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            PrimLog.d(TAG, "onCompletion");
+        }
+    };
 
     @Override
     public void start() {
-        mediaPlayer.start();
+        if (mediaPlayer != null) {
+            mediaPlayer.start();
+        }
     }
 
     @Override
     public void start(long location) {
         this.jumpStartPosition = location;
-        mediaPlayer.start();
+        start();
     }
 
     @Override
@@ -153,19 +201,18 @@ public class DefaultPlayer extends BasePlayerCC {
 
     @Override
     public void setSpeed(float m) {
-
     }
 
     @Override
     public void setSurface(Surface surface) {
-        if (surface != null) {
+        if (surface != null && mediaPlayer != null) {
             mediaPlayer.setSurface(surface);
         }
     }
 
     @Override
     public void setDisplay(SurfaceHolder surfaceHolder) {
-        if (surfaceHolder != null) {
+        if (surfaceHolder != null && mediaPlayer != null) {
             mediaPlayer.setDisplay(surfaceHolder);
         }
     }
@@ -182,8 +229,34 @@ public class DefaultPlayer extends BasePlayerCC {
     }
 
     @Override
+    public View getRenderView() {
+        return null;
+    }
+
+    @Override
+    public int getVideoWidth() {
+        if (mediaPlayer != null) {
+            return mediaPlayer.getVideoWidth();
+        }
+
+        return 0;
+    }
+
+    @Override
+    public int getVideoHeight() {
+        if (mediaPlayer != null) {
+            return mediaPlayer.getVideoHeight();
+        }
+        return 0;
+    }
+
+    @Override
     public void destroy() {
         super.destroy();
-        mediaPlayer.release();
+        if (mediaPlayer != null) {
+            mediaPlayer.reset();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 }

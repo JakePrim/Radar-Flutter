@@ -1,16 +1,16 @@
-package com.prim_player_cc;
+package com.prim_player_cc.decoder_cc;
 
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.View;
 
-import com.prim_player_cc.data.PlayerSource;
-import com.prim_player_cc.player_cc.OnBufferingUpdateListener;
-import com.prim_player_cc.player_cc.OnCompletionListener;
-import com.prim_player_cc.player_cc.OnErrorListener;
-import com.prim_player_cc.player_cc.OnInfoListener;
-import com.prim_player_cc.player_cc.OnPlayingListener;
-import com.prim_player_cc.player_cc.OnPreparedListener;
+import com.prim_player_cc.source.PlayerSource;
+import com.prim_player_cc.decoder_cc.listener.OnBufferingUpdateListener;
+import com.prim_player_cc.decoder_cc.listener.OnCompletionListener;
+import com.prim_player_cc.decoder_cc.listener.OnErrorListener;
+import com.prim_player_cc.decoder_cc.listener.OnInfoListener;
+import com.prim_player_cc.decoder_cc.listener.OnPlayingListener;
+import com.prim_player_cc.decoder_cc.listener.OnPreparedListener;
 import com.prim_player_cc.state.PlayerState;
 
 /**
@@ -19,7 +19,7 @@ import com.prim_player_cc.state.PlayerState;
  * @desc player interface
  * @time 2018/7/24 - 上午11:27
  */
-public interface IPlayer {
+public interface IDecoder {
 
     void start();
 
@@ -77,5 +77,11 @@ public interface IPlayer {
     void setDisplay(SurfaceHolder surfaceHolder);
 
     void bindVideoView(View videoView);
+
+    View getRenderView();
+
+    int getVideoWidth();
+
+    int getVideoHeight();
 
 }

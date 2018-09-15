@@ -5,9 +5,11 @@ import android.text.TextUtils;
 import com.prim_player_cc.log.PrimLog;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,13 +23,22 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class CoverGroup implements ICoverGroup {
 
+    /**
+     * 存储视图的仓库
+     */
     private Map<String, ICover> coverMap;
+
+    /**
+     * 存储视图的优先级队列，用于对视图排序
+     */
+    private Deque<ICover> coverDeque;
 
     private WeakReference<OnCoverGroupChangeListener> onCoverGroupChangeListener;
 
     public CoverGroup() {
         //HashMap 在多线程的环境下会出现各种各样的问题，ConcurrentHashMap 可以支持16个线程并发操作
         coverMap = new ConcurrentHashMap<>(16);
+        coverDeque = new ArrayDeque<>();
     }
 
     /**
@@ -38,10 +49,22 @@ public class CoverGroup implements ICoverGroup {
      */
     @Override
     public void addCover(String key, ICover cover) {
-        if (coverMap != null && cover != null && !TextUtils.isEmpty(key)) {
-            cover.setCoverKey(key);
-            coverMap.put(key, cover);
-            bindAddCoverListener(key, cover);
+        addCover(key, cover, true);
+    }
+
+    @Override
+    public void addCover(String key, ICover cover, boolean isListener) {
+        if (isListener) {
+            if (coverMap != null && cover != null && !TextUtils.isEmpty(key)) {
+                cover.setCoverKey(key);
+                coverMap.put(key, cover);
+                bindAddCoverListener(key, cover);
+            }
+        } else {
+            if (coverMap != null && cover != null && !TextUtils.isEmpty(key)) {
+                cover.setCoverKey(key);
+                coverMap.put(key, cover);
+            }
         }
     }
 
@@ -53,10 +76,21 @@ public class CoverGroup implements ICoverGroup {
      */
     @Override
     public ICover removeCover(String key) {
-        if (coverMap != null && !TextUtils.isEmpty(key)) {
-            ICover remove = coverMap.remove(key);
-            bindRemoveCoverListener(key, remove);
-            return remove;
+        return removeCover(key, true);
+    }
+
+    @Override
+    public ICover removeCover(String key, boolean isListener) {
+        if (isListener) {
+            if (coverMap != null && !TextUtils.isEmpty(key)) {
+                ICover remove = coverMap.remove(key);
+                bindRemoveCoverListener(key, remove);
+                return remove;
+            }
+        } else {
+            if (coverMap != null && !TextUtils.isEmpty(key)) {
+                return coverMap.remove(key);
+            }
         }
         return null;
     }
@@ -77,6 +111,15 @@ public class CoverGroup implements ICoverGroup {
         if (coverMap != null) {
             coverMap.clear();
         }
+
+        if (coverList != null){
+            coverList.clear();
+        }
+    }
+
+    @Override
+    public int getCoverCount() {
+        return coverMap.size();
     }
 
     @Override
@@ -125,23 +168,27 @@ public class CoverGroup implements ICoverGroup {
      */
     @Override
     public void coverSort() {
+        PrimLog.d(TAG, "排序-coverSort");
         coverList = new ArrayList<>(coverMap.entrySet());
         for (int i = 0; i < coverList.size(); i++) {
-            PrimLog.d(TAG, "排序前的值：" + coverList.get(i).getValue().getCoverLevel());
+            for (int j = 0; j < i; j++) {
+
+            }
         }
 
         Collections.sort(coverList, new Comparator<Map.Entry<String, ICover>>() {
             @Override
             public int compare(Map.Entry<String, ICover> o1, Map.Entry<String, ICover> o2) {
-                int x = 0;
-                int y = 0;
-                if (o1 instanceof BaseCover) {
-                    x = ((BaseCover) o1).getCoverLevel();
+                Integer x = 0;
+                Integer y = 0;
+                if (o1.getValue() instanceof BaseCover) {
+                    x = o1.getValue().getCoverLevel();
                 }
-                if (o2 instanceof BaseCover) {
-                    y = ((BaseCover) o2).getCoverLevel();
+                if (o2.getValue() instanceof BaseCover) {
+                    y = o2.getValue().getCoverLevel();
                 }
-                return (x < y) ? -1 : ((x == y) ? 0 : 1);
+                PrimLog.d(TAG, "x=" + x + " ; y=" + y);
+                return x.compareTo(y);//从小到大排序
             }
         });
 

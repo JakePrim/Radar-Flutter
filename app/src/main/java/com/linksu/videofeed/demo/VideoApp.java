@@ -3,9 +3,9 @@ package com.linksu.videofeed.demo;
 import android.app.Application;
 import android.content.Context;
 
-import com.prim_player_cc.config.PlayerCC_Config;
-import com.prim_player_cc.data.PlayerWrapper;
-import com.prim_player_cc.player_cc.DefaultPlayer;
+import com.prim_player_cc.PrimPlayerCC;
+import com.prim_player_cc.decoder_cc.DecoderWrapper;
+import com.prim_player_cc.decoder_cc.DefaultDecoder;
 
 /**
  * ================================================
@@ -25,12 +25,12 @@ public class VideoApp extends Application {
         super.onCreate();
         mInstantce = this;
 
-        //视频播放器组件配置
-        PlayerCC_Config.configBuild()
+        //视频播放器组件配置初始化
+        PrimPlayerCC.getInstance().init()
                 .setLogEnable(true)
-                .addPlayer(new PlayerWrapper(11, DefaultPlayer.class, "default player"))
-                .setUsePlayerId(11)
-                .init(this);
+                .addDecoder(new DecoderWrapper(11, DefaultDecoder.class, "default player"))
+                .setUseDecoderId(11)
+                .build(this);
     }
 
     public static Context getAppContext() {

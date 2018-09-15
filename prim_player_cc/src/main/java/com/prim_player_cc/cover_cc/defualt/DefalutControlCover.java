@@ -5,7 +5,8 @@ import android.view.View;
 
 import com.prim_player_cc.R;
 import com.prim_player_cc.cover_cc.BaseCover;
-import com.prim_player_cc.player_cc.BasePlayerCC;
+
+import java.util.ArrayList;
 
 /**
  * @author prim
@@ -16,11 +17,14 @@ import com.prim_player_cc.player_cc.BasePlayerCC;
 public class DefalutControlCover extends BaseCover {
     public DefalutControlCover(Context context) {
         super(context);
-        setCoverLevelHeight(15);
+        setCoverLevelHeight(5);
+//        coverVisibility(View.GONE);
     }
 
     @Override
     protected View createCoverView(Context context) {
         return View.inflate(context, R.layout.default_cover_control_layout, null);
     }
+
+    ArrayList arrayList;
 }

@@ -28,7 +28,6 @@ public class PlayerActivity extends AppCompatActivity implements View.OnClickLis
     private static int PLAYER_VIDEO_TYPE;
 
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +58,7 @@ public class PlayerActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_start:
-                Intent intent = new Intent(this, MainActivity.class);
+                Intent intent = new Intent(this, VideoActivity.class);
                 intent.putExtra("type", PLAYER_VIDEO_TYPE);
                 startActivity(intent);
                 break;
