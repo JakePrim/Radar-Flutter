@@ -5,27 +5,29 @@ import android.util.Log;
 /**
  * @author prim
  * @version 1.0.0
- * @desc
+ * @desc 日志信息
  * @time 2018/7/24 - 上午11:41
  */
 public class PrimLog {
     public static Boolean LOG_OPEN = false;
 
+    public static String KEY = " PRIM ";
+
     public static void d(String tag, String msg) {
         if (LOG_OPEN) {
-            Log.d(tag, msg);
+            Log.d(KEY + tag, msg);
         }
     }
 
     public static void e(String tag, String msg) {
         if (LOG_OPEN) {
-            Log.e(tag, msg);
+            Log.e(KEY + tag, msg);
         }
     }
 
     public static void w(String tag, String msg) {
         if (LOG_OPEN) {
-            Log.w(tag, msg);
+            Log.w(KEY + tag, msg);
         }
     }
 

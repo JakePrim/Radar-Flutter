@@ -6,6 +6,7 @@ import android.support.annotation.IntRange;
 import android.view.View;
 
 import com.prim_player_cc.cover_cc.event.CoverEventCode;
+import com.prim_player_cc.cover_cc.listener.OnCoverEventListener;
 import com.prim_player_cc.state.PlayerState;
 
 import java.lang.ref.WeakReference;

@@ -11,6 +11,9 @@ import android.view.SurfaceHolder;
 import android.view.View;
 
 import com.prim_player_cc.config.ApplicationAttach;
+import com.prim_player_cc.decoder_cc.listener.OnSeekCompleteListener;
+import com.prim_player_cc.decoder_cc.listener.OnTimerUpdateListener;
+import com.prim_player_cc.decoder_cc.listener.OnVideoSizeChangedListener;
 import com.prim_player_cc.source.PlayerSource;
 import com.prim_player_cc.log.PrimLog;
 import com.prim_player_cc.state.State;
@@ -107,6 +110,7 @@ public class DefaultDecoder extends BaseDecoderCC {
         @Override
         public boolean onInfo(MediaPlayer mp, int what, int extra) {
             PrimLog.d(TAG, "onInfo:" + what);
+            triggerInfo(null,what,extra);
             return false;
         }
     };
@@ -115,6 +119,7 @@ public class DefaultDecoder extends BaseDecoderCC {
         @Override
         public boolean onError(MediaPlayer mp, int what, int extra) {
             PrimLog.d(TAG, "onError:" + what);
+            triggerError(null,what);
             return false;
         }
     };
@@ -123,6 +128,7 @@ public class DefaultDecoder extends BaseDecoderCC {
         @Override
         public void onBufferingUpdate(MediaPlayer mp, int percent) {
             PrimLog.d(TAG, "onBufferingUpdate:" + percent);
+            triggerBufferUpdate(null,percent);
         }
     };
 
@@ -130,6 +136,7 @@ public class DefaultDecoder extends BaseDecoderCC {
         @Override
         public void onCompletion(MediaPlayer mp) {
             PrimLog.d(TAG, "onCompletion");
+            triggerCompletion(null);
         }
     };
 
@@ -251,6 +258,7 @@ public class DefaultDecoder extends BaseDecoderCC {
         }
         return 0;
     }
+
 
     @Override
     public void destroy() {

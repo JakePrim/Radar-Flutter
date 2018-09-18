@@ -1,1 +1,1 @@
-include ':app', ':video-manager-library', ':adsorber-manager', ':primplayer', ':prim_player_cc', ':plvideoplayer'
+include ':app', ':prim_player_cc', ':plvideoplayer'

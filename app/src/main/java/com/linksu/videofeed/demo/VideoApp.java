@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.prim_player_cc.PrimPlayerCC;
+import com.prim_player_cc.cover_cc.defualt.DefaultCoverKey;
 import com.prim_player_cc.decoder_cc.DecoderWrapper;
 import com.prim_player_cc.decoder_cc.DefaultDecoder;
 
@@ -28,7 +29,8 @@ public class VideoApp extends Application {
         //视频播放器组件配置初始化
         PrimPlayerCC.getInstance().init()
                 .setLogEnable(true)
-                .addDecoder(new DecoderWrapper(11, DefaultDecoder.class, "default player"))
+                .addDecoder(new DecoderWrapper(11, DefaultDecoder.class, "default player 11"))
+                .addDecoder(new DecoderWrapper(12, DefaultDecoder.class,"default player 12"))
                 .setUseDecoderId(11)
                 .build(this);
     }

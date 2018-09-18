@@ -8,12 +8,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/adsorber-manager" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/plvideoplayer" />
             <option value="$PROJECT_DIR$/prim_player_cc" />
-            <option value="$PROJECT_DIR$/primplayer" />
-            <option value="$PROJECT_DIR$/video-manager-library" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

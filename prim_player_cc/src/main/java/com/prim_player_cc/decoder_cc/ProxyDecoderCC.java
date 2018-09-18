@@ -5,13 +5,16 @@ import android.view.SurfaceHolder;
 import android.view.View;
 
 import com.prim_player_cc.config.PlayerCC_Config;
+import com.prim_player_cc.decoder_cc.listener.OnSeekCompleteListener;
+import com.prim_player_cc.decoder_cc.listener.OnTimerUpdateListener;
+import com.prim_player_cc.decoder_cc.listener.OnVideoSizeChangedListener;
 import com.prim_player_cc.source.PlayerSource;
 import com.prim_player_cc.log.PrimLog;
 import com.prim_player_cc.decoder_cc.listener.OnBufferingUpdateListener;
 import com.prim_player_cc.decoder_cc.listener.OnCompletionListener;
 import com.prim_player_cc.decoder_cc.listener.OnErrorListener;
 import com.prim_player_cc.decoder_cc.listener.OnInfoListener;
-import com.prim_player_cc.decoder_cc.listener.OnPlayingListener;
+import com.prim_player_cc.decoder_cc.listener.OnPlayListener;
 import com.prim_player_cc.decoder_cc.listener.OnPreparedListener;
 import com.prim_player_cc.loader.DecoderLoader;
 
@@ -54,7 +57,7 @@ public class ProxyDecoderCC implements IDecoder {
 
     /**
      * load player 根据播放器ID 加载具体的播放器组件
-     *
+     * {@link DecoderLoader#loadPlayer(int)}
      * @param decoderId player id
      */
     private void loadDecoder(int decoderId) {
@@ -192,7 +195,7 @@ public class ProxyDecoderCC implements IDecoder {
     }
 
     @Override
-    public void setPlayingListener(OnPlayingListener onPlayingListener) {
+    public void setPlayingListener(OnPlayListener onPlayingListener) {
           decoderCC.setPlayingListener(onPlayingListener);
     }
 
@@ -214,6 +217,21 @@ public class ProxyDecoderCC implements IDecoder {
     @Override
     public void setBufferingUpdateListener(OnBufferingUpdateListener onBufferingUpdateListener) {
           decoderCC.setBufferingUpdateListener(onBufferingUpdateListener);
+    }
+
+    @Override
+    public void setOnSeekCompleteListener(OnSeekCompleteListener onSeekCompleteListener) {
+        decoderCC.setOnSeekCompleteListener(onSeekCompleteListener);
+    }
+
+    @Override
+    public void setOnTimerUpdateListener(OnTimerUpdateListener onTimerUpdateListener) {
+        decoderCC.setOnTimerUpdateListener(onTimerUpdateListener);
+    }
+
+    @Override
+    public void setOnVideoSizeChangeListener(OnVideoSizeChangedListener onVideoSizeChangeListener) {
+        decoderCC.setOnVideoSizeChangeListener(onVideoSizeChangeListener);
     }
 
     @Override

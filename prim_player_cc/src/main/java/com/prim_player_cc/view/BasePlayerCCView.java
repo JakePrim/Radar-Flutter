@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.prim_player_cc.config.PlayerCC_Config;
 import com.prim_player_cc.cover_cc.CoverCCManager;
 import com.prim_player_cc.cover_cc.CoverGroup;
 import com.prim_player_cc.cover_cc.event.CoverEventCode;
@@ -95,24 +96,40 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
     }
 
     private void _initListener() {
-        decoderCC.setPreparedListener(preparedListener);
-        decoderCC.setOnErrorListener(errorListener);
+        if (decoderCC != null) {
+            PrimLog.d(TAG, "set decoder listener");
+            decoderCC.setPreparedListener(preparedListener);
+            decoderCC.setOnErrorListener(errorListener);
+        } else {
+            PrimLog.d(TAG, "DecoderCC is null,please check code");
+        }
     }
 
     protected abstract void initView();
 
+    /**
+     * 设置是否循环播放
+     *
+     * @param loop true 循环播放 false 不是循环播放
+     */
     @Override
     public void setLooping(boolean loop) {
-        decoderCC.setLooping(loop);
-    }
-
-    @Override
-    public boolean isLooping() {
-        return decoderCC.isLooping();
+        if (decoderCC != null) {
+            decoderCC.setLooping(loop);
+        }
     }
 
     /**
-     * 添加覆盖视图分组
+     * 获取是否为循环播放
+     * @return true 是 false 否
+     */
+    @Override
+    public boolean isLooping() {
+        return decoderCC != null && decoderCC.isLooping();
+    }
+
+    /**
+     * 添加覆盖视图组，如果想要重新设置视图组，需要设置此方法
      *
      * @param coverGroup {@link ICoverGroup}
      */
@@ -124,7 +141,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
     }
 
     /**
-     * 获取覆盖视图组
+     * 获取当前的覆盖视图组
      *
      * @return {@link ICoverGroup}
      */
@@ -137,13 +154,17 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
     }
 
     /**
-     * 切换解码器组件
-     *
+     * 根据解码器ID，切换解码器组件
+     * 如果当前的view，想要使用其他的解码器，可调用此方法进行切换.
+     * 解码器必须实现此类 {@link com.prim_player_cc.decoder_cc.BaseDecoderCC}
+     * 同时要在Application 中初始化 {@link PlayerCC_Config#configBuild()} 想要切换的解码器，否则会找不到相关的解码器
      * @param decoderId 解码器组件ID
      */
     @Override
     public void switchDecoder(int decoderId) {
-        decoderCC.switchDecoder(decoderId);
+        if (decoderCC != null) {
+            decoderCC.switchDecoder(decoderId);
+        }
     }
 
     /**
@@ -243,6 +264,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
     }
 
     //----------------- 播放监听相关 -------------------//
+
     OnPreparedListener preparedListener = new OnPreparedListener() {
         @Override
         public void onPrepared(Bundle bundle, int i) {
@@ -255,7 +277,10 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
     OnErrorListener errorListener = new OnErrorListener() {
         @Override
         public boolean onError(Bundle bundle, int errorCode) {
-            return false;
+            if (busPlayerView != null) {
+                busPlayerView.dispatchErrorEvent(errorCode, bundle);
+            }
+            return true;
         }
     };
 

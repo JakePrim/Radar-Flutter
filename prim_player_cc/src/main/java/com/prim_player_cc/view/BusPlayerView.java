@@ -3,22 +3,22 @@ package com.prim_player_cc.view;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.prim_player_cc.cover_cc.BaseCover;
-import com.prim_player_cc.cover_cc.IBusCover;
 import com.prim_player_cc.cover_cc.ICover;
 import com.prim_player_cc.cover_cc.ICoverGroup;
-import com.prim_player_cc.cover_cc.OnCoverEventListener;
-import com.prim_player_cc.cover_cc.OnCoverGroupChangeListener;
+import com.prim_player_cc.cover_cc.listener.OnCoverEventListener;
+import com.prim_player_cc.cover_cc.listener.OnCoverGestureListener;
+import com.prim_player_cc.cover_cc.listener.OnCoverGroupChangeListener;
 import com.prim_player_cc.cover_cc.control.DefaultCoverControl;
 import com.prim_player_cc.cover_cc.control.ICoverControl;
 import com.prim_player_cc.cover_cc.event.CoverEventDispatcher;
 import com.prim_player_cc.cover_cc.event.IEventDispatcher;
 import com.prim_player_cc.log.PrimLog;
-import com.prim_player_cc.render_cc.IRender;
 import com.prim_player_cc.render_cc.IRenderControl;
 import com.prim_player_cc.render_cc.RenderControl;
 
@@ -28,7 +28,7 @@ import com.prim_player_cc.render_cc.RenderControl;
  * @desc 视图组件的总线view
  * @time 2018/7/25 - 下午2:47
  */
-public class BusPlayerView extends FrameLayout implements IBusCover {
+public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestureListener {
 
     private ICoverGroup coverGroup;
 
@@ -121,6 +121,7 @@ public class BusPlayerView extends FrameLayout implements IBusCover {
 
     /**
      * 获取当前的覆盖视图组
+     *
      * @return {@link ICoverGroup}
      */
     @Override
@@ -130,28 +131,31 @@ public class BusPlayerView extends FrameLayout implements IBusCover {
 
     /**
      * 给视图组件{@link ICover} 分发播放事件, 具体分发类请看{@link CoverEventDispatcher}
+     *
      * @param eventCode 事件码
-     * @param bundle 传递的数据
+     * @param bundle    传递的数据
      */
-    public void dispatchPlayEvent(final int eventCode, final Bundle bundle){
-        if (eventDispatcher != null){
-            eventDispatcher.dispatchPlayEvent(eventCode,bundle);
+    public void dispatchPlayEvent(final int eventCode, final Bundle bundle) {
+        if (eventDispatcher != null) {
+            eventDispatcher.dispatchPlayEvent(eventCode, bundle);
         }
     }
 
     /**
      * 给视图组件{@link ICover} 分发播放错误事件, 具体分发类请看{@link CoverEventDispatcher}
+     *
      * @param eventCode 事件码
-     * @param bundle 传递的数据
+     * @param bundle    传递的数据
      */
-    public void dispatchErrorEvent(final int eventCode, final Bundle bundle){
-        if (eventDispatcher != null){
-            eventDispatcher.dispatchErrorEvent(eventCode,bundle);
+    public void dispatchErrorEvent(final int eventCode, final Bundle bundle) {
+        if (eventDispatcher != null) {
+            eventDispatcher.dispatchErrorEvent(eventCode, bundle);
         }
     }
 
     /**
      * 设置呈现视频的view
+     *
      * @param render view
      */
     @Override
@@ -179,7 +183,7 @@ public class BusPlayerView extends FrameLayout implements IBusCover {
      * 动态插入视图组件，首先对视图组件按优先级重排序，然后在将组件添加到视图中
      * 按优先级显示
      *
-     * @param key 标志
+     * @param key   标志
      * @param cover 实现的cover
      */
     private void attachCover(String key, ICover cover) {
@@ -265,4 +269,35 @@ public class BusPlayerView extends FrameLayout implements IBusCover {
         removeRenderView();
     }
 
+    @Override
+    public boolean onSingleTapUp(MotionEvent event) {
+        if (eventDispatcher != null) {
+            eventDispatcher.dispatchOnSingleTapUp(event);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onDoubleTap(MotionEvent event) {
+        if (eventDispatcher != null) {
+            eventDispatcher.dispatchOnDoubleTap(event);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onDown(MotionEvent event) {
+        if (eventDispatcher != null) {
+            eventDispatcher.dispatchOnDown(event);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float dX, float dY) {
+        if (eventDispatcher != null) {
+            eventDispatcher.dispatchOnScroll(e1, e2, dX, dY);
+        }
+        return false;
+    }
 }

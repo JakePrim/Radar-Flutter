@@ -1,5 +1,7 @@
 package com.prim_player_cc.cover_cc;
 
+import com.prim_player_cc.view.BasePlayerCCView;
+
 /**
  * @author prim
  * @version 1.0.0
@@ -30,11 +32,23 @@ public class CoverCCManager {
         return coverGroup;
     }
 
+    /**
+     * 设置一个新的视图组
+     *
+     * @param coverGroup {@link ICoverGroup}
+     * @return CoverCCManager
+     */
     public CoverCCManager setCoverGroup(ICoverGroup coverGroup) {
         this.coverGroup = coverGroup;
         return this;
     }
 
+    /**
+     * 向视图组添加一个视图
+     * @param key 视图唯一key
+     * @param cover 视图
+     * @return CoverCCManager
+     */
     public CoverCCManager addCover(String key, ICover cover) {
         if (this.coverGroup == null) {
             this.coverGroup = new CoverGroup();
@@ -43,6 +57,39 @@ public class CoverCCManager {
         return this;
     }
 
+    /**
+     * 动态添加视图
+     * 在初始化视图时，必须将一个视图组{@link #getCoverGroup()} 赋给
+     * {@link com.prim_player_cc.view.BasePlayerCCView#setCoverGroup(ICoverGroup)}
+     * 方法，这样才能通过{@link com.prim_player_cc.view.BusPlayerView#attachCover(String, ICover)}
+     * 完成视图的动态插入。
+     *
+     * @param key   视图的唯一key
+     * @param cover 视图
+     * @return {@link CoverCCManager}
+     */
+    public CoverCCManager dynamicInsertCover(String key, ICover cover) {
+        addCover(key, cover);
+        return this;
+    }
+
+    /**
+     * 动态移除一个视图
+     * @param key 视图唯一key
+     * @return CoverCCManager
+     */
+    public CoverCCManager dynamicDeleteCover(String key){
+        removeCover(key);
+        return this;
+    }
+
+    /**
+     * 根据key获取相关的视图
+     *
+     * @param key 视图的唯一key
+     * @param <T> 具体视图的范型
+     * @return 具体视图
+     */
     public <T extends ICover> T getCover(String key) {
         if (this.coverGroup == null) {
             throw new RuntimeException("coverGroup must to be null,please setCoverGroup");
@@ -50,6 +97,11 @@ public class CoverCCManager {
         return coverGroup.getCover(key);
     }
 
+    /**
+     * 移除某个视图
+     *
+     * @param key 视图的唯一key
+     */
     public void removeCover(String key) {
         if (this.coverGroup == null) {
             throw new RuntimeException("coverGroup must to be null,please setCoverGroup");
@@ -57,10 +109,34 @@ public class CoverCCManager {
         this.coverGroup.removeCover(key);
     }
 
+    /**
+     * 移除所有视图
+     */
     public void removeAllCover() {
         if (this.coverGroup == null) {
             throw new RuntimeException("coverGroup must to be null,please setCoverGroup");
         }
         this.coverGroup.clearCovers();
     }
+
+    /**
+     * 向{@link BasePlayerCCView#setCoverGroup(ICoverGroup)} 多媒体view中，插入一个视图组
+     *
+     * @param ccView     {@link BasePlayerCCView} 多媒体view
+     * @param coverGroup 视图组
+     */
+    public void insertCoverGroup(BasePlayerCCView ccView, ICoverGroup coverGroup) {
+        if (coverGroup == null) {
+            throw new RuntimeException("coverGroup must not null.");
+        }
+        ccView.setCoverGroup(coverGroup);
+    }
+
+    public void insertCoverGroup(BasePlayerCCView ccView) {
+        if (coverGroup == null) {
+            throw new RuntimeException("coverGroup must not null.");
+        }
+        ccView.setCoverGroup(coverGroup);
+    }
+
 }

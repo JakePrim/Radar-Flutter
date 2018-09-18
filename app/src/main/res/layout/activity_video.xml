@@ -59,4 +59,26 @@
         android:text="移除control组件"
         android:textColor="#ffffff"
         android:textSize="12sp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorPrimary"
+        android:onClick="addError"
+        android:text="添加error组件"
+        android:textColor="#ffffff"
+        android:textSize="12sp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorPrimary"
+        android:onClick="removeError"
+        android:text="移除error组件"
+        android:textColor="#ffffff"
+        android:textSize="12sp" />
 </LinearLayout>

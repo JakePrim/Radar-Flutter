@@ -3,12 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/VideoFeed.iml" filepath="$PROJECT_DIR$/VideoFeed.iml" />
-      <module fileurl="file://$PROJECT_DIR$/adsorber-manager/adsorber-manager.iml" filepath="$PROJECT_DIR$/adsorber-manager/adsorber-manager.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/plvideoplayer/plvideoplayer.iml" filepath="$PROJECT_DIR$/plvideoplayer/plvideoplayer.iml" />
       <module fileurl="file://$PROJECT_DIR$/prim_player_cc/prim_player_cc.iml" filepath="$PROJECT_DIR$/prim_player_cc/prim_player_cc.iml" />
-      <module fileurl="file://$PROJECT_DIR$/primplayer/primplayer.iml" filepath="$PROJECT_DIR$/primplayer/primplayer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/video-manager-library/video-manager-library.iml" filepath="$PROJECT_DIR$/video-manager-library/video-manager-library.iml" />
     </modules>
   </component>
 </project>

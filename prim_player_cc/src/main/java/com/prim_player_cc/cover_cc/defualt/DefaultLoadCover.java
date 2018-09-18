@@ -38,6 +38,7 @@ public class DefaultLoadCover extends BaseCover {
             default:
                 coverVisibility(View.VISIBLE);
                 break;
+
         }
     }
 }

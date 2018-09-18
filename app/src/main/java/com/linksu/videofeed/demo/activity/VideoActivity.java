@@ -7,8 +7,11 @@ import android.view.View;
 
 import com.linksu.videofeed.R;
 import com.prim_player_cc.PrimPlayerCC;
+import com.prim_player_cc.config.PlayerCC_Config;
+import com.prim_player_cc.cover_cc.CoverCCManager;
 import com.prim_player_cc.cover_cc.defualt.DefaultControlCover;
 import com.prim_player_cc.cover_cc.defualt.DefaultCoverKey;
+import com.prim_player_cc.cover_cc.defualt.DefaultErrorCover;
 import com.prim_player_cc.cover_cc.defualt.DefaultLoadCover;
 import com.prim_player_cc.source.PlayerSource;
 import com.prim_player_cc.render_cc.IRender;
@@ -31,13 +34,13 @@ public class VideoActivity extends AppCompatActivity {
         playerCCView = (DefaultPlayerCCView) findViewById(R.id.player_cc);
 //        playerCCView.usedDefaultCoverGroup();//使用默认的视图组
 
-        PrimPlayerCC.getInstance()
+        //初始化视图组
+        PrimPlayerCC.getCoverCCManager()
                 .addCover(DefaultCoverKey.DEFAULT_LOAD_COVER, new DefaultLoadCover(this))
-                .addCover(DefaultCoverKey.DEFAULT_CONTROL_COVER, new DefaultControlCover(this));
+                .addCover(DefaultCoverKey.DEFAULT_CONTROL_COVER, new DefaultControlCover(this))
+                .insertCoverGroup(playerCCView);
 
-        //设置添加的视图组
-        playerCCView.setCoverGroup(PrimPlayerCC.getInstance().getCoverGroup());
-        //设置呈现视频的view
+        //设置呈现视频的RenderView
         playerCCView.setRenderView(IRender.SURFACE_VIEW);
         //设置播放资源
         playerCCView.setDataSource(new PlayerSource("http://rmrbtest-image.peopleapp.com/upload/video/201707/1499914158feea8c512f348b4a.mp4"));
@@ -46,11 +49,11 @@ public class VideoActivity extends AppCompatActivity {
     }
 
     public void load(View view) {
-        PrimPlayerCC.getInstance().addCover(DefaultCoverKey.DEFAULT_LOAD_COVER, new DefaultLoadCover(this));
+        PrimPlayerCC.getCoverCCManager().dynamicInsertCover(DefaultCoverKey.DEFAULT_LOAD_COVER, new DefaultLoadCover(this));
     }
 
     public void removeLoad(View view) {
-        PrimPlayerCC.getInstance().removeCover(DefaultCoverKey.DEFAULT_LOAD_COVER);
+        PrimPlayerCC.getCoverCCManager().dynamicDeleteCover(DefaultCoverKey.DEFAULT_LOAD_COVER);
     }
 
     @Override
@@ -72,10 +75,18 @@ public class VideoActivity extends AppCompatActivity {
     }
 
     public void addControl(View view) {
-        PrimPlayerCC.getInstance().addCover(DefaultCoverKey.DEFAULT_CONTROL_COVER, new DefaultControlCover(this));
+        PrimPlayerCC.getCoverCCManager().dynamicInsertCover(DefaultCoverKey.DEFAULT_CONTROL_COVER, new DefaultControlCover(this));
     }
 
     public void removeControl(View view) {
-        PrimPlayerCC.getInstance().removeCover(DefaultCoverKey.DEFAULT_CONTROL_COVER);
+        PrimPlayerCC.getCoverCCManager().dynamicDeleteCover(DefaultCoverKey.DEFAULT_CONTROL_COVER);
+    }
+
+    public void addError(View view) {
+        PrimPlayerCC.getCoverCCManager().dynamicInsertCover(DefaultCoverKey.DEFAULT_ERROR_COVER, new DefaultErrorCover(this));
+    }
+
+    public void removeError(View view) {
+        PrimPlayerCC.getCoverCCManager().dynamicDeleteCover(DefaultCoverKey.DEFAULT_ERROR_COVER);
     }
 }

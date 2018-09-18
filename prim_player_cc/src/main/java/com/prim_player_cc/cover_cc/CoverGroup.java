@@ -2,6 +2,7 @@ package com.prim_player_cc.cover_cc;
 
 import android.text.TextUtils;
 
+import com.prim_player_cc.cover_cc.listener.OnCoverGroupChangeListener;
 import com.prim_player_cc.log.PrimLog;
 
 import java.lang.ref.WeakReference;
