@@ -4,17 +4,12 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.View;
 
-import com.prim_player_cc.decoder_cc.listener.OnSeekCompleteListener;
 import com.prim_player_cc.decoder_cc.listener.OnTimerUpdateListener;
-import com.prim_player_cc.decoder_cc.listener.OnVideoSizeChangedListener;
 import com.prim_player_cc.source.PlayerSource;
 import com.prim_player_cc.decoder_cc.listener.OnBufferingUpdateListener;
-import com.prim_player_cc.decoder_cc.listener.OnCompletionListener;
-import com.prim_player_cc.decoder_cc.listener.OnErrorListener;
-import com.prim_player_cc.decoder_cc.listener.OnInfoListener;
-import com.prim_player_cc.decoder_cc.listener.OnPlayListener;
-import com.prim_player_cc.decoder_cc.listener.OnPreparedListener;
-import com.prim_player_cc.state.PlayerState;
+import com.prim_player_cc.decoder_cc.listener.OnErrorEventListener;
+import com.prim_player_cc.decoder_cc.listener.OnPlayerEventListener;
+import com.prim_player_cc.status.PlayerStatus;
 
 /**
  * @author prim
@@ -44,7 +39,7 @@ public interface IDecoder {
 
     boolean isLooping();
 
-    @PlayerState
+    @PlayerStatus
     int getState();
 
     boolean isPlaying();
@@ -74,22 +69,31 @@ public interface IDecoder {
 
     int getVideoHeight();
 
-    //以下为播放器的监听事件
-    void setPreparedListener(OnPreparedListener onPreparedListener);
+    //---------------------------------- 解码器的播放事件监听 ---------------------------------//
+    /**
+     * 播放事件监听 包括了 准备事件 信息 完成 等其他事件
+     * 自定义事件码
+     * @param onPlayingListener
+     */
+    void setPlayerEventListener(OnPlayerEventListener onPlayingListener);
 
-    void setPlayingListener(OnPlayListener onPlayingListener);
+    /**
+     * 播放错误事件监听
+     * 自定义错误事件码
+     * @param onErrorListener
+     */
+    void setOnErrorEventListener(OnErrorEventListener onErrorListener);
 
-    void setOnInfoListener(OnInfoListener onInfoListener);
-
-    void setOnErrorListener(OnErrorListener onErrorListener);
-
-    void setCompletionListener(OnCompletionListener onCompletionListener);
-
+    /**
+     * 视频缓存监听
+     * @param onBufferingUpdateListener
+     */
     void setBufferingUpdateListener(OnBufferingUpdateListener onBufferingUpdateListener);
 
-    void setOnSeekCompleteListener(OnSeekCompleteListener onSeekCompleteListener);
-
+    /**
+     * 进度更新监听
+     * @param onTimerUpdateListener
+     */
     void setOnTimerUpdateListener(OnTimerUpdateListener onTimerUpdateListener);
 
-    void setOnVideoSizeChangeListener(OnVideoSizeChangedListener onVideoSizeChangeListener);
 }

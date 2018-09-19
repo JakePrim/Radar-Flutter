@@ -5,17 +5,12 @@ import android.view.SurfaceHolder;
 import android.view.View;
 
 import com.prim_player_cc.config.PlayerCC_Config;
-import com.prim_player_cc.decoder_cc.listener.OnSeekCompleteListener;
 import com.prim_player_cc.decoder_cc.listener.OnTimerUpdateListener;
-import com.prim_player_cc.decoder_cc.listener.OnVideoSizeChangedListener;
 import com.prim_player_cc.source.PlayerSource;
 import com.prim_player_cc.log.PrimLog;
 import com.prim_player_cc.decoder_cc.listener.OnBufferingUpdateListener;
-import com.prim_player_cc.decoder_cc.listener.OnCompletionListener;
-import com.prim_player_cc.decoder_cc.listener.OnErrorListener;
-import com.prim_player_cc.decoder_cc.listener.OnInfoListener;
-import com.prim_player_cc.decoder_cc.listener.OnPlayListener;
-import com.prim_player_cc.decoder_cc.listener.OnPreparedListener;
+import com.prim_player_cc.decoder_cc.listener.OnErrorEventListener;
+import com.prim_player_cc.decoder_cc.listener.OnPlayerEventListener;
 import com.prim_player_cc.loader.DecoderLoader;
 
 /**
@@ -190,28 +185,13 @@ public class ProxyDecoderCC implements IDecoder {
     }
 
     @Override
-    public void setPreparedListener(OnPreparedListener onPreparedListener) {
-           decoderCC.setPreparedListener(onPreparedListener);
+    public void setPlayerEventListener(OnPlayerEventListener onPlayingListener) {
+          decoderCC.setPlayerEventListener(onPlayingListener);
     }
 
     @Override
-    public void setPlayingListener(OnPlayListener onPlayingListener) {
-          decoderCC.setPlayingListener(onPlayingListener);
-    }
-
-    @Override
-    public void setOnInfoListener(OnInfoListener onInfoListener) {
-          decoderCC.setOnInfoListener(onInfoListener);
-    }
-
-    @Override
-    public void setOnErrorListener(OnErrorListener onErrorListener) {
-          decoderCC.setOnErrorListener(onErrorListener);
-    }
-
-    @Override
-    public void setCompletionListener(OnCompletionListener onCompletionListener) {
-          decoderCC.setCompletionListener(onCompletionListener);
+    public void setOnErrorEventListener(OnErrorEventListener onErrorListener) {
+          decoderCC.setOnErrorEventListener(onErrorListener);
     }
 
     @Override
@@ -220,18 +200,8 @@ public class ProxyDecoderCC implements IDecoder {
     }
 
     @Override
-    public void setOnSeekCompleteListener(OnSeekCompleteListener onSeekCompleteListener) {
-        decoderCC.setOnSeekCompleteListener(onSeekCompleteListener);
-    }
-
-    @Override
     public void setOnTimerUpdateListener(OnTimerUpdateListener onTimerUpdateListener) {
         decoderCC.setOnTimerUpdateListener(onTimerUpdateListener);
-    }
-
-    @Override
-    public void setOnVideoSizeChangeListener(OnVideoSizeChangedListener onVideoSizeChangeListener) {
-        decoderCC.setOnVideoSizeChangeListener(onVideoSizeChangeListener);
     }
 
     @Override

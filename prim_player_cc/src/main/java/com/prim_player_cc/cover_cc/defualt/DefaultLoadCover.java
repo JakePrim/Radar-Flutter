@@ -6,9 +6,7 @@ import android.view.View;
 
 import com.prim_player_cc.R;
 import com.prim_player_cc.cover_cc.BaseCover;
-import com.prim_player_cc.cover_cc.event.CoverEventCode;
-import com.prim_player_cc.state.PlayerState;
-import com.prim_player_cc.state.State;
+import com.prim_player_cc.decoder_cc.PlayerEventCode;
 
 /**
  * @author prim
@@ -21,6 +19,7 @@ public class DefaultLoadCover extends BaseCover {
     public DefaultLoadCover(Context context) {
         super(context);
         setCoverLevelHeight(10);
+        coverVisibility(View.VISIBLE);
     }
 
     @Override
@@ -30,13 +29,13 @@ public class DefaultLoadCover extends BaseCover {
 
     //接收播放事件
     @Override
-    public void onPlayEvent(@PlayerState int state, Bundle bundle) {
-        switch (state) {
-            case State.STATE_PREPARED:
+    public void onPlayEvent(int eventCode, Bundle bundle) {
+        switch (eventCode) {
+            case PlayerEventCode.PRIM_PLAYER_EVENT_PREPARED:
                 coverVisibility(View.GONE);
                 break;
             default:
-                coverVisibility(View.VISIBLE);
+                coverVisibility(View.GONE);
                 break;
 
         }

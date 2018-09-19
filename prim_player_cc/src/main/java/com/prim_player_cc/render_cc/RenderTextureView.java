@@ -10,7 +10,7 @@ import java.lang.ref.WeakReference;
 /**
  * @author prim
  * @version 1.0.0
- * @desc
+ * @desc 框架默认实现的TextureView
  * @time 2018/7/30 - 上午10:34
  */
 public class RenderTextureView extends TextureView implements IRender {

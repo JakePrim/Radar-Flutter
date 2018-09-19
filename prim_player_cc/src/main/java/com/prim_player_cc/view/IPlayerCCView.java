@@ -2,7 +2,7 @@ package com.prim_player_cc.view;
 
 import com.prim_player_cc.cover_cc.ICoverGroup;
 import com.prim_player_cc.source.PlayerSource;
-import com.prim_player_cc.state.PlayerState;
+import com.prim_player_cc.status.PlayerStatus;
 
 /**
  * @author prim
@@ -45,7 +45,7 @@ public interface IPlayerCCView {
 
     void seek(int position);
 
-    @PlayerState
+    @PlayerStatus
     int getState();
 
     boolean isPlaying();

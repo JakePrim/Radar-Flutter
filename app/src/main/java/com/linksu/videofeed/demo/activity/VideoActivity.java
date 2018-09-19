@@ -9,6 +9,7 @@ import com.linksu.videofeed.R;
 import com.prim_player_cc.PrimPlayerCC;
 import com.prim_player_cc.config.PlayerCC_Config;
 import com.prim_player_cc.cover_cc.CoverCCManager;
+import com.prim_player_cc.cover_cc.defualt.DefaultCompleteCover;
 import com.prim_player_cc.cover_cc.defualt.DefaultControlCover;
 import com.prim_player_cc.cover_cc.defualt.DefaultCoverKey;
 import com.prim_player_cc.cover_cc.defualt.DefaultErrorCover;
@@ -34,18 +35,21 @@ public class VideoActivity extends AppCompatActivity {
         playerCCView = (DefaultPlayerCCView) findViewById(R.id.player_cc);
 //        playerCCView.usedDefaultCoverGroup();//使用默认的视图组
 
-        //初始化视图组
+        //使用自定义的视图组
         PrimPlayerCC.getCoverCCManager()
                 .addCover(DefaultCoverKey.DEFAULT_LOAD_COVER, new DefaultLoadCover(this))
                 .addCover(DefaultCoverKey.DEFAULT_CONTROL_COVER, new DefaultControlCover(this))
+                .addCover(DefaultCoverKey.DEFAULT_ERROR_COVER,new DefaultErrorCover(this))
+                .addCover(DefaultCoverKey.DEFAULT_COMPLETE_COVER,new DefaultCompleteCover(this))
                 .insertCoverGroup(playerCCView);
 
         //设置呈现视频的RenderView
         playerCCView.setRenderView(IRender.SURFACE_VIEW);
         //设置播放资源
-        playerCCView.setDataSource(new PlayerSource("http://rmrbtest-image.peopleapp.com/upload/video/201707/1499914158feea8c512f348b4a.mp4"));
+        playerCCView.setDataSource(
+                new PlayerSource("http://rmrbtest-image.peopleapp.com/upload/video/201809/153723951440062dcc54a0912f.mp4"));
         //开始播放
-        playerCCView.start();
+//        playerCCView.start();
     }
 
     public void load(View view) {
@@ -59,13 +63,13 @@ public class VideoActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        playerCCView.pause();
+//        playerCCView.pause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        playerCCView.resume();
+//        playerCCView.resume();
     }
 
     @Override

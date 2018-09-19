@@ -23,14 +23,14 @@ import com.prim_player_cc.cover_cc.defualt.DefaultCompleteCover;
 import com.prim_player_cc.cover_cc.defualt.DefaultCoverKey;
 import com.prim_player_cc.cover_cc.defualt.DefaultErrorCover;
 import com.prim_player_cc.cover_cc.defualt.DefaultLoadCover;
-import com.prim_player_cc.decoder_cc.listener.OnErrorListener;
-import com.prim_player_cc.decoder_cc.listener.OnPreparedListener;
+import com.prim_player_cc.decoder_cc.listener.OnErrorEventListener;
+import com.prim_player_cc.decoder_cc.listener.OnPlayerEventListener;
 import com.prim_player_cc.source.PlayerSource;
 import com.prim_player_cc.log.PrimLog;
 import com.prim_player_cc.render_cc.IRender;
 import com.prim_player_cc.render_cc.RenderSurfaceView;
 import com.prim_player_cc.render_cc.RenderTextureView;
-import com.prim_player_cc.state.State;
+import com.prim_player_cc.status.Status;
 
 /**
  * @author prim
@@ -89,6 +89,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
         CoverCCManager.getInstance().setCoverGroup(coverGroup);
         //初始化视图组件总线的view
         busPlayerView = new BusPlayerView(context);
+        busPlayerView.setOnCoverNativePlayerListener(onCoverNativePlayerListener);
         //将视图组件总线view 添加到 视频组件基类view中 在最底层
         addView(busPlayerView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         initView();
@@ -98,8 +99,8 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
     private void _initListener() {
         if (decoderCC != null) {
             PrimLog.d(TAG, "set decoder listener");
-            decoderCC.setPreparedListener(preparedListener);
-            decoderCC.setOnErrorListener(errorListener);
+            decoderCC.setPlayerEventListener(playerEventListener);
+            decoderCC.setOnErrorEventListener(errorListener);
         } else {
             PrimLog.d(TAG, "DecoderCC is null,please check code");
         }
@@ -121,6 +122,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
 
     /**
      * 获取是否为循环播放
+     *
      * @return true 是 false 否
      */
     @Override
@@ -158,6 +160,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      * 如果当前的view，想要使用其他的解码器，可调用此方法进行切换.
      * 解码器必须实现此类 {@link com.prim_player_cc.decoder_cc.BaseDecoderCC}
      * 同时要在Application 中初始化 {@link PlayerCC_Config#configBuild()} 想要切换的解码器，否则会找不到相关的解码器
+     *
      * @param decoderId 解码器组件ID
      */
     @Override
@@ -264,17 +267,16 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
     }
 
     //----------------- 播放监听相关 -------------------//
-
-    OnPreparedListener preparedListener = new OnPreparedListener() {
+    OnPlayerEventListener playerEventListener = new OnPlayerEventListener() {
         @Override
-        public void onPrepared(Bundle bundle, int i) {
+        public void onPlayerEvent(int eventCode, Bundle bundle) {
             if (busPlayerView != null) {
-                busPlayerView.dispatchPlayEvent(i, bundle);
+                busPlayerView.dispatchPlayEvent(eventCode, bundle);
             }
         }
     };
 
-    OnErrorListener errorListener = new OnErrorListener() {
+    OnErrorEventListener errorListener = new OnErrorEventListener() {
         @Override
         public boolean onError(Bundle bundle, int errorCode) {
             if (busPlayerView != null) {
@@ -284,6 +286,23 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
         }
     };
 
+    /**
+     * 视图和播放器的桥接事件监听
+     */
+    OnCoverNativePlayerListener onCoverNativePlayerListener = new OnCoverNativePlayerListener() {
+        @Override
+        public void onEvent(int eventCode, Bundle bundle) {
+            switch (eventCode) {
+                case CoverEventCode.COVER_EVENT_PAUSE:
+                    pause();
+                    break;
+                case CoverEventCode.COVER_EVENT_START:
+                case CoverEventCode.COVER_EVENT_RESUME:
+                    start();
+                    break;
+            }
+        }
+    };
 
     //------------------ 播放控制相关 -------------------//
 
@@ -359,7 +378,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
     /**
      * 获取播放状态
      *
-     * @return {@link com.prim_player_cc.state.State}
+     * @return {@link Status}
      */
     @Override
     public int getState() {

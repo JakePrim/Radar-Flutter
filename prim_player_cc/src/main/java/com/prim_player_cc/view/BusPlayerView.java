@@ -21,6 +21,8 @@ import com.prim_player_cc.cover_cc.event.IEventDispatcher;
 import com.prim_player_cc.log.PrimLog;
 import com.prim_player_cc.render_cc.IRenderControl;
 import com.prim_player_cc.render_cc.RenderControl;
+import com.prim_player_cc.touch.TouchGestureHandler;
+import com.prim_player_cc.touch.TouchGestureHelper;
 
 /**
  * @author prim
@@ -40,6 +42,10 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
 
     private static final String TAG = "BusPlayerView";
 
+    private TouchGestureHelper touchGestureHelper;
+
+    private OnCoverNativePlayerListener onCoverNativePlayerListener;
+
     public BusPlayerView(@NonNull Context context) {
         super(context);
         _init(context);
@@ -47,12 +53,38 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
 
     private void _init(Context context) {
         PrimLog.d(TAG, "build Bus View");
+        initTouchGesture(context);
         initRenderView(context);
         initCoverControl(context);
     }
 
     /**
+     * 初始化触摸手势 并将手势事件分发给各个视图{@link ICover}
+     */
+    private void initTouchGesture(Context context) {
+        touchGestureHelper = new TouchGestureHelper(context, new TouchGestureHandler(this));
+        setScrollGesture(true);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (touchGestureHelper != null) {
+            return touchGestureHelper.onTouch(event);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void setScrollGesture(boolean scrollGesture) {
+        if (touchGestureHelper != null) {
+            touchGestureHelper.setScrollGesture(scrollGesture);
+        }
+    }
+
+    /**
      * 初始化video view
+     * 添加呈现视图的view{@link android.view.SurfaceView} 或 {@link android.view.TextureView}
      *
      * @param context Context
      */
@@ -88,8 +120,15 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
         return new DefaultCoverControl(context);
     }
 
+    public void setOnCoverNativePlayerListener(OnCoverNativePlayerListener onCoverNativePlayerListener) {
+        this.onCoverNativePlayerListener = onCoverNativePlayerListener;
+    }
+
     /**
      * 设置覆盖视图组
+     * 移除之前的所有视图和解除监听，并根据视图的优先级进行排序，重新调整list
+     * 然后遍历list添加到视图控制器{@link DefaultCoverControl}
+     * {@link ICoverGroup} 视图组绑定视图更改监听
      *
      * @param coverGroup {@link ICoverGroup}
      */
@@ -241,7 +280,9 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
     OnCoverEventListener onCoverEventListener = new OnCoverEventListener() {
         @Override
         public void onEvent(int eventCode, Bundle bundle) {
-
+            if (onCoverNativePlayerListener != null) {
+                onCoverNativePlayerListener.onEvent(eventCode, bundle);
+            }
         }
     };
 
@@ -264,6 +305,9 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
     public void destroy() {
         if (this.coverGroup != null) {
             this.coverGroup.unBindCoverGroupChangeListener();
+        }
+        if (this.onCoverNativePlayerListener != null) {
+            this.onCoverNativePlayerListener = null;
         }
         removeAllCovers();
         removeRenderView();

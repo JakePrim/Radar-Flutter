@@ -8,6 +8,6 @@ import android.os.Bundle;
  * @desc
  * @time 2018/7/24 - 下午3:18
  */
-public interface OnErrorListener {
+public interface OnErrorEventListener {
     boolean onError(Bundle bundle, int errorCode);
 }

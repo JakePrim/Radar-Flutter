@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.prim_player_cc.cover_cc.listener.OnCoverEventListener;
-import com.prim_player_cc.state.PlayerState;
 
 /**
  * @author prim
@@ -31,7 +30,7 @@ public interface ICover {
 
     void bindCoverGroup(ICoverGroup coverGroup);
 
-    void onPlayEvent(@PlayerState int state, Bundle bundle);
+    void onPlayEvent(int eventCode, Bundle bundle);
 
     int LEVEL_LOW = 0;
 
