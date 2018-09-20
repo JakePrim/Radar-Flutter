@@ -105,12 +105,4 @@ public class VideoActivity extends AppCompatActivity {
     public void removeControl(View view) {
         PrimPlayerCC.getCoverCCManager().dynamicDeleteCover("advert");
     }
-
-    public void addError(View view) {
-        PrimPlayerCC.getCoverCCManager().dynamicInsertCover(DefaultCoverKey.DEFAULT_ERROR_COVER, new DefaultErrorCover(this));
-    }
-
-    public void removeError(View view) {
-        PrimPlayerCC.getCoverCCManager().dynamicDeleteCover(DefaultCoverKey.DEFAULT_ERROR_COVER);
-    }
 }

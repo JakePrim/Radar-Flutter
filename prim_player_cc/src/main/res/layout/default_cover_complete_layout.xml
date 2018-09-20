@@ -4,8 +4,9 @@
     android:layout_height="match_parent">
 
     <Button
+        android:id="@+id/cover_complete_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="播放完成Cover" />
+        android:text="播放完成,点击重新播放" />
 </RelativeLayout>

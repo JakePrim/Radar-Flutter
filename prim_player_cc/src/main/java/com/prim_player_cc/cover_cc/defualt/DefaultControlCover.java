@@ -69,6 +69,7 @@ public class DefaultControlCover extends BaseCover implements OnCoverGestureList
                 coverVisibility(View.GONE);
                 break;
             case PlayerEventCode.PRIM_PLAYER_EVENT_PREPARED:
+            case PlayerEventCode.PRIM_PLAYER_EVENT_START:
                 coverVisibility(View.VISIBLE);
                 rl_cover.setVisibility(View.GONE);
                 st_video_progress.setVisibility(View.VISIBLE);
