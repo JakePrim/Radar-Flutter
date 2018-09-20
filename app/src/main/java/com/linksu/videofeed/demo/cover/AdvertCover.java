@@ -16,7 +16,7 @@ import com.prim_player_cc.cover_cc.BaseCover;
 public class AdvertCover extends BaseCover {
     public AdvertCover(Context context) {
         super(context);
-        setCoverLevelHeight(8);
+        setCoverLevelHeight(4);
     }
 
     @Override
