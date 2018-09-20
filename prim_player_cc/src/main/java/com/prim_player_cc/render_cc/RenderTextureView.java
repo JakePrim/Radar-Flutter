@@ -29,7 +29,7 @@ public class RenderTextureView extends TextureView implements IRender {
 
     @Override
     public void updateRenderSize(int width, int height) {
-        if (width != 0 && height != 0) {
+        if (width != 0 && height != 0) {//TODO
 
         }
     }

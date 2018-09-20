@@ -35,7 +35,7 @@ public class VideoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_video);
         playerCCView = (DefaultPlayerCCView) findViewById(R.id.player_cc);
 
-//        playerCCView.usedDefaultCoverGroup();//使用默认的视图组
+//      playerCCView.usedDefaultCoverGroup();//使用默认的视图组
 
         playerCCView.switchDecoder(12);//切换解码器
 
