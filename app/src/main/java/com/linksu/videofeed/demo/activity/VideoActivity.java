@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.linksu.videofeed.R;
+import com.linksu.videofeed.demo.cover.AdvertCover;
 import com.prim_player_cc.PrimPlayerCC;
 import com.prim_player_cc.config.PlayerCC_Config;
 import com.prim_player_cc.cover_cc.CoverCCManager;
@@ -33,7 +34,10 @@ public class VideoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
         playerCCView = (DefaultPlayerCCView) findViewById(R.id.player_cc);
+
 //        playerCCView.usedDefaultCoverGroup();//使用默认的视图组
+
+        playerCCView.switchDecoder(12);//切换解码器
 
         //使用自定义的视图组
         PrimPlayerCC.getCoverCCManager()
@@ -45,11 +49,14 @@ public class VideoActivity extends AppCompatActivity {
 
         //设置呈现视频的RenderView
         playerCCView.setRenderView(IRender.SURFACE_VIEW);
+
+        //设置数据提供者
+
         //设置播放资源
         playerCCView.setDataSource(
                 new PlayerSource("http://rmrbtest-image.peopleapp.com/upload/video/201809/153723951440062dcc54a0912f.mp4"));
-        //开始播放
-//        playerCCView.start();
+        //开始播放 MediaPlayer 在准备完毕后自动播放
+//        playerCCView.start(); error ： -38
     }
 
     public void load(View view) {
@@ -79,11 +86,11 @@ public class VideoActivity extends AppCompatActivity {
     }
 
     public void addControl(View view) {
-        PrimPlayerCC.getCoverCCManager().dynamicInsertCover(DefaultCoverKey.DEFAULT_CONTROL_COVER, new DefaultControlCover(this));
+        PrimPlayerCC.getCoverCCManager().dynamicInsertCover("advert", new AdvertCover(this));
     }
 
     public void removeControl(View view) {
-        PrimPlayerCC.getCoverCCManager().dynamicDeleteCover(DefaultCoverKey.DEFAULT_CONTROL_COVER);
+        PrimPlayerCC.getCoverCCManager().dynamicDeleteCover("advert");
     }
 
     public void addError(View view) {

@@ -32,14 +32,14 @@ public class CoverGroup implements ICoverGroup {
     /**
      * 存储视图的优先级队列，用于对视图排序
      */
-    private Deque<ICover> coverDeque;
+//    private Deque<ICover> coverDeque;
 
     private WeakReference<OnCoverGroupChangeListener> onCoverGroupChangeListener;
 
     public CoverGroup() {
         //HashMap 在多线程的环境下会出现各种各样的问题，ConcurrentHashMap 可以支持16个线程并发操作
         coverMap = new ConcurrentHashMap<>(16);
-        coverDeque = new ArrayDeque<>();
+//        coverDeque = new ArrayDeque<>();
     }
 
     /**
@@ -171,11 +171,6 @@ public class CoverGroup implements ICoverGroup {
     public void coverSort() {
         PrimLog.d(TAG, "排序-coverSort");
         coverList = new ArrayList<>(coverMap.entrySet());
-        for (int i = 0; i < coverList.size(); i++) {
-            for (int j = 0; j < i; j++) {
-
-            }
-        }
 
         Collections.sort(coverList, new Comparator<Map.Entry<String, ICover>>() {
             @Override
@@ -188,7 +183,6 @@ public class CoverGroup implements ICoverGroup {
                 if (o2.getValue() instanceof BaseCover) {
                     y = o2.getValue().getCoverLevel();
                 }
-                PrimLog.d(TAG, "x=" + x + " ; y=" + y);
                 return x.compareTo(y);//从小到大排序
             }
         });

@@ -42,7 +42,7 @@
             android:layout_marginLeft="5dp"
             android:background="@color/colorPrimary"
             android:onClick="addControl"
-            android:text="添加control组件"
+            android:text="添加广告组件"
             android:textColor="#ffffff"
             android:textSize="12sp" />
 
@@ -56,7 +56,7 @@
         android:layout_marginTop="10dp"
         android:background="@color/colorPrimary"
         android:onClick="removeControl"
-        android:text="移除control组件"
+        android:text="移除广告组件"
         android:textColor="#ffffff"
         android:textSize="12sp" />
 
@@ -67,7 +67,7 @@
         android:layout_marginTop="10dp"
         android:background="@color/colorPrimary"
         android:onClick="addError"
-        android:text="添加error组件"
+        android:text="添加声音控制组件"
         android:textColor="#ffffff"
         android:textSize="12sp" />
 
@@ -78,7 +78,7 @@
         android:layout_marginTop="10dp"
         android:background="@color/colorPrimary"
         android:onClick="removeError"
-        android:text="移除error组件"
+        android:text="移除声音控制组件"
         android:textColor="#ffffff"
         android:textSize="12sp" />
 </LinearLayout>

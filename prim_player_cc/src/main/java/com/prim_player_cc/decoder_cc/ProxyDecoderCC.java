@@ -88,6 +88,9 @@ public class ProxyDecoderCC implements IDecoder {
         }
     }
 
+    private boolean isDecoderInit(){
+        return decoderCC != null;
+    }
 
     @Override
     public void start() {

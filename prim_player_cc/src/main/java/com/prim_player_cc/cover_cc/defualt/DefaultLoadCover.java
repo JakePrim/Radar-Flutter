@@ -18,7 +18,7 @@ public class DefaultLoadCover extends BaseCover {
 
     public DefaultLoadCover(Context context) {
         super(context);
-        setCoverLevelHeight(10);
+        setCoverLevelHeight(10);//设置视图的优先级
         coverVisibility(View.VISIBLE);
     }
 
@@ -37,7 +37,6 @@ public class DefaultLoadCover extends BaseCover {
             default:
                 coverVisibility(View.GONE);
                 break;
-
         }
     }
 }
