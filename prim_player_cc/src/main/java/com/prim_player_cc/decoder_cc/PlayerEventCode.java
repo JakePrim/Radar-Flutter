@@ -48,8 +48,7 @@ public class PlayerEventCode {
     public static final int PRIM_PLAYER_EVENT_DESTROY = -1017;
 
     /**
-     * on player timer counter update
-     * if timer stopped, you could not receive this event code.
+     * on player timer progress update
      */
     public static final int PRIM_PLAYER_EVENT_TIMER_UPDATE = -1018;
 
@@ -59,7 +58,7 @@ public class PlayerEventCode {
     public static final int PRIM_PLAYER_EVENT_COMPLETION = -1019;
 
     /**
-     * player status change
+     * when player status change {@link com.prim_player_cc.status.Status}
      */
     public static final int PRIM_PLAYER_EVENT_STATUS_CHANGE = -1020;
 }

@@ -4,7 +4,7 @@ package com.prim_player_cc.decoder_cc;
  * @author prim
  * @version 1.0.0
  * @desc 自定义错误事件码
- * 如需要其他的错误码 可自行扩展
+ * 如需要其他的错误码 可自行添加
  * @time 2018/9/19 - 上午10:17
  */
 public class ErrorEventCode {

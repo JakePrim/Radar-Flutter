@@ -16,6 +16,8 @@ import com.prim_player_cc.config.PlayerCC_Config;
 import com.prim_player_cc.cover_cc.CoverCCManager;
 import com.prim_player_cc.cover_cc.CoverGroup;
 import com.prim_player_cc.cover_cc.event.CoverEventCode;
+import com.prim_player_cc.decoder_cc.EventCodeKey;
+import com.prim_player_cc.decoder_cc.PlayerEventCode;
 import com.prim_player_cc.decoder_cc.ProxyDecoderCC;
 import com.prim_player_cc.cover_cc.ICoverGroup;
 import com.prim_player_cc.cover_cc.defualt.DefaultControlCover;
@@ -25,6 +27,7 @@ import com.prim_player_cc.cover_cc.defualt.DefaultErrorCover;
 import com.prim_player_cc.cover_cc.defualt.DefaultLoadCover;
 import com.prim_player_cc.decoder_cc.listener.OnErrorEventListener;
 import com.prim_player_cc.decoder_cc.listener.OnPlayerEventListener;
+import com.prim_player_cc.decoder_cc.listener.OnTimerUpdateListener;
 import com.prim_player_cc.source.PlayerSource;
 import com.prim_player_cc.log.PrimLog;
 import com.prim_player_cc.render_cc.IRender;
@@ -47,7 +50,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
 
     private static final String TAG = "BasePlayerCCView";
 
-    protected ProxyDecoderCC decoderCC;
+    protected ProxyDecoderCC proxyDecoderCC;
 
     protected BusPlayerView busPlayerView;
 
@@ -83,7 +86,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
 
     private void _init(Context context, AttributeSet attrs, int defStyleAttr) {
         PrimLog.d(TAG, "build player cc View");
-        decoderCC = ProxyDecoderCC.getInstance();
+        proxyDecoderCC = new ProxyDecoderCC();
         //初始化视图组
         coverGroup = new CoverGroup();
         CoverCCManager.getInstance().setCoverGroup(coverGroup);
@@ -97,10 +100,11 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
     }
 
     private void _initListener() {
-        if (decoderCC != null) {
+        if (proxyDecoderCC != null) {
             PrimLog.d(TAG, "set decoder listener");
-            decoderCC.setPlayerEventListener(playerEventListener);
-            decoderCC.setOnErrorEventListener(errorListener);
+            proxyDecoderCC.setPlayerEventListener(playerEventListener);
+            proxyDecoderCC.setOnErrorEventListener(errorListener);
+            proxyDecoderCC.setOnTimerUpdateListener(onTimerUpdateListener);
         } else {
             PrimLog.d(TAG, "DecoderCC is null,please check code");
         }
@@ -115,8 +119,8 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void setLooping(boolean loop) {
-        if (decoderCC != null) {
-            decoderCC.setLooping(loop);
+        if (proxyDecoderCC != null) {
+            proxyDecoderCC.setLooping(loop);
         }
     }
 
@@ -127,7 +131,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public boolean isLooping() {
-        return decoderCC != null && decoderCC.isLooping();
+        return proxyDecoderCC != null && proxyDecoderCC.isLooping();
     }
 
     /**
@@ -165,8 +169,8 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void switchDecoder(int decoderId) {
-        if (decoderCC != null) {
-            decoderCC.switchDecoder(decoderId);
+        if (proxyDecoderCC != null) {
+            proxyDecoderCC.switchDecoder(decoderId);
         }
     }
 
@@ -177,7 +181,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void setDataSource(PlayerSource dataSource) {
-        decoderCC.setDataSource(dataSource);
+        proxyDecoderCC.setDataSource(dataSource);
     }
 
     /**
@@ -186,7 +190,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      * 便不需要 本库中的view ，将此view绑定到组件播放器view
      */
     private void bindVideoView() {
-        decoderCC.bindVideoView(this);
+        proxyDecoderCC.bindVideoView(this);
     }
 
     /**
@@ -221,7 +225,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
                 addDefaultRenderView();
                 break;
             case IRender.CUSTOM_VIEW:
-                renderView = decoderCC.getRenderView();
+                renderView = proxyDecoderCC.getRenderView();
                 addCustomRenderView();
                 break;
             default:
@@ -232,15 +236,15 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
     }
 
     private void addCustomRenderView() {
-        decoderCC.setDisplay(null);
-        decoderCC.setSurface(null);
+        proxyDecoderCC.setDisplay(null);
+        proxyDecoderCC.setSurface(null);
         busPlayerView.setRenderView(renderView);
     }
 
     private void addDefaultRenderView() {
-        decoderCC.setDisplay(null);
-        decoderCC.setSurface(null);
-        render.updateRenderSize(decoderCC.getVideoWidth(), decoderCC.getVideoHeight());
+        proxyDecoderCC.setDisplay(null);
+        proxyDecoderCC.setSurface(null);
+        render.updateRenderSize(proxyDecoderCC.getVideoWidth(), proxyDecoderCC.getVideoHeight());
         render.setRenderCallback(new RenderCallBack());
         renderView = render.getRenderView();
         busPlayerView.setRenderView(renderView);
@@ -251,7 +255,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
         @Override
         public void surfaceCreated(SurfaceHolder holder) {
             if (holder != null) {
-                decoderCC.setDisplay(holder);
+                proxyDecoderCC.setDisplay(holder);
             }
         }
 
@@ -286,6 +290,19 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
         }
     };
 
+    OnTimerUpdateListener onTimerUpdateListener = new OnTimerUpdateListener() {
+        @Override
+        public void onUpdate(long current, long duration, int bufferPercentage) {
+            if (busPlayerView != null) {
+                Bundle bundle = new Bundle();
+                bundle.putLong(EventCodeKey.PLAYER_CURRENT, current);
+                bundle.putLong(EventCodeKey.PLAYER_DURATION, duration);
+                bundle.putLong(EventCodeKey.PLAYER_BUFFER, bufferPercentage);
+                busPlayerView.dispatchPlayEvent(PlayerEventCode.PRIM_PLAYER_EVENT_TIMER_UPDATE, bundle);
+            }
+        }
+    };
+
     /**
      * 视图和播放器的桥接事件监听
      */
@@ -311,7 +328,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void start() {
-        decoderCC.start();
+        proxyDecoderCC.start();
     }
 
     /**
@@ -321,7 +338,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void start(long location) {
-        decoderCC.start(location);
+        proxyDecoderCC.start(location);
     }
 
     /**
@@ -329,7 +346,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void pause() {
-        decoderCC.pause();
+        proxyDecoderCC.pause();
     }
 
     /**
@@ -337,7 +354,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void resume() {
-        decoderCC.resume();
+        proxyDecoderCC.resume();
     }
 
     /**
@@ -345,7 +362,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void reset() {
-        decoderCC.reset();
+        proxyDecoderCC.reset();
     }
 
     /**
@@ -353,7 +370,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void stop() {
-        decoderCC.stop();
+        proxyDecoderCC.stop();
     }
 
     /**
@@ -361,7 +378,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void destroy() {
-        decoderCC.destroy();
+        proxyDecoderCC.destroy();
         busPlayerView.destroy();
     }
 
@@ -372,7 +389,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void seek(int position) {
-        decoderCC.seek(position);
+        proxyDecoderCC.seek(position);
     }
 
     /**
@@ -382,7 +399,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public int getState() {
-        return decoderCC.getState();
+        return proxyDecoderCC.getState();
     }
 
     /**
@@ -392,7 +409,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public boolean isPlaying() {
-        return decoderCC.isPlaying();
+        return proxyDecoderCC.isPlaying();
     }
 
     /**
@@ -402,7 +419,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public long getCurrentPosition() {
-        return decoderCC.getCurrentPosition();
+        return proxyDecoderCC.getCurrentPosition();
     }
 
     /**
@@ -412,7 +429,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public long getDuration() {
-        return decoderCC.getDuration();
+        return proxyDecoderCC.getDuration();
     }
 
     /**
@@ -422,7 +439,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public int getBufferPercentage() {
-        return decoderCC.getBufferPercentage();
+        return proxyDecoderCC.getBufferPercentage();
     }
 
     /**
@@ -433,7 +450,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void setVolume(float left, float right) {
-        decoderCC.setVolume(left, right);
+        proxyDecoderCC.setVolume(left, right);
     }
 
     /**
@@ -443,6 +460,6 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      */
     @Override
     public void setSpeed(float m) {
-        decoderCC.setSpeed(m);
+        proxyDecoderCC.setSpeed(m);
     }
 }

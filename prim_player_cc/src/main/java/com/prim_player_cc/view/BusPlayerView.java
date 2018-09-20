@@ -91,8 +91,8 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
     private void initRenderView(Context context) {
         renderControl = new RenderControl(context);
         if (renderControl.getRenderRootView() != null) {
-            addView(renderControl.getRenderRootView(), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT));
+            addView(renderControl.getRenderRootView(), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT));
         }
     }
 

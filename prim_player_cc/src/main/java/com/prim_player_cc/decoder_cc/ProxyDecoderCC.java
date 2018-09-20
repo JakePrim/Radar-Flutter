@@ -1,5 +1,6 @@
 package com.prim_player_cc.decoder_cc;
 
+import android.os.Bundle;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.View;
@@ -12,12 +13,14 @@ import com.prim_player_cc.decoder_cc.listener.OnBufferingUpdateListener;
 import com.prim_player_cc.decoder_cc.listener.OnErrorEventListener;
 import com.prim_player_cc.decoder_cc.listener.OnPlayerEventListener;
 import com.prim_player_cc.loader.DecoderLoader;
+import com.prim_player_cc.status.Status;
+
+import java.lang.ref.WeakReference;
 
 /**
  * @author prim
  * @version 1.0.0
- * @desc
- * 本类使用代理模式
+ * @desc 本类使用代理模式
  * ProxyDecoderCC 也实现 IDecoder 接口，同时代理了{@link BaseDecoderCC}的具体实现者, 方便切换播放器组件和添加其他逻辑
  * @time 2018/7/24 - 上午11:26
  */
@@ -25,34 +28,35 @@ public class ProxyDecoderCC implements IDecoder {
 
     private static final String TAG = "ProxyDecoderCC";
 
-    private static ProxyDecoderCC ourInstance;
-
     private BaseDecoderCC decoderCC;
 
     private int decoderId;
 
-    public static ProxyDecoderCC getInstance() {
-        if (ourInstance == null) {
-            synchronized (ProxyDecoderCC.class) {
-                if (ourInstance == null) {
-                    ourInstance = new ProxyDecoderCC();
-                }
-            }
-        }
-        return ourInstance;
-    }
+    private PlayerSource source;
+
+    private WeakReference<OnPlayerEventListener> weakOnPlayerEventListener;
+
+    private WeakReference<OnErrorEventListener> weakOnErrorListener;
+
+    private WeakReference<OnBufferingUpdateListener> weakOnBufferingUpdateListener;
+
+    private WeakReference<OnTimerUpdateListener> weakOnTimerUpdateListener;
+
+    private TimerUpdateHelper mTimerUpdateHelper;
 
     /**
      * 默认加载配置的 player ID
      * {@link PlayerCC_Config#usedDecoderId}
      */
     public ProxyDecoderCC() {
+        mTimerUpdateHelper = new TimerUpdateHelper(1000);
         loadDecoder(PlayerCC_Config.getUseDecoderId());
     }
 
     /**
      * load player 根据播放器ID 加载具体的播放器组件
      * {@link DecoderLoader#loadPlayer(int)}
+     *
      * @param decoderId player id
      */
     private void loadDecoder(int decoderId) {
@@ -88,48 +92,101 @@ public class ProxyDecoderCC implements IDecoder {
         }
     }
 
-    private boolean isDecoderInit(){
+    private boolean isDecoderInit() {
         return decoderCC != null;
     }
 
     @Override
+    public void setDataSource(PlayerSource source) {
+        this.source = source;
+        if (isDecoderInit()) {
+            _initListener();
+            decoderCC.setDataSource(source);
+        }
+    }
+
+    private void _initListener() {
+        mTimerUpdateHelper.setOnTimerUpdateHandleListener(updateHandleListener);
+        decoderCC.setPlayerEventListener(mOnPlayerEventListener);
+        decoderCC.setOnErrorEventListener(mOnErrorEventListener);
+        decoderCC.setBufferingUpdateListener(mOnBufferUpdateListener);
+    }
+
+    private void _resetListener() {
+        if (isDecoderInit()) {
+            mTimerUpdateHelper.setOnTimerUpdateHandleListener(null);
+            decoderCC.setPlayerEventListener(null);
+            decoderCC.setBufferingUpdateListener(null);
+            decoderCC.setOnErrorEventListener(null);
+        }
+    }
+
+    private TimerUpdateHelper.OnTimerUpdateHandleListener updateHandleListener = new TimerUpdateHelper.OnTimerUpdateHandleListener() {
+        @Override
+        public void onUpdate() {
+            long currentPosition = getCurrentPosition();
+            long duration = getDuration();
+            if (currentPosition <= 0 || duration <= 0) {
+                return;
+            }
+            mOnTimerUpdateListener.onUpdate(getCurrentPosition(), getDuration(), getBufferPercentage());
+        }
+    };
+
+    @Override
     public void start() {
-        decoderCC.start();
+        if (isDecoderInit())
+            decoderCC.start();
     }
 
     @Override
     public void start(long location) {
-        decoderCC.start(location);
+        if (isDecoderInit()) {
+            decoderCC.start(location);
+        }
     }
 
     @Override
     public void pause() {
-        decoderCC.pause();
+        if (isDecoderInit()) {
+            decoderCC.pause();
+        }
     }
 
     @Override
     public void resume() {
-        decoderCC.resume();
+        if (isDecoderInit()) {
+            decoderCC.resume();
+        }
     }
 
     @Override
     public void reset() {
-        decoderCC.reset();
+        if (isDecoderInit()) {
+            decoderCC.reset();
+        }
     }
 
     @Override
     public void stop() {
-        decoderCC.stop();
+        if (isDecoderInit()) {
+            decoderCC.stop();
+        }
     }
 
     @Override
     public void destroy() {
-        decoderCC.destroy();
+        _resetListener();
+        if (isDecoderInit()) {
+            decoderCC.destroy();
+        }
     }
 
     @Override
     public void seek(int position) {
-        decoderCC.seek(position);
+        if (isDecoderInit()) {
+            decoderCC.seek(position);
+        }
     }
 
     /**
@@ -139,101 +196,179 @@ public class ProxyDecoderCC implements IDecoder {
      */
     @Override
     public void setLooping(boolean loop) {
-        decoderCC.setLooping(loop);
+        if (isDecoderInit()) {
+            decoderCC.setLooping(loop);
+        }
     }
 
     @Override
     public boolean isLooping() {
-        return decoderCC.isLooping();
+        return isDecoderInit() && decoderCC.isLooping();
     }
 
     @Override
     public int getState() {
-        return decoderCC.getState();
+        if (isDecoderInit()) {
+            return decoderCC.getState();
+        }
+        return Status.STATE_IDEL;
     }
 
     @Override
     public boolean isPlaying() {
-        return decoderCC.isPlaying();
+        if (isDecoderInit()) {
+            return decoderCC.isPlaying();
+        }
+        return false;
     }
 
     @Override
     public long getCurrentPosition() {
-        return decoderCC.getCurrentPosition();
+        if (isDecoderInit()) {
+            return decoderCC.getCurrentPosition();
+        }
+        return 0;
     }
 
     @Override
     public long getDuration() {
-        return decoderCC.getDuration();
+        if (isDecoderInit()) {
+            return decoderCC.getDuration();
+        }
+        return 0;
     }
 
     @Override
     public int getBufferPercentage() {
-        return decoderCC.getBufferPercentage();
+        if (isDecoderInit()) {
+            return decoderCC.getBufferPercentage();
+        }
+        return 0;
     }
 
     @Override
     public void setVolume(float left, float right) {
-        decoderCC.setVolume(left, right);
+        if (isDecoderInit()) {
+            decoderCC.setVolume(left, right);
+        }
     }
 
     @Override
     public void setSpeed(float m) {
-        decoderCC.setSpeed(m);
+        if (isDecoderInit()) {
+            decoderCC.setSpeed(m);
+        }
     }
 
-    @Override
-    public void setDataSource(PlayerSource source) {
-        decoderCC.setDataSource(source);
-    }
 
     @Override
     public void setPlayerEventListener(OnPlayerEventListener onPlayingListener) {
-          decoderCC.setPlayerEventListener(onPlayingListener);
+        this.weakOnPlayerEventListener = new WeakReference<>(onPlayingListener);
     }
 
     @Override
     public void setOnErrorEventListener(OnErrorEventListener onErrorListener) {
-          decoderCC.setOnErrorEventListener(onErrorListener);
+        this.weakOnErrorListener = new WeakReference<>(onErrorListener);
     }
 
     @Override
     public void setBufferingUpdateListener(OnBufferingUpdateListener onBufferingUpdateListener) {
-          decoderCC.setBufferingUpdateListener(onBufferingUpdateListener);
+        this.weakOnBufferingUpdateListener = new WeakReference<>(onBufferingUpdateListener);
     }
 
-    @Override
     public void setOnTimerUpdateListener(OnTimerUpdateListener onTimerUpdateListener) {
-        decoderCC.setOnTimerUpdateListener(onTimerUpdateListener);
+        weakOnTimerUpdateListener = new WeakReference<>(onTimerUpdateListener);
     }
+
+    /**
+     * 将解码器传递过来的数据 传递给视图组
+     */
+
+    private OnPlayerEventListener mOnPlayerEventListener = new OnPlayerEventListener() {
+        @Override
+        public void onPlayerEvent(int eventCode, Bundle bundle) {
+            if (mTimerUpdateHelper != null) {
+                mTimerUpdateHelper.setUpdatePlayEvent(eventCode, bundle);
+            }
+            if (weakOnPlayerEventListener != null && weakOnPlayerEventListener.get() != null) {
+                weakOnPlayerEventListener.get().onPlayerEvent(eventCode, bundle);
+            }
+        }
+    };
+
+    private OnErrorEventListener mOnErrorEventListener = new OnErrorEventListener() {
+        @Override
+        public boolean onError(Bundle bundle, int errorCode) {
+            if (mTimerUpdateHelper != null) {
+                mTimerUpdateHelper.setPlayEventError();
+            }
+            if (weakOnErrorListener != null && weakOnErrorListener.get() != null) {
+                weakOnErrorListener.get().onError(bundle, errorCode);
+            }
+            return true;
+        }
+    };
+
+    private OnBufferingUpdateListener mOnBufferUpdateListener = new OnBufferingUpdateListener() {
+        @Override
+        public void onBufferingUpdate(Bundle bundle, int buffer) {
+            if (weakOnBufferingUpdateListener != null && weakOnBufferingUpdateListener.get() != null) {
+                weakOnBufferingUpdateListener.get().onBufferingUpdate(bundle, buffer);
+            }
+        }
+    };
+
+    private OnTimerUpdateListener mOnTimerUpdateListener = new OnTimerUpdateListener() {
+        @Override
+        public void onUpdate(long current, long duration, int bufferPercentage) {
+            if (weakOnTimerUpdateListener != null && weakOnTimerUpdateListener.get() != null) {
+                weakOnTimerUpdateListener.get().onUpdate(current, duration, bufferPercentage);
+            }
+        }
+    };
 
     @Override
     public void setSurface(Surface surface) {
-        decoderCC.setSurface(surface);
+        if (isDecoderInit()) {
+            decoderCC.setSurface(surface);
+        }
     }
 
     @Override
     public void setDisplay(SurfaceHolder surfaceHolder) {
-        decoderCC.setDisplay(surfaceHolder);
+        if (isDecoderInit()) {
+            decoderCC.setDisplay(surfaceHolder);
+        }
     }
 
     @Override
     public void bindVideoView(View videoView) {
-        decoderCC.bindVideoView(videoView);
+        if (isDecoderInit()) {
+            decoderCC.bindVideoView(videoView);
+        }
     }
 
     @Override
     public View getRenderView() {
-        return decoderCC.getRenderView();
+        if (isDecoderInit()) {
+            return decoderCC.getRenderView();
+        }
+        return null;
     }
 
     @Override
     public int getVideoWidth() {
-        return decoderCC.getVideoWidth();
+        if (isDecoderInit()) {
+            return decoderCC.getVideoWidth();
+        }
+        return 0;
     }
 
     @Override
     public int getVideoHeight() {
-        return decoderCC.getVideoHeight();
+        if (isDecoderInit()) {
+            return decoderCC.getVideoHeight();
+        }
+        return 0;
     }
 }

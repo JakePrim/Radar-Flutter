@@ -89,11 +89,4 @@ public interface IDecoder {
      * @param onBufferingUpdateListener
      */
     void setBufferingUpdateListener(OnBufferingUpdateListener onBufferingUpdateListener);
-
-    /**
-     * 进度更新监听
-     * @param onTimerUpdateListener
-     */
-    void setOnTimerUpdateListener(OnTimerUpdateListener onTimerUpdateListener);
-
 }

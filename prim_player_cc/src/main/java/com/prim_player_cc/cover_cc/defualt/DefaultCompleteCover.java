@@ -32,6 +32,9 @@ public class DefaultCompleteCover extends BaseCover {
             case PlayerEventCode.PRIM_PLAYER_EVENT_COMPLETION:
                 coverVisibility(View.VISIBLE);
                 break;
+            default:
+                coverVisibility(View.GONE);
+                break;
         }
     }
 }

@@ -10,4 +10,10 @@ public class EventCodeKey {
     public static final String PLAYER_DATA_SOURCE= "player_data_source";
 
     public static final String PLAYER_UPDATE_STATUS = "player_update_status";
+
+    public static final String PLAYER_CURRENT = "player_current";
+
+    public static final String PLAYER_DURATION = "player_duration";
+
+    public static final String PLAYER_BUFFER = "player_buffer";
 }

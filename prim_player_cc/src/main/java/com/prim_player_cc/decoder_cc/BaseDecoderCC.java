@@ -25,7 +25,6 @@ public abstract class BaseDecoderCC implements IDecoder {
     protected WeakReference<OnPlayerEventListener> weakPlayingListener;
     protected WeakReference<OnErrorEventListener> weakErrorListener;
     protected WeakReference<OnBufferingUpdateListener> weakBufferListener;
-    protected WeakReference<OnTimerUpdateListener> weakTimerUpdateListener;
     protected int mBufferPercentage;
 
     @Override
@@ -72,13 +71,6 @@ public abstract class BaseDecoderCC implements IDecoder {
         weakBufferListener = new WeakReference<>(onBufferingUpdateListener);
     }
 
-
-    @Override
-    public void setOnTimerUpdateListener(OnTimerUpdateListener onTimerUpdateListener) {
-        weakTimerUpdateListener = new WeakReference<>(onTimerUpdateListener);
-    }
-
-
     /**
      * 触发播放事件
      */
@@ -113,24 +105,9 @@ public abstract class BaseDecoderCC implements IDecoder {
         }
     }
 
-
-    /**
-     * 触发进度更新事件
-     *
-     * @param current          当前进度
-     * @param duration         总进度
-     * @param bufferPercentage 缓存进度
-     */
-    protected void triggerTimerUpdate(long current, long duration, int bufferPercentage) {
-        if (weakTimerUpdateListener != null && weakTimerUpdateListener.get() != null) {
-            weakTimerUpdateListener.get().onUpdate(current, duration, bufferPercentage);
-        }
-    }
-
     @Override
     public void destroy() {
         resetListener();
-
         this.mCurrentState = Status.STATE_IDEL;
     }
 
@@ -148,11 +125,6 @@ public abstract class BaseDecoderCC implements IDecoder {
         if (weakPlayingListener != null && weakPlayingListener.get() != null) {
             weakPlayingListener.clear();
             weakPlayingListener = null;
-        }
-
-        if (weakTimerUpdateListener != null && weakTimerUpdateListener.get() != null) {
-            weakTimerUpdateListener.clear();
-            weakTimerUpdateListener = null;
         }
     }
 }

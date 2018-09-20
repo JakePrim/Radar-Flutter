@@ -36,6 +36,7 @@ public class DefaultErrorCover extends BaseCover {
                 coverVisibility(View.VISIBLE);
                 break;
             default:
+                coverVisibility(View.GONE);
                 break;
         }
     }

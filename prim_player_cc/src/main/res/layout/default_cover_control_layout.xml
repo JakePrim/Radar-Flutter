@@ -5,117 +5,136 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/ll_layout_media_controller_top_container"
+    <RelativeLayout
+        android:id="@+id/rl_cover"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_alignParentTop="true"
-        android:background="#85000000"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-
-        <TextView
-            android:id="@+id/tv_layout_media_controller_title"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:ellipsize="marquee"
-            android:fadingEdge="horizontal"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:gravity="center_vertical"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:scrollHorizontally="true"
-            android:singleLine="true"
-            android:text="我是视频标题"
-            android:textColor="#FFFFFF"
-            android:textSize="17sp" />
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/ll_layout_media_controller_more_container"
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:id="@+id/ll_layout_media_controller_top_container"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_alignParentTop="true"
+            android:background="#85000000"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/icon_top_bar_more" />
+
+            <TextView
+                android:id="@+id/tv_layout_media_controller_title"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:ellipsize="marquee"
+                android:fadingEdge="horizontal"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="我是视频标题"
+                android:textColor="#FFFFFF"
+                android:textSize="17sp" />
+
+            <LinearLayout
+                android:id="@+id/ll_layout_media_controller_more_container"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_top_bar_more" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/list_video_btn_play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="5dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/icon_live_controller_pause" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_alignParentBottom="true"
-        android:background="#85000000"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingBottom="-1dp"
-        android:visibility="visible">
-
-        <RelativeLayout
-            android:id="@+id/list_video_center_layout"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@+id/list_video_tv_current_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:textColor="@android:color/white"
-                android:textSize="10sp" />
-
-            <TextView
-                android:id="@+id/list_video_tv_all_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
-                android:textColor="@android:color/white"
-                android:textSize="10sp" />
-
-            <SeekBar
-                android:id="@+id/list_video_seek"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/list_video_tv_all_time"
-                android:layout_toRightOf="@+id/list_video_tv_current_time"
-                android:max="100"
-                android:maxHeight="2dp"
-                android:minHeight="2dp"
-                android:paddingLeft="1dp"
-                android:paddingRight="1dp"
-                android:thumb="@drawable/icon_video_seek_thumb" />
-        </RelativeLayout>
-
         <ImageView
-            android:id="@+id/list_video_btn_all"
+            android:id="@+id/list_video_btn_play"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:src="@drawable/video_list_full_screen" />
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="5dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_live_controller_pause" />
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_alignParentBottom="true"
+            android:background="#85000000"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="-1dp"
+            android:visibility="visible">
+
+            <RelativeLayout
+                android:id="@+id/list_video_center_layout"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/list_video_tv_current_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/list_video_tv_all_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp" />
+
+                <SeekBar
+                    android:id="@+id/list_video_seek"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/list_video_tv_all_time"
+                    android:layout_toRightOf="@+id/list_video_tv_current_time"
+                    android:max="100"
+                    android:maxHeight="2dp"
+                    android:minHeight="2dp"
+                    android:paddingLeft="1dp"
+                    android:paddingRight="1dp"
+                    android:thumb="@drawable/icon_video_seek_thumb" />
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/list_video_btn_all"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:src="@drawable/video_list_full_screen" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/st_video_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:max="100"
+        android:maxHeight="2dp"
+        android:minHeight="2dp"
+        android:progressDrawable="@drawable/play_controller_progress_bar_bg"
+        android:visibility="gone" />
 </RelativeLayout>

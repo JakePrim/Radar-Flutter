@@ -78,7 +78,9 @@ public abstract class BaseCover implements ICover, ICoverOperate {
 
     @Override
     public void coverVisibility(int visibility) {
-        mCoverView.setVisibility(visibility);
+        if (mCoverView.getVisibility() != visibility) {
+            mCoverView.setVisibility(visibility);
+        }
     }
 
     @Override
@@ -180,6 +182,7 @@ public abstract class BaseCover implements ICover, ICoverOperate {
      * {@link com.prim_player_cc.view.BasePlayerCCView} 将播放事件传递给视图组
      * 由视图组分发给各个视图，视图根据{@link com.prim_player_cc.decoder_cc.PlayerEventCode} 播放事件码
      * 自行处理逻辑
+     *
      * @param eventCode
      * @param bundle
      */

@@ -233,12 +233,12 @@ public class DefaultDecoder extends BaseDecoderCC {
 
     @Override
     public long getCurrentPosition() {
-        return 0;
+        return mediaPlayer.getCurrentPosition();
     }
 
     @Override
     public long getDuration() {
-        return 0;
+        return mediaPlayer.getDuration();
     }
 
     @Override
