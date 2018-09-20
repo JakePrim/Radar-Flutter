@@ -51,12 +51,24 @@ playerCCView = (DefaultPlayerCCView) findViewById(R.id.player_cc);
 设置呈显视频的组件
 
 ```
-        //设置呈现视频的RenderView 使用系统默认的view
+        //设置呈现视频的RenderView
+        //使用框架默认的surfaceView
         playerCCView.setRenderView(IRender.SURFACE_VIEW);
+        /**
+          * 使用自定的view,从解码器中返回 {@link IDecoder#getRenderView()}
+          */
+        playerCCView.setRenderView(IRender.CUSTOM_VIEW);
 
-        //设置数据提供者
+        /**
+          * 使用框架默认的textureView
+          */
+        playerCCView.setRenderView(IRender.TEXTURE_VIEW);
 
         //设置播放资源
         playerCCView.setDataSource(
                 new PlayerSource("http://rmrbtest-image.peopleapp.com/upload/video/201809/153723951440062dcc54a0912f.mp4"));
 ```
+
+## 框架设计思想
+
+![无标题绘图.png](https://upload-images.jianshu.io/upload_images/2005932-1a76a26bd023ff48.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)

@@ -15,6 +15,7 @@ import com.prim_player_cc.cover_cc.defualt.DefaultControlCover;
 import com.prim_player_cc.cover_cc.defualt.DefaultCoverKey;
 import com.prim_player_cc.cover_cc.defualt.DefaultErrorCover;
 import com.prim_player_cc.cover_cc.defualt.DefaultLoadCover;
+import com.prim_player_cc.decoder_cc.IDecoder;
 import com.prim_player_cc.source.PlayerSource;
 import com.prim_player_cc.render_cc.IRender;
 import com.prim_player_cc.view.DefaultPlayerCCView;
@@ -48,7 +49,19 @@ public class VideoActivity extends AppCompatActivity {
                 .insertCoverGroup(playerCCView);
 
         //设置呈现视频的RenderView
+        //使用框架默认的surfaceView
         playerCCView.setRenderView(IRender.SURFACE_VIEW);
+        /**
+         * 使用自定的view,从解码器中返回 {@link IDecoder#getRenderView()}
+         */
+//        playerCCView.setRenderView(IRender.CUSTOM_VIEW);
+
+        /**
+         * 使用框架默认的textureView
+         */
+//        playerCCView.setRenderView(IRender.TEXTURE_VIEW);
+
+
 
         //设置数据提供者
 

@@ -13,11 +13,11 @@ import java.util.LinkedHashMap;
  */
 public interface IRender {
 
-    public int SURFACE_VIEW = 0;
+    int SURFACE_VIEW = 0;
 
-    public int TEXTURE_VIEW = 1;
+    int TEXTURE_VIEW = 1;
 
-    public int CUSTOM_VIEW = 2;
+    int CUSTOM_VIEW = 2;
 
     View getRenderView();
 
@@ -26,10 +26,10 @@ public interface IRender {
     void setRenderCallback(IRenderCallback renderCallback);
 
     interface IRenderCallback {
-        public void surfaceCreated(SurfaceHolder holder);
+        void surfaceCreated(SurfaceHolder holder);
 
-        public void surfaceChanged(SurfaceHolder holder, int format, int width, int height);
+        void surfaceChanged(SurfaceHolder holder, int format, int width, int height);
 
-        public void surfaceDestroyed(SurfaceHolder holder);
+        void surfaceDestroyed(SurfaceHolder holder);
     }
 }
