@@ -21,7 +21,7 @@ public class PlayerCC_Config {
     /**
      * 默认的解码器ID 使用的解码器是系统自带的
      */
-    public static int DEFAULT_DECODER_ID = -1;
+    private static int DEFAULT_DECODER_ID = -1;
 
     /**
      * 记录当前使用解码器组件
@@ -29,9 +29,9 @@ public class PlayerCC_Config {
     public static int usedDecoderId = DEFAULT_DECODER_ID;
 
     /**
-     * 存储播放器仓库
+     * 存储播放器包装类的仓库
      */
-    public static SparseArray<DecoderWrapper> mDecoders;
+    static SparseArray<DecoderWrapper> mDecoders;
 
     static {
         mDecoders = new SparseArray<>();
@@ -45,7 +45,7 @@ public class PlayerCC_Config {
 
     /**
      * get decoder
-     * 根据ID获取解码器
+     * 根据ID获取解码器的包装类{@link DecoderWrapper}
      *
      * @return decoder ID
      */
@@ -110,7 +110,7 @@ public class PlayerCC_Config {
 
         /**
          * 设置使用的解码器ID
-         * @param id player id
+         * @param id decoder id
          * @return Builder
          */
         public Builder setUseDecoderId(int id) {
@@ -129,7 +129,7 @@ public class PlayerCC_Config {
         }
 
         /**
-         * 调用次方法，初始化才完成
+         * 调用此方法，初始化才完成
          * @param application Application
          */
         public void build(Application application) {

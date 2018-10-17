@@ -12,7 +12,7 @@ import java.lang.ref.WeakReference;
 /**
  * @author prim
  * @version 1.0.0
- * @desc
+ * @desc 渲染view的控制器
  * @time 2018/7/30 - 下午2:56
  */
 public class RenderControl implements IRenderControl {
@@ -33,10 +33,15 @@ public class RenderControl implements IRenderControl {
     }
 
     @Override
-    public void addRenderView(View view) {
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-        layoutParams.gravity = Gravity.CENTER;
-        frameLayout.addView(view, layoutParams);
+    public void addRenderView(IRenderView view) {
+        if (view == null) {
+            return;
+        }
+        View renderView = view.getRenderView();
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT,Gravity.CENTER);
+        renderView.setLayoutParams(layoutParams);
+        frameLayout.addView(renderView, layoutParams);
     }
 
     @Override

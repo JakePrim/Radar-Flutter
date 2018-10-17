@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,7 @@ import com.prim_player_cc.decoder_cc.listener.OnPlayerEventListener;
 import com.prim_player_cc.decoder_cc.listener.OnTimerUpdateListener;
 import com.prim_player_cc.source.PlayerSource;
 import com.prim_player_cc.log.PrimLog;
-import com.prim_player_cc.render_cc.IRender;
+import com.prim_player_cc.render_cc.IRenderView;
 import com.prim_player_cc.render_cc.RenderSurfaceView;
 import com.prim_player_cc.render_cc.RenderTextureView;
 import com.prim_player_cc.status.Status;
@@ -54,11 +55,15 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
 
     protected BusPlayerView busPlayerView;
 
-    protected IRender render;
+    protected IRenderView mRenderView;
 
     protected View renderView;
 
     protected ICoverGroup coverGroup;
+
+    protected IRenderView.ISurfaceHolder mSurfaceHolder;
+
+    protected int mSurfaceWidth, mSurfaceHeight;
 
     public BasePlayerCCView(@NonNull Context context) {
         this(context, null);
@@ -92,6 +97,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
         CoverCCManager.getInstance().setCoverGroup(coverGroup);
         //初始化视图组件总线的view
         busPlayerView = new BusPlayerView(context);
+        //
         busPlayerView.setOnCoverNativePlayerListener(onCoverNativePlayerListener);
         //将视图组件总线view 添加到 视频组件基类view中 在最底层
         addView(busPlayerView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -123,6 +129,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
             proxyDecoderCC.setLooping(loop);
         }
     }
+
 
     /**
      * 获取是否为循环播放
@@ -220,55 +227,84 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
     @Override
     public void setRenderView(int type) {
         switch (type) {
-            case IRender.SURFACE_VIEW:
-                render = new RenderSurfaceView(getContext());
-                addDefaultRenderView();
+            case IRenderView.RENDER_NONE:
+                addRenderView(null);
                 break;
-            case IRender.CUSTOM_VIEW:
+            case IRenderView.SURFACE_VIEW:
+                RenderSurfaceView renderSurfaceView = new RenderSurfaceView(getContext());
+                addRenderView(renderSurfaceView);
+                break;
+            case IRenderView.CUSTOM_VIEW:
                 renderView = proxyDecoderCC.getRenderView();
-                addCustomRenderView();
+                break;
+            case IRenderView.TEXTURE_VIEW:
+                RenderTextureView renderTextureView = new RenderTextureView(getContext());
+                if (proxyDecoderCC != null) {
+                    renderTextureView.getSurfaceHolder().bindToMediaPlayer(proxyDecoderCC);
+                    renderTextureView.updateRenderSize(proxyDecoderCC.getVideoWidth(), proxyDecoderCC.getVideoHeight());
+                }
+                addRenderView(renderTextureView);
                 break;
             default:
-                render = new RenderTextureView(getContext());
-                addDefaultRenderView();
+                Log.e(TAG, "invalid render");
                 break;
         }
     }
 
-    private void addCustomRenderView() {
-        proxyDecoderCC.setDisplay(null);
-        proxyDecoderCC.setSurface(null);
-        busPlayerView.setRenderView(renderView);
+    private void addRenderView(IRenderView renderView) {
+        if (mRenderView != null) {
+            proxyDecoderCC.setDisplay(null);
+            proxyDecoderCC.setSurface(null);
+            mRenderView.removeRenderCallback(mRCallback);
+            mRenderView = null;
+        }
+        if (renderView == null) {
+            return;
+        }
+        this.mRenderView = renderView;
+        if (proxyDecoderCC.getVideoWidth() > 0 && proxyDecoderCC.getVideoHeight() > 0) {
+            this.mRenderView.updateRenderSize(proxyDecoderCC.getVideoWidth(), proxyDecoderCC.getVideoHeight());
+        }
+        this.mRenderView.setRenderCallback(mRCallback);
+        busPlayerView.setRenderView(mRenderView);
     }
 
-    private void addDefaultRenderView() {
-        proxyDecoderCC.setDisplay(null);
-        proxyDecoderCC.setSurface(null);
-        render.updateRenderSize(proxyDecoderCC.getVideoWidth(), proxyDecoderCC.getVideoHeight());
-        render.setRenderCallback(new RenderCallBack());
-        renderView = render.getRenderView();
-        busPlayerView.setRenderView(renderView);
-    }
-
-    class RenderCallBack implements IRender.IRenderCallback {
+    IRenderView.IRenderCallback mRCallback = new IRenderView.IRenderCallback() {
 
         @Override
-        public void surfaceCreated(SurfaceHolder holder) {
-            if (holder != null) {
-                proxyDecoderCC.setDisplay(holder);
+        public void surfaceCreated(@NonNull IRenderView.ISurfaceHolder holder, int width, int height) {
+            if (holder.getRenderView() != mRenderView) {
+                PrimLog.e(TAG, "surfaceDestroyed :unmatched render callback");
+                return;
             }
+            mSurfaceHolder = holder;
+            if (holder == null) {
+                proxyDecoderCC.setDisplay(null);
+                return;
+            }
+            holder.bindToMediaPlayer(proxyDecoderCC);
         }
 
         @Override
-        public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
+        public void surfaceChanged(@NonNull IRenderView.ISurfaceHolder holder, int format, int width, int height) {
+            if (holder.getRenderView() != mRenderView) {
+                PrimLog.e(TAG, "surfaceDestroyed :unmatched render callback");
+                return;
+            }
+            mSurfaceWidth = width;
+            mSurfaceHeight = height;
         }
 
         @Override
-        public void surfaceDestroyed(SurfaceHolder holder) {
-
+        public void surfaceDestroyed(@NonNull IRenderView.ISurfaceHolder holder) {
+            if (holder.getRenderView() != mRenderView) {
+                PrimLog.e(TAG, "surfaceDestroyed :unmatched render callback");
+                return;
+            }
+            mSurfaceHolder = null;
+            proxyDecoderCC.setDisplay(null);
         }
-    }
+    };
 
     //----------------- 播放监听相关 -------------------//
     OnPlayerEventListener playerEventListener = new OnPlayerEventListener() {
@@ -304,7 +340,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
     };
 
     /**
-     * 视图和播放器的桥接事件监听
+     * 视图和播放器的桥接事件监听,视图调用播放器的某些方法
      */
     OnCoverNativePlayerListener onCoverNativePlayerListener = new OnCoverNativePlayerListener() {
         @Override

@@ -25,8 +25,6 @@ public class TimerUpdateHelper {
 
     private boolean isStart = false;
 
-    private WeakReference<OnTimerUpdateListener> weakTimerUpdateListener;
-
     public TimerUpdateHelper(int loopTime) {
         this.loopTime = loopTime;
     }
@@ -52,11 +50,11 @@ public class TimerUpdateHelper {
         switch (eventCode) {
             case PlayerEventCode.PRIM_PLAYER_EVENT_PREPARED:
             case PlayerEventCode.PRIM_PLAYER_EVENT_START:
-            case PlayerEventCode.PRIM_PLAYER_EVENT_PAUSE:
             case PlayerEventCode.PRIM_PLAYER_EVENT_RESUME:
             case PlayerEventCode.PRIM_PLAYER_EVENT_DATA_SOURCE:
                 startH();
                 break;
+            case PlayerEventCode.PRIM_PLAYER_EVENT_PAUSE:
             case PlayerEventCode.PRIM_PLAYER_EVENT_RESET:
             case PlayerEventCode.PRIM_PLAYER_EVENT_STOP:
             case PlayerEventCode.PRIM_PLAYER_EVENT_COMPLETION:

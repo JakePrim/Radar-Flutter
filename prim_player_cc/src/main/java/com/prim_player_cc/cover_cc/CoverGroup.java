@@ -166,6 +166,7 @@ public class CoverGroup implements ICoverGroup {
 
     /**
      * 对覆盖视图组件排序 级别从低到高
+     * 的顺序list.add 视图
      */
     @Override
     public void coverSort() {

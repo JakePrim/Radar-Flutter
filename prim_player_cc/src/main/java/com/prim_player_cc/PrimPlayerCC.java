@@ -111,7 +111,4 @@ public class PrimPlayerCC {
         return CoverCCManager.getInstance();
     }
 
-    //-------------------------------- 播放相关 API ------------------------------------//
-
-
 }

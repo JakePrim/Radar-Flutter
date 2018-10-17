@@ -3,7 +3,7 @@ package com.prim_player_cc.view;
 import android.view.View;
 
 import com.prim_player_cc.cover_cc.ICoverGroup;
-import com.prim_player_cc.render_cc.IRender;
+import com.prim_player_cc.render_cc.IRenderView;
 
 /**
  * @author prim
@@ -18,7 +18,7 @@ public interface IBusView {
 
     void destroy();
 
-    void setRenderView(View render);
+    void setRenderView(IRenderView render);
 
     void setScrollGesture(boolean scrollGesture);
 }

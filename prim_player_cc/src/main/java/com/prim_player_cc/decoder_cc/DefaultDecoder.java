@@ -198,6 +198,7 @@ public class DefaultDecoder extends BaseDecoderCC {
         if (mediaPlayer != null) {
             updateState(Status.STATE_IDEL);
             mediaPlayer.reset();
+//            mediaPlayer.release();
             triggerPlayerEvent(PlayerEventCode.PRIM_PLAYER_EVENT_RESET, null);
         }
     }

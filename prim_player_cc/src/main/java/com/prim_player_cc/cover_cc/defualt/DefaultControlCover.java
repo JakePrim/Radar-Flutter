@@ -63,18 +63,22 @@ public class DefaultControlCover extends BaseCover implements OnCoverGestureList
     public void onPlayEvent(int eventCode, Bundle bundle) {
         switch (eventCode) {
             case PlayerEventCode.PRIM_PLAYER_EVENT_DATA_SOURCE:
+                //拿到设置的资源 设置视频标题 下载信息等
                 updateUI();//设置标题等
                 break;
             case PlayerEventCode.PRIM_PLAYER_EVENT_COMPLETION:
+                //播放完成隐藏控制器
                 coverVisibility(View.GONE);
                 break;
             case PlayerEventCode.PRIM_PLAYER_EVENT_PREPARED:
             case PlayerEventCode.PRIM_PLAYER_EVENT_START:
+                //准备完毕或开始播放 显示控制器
                 coverVisibility(View.VISIBLE);
                 rl_cover.setVisibility(View.GONE);
                 st_video_progress.setVisibility(View.VISIBLE);
                 break;
             case PlayerEventCode.PRIM_PLAYER_EVENT_STATUS_CHANGE:
+                //更新播放状态
                 int status = bundle.getInt(EventCodeKey.PLAYER_UPDATE_STATUS);
                 if (status == Status.STATE_START) {
                     setStateSelected(true);

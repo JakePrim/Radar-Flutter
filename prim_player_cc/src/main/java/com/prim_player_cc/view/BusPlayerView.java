@@ -20,6 +20,7 @@ import com.prim_player_cc.cover_cc.event.CoverEventDispatcher;
 import com.prim_player_cc.cover_cc.event.IEventDispatcher;
 import com.prim_player_cc.log.PrimLog;
 import com.prim_player_cc.render_cc.IRenderControl;
+import com.prim_player_cc.render_cc.IRenderView;
 import com.prim_player_cc.render_cc.RenderControl;
 import com.prim_player_cc.touch.TouchGestureHandler;
 import com.prim_player_cc.touch.TouchGestureHelper;
@@ -126,7 +127,7 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
 
     /**
      * 设置覆盖视图组
-     * 移除之前的所有视图和解除监听，并根据视图的优先级进行排序，重新调整list
+     * 移除之前的所有视图和解除监听，并根据视图的优先级进行排序，重新调整list{@link ICoverGroup#coverSort()}
      * 然后遍历list添加到视图控制器{@link DefaultCoverControl}
      * {@link ICoverGroup} 视图组绑定视图更改监听
      *
@@ -198,7 +199,7 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
      * @param render view
      */
     @Override
-    public void setRenderView(View render) {
+    public void setRenderView(IRenderView render) {
         removeRenderView();
         if (renderControl != null) {
             renderControl.addRenderView(render);

@@ -8,16 +8,14 @@ import android.view.View;
 import com.linksu.videofeed.R;
 import com.linksu.videofeed.demo.cover.AdvertCover;
 import com.prim_player_cc.PrimPlayerCC;
-import com.prim_player_cc.config.PlayerCC_Config;
-import com.prim_player_cc.cover_cc.CoverCCManager;
 import com.prim_player_cc.cover_cc.defualt.DefaultCompleteCover;
 import com.prim_player_cc.cover_cc.defualt.DefaultControlCover;
 import com.prim_player_cc.cover_cc.defualt.DefaultCoverKey;
 import com.prim_player_cc.cover_cc.defualt.DefaultErrorCover;
 import com.prim_player_cc.cover_cc.defualt.DefaultLoadCover;
 import com.prim_player_cc.decoder_cc.IDecoder;
+import com.prim_player_cc.render_cc.IRenderView;
 import com.prim_player_cc.source.PlayerSource;
-import com.prim_player_cc.render_cc.IRender;
 import com.prim_player_cc.view.DefaultPlayerCCView;
 
 /**
@@ -34,6 +32,7 @@ public class VideoActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
+
         playerCCView = (DefaultPlayerCCView) findViewById(R.id.player_cc);
 
 //      playerCCView.usedDefaultCoverGroup();//使用默认的视图组
@@ -50,20 +49,19 @@ public class VideoActivity extends AppCompatActivity {
 
         //设置呈现视频的RenderView
         //使用框架默认的surfaceView
-        playerCCView.setRenderView(IRender.SURFACE_VIEW);
+        playerCCView.setRenderView(IRenderView.SURFACE_VIEW);
         /**
          * 使用自定的view,从解码器中返回 {@link IDecoder#getRenderView()}
          */
-//        playerCCView.setRenderView(IRender.CUSTOM_VIEW);
+//        playerCCView.setRenderView(IRenderView.CUSTOM_VIEW);
 
         /**
          * 使用框架默认的textureView
          */
-//        playerCCView.setRenderView(IRender.TEXTURE_VIEW);
-
-
+//        playerCCView.setRenderView(IRenderView.TEXTURE_VIEW);
 
         //设置数据提供者
+
 
         //设置播放资源
         playerCCView.setDataSource(

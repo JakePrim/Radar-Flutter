@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 public interface IRenderControl {
     ViewGroup getRenderRootView();
 
-    void addRenderView(View view);
+    void addRenderView(IRenderView view);
 
     void removeRenderView();
 }
