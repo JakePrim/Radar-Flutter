@@ -1,13 +1,11 @@
-package com.prim_player_cc.decoder_cc;
+package com.prim_player_cc.decoder_cc.helper;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
-import com.prim_player_cc.decoder_cc.listener.OnTimerUpdateListener;
-
-import java.lang.ref.WeakReference;
+import com.prim_player_cc.decoder_cc.event_code.PlayerEventCode;
 
 /**
  * @author prim

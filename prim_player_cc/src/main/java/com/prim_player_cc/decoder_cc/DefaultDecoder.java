@@ -1,5 +1,6 @@
 package com.prim_player_cc.decoder_cc;
 
+import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -12,9 +13,12 @@ import android.view.SurfaceHolder;
 import android.view.View;
 
 import com.prim_player_cc.config.ApplicationAttach;
+import com.prim_player_cc.decoder_cc.event_code.ErrorCode;
+import com.prim_player_cc.decoder_cc.event_code.EventCodeKey;
+import com.prim_player_cc.decoder_cc.event_code.PlayerEventCode;
+import com.prim_player_cc.render_cc.IRenderView;
 import com.prim_player_cc.source.PlayerSource;
 import com.prim_player_cc.log.PrimLog;
-import com.prim_player_cc.status.PlayerStatus;
 import com.prim_player_cc.status.Status;
 
 import java.io.IOException;
@@ -31,6 +35,8 @@ public class DefaultDecoder extends BaseDecoderCC {
 
     private PlayerSource playerSource;//播放器的播放资源
 
+    private Uri mUri;
+
     private long jumpStartPosition;
 
     private static final String TAG = "DefaultDecoder";
@@ -42,29 +48,34 @@ public class DefaultDecoder extends BaseDecoderCC {
     @Override
     public void setDataSource(PlayerSource source) {
         this.playerSource = source;
-        if (mediaPlayer == null) {
-            mediaPlayer = new MediaPlayer();
-        } else {
-            stop();
-            reset();
-            resetListener();
+        openVideo();
+    }
+
+    @Override
+    public void openVideo() {
+        if (playerSource == null) {
+            return;
         }
         try {
-            updateState(Status.STATE_INIT);
+            if (playerSource.isPlayerSource()) {
+                release(false);
+                mediaPlayer = new MediaPlayer();
+                initListener();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+                    mediaPlayer.setDataSource(ApplicationAttach.getApplicationContext(), playerSource.getVideoUri(), playerSource.getHeaders());
+                } else {
+                    mediaPlayer.setDataSource(ApplicationAttach.getApplicationContext(),playerSource.getVideoUri());
+                }
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(EventCodeKey.PLAYER_DATA_SOURCE, playerSource);
+                triggerPlayerEvent(PlayerEventCode.PRIM_PLAYER_EVENT_DATA_SOURCE, bundle);
 
-            setPlayerSource(source);
-
-            initListener();
-
-            //TODO 触发设置播放资源事件
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(EventCodeKey.PLAYER_DATA_SOURCE, source);
-            triggerPlayerEvent(PlayerEventCode.PRIM_PLAYER_EVENT_DATA_SOURCE, bundle);
-
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mediaPlayer.setScreenOnWhilePlaying(true);
-            mediaPlayer.prepareAsync();
-        } catch (IOException e) {
+                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                mediaPlayer.setScreenOnWhilePlaying(true);
+                prepareAsync();
+                updateState(Status.STATE_PREPARING);
+            }
+        } catch (Exception e) {
             if (PrimLog.LOG_OPEN) {
                 e.printStackTrace();
             }
@@ -72,23 +83,13 @@ public class DefaultDecoder extends BaseDecoderCC {
         }
     }
 
-    private void setPlayerSource(PlayerSource source) throws IOException {
-        String url = source.getUrl();
-        Uri uri = source.getUri();
-        AssetFileDescriptor assetFileDescriptor = source.getAssetFileDescriptor();
-        if (!TextUtils.isEmpty(url)) {
-            PrimLog.d(TAG, "setPlayerSource url -->> " + url);
-            mediaPlayer.setDataSource(url);
-        } else if (uri != null) {
-            if (source.getHeaders().isEmpty()) {
-                mediaPlayer.setDataSource(ApplicationAttach.getApplicationContext(), uri);
-            } else {
-                mediaPlayer.setDataSource(ApplicationAttach.getApplicationContext(), uri, source.getHeaders());
-            }
-        } else if (assetFileDescriptor != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                mediaPlayer.setDataSource(assetFileDescriptor);
-            }
+
+    private void release(boolean clear) {
+        if (mediaPlayer != null) {
+            mediaPlayer.reset();
+            mediaPlayer.release();
+            mediaPlayer = null;
+            updateState(Status.STATE_IDEL);
         }
     }
 
@@ -125,6 +126,8 @@ public class DefaultDecoder extends BaseDecoderCC {
         @Override
         public boolean onInfo(MediaPlayer mp, int what, int extra) {
             PrimLog.d(TAG, "onInfo:" + what);
+            //TODO 下发信息事件监听
+//            triggerPlayerEvent(PlayerEventCode.P);
             return false;
         }
     };
@@ -138,7 +141,7 @@ public class DefaultDecoder extends BaseDecoderCC {
             bundle.putInt("framework_err", framework_err);
             bundle.putInt("extra", impl_err);
             //TODO 下发错误事件
-            triggerErrorEvent(bundle, ErrorEventCode.PLAYER_EVENT_ERROR_UNKNOWN);
+            triggerErrorEvent(bundle, ErrorCode.PLAYER_EVENT_ERROR_UNKNOWN);
             return false;
         }
     };
@@ -147,6 +150,7 @@ public class DefaultDecoder extends BaseDecoderCC {
         @Override
         public void onBufferingUpdate(MediaPlayer mp, int percent) {
             PrimLog.d(TAG, "onBufferingUpdate:" + percent);
+            //TODO 下发缓存更新事件
             triggerBufferUpdate(null, percent);
         }
     };
@@ -161,9 +165,20 @@ public class DefaultDecoder extends BaseDecoderCC {
     };
 
     @Override
+    public PlayerSource getDataSource() {
+        return null;
+    }
+
+    @Override
+    public void prepareAsync() throws IllegalStateException {
+        if (mediaPlayer != null) {
+            mediaPlayer.prepareAsync();
+        }
+    }
+
+    @Override
     public void start() {
         if (mediaPlayer != null) {
-            updateState(Status.STATE_START);
             mediaPlayer.start();
             triggerPlayerEvent(PlayerEventCode.PRIM_PLAYER_EVENT_START, null);
         }
@@ -187,7 +202,6 @@ public class DefaultDecoder extends BaseDecoderCC {
     @Override
     public void resume() {
         if (mediaPlayer != null) {
-            updateState(Status.STATE_START);
             mediaPlayer.start();
             triggerPlayerEvent(PlayerEventCode.PRIM_PLAYER_EVENT_RESUME, null);
         }
@@ -196,59 +210,72 @@ public class DefaultDecoder extends BaseDecoderCC {
     @Override
     public void reset() {
         if (mediaPlayer != null) {
-            updateState(Status.STATE_IDEL);
             mediaPlayer.reset();
-//            mediaPlayer.release();
             triggerPlayerEvent(PlayerEventCode.PRIM_PLAYER_EVENT_RESET, null);
+        }
+    }
+
+    @Override
+    public void release() {
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
         }
     }
 
     @Override
     public void stop() {
         if (mediaPlayer != null) {
-            updateState(Status.STATE_STOP);
+            updateState(Status.STATE_IDEL);
             mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
             triggerPlayerEvent(PlayerEventCode.PRIM_PLAYER_EVENT_STOP, null);
         }
     }
 
     @Override
-    public void seek(int position) {
-        mediaPlayer.seekTo(position);
-    }
-
-    @Override
     public void setLooping(boolean loop) {
-        mediaPlayer.setLooping(loop);
+        if (mediaPlayer != null) {
+            mediaPlayer.setLooping(loop);
+        }
     }
 
     @Override
     public boolean isLooping() {
-        return mediaPlayer.isLooping();
+        return mediaPlayer != null && mediaPlayer.isLooping();
     }
 
     @Override
     public boolean isPlaying() {
-        return mediaPlayer.isPlaying();
+        return mediaPlayer != null && mediaPlayer.isPlaying();
     }
 
     @Override
     public long getCurrentPosition() {
-        return mediaPlayer.getCurrentPosition();
+        if (mediaPlayer != null) {
+            return mediaPlayer.getCurrentPosition();
+        }
+        return 0;
     }
 
     @Override
     public long getDuration() {
-        return mediaPlayer.getDuration();
+        if (mediaPlayer != null) {
+            return mediaPlayer.getDuration();
+        }
+        return -1;
     }
 
     @Override
     public void setVolume(float left, float right) {
-
+        if (mediaPlayer != null) {
+            mediaPlayer.setVolume(left, right);
+        }
     }
 
     @Override
     public void setSpeed(float m) {
+        PrimLog.e(TAG, "System MediaPlayer not support speed");
     }
 
     @Override
@@ -277,7 +304,7 @@ public class DefaultDecoder extends BaseDecoderCC {
     }
 
     @Override
-    public View getRenderView() {
+    public IRenderView getRenderView() {
         return null;
     }
 
@@ -298,6 +325,26 @@ public class DefaultDecoder extends BaseDecoderCC {
         return 0;
     }
 
+    @Override
+    public int getVideoSarNum() {
+        return 0;
+    }
+
+    @Override
+    public int getVideoSarDen() {
+        return 0;
+    }
+
+    @Override
+    public void setWakeMode(Context context, int mode) {
+
+    }
+
+    @Override
+    public void setLogEnabled(boolean enabled) {
+
+    }
+
 
     @Override
     public void destroy() {
@@ -307,7 +354,15 @@ public class DefaultDecoder extends BaseDecoderCC {
             mediaPlayer.release();
             mediaPlayer = null;
         }
+        resetListener();
         updateState(Status.STATE_END);
         triggerPlayerEvent(PlayerEventCode.PRIM_PLAYER_EVENT_DESTROY, null);
+    }
+
+    @Override
+    public void seek(long msec) throws IllegalStateException {
+        if (mediaPlayer != null) {
+            mediaPlayer.seekTo((int) msec);
+        }
     }
 }

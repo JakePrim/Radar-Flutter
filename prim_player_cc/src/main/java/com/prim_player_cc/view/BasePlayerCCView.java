@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -17,8 +16,9 @@ import com.prim_player_cc.config.PlayerCC_Config;
 import com.prim_player_cc.cover_cc.CoverCCManager;
 import com.prim_player_cc.cover_cc.CoverGroup;
 import com.prim_player_cc.cover_cc.event.CoverEventCode;
-import com.prim_player_cc.decoder_cc.EventCodeKey;
-import com.prim_player_cc.decoder_cc.PlayerEventCode;
+import com.prim_player_cc.decoder_cc.IDecoder;
+import com.prim_player_cc.decoder_cc.event_code.EventCodeKey;
+import com.prim_player_cc.decoder_cc.event_code.PlayerEventCode;
 import com.prim_player_cc.decoder_cc.ProxyDecoderCC;
 import com.prim_player_cc.cover_cc.ICoverGroup;
 import com.prim_player_cc.cover_cc.defualt.DefaultControlCover;
@@ -181,6 +181,10 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
         }
     }
 
+    public IDecoder getDecoder() {
+        return proxyDecoderCC;
+    }
+
     /**
      * 设置播放资源数据
      *
@@ -189,6 +193,8 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
     @Override
     public void setDataSource(PlayerSource dataSource) {
         proxyDecoderCC.setDataSource(dataSource);
+        requestLayout();
+        invalidate();
     }
 
     /**
@@ -235,7 +241,8 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
                 addRenderView(renderSurfaceView);
                 break;
             case IRenderView.CUSTOM_VIEW:
-                renderView = proxyDecoderCC.getRenderView();
+                IRenderView renderView = proxyDecoderCC.getRenderView();
+                addRenderView(renderView);
                 break;
             case IRenderView.TEXTURE_VIEW:
                 RenderTextureView renderTextureView = new RenderTextureView(getContext());

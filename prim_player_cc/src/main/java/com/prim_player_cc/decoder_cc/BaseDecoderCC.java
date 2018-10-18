@@ -2,13 +2,16 @@ package com.prim_player_cc.decoder_cc;
 
 import android.os.Bundle;
 
+import com.prim_player_cc.decoder_cc.event_code.EventCode;
+import com.prim_player_cc.decoder_cc.event_code.EventCodeKey;
+import com.prim_player_cc.decoder_cc.event_code.PlayerEventCode;
 import com.prim_player_cc.decoder_cc.listener.OnBufferingUpdateListener;
 import com.prim_player_cc.decoder_cc.listener.OnErrorEventListener;
 import com.prim_player_cc.decoder_cc.listener.OnPlayerEventListener;
-import com.prim_player_cc.decoder_cc.listener.OnTimerUpdateListener;
 import com.prim_player_cc.status.PlayerStatus;
 import com.prim_player_cc.status.Status;
 
+import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 
 /**
@@ -22,9 +25,9 @@ public abstract class BaseDecoderCC implements IDecoder {
     protected @PlayerStatus
     int mCurrentState = Status.STATE_IDEL;
 
-    protected WeakReference<OnPlayerEventListener> weakPlayingListener;
-    protected WeakReference<OnErrorEventListener> weakErrorListener;
-    protected WeakReference<OnBufferingUpdateListener> weakBufferListener;
+    protected SoftReference<OnPlayerEventListener> weakPlayingListener;
+    protected SoftReference<OnErrorEventListener> weakErrorListener;
+    protected SoftReference<OnBufferingUpdateListener> weakBufferListener;
     protected int mBufferPercentage;
 
     @Override
@@ -37,7 +40,8 @@ public abstract class BaseDecoderCC implements IDecoder {
      *
      * @param state PlayerStatus int
      */
-    protected void updateState(@PlayerStatus int state) {
+    @Override
+    public void updateState(@PlayerStatus int state) {
         this.mCurrentState = state;
         Bundle bundle = new Bundle();
         bundle.putInt(EventCodeKey.PLAYER_UPDATE_STATUS, state);
@@ -56,25 +60,23 @@ public abstract class BaseDecoderCC implements IDecoder {
 
     @Override
     public void setPlayerEventListener(OnPlayerEventListener onPlayingListener) {
-        weakPlayingListener = new WeakReference<>(onPlayingListener);
+        weakPlayingListener = new SoftReference<>(onPlayingListener);
     }
-
 
     @Override
     public void setOnErrorEventListener(OnErrorEventListener onErrorListener) {
-        weakErrorListener = new WeakReference<>(onErrorListener);
+        weakErrorListener = new SoftReference<>(onErrorListener);
     }
-
 
     @Override
     public void setBufferingUpdateListener(OnBufferingUpdateListener onBufferingUpdateListener) {
-        weakBufferListener = new WeakReference<>(onBufferingUpdateListener);
+        weakBufferListener = new SoftReference<>(onBufferingUpdateListener);
     }
 
     /**
      * 触发播放事件
      */
-    protected void triggerPlayerEvent(int eventCode, Bundle bundle) {
+    protected void triggerPlayerEvent(@EventCode int eventCode, Bundle bundle) {
         if (weakPlayingListener != null && weakPlayingListener.get() != null) {
             weakPlayingListener.get().onPlayerEvent(eventCode, bundle);
         }
@@ -84,11 +86,11 @@ public abstract class BaseDecoderCC implements IDecoder {
      * 触发播放错误事件
      *
      * @param bundle    自定义传递的参数
-     * @param eventCode 事件码
+     * @param errorCode 错误码
      */
-    protected void triggerErrorEvent(Bundle bundle, int eventCode) {
+    protected void triggerErrorEvent(Bundle bundle, int errorCode) {
         if (weakErrorListener != null && weakErrorListener.get() != null) {
-            weakErrorListener.get().onError(bundle, eventCode);
+            weakErrorListener.get().onError(bundle, errorCode);
         }
     }
 

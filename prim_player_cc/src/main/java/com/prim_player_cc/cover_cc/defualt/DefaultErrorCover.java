@@ -2,14 +2,12 @@ package com.prim_player_cc.cover_cc.defualt;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 
 import com.prim_player_cc.R;
 import com.prim_player_cc.cover_cc.BaseCover;
-import com.prim_player_cc.decoder_cc.ErrorEventCode;
 
-import static com.prim_player_cc.decoder_cc.ErrorEventCode.PLAYER_EVENT_ERROR_UNKNOWN;
+import static com.prim_player_cc.decoder_cc.event_code.ErrorCode.PLAYER_EVENT_ERROR_UNKNOWN;
 
 /**
  * @author prim

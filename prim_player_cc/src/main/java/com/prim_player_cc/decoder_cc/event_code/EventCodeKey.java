@@ -1,4 +1,4 @@
-package com.prim_player_cc.decoder_cc;
+package com.prim_player_cc.decoder_cc.event_code;
 
 /**
  * @author prim

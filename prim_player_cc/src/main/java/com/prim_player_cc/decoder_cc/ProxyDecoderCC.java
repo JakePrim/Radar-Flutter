@@ -1,12 +1,18 @@
 package com.prim_player_cc.decoder_cc;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.View;
 
+import com.prim_player_cc.config.ApplicationAttach;
 import com.prim_player_cc.config.PlayerCC_Config;
+import com.prim_player_cc.decoder_cc.event_code.PlayerEventCode;
+import com.prim_player_cc.decoder_cc.helper.TimerUpdateHelper;
 import com.prim_player_cc.decoder_cc.listener.OnTimerUpdateListener;
+import com.prim_player_cc.render_cc.IRenderView;
 import com.prim_player_cc.source.PlayerSource;
 import com.prim_player_cc.log.PrimLog;
 import com.prim_player_cc.decoder_cc.listener.OnBufferingUpdateListener;
@@ -99,7 +105,16 @@ public class ProxyDecoderCC implements IDecoder {
     @Override
     public void setDataSource(PlayerSource source) {
         this.source = source;
+        AudioManager am = (AudioManager) ApplicationAttach.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+        if (am != null) {
+            am.requestAudioFocus(null, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+        }
+        updateState(Status.STATE_IDEL);
         if (isDecoderInit()) {
+            _initListener();
+            decoderCC.setDataSource(source);
+        } else {
+            loadDecoder(PlayerCC_Config.getUseDecoderId());
             _initListener();
             decoderCC.setDataSource(source);
         }
@@ -113,8 +128,8 @@ public class ProxyDecoderCC implements IDecoder {
     }
 
     private void _resetListener() {
+        mTimerUpdateHelper.setOnTimerUpdateHandleListener(null);
         if (isDecoderInit()) {
-            mTimerUpdateHelper.setOnTimerUpdateHandleListener(null);
             decoderCC.setPlayerEventListener(null);
             decoderCC.setBufferingUpdateListener(null);
             decoderCC.setOnErrorEventListener(null);
@@ -134,22 +149,54 @@ public class ProxyDecoderCC implements IDecoder {
     };
 
     @Override
+    public PlayerSource getDataSource() {
+        return source;
+    }
+
+    @Override
+    public void openVideo() {
+        if (isDecoderInit()) {
+            decoderCC.openVideo();
+        }
+    }
+
+    @Override
+    public void updateState(int state) {
+        if (isDecoderInit()) {
+            decoderCC.updateState(state);
+        }
+    }
+
+    @Override
+    public void prepareAsync() throws IllegalStateException {
+        if (isDecoderInit()) {
+            decoderCC.prepareAsync();
+        }
+    }
+
+    @Override
     public void start() {
-        if (isDecoderInit())
+        if (isDecoderInit()) {
             decoderCC.start();
+            updateState(Status.STATE_PREPARING);
+        }
     }
 
     @Override
     public void start(long location) {
         if (isDecoderInit()) {
             decoderCC.start(location);
+            updateState(Status.STATE_PREPARING);
         }
     }
 
     @Override
     public void pause() {
         if (isDecoderInit()) {
-            decoderCC.pause();
+            if (decoderCC.isPlaying()) {
+                updateState(Status.STATE_PAUSE);
+                decoderCC.pause();
+            }
         }
     }
 
@@ -168,24 +215,37 @@ public class ProxyDecoderCC implements IDecoder {
     }
 
     @Override
+    public void release() {
+        if (isDecoderInit()) {
+            decoderCC.release();
+        }
+    }
+
+    @Override
     public void stop() {
         if (isDecoderInit()) {
+            updateState(Status.STATE_IDEL);
             decoderCC.stop();
+            AudioManager am = (AudioManager) ApplicationAttach.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+            if (am != null) {
+                am.abandonAudioFocus(null);
+            }
         }
     }
 
     @Override
     public void destroy() {
         _resetListener();
+        updateState(Status.STATE_END);
         if (isDecoderInit()) {
             decoderCC.destroy();
         }
     }
 
     @Override
-    public void seek(int position) {
+    public void seek(long msec) throws IllegalStateException {
         if (isDecoderInit()) {
-            decoderCC.seek(position);
+            decoderCC.seek(msec);
         }
     }
 
@@ -235,7 +295,7 @@ public class ProxyDecoderCC implements IDecoder {
         if (isDecoderInit()) {
             return decoderCC.getDuration();
         }
-        return 0;
+        return -1;
     }
 
     @Override
@@ -287,6 +347,14 @@ public class ProxyDecoderCC implements IDecoder {
     private OnPlayerEventListener mOnPlayerEventListener = new OnPlayerEventListener() {
         @Override
         public void onPlayerEvent(int eventCode, Bundle bundle) {
+            switch (eventCode) {
+                case PlayerEventCode.PRIM_PLAYER_EVENT_COMPLETION:
+                    updateState(Status.STATE_COMPLETE);
+                    break;
+                case PlayerEventCode.PRIM_PLAYER_EVENT_PREPARED:
+                    updateState(Status.STATE_PREPARED);
+                    break;
+            }
             if (mTimerUpdateHelper != null) {
                 mTimerUpdateHelper.setUpdatePlayEvent(eventCode, bundle);
             }
@@ -302,6 +370,7 @@ public class ProxyDecoderCC implements IDecoder {
             if (mTimerUpdateHelper != null) {
                 mTimerUpdateHelper.setPlayEventError();
             }
+            updateState(Status.STATE_ERROR);
             if (weakOnErrorListener != null && weakOnErrorListener.get() != null) {
                 weakOnErrorListener.get().onError(bundle, errorCode);
             }
@@ -349,7 +418,7 @@ public class ProxyDecoderCC implements IDecoder {
     }
 
     @Override
-    public View getRenderView() {
+    public IRenderView getRenderView() {
         if (isDecoderInit()) {
             return decoderCC.getRenderView();
         }
@@ -370,5 +439,35 @@ public class ProxyDecoderCC implements IDecoder {
             return decoderCC.getVideoHeight();
         }
         return 0;
+    }
+
+    @Override
+    public int getVideoSarNum() {
+        if (isDecoderInit()) {
+            return decoderCC.getVideoSarNum();
+        }
+        return 0;
+    }
+
+    @Override
+    public int getVideoSarDen() {
+        if (isDecoderInit()) {
+            return decoderCC.getVideoSarDen();
+        }
+        return 0;
+    }
+
+    @Override
+    public void setWakeMode(Context context, int mode) {
+        if (isDecoderInit()) {
+            decoderCC.setWakeMode(context, mode);
+        }
+    }
+
+    @Override
+    public void setLogEnabled(boolean enabled) {
+        if (isDecoderInit()) {
+            decoderCC.setLogEnabled(enabled);
+        }
     }
 }

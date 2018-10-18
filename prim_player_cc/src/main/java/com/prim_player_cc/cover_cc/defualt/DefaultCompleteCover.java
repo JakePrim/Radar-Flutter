@@ -7,7 +7,7 @@ import android.widget.Button;
 
 import com.prim_player_cc.R;
 import com.prim_player_cc.cover_cc.BaseCover;
-import com.prim_player_cc.decoder_cc.PlayerEventCode;
+import com.prim_player_cc.decoder_cc.event_code.PlayerEventCode;
 
 /**
  * @author prim

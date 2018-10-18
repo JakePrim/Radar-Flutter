@@ -12,8 +12,7 @@ import static com.prim_player_cc.status.Status.STATE_IDEL;
 import static com.prim_player_cc.status.Status.STATE_INIT;
 import static com.prim_player_cc.status.Status.STATE_PAUSE;
 import static com.prim_player_cc.status.Status.STATE_PREPARED;
-import static com.prim_player_cc.status.Status.STATE_START;
-import static com.prim_player_cc.status.Status.STATE_STOP;
+import static com.prim_player_cc.status.Status.STATE_PREPARING;
 
 /**
  * @author prim
@@ -21,7 +20,7 @@ import static com.prim_player_cc.status.Status.STATE_STOP;
  * @desc
  * @time 2018/7/24 - 下午2:39
  */
-@IntDef({STATE_INIT,STATE_PREPARED,STATE_START,STATE_PAUSE,STATE_STOP,STATE_COMPLETE,STATE_ERROR,STATE_IDEL,STATE_END})
+@IntDef({STATE_INIT, STATE_PREPARED, STATE_PREPARING, STATE_PAUSE, STATE_COMPLETE, STATE_ERROR, STATE_IDEL, STATE_END})
 @Retention(RetentionPolicy.SOURCE)
 public @interface PlayerStatus {
 }

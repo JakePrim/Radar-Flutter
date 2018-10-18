@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.prim_player_cc.cover_cc.event.CoverEventCode;
 import com.prim_player_cc.cover_cc.listener.OnCoverEventListener;
+import com.prim_player_cc.decoder_cc.event_code.PlayerEventCode;
 import com.prim_player_cc.log.PrimLog;
 
 import java.lang.ref.WeakReference;
@@ -180,7 +181,7 @@ public abstract class BaseCover implements ICover, ICoverOperate {
 
     /**
      * {@link com.prim_player_cc.view.BasePlayerCCView} 将播放事件传递给视图组
-     * 由视图组分发给各个视图，视图根据{@link com.prim_player_cc.decoder_cc.PlayerEventCode} 播放事件码
+     * 由视图组分发给各个视图，视图根据{@link PlayerEventCode} 播放事件码
      * 自行处理逻辑
      *
      * @param eventCode

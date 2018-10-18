@@ -10,6 +10,8 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.TextureView;
 import android.view.View;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.prim_player_cc.decoder_cc.IDecoder;
 import com.prim_player_cc.log.PrimLog;
@@ -21,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author prim
  * @version 1.0.0
- * @desc 框架默认实现的TextureView
+ * @desc 框架默认实现的TextureView 参考了Ijk的实现
  * @time 2018/7/30 - 上午10:34
  */
 public class RenderTextureView extends TextureView implements IRenderView {
@@ -112,8 +114,8 @@ public class RenderTextureView extends TextureView implements IRenderView {
         surfaceCallback.removeRenderCallback(renderCallback);
     }
 
-    public IRenderView.ISurfaceHolder getSurfaceHolder(){
-        return new InternalSurfaceHolder(this,surfaceCallback.mSurfaceTexture,surfaceCallback);
+    public IRenderView.ISurfaceHolder getSurfaceHolder() {
+        return new InternalSurfaceHolder(this, surfaceCallback.mSurfaceTexture, surfaceCallback);
     }
 
     private static final class SurfaceCallback implements TextureView.SurfaceTextureListener, ISurfaceTextureHost {
@@ -319,5 +321,17 @@ public class RenderTextureView extends TextureView implements IRenderView {
         public SurfaceTexture getSurfaceTexture() {
             return surfaceTexture;
         }
+    }
+
+    @Override
+    public void onInitializeAccessibilityEvent(AccessibilityEvent event) {
+        super.onInitializeAccessibilityEvent(event);
+        event.setClassName(RenderTextureView.class.getName());
+    }
+
+    @Override
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
+        super.onInitializeAccessibilityNodeInfo(info);
+        info.setClassName(RenderTextureView.class.getName());
     }
 }

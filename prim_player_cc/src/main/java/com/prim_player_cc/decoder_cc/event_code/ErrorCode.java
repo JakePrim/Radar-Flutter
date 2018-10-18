@@ -1,4 +1,4 @@
-package com.prim_player_cc.decoder_cc;
+package com.prim_player_cc.decoder_cc.event_code;
 
 /**
  * @author prim
@@ -7,7 +7,7 @@ package com.prim_player_cc.decoder_cc;
  * 如需要其他的错误码 可自行添加
  * @time 2018/9/19 - 上午10:17
  */
-public class ErrorEventCode {
+public class ErrorCode {
     /**
      * 本地文件或网络相关错误
      */

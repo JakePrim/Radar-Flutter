@@ -2,12 +2,16 @@ package com.prim_player_cc.source;
 
 import android.content.res.AssetFileDescriptor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import com.prim_player_cc.log.PrimLog;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author prim
@@ -85,16 +89,31 @@ public class PlayerSource<T extends Parcelable> implements Parcelable {
     /**
      * set video headers
      */
-    private HashMap<String, String> headers;
-
-//    private FileDescriptor fileDescriptor;//TODO 序列化存在问题 暂时不使用
-
-    private AssetFileDescriptor assetFileDescriptor;
+    private Map<String, String> headers;
 
     /**
      * set Parcelable
      */
     private T data;
+
+    private Uri mUri;
+
+    public boolean isPlayerSource() {
+        String url = getUrl();
+        Uri uri = getUri();
+        if (!TextUtils.isEmpty(url)) {
+            this.mUri = Uri.parse(url);
+            return true;
+        } else if (uri != null) {
+            this.mUri = uri;
+            return true;
+        }
+        return false;
+    }
+
+    public Uri getVideoUri() {
+        return mUri;
+    }
 
     protected PlayerSource(Parcel in) {
         tag = in.readString();
@@ -105,8 +124,6 @@ public class PlayerSource<T extends Parcelable> implements Parcelable {
         startPos = in.readLong();
         otherData = in.readHashMap(HashMap.class.getClassLoader());
         headers = in.readHashMap(HashMap.class.getClassLoader());
-//        fileDescriptor = in.readFileDescriptor();
-        assetFileDescriptor = in.readParcelable(AssetFileDescriptor.class.getClassLoader());
         String dataClassName = in.readString();
         try {
             data = in.readParcelable(Class.forName(dataClassName).getClassLoader());
@@ -145,8 +162,6 @@ public class PlayerSource<T extends Parcelable> implements Parcelable {
         dest.writeLong(startPos);
         dest.writeMap(otherData);
         dest.writeMap(headers);
-//        dest.write(fileDescriptor);
-        dest.writeParcelable(assetFileDescriptor, flags);
         dest.writeString(data.getClass().getName());
         dest.writeParcelable(data, flags);
 
@@ -208,19 +223,11 @@ public class PlayerSource<T extends Parcelable> implements Parcelable {
         this.otherData = otherData;
     }
 
-    public HashMap<String, String> getHeaders() {
+    public Map<String, String> getHeaders() {
         return headers;
     }
 
-    public void setHeaders(HashMap<String, String> headers) {
+    public void setHeaders(Map<String, String> headers) {
         this.headers = headers;
-    }
-
-    public AssetFileDescriptor getAssetFileDescriptor() {
-        return assetFileDescriptor;
-    }
-
-    public void setAssetFileDescriptor(AssetFileDescriptor assetFileDescriptor) {
-        this.assetFileDescriptor = assetFileDescriptor;
     }
 }

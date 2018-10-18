@@ -24,12 +24,10 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author prim
  * @version 1.0.0
- * @desc 自定义SurfaceView 渲染器
+ * @desc 自定义SurfaceView 渲染器 参考了ijk的实现
  * @time 2018/7/30 - 上午10:33
  */
 public class RenderSurfaceView extends SurfaceView implements IRenderView {
-
-    private WeakReference<IRenderCallback> weakRenderCallback;
 
     private SurfaceCallback surfaceCallback;
 

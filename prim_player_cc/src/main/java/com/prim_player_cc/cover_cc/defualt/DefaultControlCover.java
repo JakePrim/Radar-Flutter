@@ -15,8 +15,8 @@ import android.widget.RelativeLayout;
 import com.prim_player_cc.R;
 import com.prim_player_cc.cover_cc.BaseCover;
 import com.prim_player_cc.cover_cc.listener.OnCoverGestureListener;
-import com.prim_player_cc.decoder_cc.EventCodeKey;
-import com.prim_player_cc.decoder_cc.PlayerEventCode;
+import com.prim_player_cc.decoder_cc.event_code.EventCodeKey;
+import com.prim_player_cc.decoder_cc.event_code.PlayerEventCode;
 import com.prim_player_cc.log.PrimLog;
 import com.prim_player_cc.status.Status;
 
@@ -80,7 +80,7 @@ public class DefaultControlCover extends BaseCover implements OnCoverGestureList
             case PlayerEventCode.PRIM_PLAYER_EVENT_STATUS_CHANGE:
                 //更新播放状态
                 int status = bundle.getInt(EventCodeKey.PLAYER_UPDATE_STATUS);
-                if (status == Status.STATE_START) {
+                if (status == Status.STATE_PREPARED) {
                     setStateSelected(true);
                 } else if (status == Status.STATE_PAUSE) {
                     setStateSelected(false);
