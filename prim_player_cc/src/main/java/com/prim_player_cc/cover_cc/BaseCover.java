@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.prim_player_cc.cover_cc.event.CoverEventCode;
 import com.prim_player_cc.cover_cc.listener.OnCoverEventListener;
+import com.prim_player_cc.decoder_cc.IMediaController;
 import com.prim_player_cc.decoder_cc.event_code.PlayerEventCode;
 import com.prim_player_cc.log.PrimLog;
 
@@ -16,6 +17,9 @@ import java.lang.ref.WeakReference;
  * @author prim
  * @version 1.0.0
  * @desc 视图的基类，所有到视图都继承此类
+ * 视图可以通过 {@link IMediaController} 控制mediaplayer 的播放暂停等功能
+ * 也可以通过{@link #nativeCoverEvent(int, Bundle)} 桥接方法控制mediaplayer 等播放暂停等事件
+ * 更加灵活控制
  * @time 2018/7/26 - 下午2:34
  */
 public abstract class BaseCover implements ICover, ICoverOperate {
@@ -32,6 +36,8 @@ public abstract class BaseCover implements ICover, ICoverOperate {
     private int level = LEVEL_LOW;
 
     private String key;
+
+    protected IMediaController.MediaPlayerControl mediaPlayerControl;
 
     public BaseCover(Context context) {
         weakContext = new WeakReference<>(context);
@@ -189,6 +195,41 @@ public abstract class BaseCover implements ICover, ICoverOperate {
      */
     @Override
     public void onPlayEvent(int eventCode, Bundle bundle) {
+
+    }
+
+    @Override
+    public void setMediaPlayer(MediaPlayerControl mediaPlayerControl) {
+        this.mediaPlayerControl = mediaPlayerControl;
+    }
+
+    @Override
+    public void show() {
+
+    }
+
+    @Override
+    public void show(int timeout) {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+    public boolean isShowing() {
+        return false;
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+
+    }
+
+    @Override
+    public void setAnchorView(View view) {
 
     }
 }

@@ -26,7 +26,7 @@ public class CoverEventDispatcher implements IEventDispatcher {
 
 
     @Override
-    public boolean dispatchPlayEvent(final int eventCode, final Bundle bundle) {
+    public void dispatchPlayEvent(final int eventCode, final Bundle bundle) {
         PrimLog.d(TAG, "dispatchPlayEvent -->> eventCode:" + eventCode);
         switch (eventCode) {
             default:
@@ -42,11 +42,10 @@ public class CoverEventDispatcher implements IEventDispatcher {
                 break;
         }
         bundleClear(bundle);
-        return false;
     }
 
     @Override
-    public boolean dispatchErrorEvent(final int eventCode, final Bundle bundle) {
+    public void dispatchErrorEvent(final int eventCode, final Bundle bundle) {
         PrimLog.d(TAG, "dispatchErrorEvent -->> eventCode:" + eventCode);
         switch (eventCode) {
             default:
@@ -62,7 +61,6 @@ public class CoverEventDispatcher implements IEventDispatcher {
                 break;
         }
         bundleClear(bundle);
-        return false;
     }
 
     //------------------------------ 手势触摸事件 -------------------------------//

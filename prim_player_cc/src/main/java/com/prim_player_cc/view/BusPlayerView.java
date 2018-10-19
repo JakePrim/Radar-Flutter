@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
@@ -18,6 +17,7 @@ import com.prim_player_cc.cover_cc.control.DefaultCoverControl;
 import com.prim_player_cc.cover_cc.control.ICoverControl;
 import com.prim_player_cc.cover_cc.event.CoverEventDispatcher;
 import com.prim_player_cc.cover_cc.event.IEventDispatcher;
+import com.prim_player_cc.decoder_cc.IMediaController;
 import com.prim_player_cc.log.PrimLog;
 import com.prim_player_cc.render_cc.IRenderControl;
 import com.prim_player_cc.render_cc.IRenderView;
@@ -47,6 +47,8 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
 
     private OnCoverNativePlayerListener onCoverNativePlayerListener;
 
+    private IMediaController.MediaPlayerControl mediaPlayerControl;
+
     public BusPlayerView(@NonNull Context context) {
         super(context);
         _init(context);
@@ -65,6 +67,10 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
     private void initTouchGesture(Context context) {
         touchGestureHelper = new TouchGestureHelper(context, new TouchGestureHandler(this));
         setScrollGesture(true);
+    }
+
+    public void setMediaPlayerControl(IMediaController.MediaPlayerControl mediaPlayerControl) {
+        this.mediaPlayerControl = mediaPlayerControl;
     }
 
     @Override
@@ -145,17 +151,20 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
         if (this.coverGroup != null) {
             this.coverGroup.unBindCoverGroupChangeListener();
         }
+        //new 触发视图事件
         this.eventDispatcher = new CoverEventDispatcher(coverGroup);
+        //视图组
         this.coverGroup = coverGroup;
         //对视图组件进行排序 级别最低的 在视图底部 最高的在视图的顶部 从低到高进行排序
         this.coverGroup.coverSort();
-        //找到所有视图组件，并将组件添加到控制器中 按从低到高的优先级加入到控制器中
+        //将视图重新排序后，找到所有视图组件，并将组件添加到控制器中 按从低到高的优先级加入到控制器中
         this.coverGroup.loopCovers(new ICoverGroup.OnLoopCoverListener() {
             @Override
             public void getCover(ICover cover) {
                 attachCover(cover);
             }
         });
+        //绑定视图组中的视图 动态改变监听 实现了视图的热插拔
         this.coverGroup.bindCoverGroupChangeListener(onCoverGroupChangeListener);
     }
 
@@ -210,11 +219,19 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
      * 连接覆盖视图组件控制器，添加视图组件
      */
     private void attachCover(ICover cover) {
+        //所有的视图必须继承BaseCover
         if (cover instanceof BaseCover) {
             cover.bindCoverGroup(coverGroup);
             cover.bindCoverEventListener(onCoverEventListener);
             BaseCover baseCover = (BaseCover) cover;
+            //设置mediaControl
+            if (mediaPlayerControl != null) {
+                baseCover.setMediaPlayer(mediaPlayerControl);
+            }
+            baseCover.setAnchorView(coverControl.getCoverRootView());
             coverControl.addCover(baseCover);
+        } else {
+            PrimLog.e(TAG, "无效的Cover ：" + cover);
         }
     }
 
@@ -226,10 +243,10 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
      * @param key   标志
      * @param cover 实现的cover
      */
-    private void attachCover(String key, ICover cover) {
+    private void dynamicAttachCover(String key, ICover cover) {
         if (cover instanceof BaseCover) {
-
             if (coverGroup != null) {
+                //视图控制器移除所有视图
                 coverControl.removeAllCovers();
                 //对视图组件重新进行排序 级别最低的 在视图底部 最高的在视图的顶部 从低到高进行排序
                 this.coverGroup.coverSort();
@@ -247,7 +264,7 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
     /**
      * 连接覆盖视图组件控制器，移除视图组件
      */
-    private void detachCover(String key, ICover cover) {
+    private void dynamicDetachCover(String key, ICover cover) {
         if (cover instanceof BaseCover) {
             cover.bindCoverGroup(null);
             cover.unBindCoverEventListener();
@@ -293,12 +310,12 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
     OnCoverGroupChangeListener onCoverGroupChangeListener = new OnCoverGroupChangeListener() {
         @Override
         public void onAddCover(String key, ICover cover) {
-            attachCover(key, cover);
+            dynamicAttachCover(key, cover);
         }
 
         @Override
         public void onRemoveCover(String key, ICover cover) {
-            detachCover(key, cover);
+            dynamicDetachCover(key, cover);
         }
     };
 

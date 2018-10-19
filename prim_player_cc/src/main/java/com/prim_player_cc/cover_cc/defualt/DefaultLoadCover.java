@@ -34,6 +34,9 @@ public class DefaultLoadCover extends BaseCover {
             case PlayerEventCode.PRIM_PLAYER_EVENT_PREPARED:
                 coverVisibility(View.GONE);
                 break;
+            case PlayerEventCode.PRIM_PLAYER_EVENT_PREPARING:
+                coverVisibility(View.VISIBLE);
+                break;
             default:
                 coverVisibility(View.GONE);
                 break;

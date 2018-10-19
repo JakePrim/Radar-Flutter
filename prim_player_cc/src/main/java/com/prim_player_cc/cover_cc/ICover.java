@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.prim_player_cc.cover_cc.listener.OnCoverEventListener;
+import com.prim_player_cc.decoder_cc.IMediaController;
 
 /**
  * @author prim
@@ -11,7 +12,7 @@ import com.prim_player_cc.cover_cc.listener.OnCoverEventListener;
  * @desc
  * @time 2018/7/26 - 上午10:58
  */
-public interface ICover {
+public interface ICover extends IMediaController{
     void setCoverKey(String key);
 
     View getCoverView();
@@ -31,6 +32,9 @@ public interface ICover {
     void bindCoverGroup(ICoverGroup coverGroup);
 
     void onPlayEvent(int eventCode, Bundle bundle);
+
+    @Override
+    void show();
 
     int LEVEL_LOW = 0;
 

@@ -15,6 +15,11 @@ public class PlayerEventCode {
     public static final int PRIM_PLAYER_EVENT_DATA_SOURCE = -1010;
 
     /**
+     * when decoder preparing
+     */
+    public static final int PRIM_PLAYER_EVENT_PREPARING = -2010;
+
+    /**
      * when decoder prepared listener
      */
     public static final int PRIM_PLAYER_EVENT_PREPARED = -1011;

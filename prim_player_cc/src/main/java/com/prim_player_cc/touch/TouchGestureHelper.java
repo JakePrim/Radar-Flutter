@@ -23,7 +23,6 @@ public class TouchGestureHelper {
     }
 
     public boolean onTouch(MotionEvent event) {
-
         return gestureDetector.onTouchEvent(event);
     }
 

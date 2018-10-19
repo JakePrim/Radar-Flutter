@@ -23,40 +23,10 @@ public interface IPlayerCCView {
 
     ICoverGroup getCoverGroup();
 
-    void setLooping(boolean loop);
-
-    boolean isLooping();
-
     void usedDefaultCoverGroup();
-
-    void start();
-
-    void start(long location);
-
-    void pause();
-
-    void resume();
-
-    void reset();
-
-    void stop();
 
     void destroy();
 
-    void seek(int position);
-
     @PlayerStatus
     int getState();
-
-    boolean isPlaying();
-
-    long getCurrentPosition();
-
-    long getDuration();
-
-    int getBufferPercentage();
-
-    void setVolume(float left, float right);
-
-    void setSpeed(float m);
 }

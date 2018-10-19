@@ -45,8 +45,6 @@
             android:text="添加广告组件"
             android:textColor="#ffffff"
             android:textSize="12sp" />
-
-
     </LinearLayout>
 
     <Button

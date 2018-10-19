@@ -50,6 +50,8 @@ public class ProxyDecoderCC implements IDecoder {
 
     private TimerUpdateHelper mTimerUpdateHelper;
 
+    private int mTargetState = Status.STATE_IDEL;
+
     /**
      * 默认加载配置的 player ID
      * {@link PlayerCC_Config#usedDecoderId}
@@ -71,6 +73,7 @@ public class ProxyDecoderCC implements IDecoder {
         if (decoderCC == null) {
             throw new RuntimeException("build decoder failed,please check you config,decoderId:" + this.decoderId + " class not found");
         }
+        updateState(Status.STATE_IDEL);
         DecoderWrapper decoder = PlayerCC_Config.getDecoder(this.decoderId);
         PrimLog.d(TAG, "load decoder :" + this.decoderId);
         PrimLog.d(TAG, "decoder class:" + decoder.getPlayerClass().getSimpleName());
@@ -105,11 +108,6 @@ public class ProxyDecoderCC implements IDecoder {
     @Override
     public void setDataSource(PlayerSource source) {
         this.source = source;
-        AudioManager am = (AudioManager) ApplicationAttach.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
-        if (am != null) {
-            am.requestAudioFocus(null, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
-        }
-        updateState(Status.STATE_IDEL);
         if (isDecoderInit()) {
             _initListener();
             decoderCC.setDataSource(source);
@@ -117,6 +115,17 @@ public class ProxyDecoderCC implements IDecoder {
             loadDecoder(PlayerCC_Config.getUseDecoderId());
             _initListener();
             decoderCC.setDataSource(source);
+        }
+        openVideo();
+    }
+
+    /**
+     * 请求音频焦点
+     */
+    private void requestAudioFocus() {
+        AudioManager am = (AudioManager) ApplicationAttach.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+        if (am != null) {
+            am.requestAudioFocus(null, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
         }
     }
 
@@ -129,6 +138,7 @@ public class ProxyDecoderCC implements IDecoder {
 
     private void _resetListener() {
         mTimerUpdateHelper.setOnTimerUpdateHandleListener(null);
+        mTimerUpdateHelper.cancleH();
         if (isDecoderInit()) {
             decoderCC.setPlayerEventListener(null);
             decoderCC.setBufferingUpdateListener(null);
@@ -156,12 +166,15 @@ public class ProxyDecoderCC implements IDecoder {
     @Override
     public void openVideo() {
         if (isDecoderInit()) {
+            requestAudioFocus();
             decoderCC.openVideo();
+            updateState(Status.STATE_PREPARING);
         }
     }
 
     @Override
     public void updateState(int state) {
+        mTargetState = state;
         if (isDecoderInit()) {
             decoderCC.updateState(state);
         }
@@ -223,13 +236,18 @@ public class ProxyDecoderCC implements IDecoder {
 
     @Override
     public void stop() {
+        _resetListener();
         if (isDecoderInit()) {
             updateState(Status.STATE_IDEL);
             decoderCC.stop();
-            AudioManager am = (AudioManager) ApplicationAttach.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
-            if (am != null) {
-                am.abandonAudioFocus(null);
-            }
+            abandonAudioFocus();
+        }
+    }
+
+    private void abandonAudioFocus() {
+        AudioManager am = (AudioManager) ApplicationAttach.getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+        if (am != null) {
+            am.abandonAudioFocus(null);
         }
     }
 
@@ -239,6 +257,7 @@ public class ProxyDecoderCC implements IDecoder {
         updateState(Status.STATE_END);
         if (isDecoderInit()) {
             decoderCC.destroy();
+            decoderCC = null;
         }
     }
 
@@ -340,10 +359,6 @@ public class ProxyDecoderCC implements IDecoder {
         weakOnTimerUpdateListener = new WeakReference<>(onTimerUpdateListener);
     }
 
-    /**
-     * 将解码器传递过来的数据 传递给视图组
-     */
-
     private OnPlayerEventListener mOnPlayerEventListener = new OnPlayerEventListener() {
         @Override
         public void onPlayerEvent(int eventCode, Bundle bundle) {
@@ -353,6 +368,23 @@ public class ProxyDecoderCC implements IDecoder {
                     break;
                 case PlayerEventCode.PRIM_PLAYER_EVENT_PREPARED:
                     updateState(Status.STATE_PREPARED);
+                    break;
+                case PlayerEventCode.PRIM_PLAYER_EVENT_DESTROY:
+                    updateState(Status.STATE_END);
+                    break;
+                case PlayerEventCode.PRIM_PLAYER_EVENT_PAUSE:
+                    updateState(Status.STATE_PAUSE);
+                    break;
+                case PlayerEventCode.PRIM_PLAYER_EVENT_STOP:
+                    updateState(Status.STATE_IDEL);
+                    break;
+                case PlayerEventCode.PRIM_PLAYER_EVENT_PREPARING:
+                    updateState(Status.STATE_PREPARING);
+                    break;
+                case PlayerEventCode.PRIM_PLAYER_EVENT_DATA_SOURCE:
+                    updateState(Status.STATE_INIT);
+                    break;
+                default:
                     break;
             }
             if (mTimerUpdateHelper != null) {
@@ -367,10 +399,10 @@ public class ProxyDecoderCC implements IDecoder {
     private OnErrorEventListener mOnErrorEventListener = new OnErrorEventListener() {
         @Override
         public boolean onError(Bundle bundle, int errorCode) {
+            updateState(Status.STATE_ERROR);
             if (mTimerUpdateHelper != null) {
                 mTimerUpdateHelper.setPlayEventError();
             }
-            updateState(Status.STATE_ERROR);
             if (weakOnErrorListener != null && weakOnErrorListener.get() != null) {
                 weakOnErrorListener.get().onError(bundle, errorCode);
             }

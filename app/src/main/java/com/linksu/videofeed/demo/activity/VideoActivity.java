@@ -43,29 +43,31 @@ public class VideoActivity extends AppCompatActivity {
         PrimPlayerCC.getCoverCCManager()
                 .addCover(DefaultCoverKey.DEFAULT_LOAD_COVER, new DefaultLoadCover(this))
                 .addCover(DefaultCoverKey.DEFAULT_CONTROL_COVER, new DefaultControlCover(this))
-                .addCover(DefaultCoverKey.DEFAULT_ERROR_COVER,new DefaultErrorCover(this))
-                .addCover(DefaultCoverKey.DEFAULT_COMPLETE_COVER,new DefaultCompleteCover(this))
+                .addCover(DefaultCoverKey.DEFAULT_ERROR_COVER, new DefaultErrorCover(this))
+                .addCover(DefaultCoverKey.DEFAULT_COMPLETE_COVER, new DefaultCompleteCover(this))
                 .insertCoverGroup(playerCCView);
 
         //设置呈现视频的RenderView
         //使用框架默认的surfaceView
-        playerCCView.setRenderView(IRenderView.SURFACE_VIEW);
+        playerCCView.setRenderView(IRenderView.TEXTURE_VIEW);
         /**
          * 使用自定的view,从解码器中返回 {@link IDecoder#getRenderView()}
          */
-//        playerCCView.setRenderView(IRenderView.CUSTOM_VIEW);
+//      playerCCView.setRenderView(IRenderView.CUSTOM_VIEW);
 
         /**
          * 使用框架默认的textureView
          */
-//        playerCCView.setRenderView(IRenderView.TEXTURE_VIEW);
+//      playerCCView.setRenderView(IRenderView.TEXTURE_VIEW);
 
         //设置数据提供者
 
 
+        PlayerSource playerSource = new
+                PlayerSource("http://rmrbtest-image.peopleapp.com/upload/video/201809/153723951440062dcc54a0912f.mp4");
+        playerSource.setTitle("带你去旅行");
         //设置播放资源
-        playerCCView.setDataSource(
-                new PlayerSource("http://rmrbtest-image.peopleapp.com/upload/video/201809/153723951440062dcc54a0912f.mp4"));
+        playerCCView.setDataSource(playerSource);
         //开始播放 MediaPlayer 在准备完毕后自动播放
 //        playerCCView.start(); error ： -38
     }
@@ -81,13 +83,11 @@ public class VideoActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-//        playerCCView.pause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        playerCCView.resume();
     }
 
     @Override

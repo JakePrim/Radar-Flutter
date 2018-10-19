@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+import com.prim_player_cc.decoder_cc.event_code.EventCode;
 import com.prim_player_cc.decoder_cc.event_code.PlayerEventCode;
 
 /**
@@ -44,7 +45,7 @@ public class TimerUpdateHelper {
         }
     };
 
-    public void setUpdatePlayEvent(int eventCode, Bundle bundle) {
+    public void setUpdatePlayEvent(@EventCode int eventCode, Bundle bundle) {
         switch (eventCode) {
             case PlayerEventCode.PRIM_PLAYER_EVENT_PREPARED:
             case PlayerEventCode.PRIM_PLAYER_EVENT_START:
@@ -54,6 +55,7 @@ public class TimerUpdateHelper {
                 break;
             case PlayerEventCode.PRIM_PLAYER_EVENT_PAUSE:
             case PlayerEventCode.PRIM_PLAYER_EVENT_RESET:
+            case PlayerEventCode.PRIM_PLAYER_EVENT_RELEASE:
             case PlayerEventCode.PRIM_PLAYER_EVENT_STOP:
             case PlayerEventCode.PRIM_PLAYER_EVENT_COMPLETION:
             case PlayerEventCode.PRIM_PLAYER_EVENT_DESTROY:
@@ -71,20 +73,26 @@ public class TimerUpdateHelper {
     private void startH() {
         isStart = true;
         removeAllMessageH();
-        H.sendEmptyMessage(UPDATE_TIMER);
+        if (H != null) {
+            H.sendEmptyMessage(UPDATE_TIMER);
+        }
     }
 
-    private void cancleH() {
+    public void cancleH() {
         isStart = false;
         removeAllMessageH();
     }
 
     private void loopNext() {
-        H.sendEmptyMessageDelayed(UPDATE_TIMER, loopTime);
+        if (H != null) {
+            H.sendEmptyMessageDelayed(UPDATE_TIMER, loopTime);
+        }
     }
 
     private void removeAllMessageH() {
-        H.removeCallbacksAndMessages(null);
+        if (H != null) {
+            H.removeCallbacksAndMessages(null);
+        }
     }
 
     private OnTimerUpdateHandleListener onTimerUpdateHandleListener;

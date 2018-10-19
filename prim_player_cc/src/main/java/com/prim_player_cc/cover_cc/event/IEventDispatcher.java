@@ -12,9 +12,9 @@ import android.view.MotionEvent;
  */
 public interface IEventDispatcher {
 
-    boolean dispatchPlayEvent(int eventCode, Bundle bundle);//分发播放事件
+    void dispatchPlayEvent(int eventCode, Bundle bundle);//分发播放事件
 
-    boolean dispatchErrorEvent(int eventCode, Bundle bundle);//分发错误事件
+    void dispatchErrorEvent(int eventCode, Bundle bundle);//分发错误事件
 
 
 

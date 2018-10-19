@@ -11,4 +11,5 @@ public class DefaultCoverKey {
     public static final String DEFAULT_CONTROL_COVER = "control_cover";
     public static final String DEFAULT_ERROR_COVER = "error_cover";
     public static final String DEFAULT_COMPLETE_COVER = "complete_cover";
+    public static final String DEFAULT_SEEK = "seek";
 }

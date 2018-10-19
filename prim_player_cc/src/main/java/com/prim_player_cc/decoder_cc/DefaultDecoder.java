@@ -48,7 +48,6 @@ public class DefaultDecoder extends BaseDecoderCC {
     @Override
     public void setDataSource(PlayerSource source) {
         this.playerSource = source;
-        openVideo();
     }
 
     @Override
@@ -60,26 +59,30 @@ public class DefaultDecoder extends BaseDecoderCC {
             if (playerSource.isPlayerSource()) {
                 release(false);
                 mediaPlayer = new MediaPlayer();
+
                 initListener();
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
                     mediaPlayer.setDataSource(ApplicationAttach.getApplicationContext(), playerSource.getVideoUri(), playerSource.getHeaders());
                 } else {
-                    mediaPlayer.setDataSource(ApplicationAttach.getApplicationContext(),playerSource.getVideoUri());
+                    mediaPlayer.setDataSource(ApplicationAttach.getApplicationContext(), playerSource.getVideoUri());
                 }
+
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(EventCodeKey.PLAYER_DATA_SOURCE, playerSource);
+
+                //TODO 下发播放资源事件
                 triggerPlayerEvent(PlayerEventCode.PRIM_PLAYER_EVENT_DATA_SOURCE, bundle);
 
                 mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 mediaPlayer.setScreenOnWhilePlaying(true);
                 prepareAsync();
-                updateState(Status.STATE_PREPARING);
             }
         } catch (Exception e) {
             if (PrimLog.LOG_OPEN) {
                 e.printStackTrace();
             }
-            updateState(Status.STATE_ERROR);
+            triggerErrorEvent(null, ErrorCode.PLAYER_EVENT_ERROR_UNKNOWN);
         }
     }
 
@@ -89,7 +92,6 @@ public class DefaultDecoder extends BaseDecoderCC {
             mediaPlayer.reset();
             mediaPlayer.release();
             mediaPlayer = null;
-            updateState(Status.STATE_IDEL);
         }
     }
 
@@ -115,7 +117,6 @@ public class DefaultDecoder extends BaseDecoderCC {
         @Override
         public void onPrepared(MediaPlayer mp) {
             PrimLog.d(TAG, "onPrepared");
-            updateState(Status.STATE_PREPARED);
             mp.start();
             //TODO 下发准备完毕的监听事件
             triggerPlayerEvent(PlayerEventCode.PRIM_PLAYER_EVENT_PREPARED, null);
@@ -126,8 +127,11 @@ public class DefaultDecoder extends BaseDecoderCC {
         @Override
         public boolean onInfo(MediaPlayer mp, int what, int extra) {
             PrimLog.d(TAG, "onInfo:" + what);
-            //TODO 下发信息事件监听
-//            triggerPlayerEvent(PlayerEventCode.P);
+            //TODO 下发信息事件监听 交给视图组件去处理
+            Bundle bundle = new Bundle();
+            bundle.putInt(EventCodeKey.PLAYER_INFO_WHAT, what);
+            bundle.putInt(EventCodeKey.PLAYER_INFO_EXTRA, extra);
+            triggerPlayerEvent(PlayerEventCode.PRIM_PLAYER_EVENT_INFO, bundle);
             return false;
         }
     };
@@ -136,11 +140,10 @@ public class DefaultDecoder extends BaseDecoderCC {
         @Override
         public boolean onError(MediaPlayer mp, int framework_err, int impl_err) {
             PrimLog.d(TAG, "onError:" + framework_err);
-            updateState(Status.STATE_ERROR);
+            //TODO 下发错误事件
             Bundle bundle = new Bundle();
             bundle.putInt("framework_err", framework_err);
             bundle.putInt("extra", impl_err);
-            //TODO 下发错误事件
             triggerErrorEvent(bundle, ErrorCode.PLAYER_EVENT_ERROR_UNKNOWN);
             return false;
         }
@@ -149,9 +152,11 @@ public class DefaultDecoder extends BaseDecoderCC {
     private MediaPlayer.OnBufferingUpdateListener onBufferingUpdateListener = new MediaPlayer.OnBufferingUpdateListener() {
         @Override
         public void onBufferingUpdate(MediaPlayer mp, int percent) {
-            PrimLog.d(TAG, "onBufferingUpdate:" + percent);
             //TODO 下发缓存更新事件
-            triggerBufferUpdate(null, percent);
+            if (percent != 100) {
+                PrimLog.d(TAG, "onBufferingUpdate:" + percent);
+                triggerBufferUpdate(null, percent);
+            }
         }
     };
 
@@ -166,13 +171,15 @@ public class DefaultDecoder extends BaseDecoderCC {
 
     @Override
     public PlayerSource getDataSource() {
-        return null;
+        return playerSource;
     }
 
     @Override
     public void prepareAsync() throws IllegalStateException {
         if (mediaPlayer != null) {
             mediaPlayer.prepareAsync();
+            //TODO 下发准备中事件
+            triggerPlayerEvent(PlayerEventCode.PRIM_PLAYER_EVENT_PREPARING, null);
         }
     }
 
@@ -180,6 +187,7 @@ public class DefaultDecoder extends BaseDecoderCC {
     public void start() {
         if (mediaPlayer != null) {
             mediaPlayer.start();
+            //TODO 下发开始播放事件
             triggerPlayerEvent(PlayerEventCode.PRIM_PLAYER_EVENT_START, null);
         }
     }
@@ -193,8 +201,8 @@ public class DefaultDecoder extends BaseDecoderCC {
     @Override
     public void pause() {
         if (mediaPlayer != null) {
-            updateState(Status.STATE_PAUSE);
             mediaPlayer.pause();
+            //TODO 下发暂停播放事件
             triggerPlayerEvent(PlayerEventCode.PRIM_PLAYER_EVENT_PAUSE, null);
         }
     }
@@ -219,16 +227,17 @@ public class DefaultDecoder extends BaseDecoderCC {
     public void release() {
         if (mediaPlayer != null) {
             mediaPlayer.release();
+            triggerPlayerEvent(PlayerEventCode.PRIM_PLAYER_EVENT_RELEASE, null);
         }
     }
 
     @Override
     public void stop() {
         if (mediaPlayer != null) {
-            updateState(Status.STATE_IDEL);
             mediaPlayer.stop();
             mediaPlayer.release();
             mediaPlayer = null;
+            //TODO 下发停止播放事件
             triggerPlayerEvent(PlayerEventCode.PRIM_PLAYER_EVENT_STOP, null);
         }
     }
@@ -337,7 +346,9 @@ public class DefaultDecoder extends BaseDecoderCC {
 
     @Override
     public void setWakeMode(Context context, int mode) {
-
+        if (mediaPlayer != null) {
+            mediaPlayer.setWakeMode(context, mode);
+        }
     }
 
     @Override
@@ -355,7 +366,7 @@ public class DefaultDecoder extends BaseDecoderCC {
             mediaPlayer = null;
         }
         resetListener();
-        updateState(Status.STATE_END);
+        //TODO 下发销毁播放器事件
         triggerPlayerEvent(PlayerEventCode.PRIM_PLAYER_EVENT_DESTROY, null);
     }
 
