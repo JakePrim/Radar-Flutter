@@ -58,6 +58,12 @@ public class RenderTextureView extends TextureView implements IRenderView {
     private void initView(Context context) {
         measureHelper = new MeasureHelper(this);
         surfaceCallback = new SurfaceCallback(this);
+        setSurfaceTextureListener(surfaceCallback);
+    }
+
+    @Override
+    public void release() {
+
     }
 
     @Override

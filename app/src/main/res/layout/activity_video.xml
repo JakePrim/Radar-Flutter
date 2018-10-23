@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.prim_player_cc.view.DefaultPlayerCCView
+    <com.prim_player_cc.view.PrimPlayerCCView
         android:id="@+id/player_cc"
         android:layout_width="match_parent"
         android:layout_height="250dp"
@@ -22,7 +22,7 @@
             android:layout_marginLeft="5dp"
             android:background="@color/colorPrimaryDark"
             android:onClick="load"
-            android:text="添加load组件"
+            android:text="添加组件1"
             android:textColor="#ffffff"
             android:textSize="12sp" />
 
@@ -32,7 +32,7 @@
             android:layout_marginLeft="5dp"
             android:background="@color/colorPrimaryDark"
             android:onClick="removeLoad"
-            android:text="移除load组件"
+            android:text="移除组件1"
             android:textColor="#ffffff"
             android:textSize="12sp" />
 
@@ -64,7 +64,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
         android:background="@color/colorPrimary"
-        android:onClick="addError"
+        android:onClick="addSound"
         android:text="添加声音控制组件"
         android:textColor="#ffffff"
         android:textSize="12sp" />
@@ -75,7 +75,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
         android:background="@color/colorPrimary"
-        android:onClick="removeError"
+        android:onClick="removeSound"
         android:text="移除声音控制组件"
         android:textColor="#ffffff"
         android:textSize="12sp" />

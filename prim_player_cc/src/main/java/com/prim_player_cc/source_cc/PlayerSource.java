@@ -1,17 +1,15 @@
-package com.prim_player_cc.source;
+package com.prim_player_cc.source_cc;
 
-import android.content.res.AssetFileDescriptor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
 import com.prim_player_cc.log.PrimLog;
 
-import java.io.IOException;
+import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author prim
@@ -20,7 +18,7 @@ import java.util.Map;
  * Parcelable 序列化比Serializable 性能高出几倍，如果序列化大量数据推荐使用Parcelable
  * @time 2018/7/24 - 下午2:47
  */
-public class PlayerSource<T extends Parcelable> implements Parcelable {
+public class PlayerSource implements Parcelable {
 
     public PlayerSource() {
     }
@@ -50,14 +48,17 @@ public class PlayerSource<T extends Parcelable> implements Parcelable {
         this.title = title;
     }
 
-    public PlayerSource(T data) {
+    public PlayerSource(Object data) {
         this.data = data;
     }
 
+    /**
+     * set only player source tag
+     */
     private String tag;
 
     /**
-     * set only player id
+     * set only player source id
      */
     private String id;
 
@@ -65,6 +66,11 @@ public class PlayerSource<T extends Parcelable> implements Parcelable {
      * play video path:url
      */
     private String url;
+
+    /**
+     * video thumbnail path
+     */
+    private String thumbnailUrl;
 
     /**
      * play video path:uri
@@ -84,17 +90,25 @@ public class PlayerSource<T extends Parcelable> implements Parcelable {
     /**
      * extended field,if you want set other some data,you can set this field
      */
-    private HashMap<String, Object> otherData;
+    private HashMap otherData;
 
     /**
      * set video headers
      */
-    private Map<String, String> headers;
+    private HashMap headers;
 
     /**
-     * set Parcelable
+     * Parcelable Serializable
      */
-    private T data;
+    private Object data;
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
+    }
 
     private Uri mUri;
 
@@ -126,12 +140,19 @@ public class PlayerSource<T extends Parcelable> implements Parcelable {
         headers = in.readHashMap(HashMap.class.getClassLoader());
         String dataClassName = in.readString();
         try {
-            data = in.readParcelable(Class.forName(dataClassName).getClassLoader());
+            if (data instanceof Parcelable) {
+                data = in.readParcelable(Class.forName(dataClassName).getClassLoader());
+            } else if (data instanceof Serializable) {
+                data = in.readSerializable();
+            } else {
+                data = in.readValue(Object.class.getClassLoader());
+            }
         } catch (ClassNotFoundException e) {
             if (PrimLog.LOG_OPEN) {
                 e.printStackTrace();
             }
         }
+        thumbnailUrl = in.readString();
 
     }
 
@@ -152,6 +173,14 @@ public class PlayerSource<T extends Parcelable> implements Parcelable {
         return 0;
     }
 
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
+    }
+
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(tag);
@@ -163,7 +192,14 @@ public class PlayerSource<T extends Parcelable> implements Parcelable {
         dest.writeMap(otherData);
         dest.writeMap(headers);
         dest.writeString(data.getClass().getName());
-        dest.writeParcelable(data, flags);
+        if (data instanceof Parcelable) {
+            dest.writeParcelable((Parcelable) data, flags);
+        } else if (data instanceof Serializable) {
+            dest.writeSerializable((Serializable) data);
+        } else {
+            dest.writeValue(data);
+        }
+        dest.writeString(thumbnailUrl);
 
     }
 
@@ -223,11 +259,42 @@ public class PlayerSource<T extends Parcelable> implements Parcelable {
         this.otherData = otherData;
     }
 
-    public Map<String, String> getHeaders() {
+    public HashMap<String, String> getHeaders() {
         return headers;
     }
 
-    public void setHeaders(Map<String, String> headers) {
+    public void setHeaders(HashMap<String, String> headers) {
         this.headers = headers;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PlayerSource source = (PlayerSource) o;
+        return startPos == source.startPos &&
+                ObjectEquals(tag, source.tag) &&
+                ObjectEquals(id, source.id) &&
+                ObjectEquals(url, source.url) &&
+                ObjectEquals(thumbnailUrl, source.thumbnailUrl) &&
+                ObjectEquals(uri, source.uri) &&
+                ObjectEquals(title, source.title) &&
+                ObjectEquals(otherData, source.otherData) &&
+                ObjectEquals(headers, source.headers) &&
+                ObjectEquals(data, source.data) &&
+                ObjectEquals(mUri, source.mUri);
+    }
+
+    @Override
+    public int hashCode() {
+        return hash(tag, id, url, thumbnailUrl, uri, title, startPos, otherData, headers, data, mUri);
+    }
+
+    private int hash(Object... values) {
+        return Arrays.hashCode(values);
+    }
+
+    private boolean ObjectEquals(Object a, Object b) {
+        return (a == b) || (a != null && a.equals(b));
     }
 }

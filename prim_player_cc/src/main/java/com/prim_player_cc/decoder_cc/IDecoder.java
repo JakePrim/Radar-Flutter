@@ -7,8 +7,9 @@ import android.view.View;
 
 import com.prim_player_cc.decoder_cc.event_code.ErrorCode;
 import com.prim_player_cc.decoder_cc.event_code.PlayerEventCode;
+import com.prim_player_cc.render_cc.AVOptions;
 import com.prim_player_cc.render_cc.IRenderView;
-import com.prim_player_cc.source.PlayerSource;
+import com.prim_player_cc.source_cc.PlayerSource;
 import com.prim_player_cc.decoder_cc.listener.OnBufferingUpdateListener;
 import com.prim_player_cc.decoder_cc.listener.OnErrorEventListener;
 import com.prim_player_cc.decoder_cc.listener.OnPlayerEventListener;
@@ -24,7 +25,7 @@ public interface IDecoder {
 
     PlayerSource getDataSource();
 
-    void openVideo();
+    void setAVOptions(AVOptions avOptions);
 
     void updateState(@PlayerStatus int state);
 
@@ -86,7 +87,7 @@ public interface IDecoder {
     int getVideoSarDen();
 
     @Deprecated
-    void setWakeMode(Context context,int mode);
+    void setWakeMode(Context context, int mode);
 
     @SuppressWarnings("EmptyMethod")
     @Deprecated

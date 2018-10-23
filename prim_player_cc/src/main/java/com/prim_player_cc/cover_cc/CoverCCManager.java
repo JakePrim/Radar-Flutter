@@ -45,7 +45,8 @@ public class CoverCCManager {
 
     /**
      * 向视图组添加一个视图
-     * @param key 视图唯一key
+     *
+     * @param key   视图唯一key
      * @param cover 视图
      * @return CoverCCManager
      */
@@ -75,10 +76,11 @@ public class CoverCCManager {
 
     /**
      * 动态移除一个视图
+     *
      * @param key 视图唯一key
      * @return CoverCCManager
      */
-    public CoverCCManager dynamicDeleteCover(String key){
+    public CoverCCManager dynamicDeleteCover(String key) {
         removeCover(key);
         return this;
     }
@@ -95,6 +97,18 @@ public class CoverCCManager {
             throw new RuntimeException("coverGroup must to be null,please setCoverGroup");
         }
         return coverGroup.getCover(key);
+    }
+
+    /**
+     * 查找是否存在对应key的视图
+     * @param key 视图的唯一key
+     * @return true 存在视图 false 不存在视图
+     */
+    public boolean containsCover(String key) {
+        if (this.coverGroup == null) {
+            throw new RuntimeException("coverGroup must to be null,please setCoverGroup");
+        }
+        return coverGroup.containsCover(key);
     }
 
     /**

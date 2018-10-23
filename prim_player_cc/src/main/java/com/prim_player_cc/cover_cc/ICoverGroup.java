@@ -27,6 +27,8 @@ public interface ICoverGroup {
 
     Map<String, ICover> getCovers();
 
+    boolean containsCover(String key);
+
     void loopCovers(OnLoopCoverListener loopCoverListener);
 
     interface OnLoopCoverListener {

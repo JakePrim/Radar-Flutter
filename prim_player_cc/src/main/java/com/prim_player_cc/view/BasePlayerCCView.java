@@ -30,7 +30,10 @@ import com.prim_player_cc.cover_cc.defualt.DefaultLoadCover;
 import com.prim_player_cc.decoder_cc.listener.OnErrorEventListener;
 import com.prim_player_cc.decoder_cc.listener.OnPlayerEventListener;
 import com.prim_player_cc.decoder_cc.listener.OnTimerUpdateListener;
-import com.prim_player_cc.source.PlayerSource;
+import com.prim_player_cc.render_cc.AVOptions;
+import com.prim_player_cc.source_cc.AbsDataProvider;
+import com.prim_player_cc.source_cc.IDataProvider;
+import com.prim_player_cc.source_cc.PlayerSource;
 import com.prim_player_cc.log.PrimLog;
 import com.prim_player_cc.render_cc.IRenderView;
 import com.prim_player_cc.render_cc.RenderSurfaceView;
@@ -92,16 +95,16 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
 
     private void _init(Context context, AttributeSet attrs, int defStyleAttr) {
         PrimLog.d(TAG, "build player cc View");
-        proxyDecoderCC = new ProxyDecoderCC();
-        //初始化视图组
-        coverGroup = new CoverGroup();
-        CoverCCManager.getInstance().setCoverGroup(coverGroup);
-        //初始化视图组件总线的view
-        busPlayerView = new BusPlayerView(context);
-        //将MediaPlayerControl 传递给视图
-        busPlayerView.setMediaPlayerControl(this);
-        //视图与播放器的桥接监听
-        busPlayerView.setOnCoverNativePlayerListener(onCoverNativePlayerListener);
+        //一对一模式
+        proxyDecoderCC = createMdeiaPlayer();
+
+        //一对多模式
+
+        //创建视图组
+        createCoverGroup();
+
+        //创建总线view
+        createBusView(context);
 
         setFocusable(true);
         setFocusableInTouchMode(true);
@@ -109,8 +112,28 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
 
         //将视图组件总线view 添加到 视频组件基类view中 在最底层
         addView(busPlayerView, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
         initView();
+
         _initListener();
+    }
+
+    private ProxyDecoderCC createMdeiaPlayer() {
+        return new ProxyDecoderCC();
+    }
+
+    private void createBusView(Context context) {
+        //初始化视图组件总线的view
+        busPlayerView = new BusPlayerView(context);
+        //将MediaPlayerControl 传递给视图
+        busPlayerView.setMediaPlayerControl(this);
+        //视图与播放器的桥接监听
+        busPlayerView.setOnCoverNativePlayerListener(onCoverNativePlayerListener);
+    }
+
+    private void createCoverGroup() {
+        coverGroup = new CoverGroup();
+        CoverCCManager.getInstance().setCoverGroup(coverGroup);
     }
 
     private void _initListener() {
@@ -125,6 +148,24 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
     }
 
     protected abstract void initView();
+
+    @Override
+    public void setAVOptions(AVOptions avOptions) {
+        if (proxyDecoderCC != null) {
+            proxyDecoderCC.setAVOptions(avOptions);
+        }
+    }
+
+    /**
+     * 如果存在下一条数据 播放完成后，自动播放下一个
+     * @param autoNext
+     */
+    @Override
+    public void autoPlayNext(boolean autoNext) {
+        if (proxyDecoderCC != null) {
+            proxyDecoderCC.autoPlayNext(autoNext);
+        }
+    }
 
     /**
      * 设置是否循环播放
@@ -183,14 +224,35 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
      * @param decoderId 解码器组件ID
      */
     @Override
-    public void switchDecoder(int decoderId) {
+    public boolean switchDecoder(int decoderId) {
         if (proxyDecoderCC != null) {
-            proxyDecoderCC.switchDecoder(decoderId);
+            boolean switchDecoder = proxyDecoderCC.switchDecoder(decoderId);
+            if (switchDecoder) {
+                releaseRender();
+            }
+            return switchDecoder;
         }
+        return false;
     }
 
     public IDecoder getDecoder() {
         return proxyDecoderCC;
+    }
+
+    /**
+     * 设置数据提供者
+     * @param provider
+     */
+    public void setDataProvider(AbsDataProvider provider) {
+        if (proxyDecoderCC != null) {
+            proxyDecoderCC.setDataProvider(provider);
+        }
+    }
+
+    public void setDataProviderListener(IDataProvider.OnDataProviderListener onDataProviderListener) {
+        if (proxyDecoderCC != null) {
+            proxyDecoderCC.setDataProviderListener(onDataProviderListener);
+        }
     }
 
     /**
@@ -201,9 +263,20 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
     @Override
     public void setDataSource(PlayerSource dataSource) {
         if (proxyDecoderCC != null) {
-            proxyDecoderCC.setDataSource(dataSource);
             requestLayout();
             invalidate();
+            releaseRender();
+            setRenderView(mRenderType);
+            proxyDecoderCC.setDataSource(dataSource);
+
+        }
+    }
+
+    private void releaseRender() {
+        if (mRenderView != null) {
+            mRenderType = IRenderView.TEXTURE_VIEW;
+            mRenderView.release();
+            mRenderView = null;
         }
     }
 
@@ -240,8 +313,11 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
     }
 
 
+    private int mRenderType = IRenderView.TEXTURE_VIEW;
+
     @Override
     public void setRenderView(int type) {
+        this.mRenderType = type;
         switch (type) {
             case IRenderView.RENDER_NONE:
                 addRenderView(null);

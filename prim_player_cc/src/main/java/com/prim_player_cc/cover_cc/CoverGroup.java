@@ -113,7 +113,7 @@ public class CoverGroup implements ICoverGroup {
             coverMap.clear();
         }
 
-        if (coverList != null){
+        if (coverList != null) {
             coverList.clear();
         }
     }
@@ -126,6 +126,11 @@ public class CoverGroup implements ICoverGroup {
     @Override
     public Map<String, ICover> getCovers() {
         return coverMap;
+    }
+
+    @Override
+    public boolean containsCover(String key) {
+        return coverMap.containsKey(key);
     }
 
     @Override

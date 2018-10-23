@@ -10,7 +10,7 @@ import com.prim_player_cc.decoder_cc.IDecoder;
  */
 public class PlayerEventCode {
     /**
-     * when decoder set data source{@link com.prim_player_cc.source.PlayerSource}
+     * when decoder set data source{@link com.prim_player_cc.source_cc.PlayerSource}
      */
     public static final int PRIM_PLAYER_EVENT_DATA_SOURCE = -1010;
 
@@ -94,4 +94,19 @@ public class PlayerEventCode {
      * when player status change {@link com.prim_player_cc.status.Status}
      */
     public static final int PRIM_PLAYER_EVENT_STATUS_CHANGE = -1020;
+
+    /**
+     * when player advert prompt event
+     */
+    public static final int PRIM_PLAYER_EVENT_ADVERT_PROMPT = -2000;
+
+    /**
+     * when net player prompt event
+     */
+    public static final int PRIM_PLAYER_EVENT_NET_DATA_PROMPT = -2001;
+
+    /**
+     * when player completion auto player next
+     */
+    public static final int PRIM_PLAYER_EVENT_AUTO_PLAY_NEXT = -2002;
 }

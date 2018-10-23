@@ -23,4 +23,6 @@ public class ExampleInstrumentedTest {
 
         assertEquals("com.prim_player_cc.test", appContext.getPackageName());
     }
+
+
 }

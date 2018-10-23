@@ -65,6 +65,11 @@ public class RenderSurfaceView extends SurfaceView implements IRenderView {
     }
 
     @Override
+    public void release() {
+
+    }
+
+    @Override
     public View getRenderView() {
         return this;
     }

@@ -12,8 +12,12 @@ import com.prim_player_cc.config.PlayerCC_Config;
 import com.prim_player_cc.decoder_cc.event_code.PlayerEventCode;
 import com.prim_player_cc.decoder_cc.helper.TimerUpdateHelper;
 import com.prim_player_cc.decoder_cc.listener.OnTimerUpdateListener;
+import com.prim_player_cc.render_cc.AVOptions;
 import com.prim_player_cc.render_cc.IRenderView;
-import com.prim_player_cc.source.PlayerSource;
+import com.prim_player_cc.source_cc.AbsDataProvider;
+import com.prim_player_cc.source_cc.IDataProvider;
+import com.prim_player_cc.source_cc.NodeData;
+import com.prim_player_cc.source_cc.PlayerSource;
 import com.prim_player_cc.log.PrimLog;
 import com.prim_player_cc.decoder_cc.listener.OnBufferingUpdateListener;
 import com.prim_player_cc.decoder_cc.listener.OnErrorEventListener;
@@ -52,6 +56,8 @@ public class ProxyDecoderCC implements IDecoder {
 
     private int mTargetState = Status.STATE_IDEL;
 
+    private boolean autoNext = false;
+
     /**
      * 默认加载配置的 player ID
      * {@link PlayerCC_Config#usedDecoderId}
@@ -81,6 +87,15 @@ public class ProxyDecoderCC implements IDecoder {
     }
 
     /**
+     * 是否自动播放下一个
+     *
+     * @param autoNext true 如果存在下一个自动播放下一个；false 不管存不存在不自动播放下一个
+     */
+    public void autoPlayNext(boolean autoNext) {
+        this.autoNext = autoNext;
+    }
+
+    /**
      * 动态选择解码器组件
      *
      * @param decoderId player ID
@@ -105,8 +120,19 @@ public class ProxyDecoderCC implements IDecoder {
         return decoderCC != null;
     }
 
+    private boolean isUseProvider() {
+        return provider != null;
+    }
+
     @Override
     public void setDataSource(PlayerSource source) {
+        this.source = source;
+        if (!isUseProvider()) {
+            initDataSource(source);
+        }
+    }
+
+    private void initDataSource(PlayerSource source) {
         this.source = source;
         if (isDecoderInit()) {
             _initListener();
@@ -118,6 +144,71 @@ public class ProxyDecoderCC implements IDecoder {
         }
         openVideo();
     }
+
+    private AbsDataProvider provider;
+
+    private IDataProvider.OnDataProviderListener onDataProviderListener;
+
+    public void setDataProvider(AbsDataProvider provider) {
+        if (provider == null) {
+            return;
+        }
+        if (this.provider != null) {
+            provider.destory();
+            this.provider = null;
+        }
+        this.provider = provider;
+        //为了防止监听不到 这里代理监听
+        provider.setOnDateProviderListener(mOnDataProviderListener);
+        //开始将数据加入到数据池中
+        provider.startBindSourceData();
+    }
+
+    public void setDataProviderListener(IDataProvider.OnDataProviderListener onDataProviderListener) {
+        this.onDataProviderListener = onDataProviderListener;
+    }
+
+    IDataProvider.OnDataProviderListener mOnDataProviderListener = new IDataProvider.OnDataProviderListener() {
+        @Override
+        public void onBindDataStart() {
+            if (onDataProviderListener != null) {
+                onDataProviderListener.onBindDataStart();
+            }
+        }
+
+        @Override
+        public void onBindDataCancle() {
+            if (onDataProviderListener != null) {
+                onDataProviderListener.onBindDataCancle();
+            }
+        }
+
+        @Override
+        public void onBindDataSuccess(PlayerSource source) {
+            if (onDataProviderListener != null) {
+                onDataProviderListener.onBindDataSuccess(source);
+            }
+        }
+
+        @Override
+        public void onBindDataError(int code) {
+            if (onDataProviderListener != null) {
+                onDataProviderListener.onBindDataError(code);
+            }
+        }
+
+        @Override
+        public void onBindDataFinish() {
+            if (onDataProviderListener != null) {
+                onDataProviderListener.onBindDataFinish();
+            }
+            //绑定数据完毕后设置当前的播放资源
+            if (provider != null) {
+                PlayerSource currentSourceData = provider.getCurrentSourceData();
+                initDataSource(currentSourceData);
+            }
+        }
+    };
 
     /**
      * 请求音频焦点
@@ -164,10 +255,15 @@ public class ProxyDecoderCC implements IDecoder {
     }
 
     @Override
+    public void setAVOptions(AVOptions avOptions) {
+        if (isDecoderInit()) {
+            decoderCC.setAVOptions(avOptions);
+        }
+    }
+
     public void openVideo() {
         if (isDecoderInit()) {
             requestAudioFocus();
-            decoderCC.openVideo();
             updateState(Status.STATE_PREPARING);
         }
     }
@@ -225,6 +321,9 @@ public class ProxyDecoderCC implements IDecoder {
         if (isDecoderInit()) {
             decoderCC.reset();
         }
+        if (isUseProvider()) {
+            provider.startBindSourceData();
+        }
     }
 
     @Override
@@ -258,6 +357,10 @@ public class ProxyDecoderCC implements IDecoder {
         if (isDecoderInit()) {
             decoderCC.destroy();
             decoderCC = null;
+        }
+        if (isUseProvider()) {
+            provider.destory();
+            provider = null;
         }
     }
 
@@ -364,7 +467,7 @@ public class ProxyDecoderCC implements IDecoder {
         public void onPlayerEvent(int eventCode, Bundle bundle) {
             switch (eventCode) {
                 case PlayerEventCode.PRIM_PLAYER_EVENT_COMPLETION:
-                    updateState(Status.STATE_COMPLETE);
+                    completion();
                     break;
                 case PlayerEventCode.PRIM_PLAYER_EVENT_PREPARED:
                     updateState(Status.STATE_PREPARED);
@@ -395,6 +498,24 @@ public class ProxyDecoderCC implements IDecoder {
             }
         }
     };
+
+    private void completion() {
+        //更新状态
+        updateState(Status.STATE_COMPLETE);
+        //根据数据提供者和设置来判断是否自动播放下一个
+        if (autoNext) {
+            if (isUseProvider()) {
+                NodeData nodeData = provider.autoGetNextPlaySource();
+                if (nodeData != null) {
+                    PlayerSource source = nodeData.source;
+                    if (source != null) {
+                        initDataSource(source);
+                        start();
+                    }
+                }
+            }
+        }
+    }
 
     private OnErrorEventListener mOnErrorEventListener = new OnErrorEventListener() {
         @Override

@@ -1,8 +1,5 @@
 package com.prim_player_cc.status;
 
-import com.prim_player_cc.decoder_cc.IDecoder;
-import com.prim_player_cc.source.PlayerSource;
-
 /**
  * @author prim
  * @version 1.0.0

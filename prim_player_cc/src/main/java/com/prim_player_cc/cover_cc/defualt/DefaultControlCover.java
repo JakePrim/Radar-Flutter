@@ -18,9 +18,7 @@ import com.prim_player_cc.cover_cc.BaseCover;
 import com.prim_player_cc.cover_cc.listener.OnCoverGestureListener;
 import com.prim_player_cc.decoder_cc.event_code.EventCodeKey;
 import com.prim_player_cc.decoder_cc.event_code.PlayerEventCode;
-import com.prim_player_cc.log.PrimLog;
-import com.prim_player_cc.source.PlayerSource;
-import com.prim_player_cc.status.Status;
+import com.prim_player_cc.source_cc.PlayerSource;
 
 /**
  * @author prim

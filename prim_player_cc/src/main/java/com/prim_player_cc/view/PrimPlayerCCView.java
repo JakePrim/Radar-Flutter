@@ -14,21 +14,21 @@ import android.util.Log;
  * @desc 默认实现的播放器组件View
  * @time 2018/7/26 - 下午7:14
  */
-public class DefaultPlayerCCView extends BasePlayerCCView {
-    public DefaultPlayerCCView(@NonNull Context context) {
+public class PrimPlayerCCView extends BasePlayerCCView {
+    public PrimPlayerCCView(@NonNull Context context) {
         super(context);
     }
 
-    public DefaultPlayerCCView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public PrimPlayerCCView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public DefaultPlayerCCView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public PrimPlayerCCView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public DefaultPlayerCCView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public PrimPlayerCCView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 

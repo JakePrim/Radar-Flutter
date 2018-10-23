@@ -10,13 +10,13 @@ import com.prim_player_cc.cover_cc.BaseCover;
 /**
  * @author prim
  * @version 1.0.0
- * @desc
+ * @desc 播放广告视频的提示视图
  * @time 2018/9/20 - 上午9:38
  */
-public class AdvertCover extends BaseCover {
-    public AdvertCover(Context context) {
+public class AdvertPromatCover extends BaseCover {
+    public AdvertPromatCover(Context context) {
         super(context);
-        setCoverLevelHeight(4);
+        setCoverLevelHeight(14);
     }
 
     @Override

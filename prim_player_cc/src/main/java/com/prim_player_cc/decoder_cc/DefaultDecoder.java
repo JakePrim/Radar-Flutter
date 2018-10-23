@@ -1,13 +1,11 @@
 package com.prim_player_cc.decoder_cc;
 
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.View;
@@ -16,12 +14,10 @@ import com.prim_player_cc.config.ApplicationAttach;
 import com.prim_player_cc.decoder_cc.event_code.ErrorCode;
 import com.prim_player_cc.decoder_cc.event_code.EventCodeKey;
 import com.prim_player_cc.decoder_cc.event_code.PlayerEventCode;
+import com.prim_player_cc.render_cc.AVOptions;
 import com.prim_player_cc.render_cc.IRenderView;
-import com.prim_player_cc.source.PlayerSource;
+import com.prim_player_cc.source_cc.PlayerSource;
 import com.prim_player_cc.log.PrimLog;
-import com.prim_player_cc.status.Status;
-
-import java.io.IOException;
 
 /**
  * @author prim
@@ -48,9 +44,9 @@ public class DefaultDecoder extends BaseDecoderCC {
     @Override
     public void setDataSource(PlayerSource source) {
         this.playerSource = source;
+        openVideo();
     }
 
-    @Override
     public void openVideo() {
         if (playerSource == null) {
             return;
@@ -172,6 +168,11 @@ public class DefaultDecoder extends BaseDecoderCC {
     @Override
     public PlayerSource getDataSource() {
         return playerSource;
+    }
+
+    @Override
+    public void setAVOptions(AVOptions avOptions) {
+
     }
 
     @Override

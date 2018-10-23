@@ -1,7 +1,8 @@
 package com.prim_player_cc.view;
 
 import com.prim_player_cc.cover_cc.ICoverGroup;
-import com.prim_player_cc.source.PlayerSource;
+import com.prim_player_cc.render_cc.AVOptions;
+import com.prim_player_cc.source_cc.PlayerSource;
 import com.prim_player_cc.status.PlayerStatus;
 
 /**
@@ -11,7 +12,7 @@ import com.prim_player_cc.status.PlayerStatus;
  * @time 2018/7/25 - 上午10:36
  */
 public interface IPlayerCCView {
-    void switchDecoder(int playerId);
+    boolean switchDecoder(int playerId);
 
     void setDataSource(PlayerSource dataSource);
 
@@ -27,6 +28,10 @@ public interface IPlayerCCView {
 
     void destroy();
 
+    void autoPlayNext(boolean autoNext);
+
     @PlayerStatus
     int getState();
+
+    void setAVOptions(AVOptions avOptions);
 }

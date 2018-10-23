@@ -38,6 +38,8 @@ public interface IRenderView {
 
     int AR_4_3_FIT_PARENT = 5;//4:3
 
+    void release();
+
     View getRenderView();
 
     void updateRenderSize(int width, int height);
