@@ -31,4 +31,13 @@ public class PrimLog {
         }
     }
 
+    public static void printStackTrace(String tag) {
+        if (!LOG_OPEN) return;
+        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+        for (StackTraceElement stackTraceElement : stackTraceElements) {
+            Log.e(tag, stackTraceElement.toString());
+        }
+        Log.e(tag, "\n" + "--------------------------" + "\n");
+    }
+
 }

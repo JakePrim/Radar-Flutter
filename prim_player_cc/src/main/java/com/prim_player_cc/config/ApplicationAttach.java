@@ -16,14 +16,14 @@ public class ApplicationAttach {
 
     public static void attach(Application application) {
         if (application == null) {
-            throw new RuntimeException("player need use context,must set PlayerCC_Config.configBuild.build(application)");
+            throw new RuntimeException("player need use context,must set PrimPlayerConfig.configBuild.build(application)");
         }
         mContext = new WeakReference<>(application.getApplicationContext());
     }
 
     public static Context getApplicationContext() {
         if (mContext == null) {
-            throw new RuntimeException("player need use context,must set PlayerCC_Config.configBuild.build(application)");
+            throw new RuntimeException("player need use context,must set PrimPlayerConfig.configBuild.build(application)");
         }
         return mContext.get();
     }

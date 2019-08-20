@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@mipmap/ic_home_black_48dp"
+            android:title="首页" />
+        <item
+            android:id="@+id/nav_camera"
+            android:icon="@mipmap/ic_video_library_black_48dp"
+            android:title="视频基础功能" />
+        <item
+            android:id="@+id/nav_gallery"
+            android:icon="@mipmap/ic_playlist_play_black_48dp"
+            android:title="列表播放" />
+        <item
+            android:id="@+id/nav_slideshow"
+            android:icon="@mipmap/ic_subscriptions_black_48dp"
+            android:title="小窗播放" />
+        <item
+            android:id="@+id/nav_manage"
+            android:icon="@mipmap/ic_videocam_black_48dp"
+            android:title="直播" />
+    </group>
+
+    <item android:title="音频">
+        <menu>
+            <item
+                android:id="@+id/nav_base_audio"
+                android:icon="@drawable/ic_menu_share"
+                android:title="音频基础功能" />
+            <item
+                android:id="@+id/nav_"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Send" />
+        </menu>
+    </item>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Send" />
+        </menu>
+    </item>
+
+</menu>

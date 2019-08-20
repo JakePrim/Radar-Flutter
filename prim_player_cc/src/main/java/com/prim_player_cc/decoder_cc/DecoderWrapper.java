@@ -1,7 +1,5 @@
 package com.prim_player_cc.decoder_cc;
 
-import com.prim_player_cc.decoder_cc.BaseDecoderCC;
-
 /**
  * @author prim
  * @version 1.0.0
@@ -12,16 +10,16 @@ public class DecoderWrapper {
 
     private int playerId;
 
-    private Class<? extends BaseDecoderCC> playerClass;
+    private Class<? extends AbsDecoderCC> playerClass;
 
     private String playerDec;
 
-    public DecoderWrapper(int playerId, Class<? extends BaseDecoderCC> playerClass) {
+    public DecoderWrapper(int playerId, Class<? extends AbsDecoderCC> playerClass) {
         this.playerId = playerId;
         this.playerClass = playerClass;
     }
 
-    public DecoderWrapper(int playerId, Class<? extends BaseDecoderCC> playerClass, String playerDec) {
+    public DecoderWrapper(int playerId, Class<? extends AbsDecoderCC> playerClass, String playerDec) {
         this.playerId = playerId;
         this.playerClass = playerClass;
         this.playerDec = playerDec;
@@ -31,7 +29,7 @@ public class DecoderWrapper {
         return playerId;
     }
 
-    public Class<? extends BaseDecoderCC> getPlayerClass() {
+    public Class<? extends AbsDecoderCC> getPlayerClass() {
         return playerClass;
     }
 

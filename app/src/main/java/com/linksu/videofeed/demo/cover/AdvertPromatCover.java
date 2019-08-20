@@ -16,12 +16,16 @@ import com.prim_player_cc.cover_cc.BaseCover;
 public class AdvertPromatCover extends BaseCover {
     public AdvertPromatCover(Context context) {
         super(context);
-        setCoverLevelHeight(14);
     }
 
     @Override
     protected View createCoverView(Context context) {
         return View.inflate(context, R.layout.advert_layout, null);
+    }
+
+    @Override
+    protected int[] setCoverLevel() {
+        return new int[]{LEVEL_HEIGHT,4};
     }
 
     @Override

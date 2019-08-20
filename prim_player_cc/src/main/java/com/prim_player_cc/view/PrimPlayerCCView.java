@@ -34,6 +34,7 @@ public class PrimPlayerCCView extends BasePlayerCCView {
 
     @Override
     protected void initView() {
-
+//        releaseRender();
+//        setRenderView(mRenderType);
     }
 }

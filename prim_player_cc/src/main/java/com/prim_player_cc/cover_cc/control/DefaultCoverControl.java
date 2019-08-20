@@ -3,6 +3,7 @@ package com.prim_player_cc.cover_cc.control;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.FrameLayout;
 
 import com.prim_player_cc.cover_cc.BaseCover;
@@ -56,12 +57,27 @@ public class DefaultCoverControl extends BaseCoverControl {
         int coverLevel = cover.getCoverLevel();
         if (coverLevel > ICover.LEVEL_HEIGHT) {
             PrimLog.d(TAG, "coverView: " + cover.getCoverView() + " | 添加到LEVEL_HEIGHT：" + coverLevel);
+            ViewParent parent = cover.getCoverView().getParent();
+            if (parent instanceof ViewGroup) {
+                ViewGroup viewgroup = (ViewGroup) parent;
+                viewgroup.removeView(cover.getCoverView());
+            }
             mLevelHeightCoverLayout.addView(cover.getCoverView(), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         } else if (coverLevel > ICover.LEVEL_MIDDLE) {
             PrimLog.d(TAG, "coverView: " + cover.getCoverView() + " | 添加到LEVEL_MIDDLE：" + coverLevel);
+            ViewParent parent = cover.getCoverView().getParent();
+            if (parent instanceof ViewGroup) {
+                ViewGroup viewgroup = (ViewGroup) parent;
+                viewgroup.removeView(cover.getCoverView());
+            }
             mLevelMiddleCoverLayout.addView(cover.getCoverView(), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         } else {
             PrimLog.d(TAG, "coverView: " + cover.getCoverView() + " | 添加到LEVEL_LOW：" + coverLevel);
+            ViewParent parent = cover.getCoverView().getParent();
+            if (parent instanceof ViewGroup) {
+                ViewGroup viewgroup = (ViewGroup) parent;
+                viewgroup.removeView(cover.getCoverView());
+            }
             mLevelLowCoverLayout.addView(cover.getCoverView(), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         }
     }

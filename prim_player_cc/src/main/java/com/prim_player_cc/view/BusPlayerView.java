@@ -1,12 +1,17 @@
 package com.prim_player_cc.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.Gravity;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
+import com.prim_player_cc.PrimPlayerCC;
 import com.prim_player_cc.cover_cc.BaseCover;
 import com.prim_player_cc.cover_cc.ICover;
 import com.prim_player_cc.cover_cc.ICoverGroup;
@@ -18,11 +23,17 @@ import com.prim_player_cc.cover_cc.control.ICoverControl;
 import com.prim_player_cc.cover_cc.event.CoverEventDispatcher;
 import com.prim_player_cc.cover_cc.event.IEventDispatcher;
 import com.prim_player_cc.decoder_cc.IMediaController;
+import com.prim_player_cc.decoder_cc.event_code.PlayerEventCode;
+import com.prim_player_cc.expand.AbsEventProducer;
+import com.prim_player_cc.expand.DefaultCoverEventSender;
+import com.prim_player_cc.expand.DelegateEventSender;
+import com.prim_player_cc.expand.ExpandGroup;
+import com.prim_player_cc.expand.IExpandGroup;
+import com.prim_player_cc.loader.ImageEngine;
 import com.prim_player_cc.log.PrimLog;
 import com.prim_player_cc.render_cc.IRenderControl;
 import com.prim_player_cc.render_cc.IRenderView;
 import com.prim_player_cc.render_cc.RenderControl;
-import com.prim_player_cc.touch.TouchGestureHandler;
 import com.prim_player_cc.touch.TouchGestureHelper;
 
 /**
@@ -49,6 +60,10 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
 
     private IMediaController.MediaPlayerControl mediaPlayerControl;
 
+    private FrameLayout imgView;
+
+    private IExpandGroup expandGroup;
+
     public BusPlayerView(@NonNull Context context) {
         super(context);
         _init(context);
@@ -56,16 +71,55 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
 
     private void _init(Context context) {
         PrimLog.d(TAG, "build Bus View");
+        //初始化背景
+        setBackgroundColor(Color.BLACK);
+        //创建扩展事件组
+        expandGroup = new ExpandGroup(new DefaultCoverEventSender(mDelegateEventSender));
+        //初始化手势事件
         initTouchGesture(context);
+        //初始化显示视频画面的view
         initRenderView(context);
+        //初始化视图控制器
         initCoverControl(context);
     }
+
+    /**
+     * 添加扩展事件生产者
+     *
+     * @param producer {@link AbsEventProducer}
+     */
+    public void addEventProducer(AbsEventProducer producer) {
+        if (null != expandGroup) {
+            expandGroup.addProducer(producer);
+        }
+    }
+
+    /**
+     * 移除扩展事件生产者
+     *
+     * @param producer
+     */
+    public void removeEventProducer(AbsEventProducer producer) {
+        if (null != expandGroup) {
+            expandGroup.removeProducer(producer);
+        }
+    }
+
+    /**
+     * 扩展事件生产者，分发事件
+     */
+    private DelegateEventSender mDelegateEventSender = new DelegateEventSender() {
+        @Override
+        public void sendEvent(int eventCode, Bundle bundle, ICoverGroup.OnCoverFilter filter) {
+            dispatchExpandEvent(eventCode, bundle, filter);
+        }
+    };
 
     /**
      * 初始化触摸手势 并将手势事件分发给各个视图{@link ICover}
      */
     private void initTouchGesture(Context context) {
-        touchGestureHelper = new TouchGestureHelper(context, new TouchGestureHandler(this));
+        touchGestureHelper = new TouchGestureHelper(context, this, this);
         setScrollGesture(true);
     }
 
@@ -82,13 +136,6 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
         }
     }
 
-    @Override
-    public void setScrollGesture(boolean scrollGesture) {
-        if (touchGestureHelper != null) {
-            touchGestureHelper.setScrollGesture(scrollGesture);
-        }
-    }
-
     /**
      * 初始化video view
      * 添加呈现视图的view{@link android.view.SurfaceView} 或 {@link android.view.TextureView}
@@ -98,8 +145,8 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
     private void initRenderView(Context context) {
         renderControl = new RenderControl(context);
         if (renderControl.getRenderRootView() != null) {
-            addView(renderControl.getRenderRootView(), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
+            addView(renderControl.getRenderRootView(), new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT, Gravity.CENTER));
         }
     }
 
@@ -127,6 +174,11 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
         return new DefaultCoverControl(context);
     }
 
+    /**
+     * 视图桥接播放器的监听事件
+     *
+     * @param onCoverNativePlayerListener {@link OnCoverNativePlayerListener}
+     */
     public void setOnCoverNativePlayerListener(OnCoverNativePlayerListener onCoverNativePlayerListener) {
         this.onCoverNativePlayerListener = onCoverNativePlayerListener;
     }
@@ -145,6 +197,7 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
         if (this.coverGroup != null && this.coverGroup.equals(coverGroup)) {
             return;
         }
+        PrimLog.e("PRIM!!", "BusPlayerView -> 添加视图组");
         //移除之前的covers
         removeAllCovers();
         //解除之前到添加移除监听
@@ -158,7 +211,7 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
         //对视图组件进行排序 级别最低的 在视图底部 最高的在视图的顶部 从低到高进行排序
         this.coverGroup.coverSort();
         //将视图重新排序后，找到所有视图组件，并将组件添加到控制器中 按从低到高的优先级加入到控制器中
-        this.coverGroup.loopCovers(new ICoverGroup.OnLoopCoverListener() {
+        this.coverGroup.loopCovers(coverFilter(), new ICoverGroup.OnLoopCoverListener() {
             @Override
             public void getCover(ICover cover) {
                 attachCover(cover);
@@ -191,6 +244,18 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
     }
 
     /**
+     * 给视图组件分发事件
+     *
+     * @param eventCode
+     * @param bundle
+     */
+    public void dispatchCoverNativeEvent(int eventCode, Bundle bundle) {
+        if (eventDispatcher != null) {
+            eventDispatcher.dispatchCoverNativeEvent(eventCode, bundle);
+        }
+    }
+
+    /**
      * 给视图组件{@link ICover} 分发播放错误事件, 具体分发类请看{@link CoverEventDispatcher}
      *
      * @param eventCode 事件码
@@ -201,6 +266,20 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
             eventDispatcher.dispatchErrorEvent(eventCode, bundle);
         }
     }
+
+    /**
+     * 给视图组件{@link ICover} 分发扩展事件, 具体分发类请看{@link CoverEventDispatcher}
+     *
+     * @param eventCode 事件码
+     * @param bundle    传递数据
+     * @param filter    拦截器
+     */
+    public void dispatchExpandEvent(int eventCode, Bundle bundle, ICoverGroup.OnCoverFilter filter) {
+        if (null != eventDispatcher) {
+            eventDispatcher.dispatchExpandEvent(eventCode, bundle, filter);
+        }
+    }
+
 
     /**
      * 设置呈现视频的view
@@ -214,6 +293,7 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
             renderControl.addRenderView(render);
         }
     }
+
 
     /**
      * 连接覆盖视图组件控制器，添加视图组件
@@ -235,7 +315,6 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
         }
     }
 
-
     /**
      * 动态插入视图组件，首先对视图组件按优先级重排序，然后在将组件添加到视图中
      * 按优先级显示
@@ -251,7 +330,7 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
                 //对视图组件重新进行排序 级别最低的 在视图底部 最高的在视图的顶部 从低到高进行排序
                 this.coverGroup.coverSort();
                 //找到所有视图组件，并将组件添加到控制器中 按从低到高的优先级加入到控制器中
-                this.coverGroup.loopCovers(new ICoverGroup.OnLoopCoverListener() {
+                this.coverGroup.loopCovers(coverFilter(), new ICoverGroup.OnLoopCoverListener() {
                     @Override
                     public void getCover(ICover cover) {
                         attachCover(cover);
@@ -273,10 +352,37 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
         }
     }
 
+    private ICoverGroup.OnCoverFilter coverFilter() {
+        return new ICoverGroup.OnCoverFilter() {
+            @Override
+            public boolean filter(ICover cover) {
+                if (coverFilter != null) {
+                    return (cover instanceof BaseCover) && coverFilter.filter(cover);
+                } else {
+                    return cover instanceof BaseCover;
+                }
+            }
+        };
+    }
+
+    private ICoverGroup.OnCoverFilter coverFilter = null;
+
+    /**
+     * 设置视图组拦截器
+     *
+     * @param coverFilter {@link ICoverGroup.OnCoverFilter}
+     */
+    @Override
+    public void setCoverFilter(ICoverGroup.OnCoverFilter coverFilter) {
+        this.coverFilter = coverFilter;
+    }
+
+
     /**
      * 移除renderView
      */
-    private void removeRenderView() {
+    @Override
+    public void removeRenderView() {
         if (renderControl != null) {
             renderControl.removeRenderView();
         }
@@ -327,14 +433,43 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
         if (this.onCoverNativePlayerListener != null) {
             this.onCoverNativePlayerListener = null;
         }
+        if (expandGroup != null) {
+            expandGroup.onDestory();
+        }
         removeAllCovers();
         removeRenderView();
+    }
+
+    //------------------- 手势设置 -----------------------//
+
+    /**
+     * 设置是否开启手势
+     *
+     * @param gesture
+     */
+    @Override
+    public void setGesture(boolean gesture) {
+        if (touchGestureHelper != null) {
+            touchGestureHelper.setGesture(gesture);
+        }
+    }
+
+    /**
+     * 设置是否开启滑动手势
+     *
+     * @param scrollGesture
+     */
+    @Override
+    public void setScrollGesture(boolean scrollGesture) {
+        if (touchGestureHelper != null) {
+            touchGestureHelper.setScrollGesture(scrollGesture);
+        }
     }
 
     @Override
     public boolean onSingleTapUp(MotionEvent event) {
         if (eventDispatcher != null) {
-            eventDispatcher.dispatchOnSingleTapUp(event);
+            return eventDispatcher.dispatchOnSingleTapUp(event);
         }
         return false;
     }
@@ -342,7 +477,7 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
     @Override
     public boolean onDoubleTap(MotionEvent event) {
         if (eventDispatcher != null) {
-            eventDispatcher.dispatchOnDoubleTap(event);
+            return eventDispatcher.dispatchOnDoubleTap(event);
         }
         return false;
     }
@@ -350,7 +485,7 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
     @Override
     public boolean onDown(MotionEvent event) {
         if (eventDispatcher != null) {
-            eventDispatcher.dispatchOnDown(event);
+            return eventDispatcher.dispatchOnDown(event);
         }
         return false;
     }
@@ -358,7 +493,15 @@ public class BusPlayerView extends FrameLayout implements IBusView, OnCoverGestu
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float dX, float dY) {
         if (eventDispatcher != null) {
-            eventDispatcher.dispatchOnScroll(e1, e2, dX, dY);
+            return eventDispatcher.dispatchOnScroll(e1, e2, dX, dY);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onTouchCancle() {
+        if (eventDispatcher != null) {
+            eventDispatcher.dispatchOnTouchCancle();
         }
         return false;
     }

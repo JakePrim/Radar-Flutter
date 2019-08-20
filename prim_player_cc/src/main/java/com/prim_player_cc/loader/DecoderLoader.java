@@ -1,9 +1,9 @@
 package com.prim_player_cc.loader;
 
-import com.prim_player_cc.config.PlayerCC_Config;
+import com.prim_player_cc.config.PrimPlayerConfig;
 import com.prim_player_cc.decoder_cc.DecoderWrapper;
 import com.prim_player_cc.log.PrimLog;
-import com.prim_player_cc.decoder_cc.BaseDecoderCC;
+import com.prim_player_cc.decoder_cc.AbsDecoderCC;
 
 /**
  * @author prim
@@ -17,16 +17,16 @@ public class DecoderLoader {
      * 解码器ID加载 仓库中存储的具体解码器组件
      *
      * @param decoderId 仓库中存储的解码器组件ID 标示
-     * @return {@link BaseDecoderCC} 具体实现的解码器组件
+     * @return {@link AbsDecoderCC} 具体实现的解码器组件
      */
-    public static BaseDecoderCC loadPlayer(int decoderId) {
-        if (!PlayerCC_Config.checkDecoderId(decoderId)) {
+    public static AbsDecoderCC loadPlayer(int decoderId) {
+        if (!PrimPlayerConfig.checkDecoderId(decoderId)) {
             throw new RuntimeException("playerId :" + decoderId + " not exist,please check whether set player id.");
         }
-        BaseDecoderCC basePlayerCC = null;
+        AbsDecoderCC basePlayerCC = null;
         try {
-            DecoderWrapper wrapper = PlayerCC_Config.getDecoder(decoderId);
-            Class<? extends BaseDecoderCC> playerClass = wrapper.getPlayerClass();
+            DecoderWrapper wrapper = PrimPlayerConfig.getDecoder(decoderId);
+            Class<? extends AbsDecoderCC> playerClass = wrapper.getPlayerClass();
             basePlayerCC = playerClass.getConstructor().newInstance();
         } catch (Exception e) {
             if (PrimLog.LOG_OPEN) {
@@ -38,13 +38,13 @@ public class DecoderLoader {
 
     /**
      * 获取正在使用的 解码器组件
-     * @return {@link BaseDecoderCC}
+     * @return {@link AbsDecoderCC}
      */
-    public static BaseDecoderCC getUsedDecoder() {
-        BaseDecoderCC basePlayerCC = null;
+    public static AbsDecoderCC getUsedDecoder() {
+        AbsDecoderCC basePlayerCC = null;
         try {
-            DecoderWrapper usedPlayer = PlayerCC_Config.getUsedDecoder();
-            Class<? extends BaseDecoderCC> playerClass = usedPlayer.getPlayerClass();
+            DecoderWrapper usedPlayer = PrimPlayerConfig.getUsedDecoder();
+            Class<? extends AbsDecoderCC> playerClass = usedPlayer.getPlayerClass();
             basePlayerCC = playerClass.getConstructor().newInstance();
         } catch (Exception e) {
             if (PrimLog.LOG_OPEN) {

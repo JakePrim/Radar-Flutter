@@ -22,6 +22,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.prim_player_cc.R;
+import com.prim_player_cc.log.PrimLog;
 
 import java.lang.ref.WeakReference;
 
@@ -40,6 +41,10 @@ public final class MeasureHelper {
     private int mMeasuredHeight;
 
     private int mCurrentAspectRatio = IRenderView.AR_ASPECT_FIT_PARENT;
+
+    public int getmVideoRotationDegree() {
+        return mVideoRotationDegree;
+    }
 
     public MeasureHelper(View view) {
         mWeakView = new WeakReference<View>(view);
@@ -65,6 +70,8 @@ public final class MeasureHelper {
         mVideoRotationDegree = videoRotationDegree;
     }
 
+    private static final String TAG = "MeasureHelper";
+
     /**
      * Must be called by View.onMeasure(int, int)
      *
@@ -76,7 +83,7 @@ public final class MeasureHelper {
         //        + MeasureSpec.toString(heightMeasureSpec) + ")");
         if (mVideoRotationDegree == 90 || mVideoRotationDegree == 270) {
             int tempSpec = widthMeasureSpec;
-            widthMeasureSpec  = heightMeasureSpec;
+            widthMeasureSpec = heightMeasureSpec;
             heightMeasureSpec = tempSpec;
         }
 
@@ -90,7 +97,6 @@ public final class MeasureHelper {
             int widthSpecSize = View.MeasureSpec.getSize(widthMeasureSpec);
             int heightSpecMode = View.MeasureSpec.getMode(heightMeasureSpec);
             int heightSpecSize = View.MeasureSpec.getSize(heightMeasureSpec);
-
             if (widthSpecMode == View.MeasureSpec.AT_MOST && heightSpecMode == View.MeasureSpec.AT_MOST) {
                 float specAspectRatio = (float) widthSpecSize / (float) heightSpecSize;
                 float displayAspectRatio;
@@ -115,7 +121,6 @@ public final class MeasureHelper {
                         break;
                 }
                 boolean shouldBeWider = displayAspectRatio > specAspectRatio;
-
                 switch (mCurrentAspectRatio) {
                     case IRenderView.AR_ASPECT_FIT_PARENT:
                     case IRenderView.AR_16_9_FIT_PARENT:
@@ -129,6 +134,8 @@ public final class MeasureHelper {
                             height = heightSpecSize;
                             width = (int) (height * displayAspectRatio);
                         }
+                        PrimLog.e(TAG, "IRenderView width:" + width + " height:" + height
+                                + " mVideoWidth:" + mVideoWidth + " mVideoHeight:" + mVideoHeight);
                         break;
                     case IRenderView.AR_ASPECT_FILL_PARENT:
                         if (shouldBeWider) {
@@ -140,6 +147,7 @@ public final class MeasureHelper {
                             width = widthSpecSize;
                             height = (int) (width / displayAspectRatio);
                         }
+
                         break;
                     case IRenderView.AR_ASPECT_WRAP_CONTENT:
                     default:
@@ -167,6 +175,7 @@ public final class MeasureHelper {
                     //Log.i("@@@", "image too tall, correcting");
                     height = width * mVideoHeight / mVideoWidth;
                 }
+                PrimLog.e(TAG, "EXACTLY width:" + width + " height:" + height);
             } else if (widthSpecMode == View.MeasureSpec.EXACTLY) {
                 // only the width is fixed, adjust the height to match aspect ratio if possible
                 width = widthSpecSize;
@@ -200,10 +209,12 @@ public final class MeasureHelper {
             }
         } else {
             // no size yet, just adopt the given spec sizes
+            PrimLog.e(TAG, "no size yet VideoWidth:" + mVideoWidth + " VideoHeight:" + mVideoHeight);
         }
 
         mMeasuredWidth = width;
         mMeasuredHeight = height;
+        PrimLog.e(TAG, "mMeasuredHeight:" + mMeasuredHeight + " mMeasuredWidth:" + mMeasuredWidth);
     }
 
     public int getMeasuredWidth() {

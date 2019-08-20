@@ -1,6 +1,7 @@
 package com.prim_player_cc.render_cc;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import com.prim_player_cc.assist.AssistPlayer;
 import com.prim_player_cc.decoder_cc.IDecoder;
 import com.prim_player_cc.log.PrimLog;
 
@@ -63,7 +65,15 @@ public class RenderTextureView extends TextureView implements IRenderView {
 
     @Override
     public void release() {
+        if (mSurface != null) {
+            mSurface.release();
+            mSurface = null;
+        }
+    }
 
+    @Override
+    public void postRenderView() {
+        postInvalidate();
     }
 
     @Override
@@ -82,13 +92,13 @@ public class RenderTextureView extends TextureView implements IRenderView {
     @Override
     public void setAspectRatio(int aspectRatio) {
         measureHelper.setAspectRatio(aspectRatio);
-        setRotation(aspectRatio);
+        requestLayout();
     }
 
     @Override
     public void setVideoRotation(int degree) {
         measureHelper.setVideoRotation(degree);
-        requestLayout();
+        setRotation(degree);
     }
 
     @Override
@@ -118,6 +128,11 @@ public class RenderTextureView extends TextureView implements IRenderView {
     @Override
     public void removeRenderCallback(@NonNull IRenderCallback renderCallback) {
         surfaceCallback.removeRenderCallback(renderCallback);
+    }
+
+    @Override
+    public Bitmap getShortcut() {
+        return getBitmap();
     }
 
     public IRenderView.ISurfaceHolder getSurfaceHolder() {
@@ -172,12 +187,13 @@ public class RenderTextureView extends TextureView implements IRenderView {
 
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+            PrimLog.e(TAG, "onSurfaceTextureAvailable");
             mSurfaceTexture = surface;
             mIsFormatChanged = false;
             mWidth = 0;
             mHeight = 0;
 
-            ISurfaceHolder surfaceHolder = new InternalSurfaceHolder(mWeakRenderView.get(), surface, this);
+            ISurfaceHolder surfaceHolder = new InternalSurfaceHolder(mWeakRenderView.get(), mSurfaceTexture, this);
             for (IRenderCallback callback : mRenderCallback.keySet()) {
                 callback.surfaceCreated(surfaceHolder, 0, 0);
             }
@@ -185,12 +201,15 @@ public class RenderTextureView extends TextureView implements IRenderView {
 
         @Override
         public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
-            mSurfaceTexture = surface;
+            PrimLog.e(TAG, "onSurfaceTextureSizeChanged");
+            if (mSurfaceTexture == null) {
+                mSurfaceTexture = surface;
+            }
             mIsFormatChanged = true;
             mWidth = width;
             mHeight = height;
 
-            ISurfaceHolder surfaceHolder = new InternalSurfaceHolder(mWeakRenderView.get(), surface, this);
+            ISurfaceHolder surfaceHolder = new InternalSurfaceHolder(mWeakRenderView.get(), mSurfaceTexture, this);
             for (IRenderCallback callback : mRenderCallback.keySet()) {
                 callback.surfaceChanged(surfaceHolder, 0, width, height);
             }
@@ -198,6 +217,7 @@ public class RenderTextureView extends TextureView implements IRenderView {
 
         @Override
         public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+            PrimLog.e(TAG, "onSurfaceTextureDestroyed：" + mOwnSurfaceTexture);
             mSurfaceTexture = surface;
             mIsFormatChanged = false;
             mWidth = 0;
@@ -207,7 +227,8 @@ public class RenderTextureView extends TextureView implements IRenderView {
             for (IRenderCallback callback : mRenderCallback.keySet()) {
                 callback.surfaceDestroyed(surfaceHolder);
             }
-            return mOwnSurfaceTexture;
+            //mOwnSurfaceTexture
+            return false;
         }
 
         @Override
@@ -261,6 +282,30 @@ public class RenderTextureView extends TextureView implements IRenderView {
         }
     }
 
+    //画框
+    private Surface mSurface;
+
+    //画面
+    private SurfaceTexture mSurfaceTexture;
+
+    private void setMySurfaceTexture(SurfaceTexture surfaceTexture) {
+        this.mSurfaceTexture = surfaceTexture;
+    }
+
+    public SurfaceTexture getMySurfaceTexture() {
+        return mSurfaceTexture;
+    }
+
+    public void setSurface(Surface surface) {
+        this.mSurface = surface;
+    }
+
+
+    Surface getSurface() {
+        return mSurface;
+    }
+
+
     private static final class InternalSurfaceHolder implements IRenderView.ISurfaceHolder {
 
         private RenderTextureView renderTextureView;
@@ -278,7 +323,6 @@ public class RenderTextureView extends TextureView implements IRenderView {
             if (decoder == null) {
                 return;
             }
-
             if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) &&
                     (decoder instanceof ISurfaceTextureHolder)) {
                 ISurfaceTextureHolder textureHolder = (ISurfaceTextureHolder) decoder;
@@ -296,7 +340,11 @@ public class RenderTextureView extends TextureView implements IRenderView {
                     textureHolder.setSurfaceTextureHost(surfaceTextureHost);
                 }
             } else {
-                decoder.setSurface(openSurface());
+                Surface surface = openSurface();
+                PrimLog.e("PRIM!!", "bindToMediaPlayer" + surface);
+                decoder.setSurface(surface);
+                renderTextureView.setMySurfaceTexture(surfaceTexture);
+                renderTextureView.setSurface(surface);
             }
 
         }
@@ -339,5 +387,12 @@ public class RenderTextureView extends TextureView implements IRenderView {
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
         super.onInitializeAccessibilityNodeInfo(info);
         info.setClassName(RenderTextureView.class.getName());
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        surfaceCallback.willDetachFromWindow();
+        super.onDetachedFromWindow();
+        surfaceCallback.didDetachFromWindow();
     }
 }

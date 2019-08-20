@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="res_color_C6_transparency_00">#00000000</color>
+    <color name="res_color_C6_transparency_30">#4D000000</color>
+    <color name="res_color_C6_transparency_50">#80000000</color>
+    <color name="res_color_C6_transparency_70">#B2000000</color>
+</resources>

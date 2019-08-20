@@ -7,6 +7,7 @@ import android.os.Message;
 
 import com.prim_player_cc.decoder_cc.event_code.EventCode;
 import com.prim_player_cc.decoder_cc.event_code.PlayerEventCode;
+import com.prim_player_cc.log.PrimLog;
 
 /**
  * @author prim
@@ -50,7 +51,7 @@ public class TimerUpdateHelper {
             case PlayerEventCode.PRIM_PLAYER_EVENT_PREPARED:
             case PlayerEventCode.PRIM_PLAYER_EVENT_START:
             case PlayerEventCode.PRIM_PLAYER_EVENT_RESUME:
-            case PlayerEventCode.PRIM_PLAYER_EVENT_DATA_SOURCE:
+            case PlayerEventCode.PRIM_PLAYER_EVENT_PANDERING_START:
                 startH();
                 break;
             case PlayerEventCode.PRIM_PLAYER_EVENT_PAUSE:
@@ -83,8 +84,11 @@ public class TimerUpdateHelper {
         removeAllMessageH();
     }
 
+    private static final String TAG = "TimerUpdateHelper";
+
     private void loopNext() {
         if (H != null) {
+//            PrimLog.e(TAG, "查看handler是否一直执行");
             H.sendEmptyMessageDelayed(UPDATE_TIMER, loopTime);
         }
     }

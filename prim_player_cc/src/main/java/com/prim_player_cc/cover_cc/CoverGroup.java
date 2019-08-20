@@ -58,12 +58,14 @@ public class CoverGroup implements ICoverGroup {
         if (isListener) {
             if (coverMap != null && cover != null && !TextUtils.isEmpty(key)) {
                 cover.setCoverKey(key);
+                cover.onCoverBind();
                 coverMap.put(key, cover);
                 bindAddCoverListener(key, cover);
             }
         } else {
             if (coverMap != null && cover != null && !TextUtils.isEmpty(key)) {
                 cover.setCoverKey(key);
+                cover.onCoverBind();
                 coverMap.put(key, cover);
             }
         }
@@ -85,12 +87,21 @@ public class CoverGroup implements ICoverGroup {
         if (isListener) {
             if (coverMap != null && !TextUtils.isEmpty(key)) {
                 ICover remove = coverMap.remove(key);
-                bindRemoveCoverListener(key, remove);
+                if (remove != null) {
+                    bindRemoveCoverListener(key, remove);
+                    remove.onCoverUnBind();
+                    coverSort();//注意这里需要重新排序 重置coverList 否则循环coverList 还存在删除的视图
+                }
                 return remove;
             }
         } else {
             if (coverMap != null && !TextUtils.isEmpty(key)) {
-                return coverMap.remove(key);
+                ICover remove = coverMap.remove(key);
+                if (remove != null) {
+                    remove.onCoverUnBind();
+                    coverSort();
+                }
+                return remove;
             }
         }
         return null;
@@ -137,6 +148,15 @@ public class CoverGroup implements ICoverGroup {
     public void loopCovers(OnLoopCoverListener loopCoverListener) {
         for (Map.Entry<String, ICover> coverEntry : coverList) {
             loopCoverListener.getCover(coverEntry.getValue());
+        }
+    }
+
+    @Override
+    public void loopCovers(OnCoverFilter filter, OnLoopCoverListener loopCoverListener) {
+        for (Map.Entry<String, ICover> coverEntry : coverList) {
+            if (filter == null || filter.filter(coverEntry.getValue())) {
+                loopCoverListener.getCover(coverEntry.getValue());
+            }
         }
     }
 

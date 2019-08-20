@@ -11,13 +11,15 @@ import android.os.Bundle;
 public interface ICoverOperate {
     void coverRequestPause();
 
-    void coverRequestResume();
-
-    void coverRequestReset();
+    void coverRequestStart();
 
     void coverRequestStop();
 
     void coverRequestSeek(Bundle bundle);
 
-    void coverRequestStart();
+    void coverRequestFullScreen();
+
+    void coverRequestVerticalScreen();
+
+    void coverRequestVerticalFullScreen();
 }

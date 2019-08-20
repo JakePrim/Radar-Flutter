@@ -33,12 +33,13 @@ public class DataPool implements IDataPool, IPoolOperate {
     private @LoopMode
     int loopMode = LOOP_MODE_QUEUE;//默认为顺序播放
 
-    private int mOffsetPointerIndex = 0;
+    private transient int mOffsetPointerIndex = 0;
 
-    private PlayerSource mOffsetPointerSource = null;
+    private transient PlayerSource mOffsetPointerSource = null;
 
     public DataPool() {
-
+        size = 0;
+        mOffsetPointerIndex = 0;
     }
 
     /**
@@ -221,6 +222,9 @@ public class DataPool implements IDataPool, IPoolOperate {
     }
 
 
+    /**
+     * 遍历数据池 查看数据池的数据是否正确
+     */
     public void traversPool() {
         PrimLog.e(TAG, "遍历数据的大小:" + size);
         NodeData node = this.mHeadNode;
@@ -256,11 +260,15 @@ public class DataPool implements IDataPool, IPoolOperate {
     }
 
     @Override
-    public PlayerSource getSourceData(int index) {
+    public PlayerSource playIndexData(int index) {
         if (index < 0 || index > size) {
             return null;
         }
-        return node(index).source;
+        NodeData node = node(index);
+        mOffsetNodePointer = node;
+        mOffsetPointerIndex = index;
+        mOffsetPointerSource = node.source;
+        return mOffsetPointerSource;
     }
 
     private PlayerSource unLink(NodeData nodeData) {
@@ -342,6 +350,15 @@ public class DataPool implements IDataPool, IPoolOperate {
         return -1;
     }
 
+    /**
+     * 当前播放的位置
+     *
+     * @return 当前播放在数据池中的位置
+     */
+    public int currentPlayIndex() {
+        return indexOf(mOffsetNodePointer.source);
+    }
+
 
     /**
      * 设置播放模式 {@link IPoolOperate#LOOP_MODE_LIST_LOOP}
@@ -417,24 +434,74 @@ public class DataPool implements IDataPool, IPoolOperate {
                 }
                 break;
             case LOOP_MODE_QUEUE:
-                if (isNext()) {
-                    nodeData = playNext();
-                }
+                nodeData = queueNext();
                 break;
             case LOOP_MODE_LIST_LOOP:
-                if (isNext()) {
-                    nodeData = playNext();
-                } else {
-                    nodeData = mOffsetNodePointer = mHeadNode;
-                }
+                nodeData = listLoopNext();
                 break;
             case LOOP_MODE_RANDOM:
-                Random random = new Random();
-                int randomNumber = random.nextInt(size - 1) % ((size + 1));
-                nodeData = mOffsetNodePointer = node(randomNumber);
+                nodeData = randomNext();
                 break;
             default:
                 break;
+        }
+        return nodeData;
+    }
+
+    private NodeData randomNext() {
+        NodeData nodeData;
+        Random random = new Random();
+        int randomNumber = random.nextInt(size - 1) % ((size + 1));
+        nodeData = mOffsetNodePointer = node(randomNumber);
+        return nodeData;
+    }
+
+    /**
+     * 手动播放下一个
+     *
+     * @return {@link NodeData}
+     */
+    @Override
+    public NodeData manualGetNextPlaySource() {
+        NodeData nodeData = null;
+        if (isNext()) {
+            nodeData = playNext();
+        } else {
+            nodeData = mOffsetNodePointer = mHeadNode;
+        }
+        return nodeData;
+    }
+
+    private NodeData queueNext() {
+        NodeData nodeData = null;
+        if (isNext()) {
+            nodeData = playNext();
+        }
+        return nodeData;
+    }
+
+    private NodeData listLoopNext() {
+        NodeData nodeData;
+        if (isNext()) {
+            nodeData = playNext();
+        } else {
+            nodeData = mOffsetNodePointer = mHeadNode;
+        }
+        return nodeData;
+    }
+
+    /**
+     * 手动播放前一个
+     *
+     * @return {@link NodeData}
+     */
+    @Override
+    public NodeData manualGetForwardPlaySource() {
+        NodeData nodeData = null;
+        if (isForward()) {
+            nodeData = playForward();
+        } else {
+            nodeData = mOffsetNodePointer = mLastNode;
         }
         return nodeData;
     }

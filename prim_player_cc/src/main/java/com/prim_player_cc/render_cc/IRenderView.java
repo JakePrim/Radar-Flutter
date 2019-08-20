@@ -1,5 +1,6 @@
 package com.prim_player_cc.render_cc;
 
+import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.support.annotation.NonNull;
 import android.view.Surface;
@@ -26,6 +27,8 @@ public interface IRenderView {
 
     int RENDER_NONE = -1;
 
+    int ASSIST_VIEW = -2;
+
     int AR_ASPECT_FIT_PARENT = 0;//自适应屏幕
 
     int AR_ASPECT_FILL_PARENT = 1;//全屏截取中间
@@ -39,6 +42,8 @@ public interface IRenderView {
     int AR_4_3_FIT_PARENT = 5;//4:3
 
     void release();
+
+    void postRenderView();
 
     View getRenderView();
 
@@ -55,6 +60,8 @@ public interface IRenderView {
     void setRenderCallback(@NonNull IRenderCallback renderCallback);
 
     void removeRenderCallback(@NonNull IRenderCallback renderCallback);
+
+    Bitmap getShortcut();
 
     interface ISurfaceHolder {
         void bindToMediaPlayer(IDecoder decoder);

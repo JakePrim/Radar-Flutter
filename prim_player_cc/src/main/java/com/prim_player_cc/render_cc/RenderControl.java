@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.FrameLayout;
 
 import java.lang.ref.WeakReference;
@@ -24,6 +25,9 @@ public class RenderControl implements IRenderControl {
     public RenderControl(Context context) {
         mContext = new WeakReference<>(context);
         frameLayout = new FrameLayout(mContext.get());
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT, Gravity.CENTER);
+        frameLayout.setLayoutParams(layoutParams);
         frameLayout.setBackgroundColor(Color.TRANSPARENT);
     }
 
@@ -39,7 +43,7 @@ public class RenderControl implements IRenderControl {
         }
         View renderView = view.getRenderView();
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
-                FrameLayout.LayoutParams.WRAP_CONTENT,Gravity.CENTER);
+                FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
         renderView.setLayoutParams(layoutParams);
         frameLayout.addView(renderView, layoutParams);
     }

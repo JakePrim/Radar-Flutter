@@ -18,5 +18,18 @@ public class EventCodeKey {
     public static final String PLAYER_BUFFER = "player_buffer";
 
     public static final String PLAYER_INFO_WHAT = "player_info_what";
+
     public static final String PLAYER_INFO_EXTRA = "player_info_extra";
+
+    public static final String PLAYER_VIDEO_WIDTH = "video_width";
+
+    public static final String PLAYER_VIDEO_HEIGHT = "video_height";
+
+    public static final String PLAYER_VIDEO_SAR_NUM = "video_sar_num";
+
+    public static final String PLAYER_VIDEO_SAR_DEN = "video_sar_den";
+
+    public static final String PLAYER_AUTO_NEXT = "player_auto_next";
+
+    public static final String PLAYER_SEEK_TO = "player_seek_to";
 }

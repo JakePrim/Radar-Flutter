@@ -1,6 +1,7 @@
 package com.prim_player_cc.render_cc;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
@@ -20,6 +22,8 @@ import com.prim_player_cc.log.PrimLog;
 import java.lang.ref.WeakReference;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static android.graphics.PixelFormat.TRANSLUCENT;
 
 /**
  * @author prim
@@ -62,11 +66,17 @@ public class RenderSurfaceView extends SurfaceView implements IRenderView {
         getHolder().addCallback(surfaceCallback);
         //noinspection deprecation
         getHolder().setType(SurfaceHolder.SURFACE_TYPE_NORMAL);
+        getHolder().setFormat(TRANSLUCENT);
     }
 
     @Override
     public void release() {
 
+    }
+
+    @Override
+    public void postRenderView() {
+        postInvalidate();
     }
 
     @Override
@@ -77,6 +87,7 @@ public class RenderSurfaceView extends SurfaceView implements IRenderView {
     @Override
     public void updateRenderSize(int width, int height) {
         if (width > 0 && height > 0) {
+            PrimLog.e(TAG, "updateRenderSize width:" + width + " height:" + height);
             measureHelper.setVideoSize(width, height);
             getHolder().setFixedSize(width, height);
             requestLayout();
@@ -124,6 +135,11 @@ public class RenderSurfaceView extends SurfaceView implements IRenderView {
         if (surfaceCallback != null) {
             surfaceCallback.removeRenderCallback(renderCallback);
         }
+    }
+
+    @Override
+    public Bitmap getShortcut() {
+        return null;
     }
 
     private static final class SurfaceCallback implements SurfaceHolder.Callback {
@@ -221,7 +237,6 @@ public class RenderSurfaceView extends SurfaceView implements IRenderView {
 
         @Override
         public void bindToMediaPlayer(IDecoder decoder) {
-
             if (decoder != null) {
                 if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
                         && (decoder instanceof ISurfaceTextureHolder)) {

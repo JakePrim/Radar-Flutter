@@ -25,11 +25,15 @@ public interface IPoolOperate {
     //列表循环播放
     int LOOP_MODE_LIST_LOOP = 0x135;
 
+    //播完暂停
+    int LOOP_MODE_FINISH_PAUSE = 0x136;
+
     @IntDef({
             LOOP_MODE_SINGLE,
             LOOP_MODE_QUEUE,
             LOOP_MODE_RANDOM,
-            LOOP_MODE_LIST_LOOP
+            LOOP_MODE_LIST_LOOP,
+            LOOP_MODE_FINISH_PAUSE
     })
     @Retention(SOURCE)
     @interface LoopMode {
@@ -42,9 +46,14 @@ public interface IPoolOperate {
 
     void setOffsetPointer(int index);
 
-    @LoopMode int getLoopMode();
+    @LoopMode
+    int getLoopMode();
 
     NodeData autoGetNextPlaySource();
+
+    NodeData manualGetNextPlaySource();
+
+    NodeData manualGetForwardPlaySource();
 
     void autoLoadMorePlaySource();
 }

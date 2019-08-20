@@ -4,6 +4,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MotionEvent;
 
+import com.prim_player_cc.cover_cc.ICoverGroup;
+
 /**
  * @author prim
  * @version 1.0.0
@@ -16,7 +18,9 @@ public interface IEventDispatcher {
 
     void dispatchErrorEvent(int eventCode, Bundle bundle);//分发错误事件
 
+    void dispatchCoverNativeEvent(int eventCode, Bundle bundle);//视图之间的桥接事件
 
+    void dispatchExpandEvent(int eventCode, Bundle bundle, ICoverGroup.OnCoverFilter filter);//分发扩展事件
 
     //------------------------ 分发手势事件 ------------------------//
 
@@ -26,6 +30,8 @@ public interface IEventDispatcher {
 
     boolean dispatchOnDown(MotionEvent event);//分发按下事件
 
-    boolean dispatchOnScroll(MotionEvent e1,MotionEvent e2,float dX,float dY);//分发滚动事件
+    boolean dispatchOnScroll(MotionEvent e1, MotionEvent e2, float dX, float dY);//分发滚动事件
+
+    void dispatchOnTouchCancle();
 
 }

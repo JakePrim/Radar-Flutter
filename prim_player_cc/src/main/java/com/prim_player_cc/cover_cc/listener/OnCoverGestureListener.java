@@ -16,4 +16,6 @@ public interface OnCoverGestureListener {
     boolean onDown(MotionEvent event);//分发按下事件
 
     boolean onScroll(MotionEvent e1, MotionEvent e2, float dX, float dY);//分发滚动事件
+
+    boolean onTouchCancle();//手指抬起 或取消
 }

@@ -24,7 +24,6 @@ public class CoverEventDispatcher implements IEventDispatcher {
         this.coverGroup = coverGroup;
     }
 
-
     @Override
     public void dispatchPlayEvent(final int eventCode, final Bundle bundle) {
         PrimLog.d(TAG, "dispatchPlayEvent -->> eventCode:" + eventCode);
@@ -54,7 +53,7 @@ public class CoverEventDispatcher implements IEventDispatcher {
                     coverGroup.loopCovers(new ICoverGroup.OnLoopCoverListener() {
                         @Override
                         public void getCover(ICover cover) {
-                            cover.onPlayEvent(eventCode, bundle);
+                            cover.onErrorEvent(eventCode, bundle);
                         }
                     });
                 }
@@ -63,17 +62,53 @@ public class CoverEventDispatcher implements IEventDispatcher {
         bundleClear(bundle);
     }
 
+    @Override
+    public void dispatchCoverNativeEvent(final int eventCode, final Bundle bundle) {
+        PrimLog.d(TAG, "dispatchCoverNativeEvent -->> eventCode:" + eventCode);
+        switch (eventCode) {
+            default:
+                if (coverGroup != null) {
+                    //给所有的视图分发播放事件 需要的处理即可 不需要的不用处理
+                    coverGroup.loopCovers(new ICoverGroup.OnLoopCoverListener() {
+                        @Override
+                        public void getCover(ICover cover) {
+                            cover.onCoverNativeEvent(eventCode, bundle);
+                        }
+                    });
+                }
+                break;
+        }
+        bundleClear(bundle);
+    }
+
+    @Override
+    public void dispatchExpandEvent(final int eventCode, final Bundle bundle, ICoverGroup.OnCoverFilter filter) {
+        PrimLog.d(TAG, "dispatchExpandEvent -->> eventCode:" + eventCode);
+        if (coverGroup != null) {
+            coverGroup.loopCovers(filter, new ICoverGroup.OnLoopCoverListener() {
+                @Override
+                public void getCover(ICover cover) {
+                    cover.onExpandEvent(eventCode, bundle);
+                }
+            });
+        }
+        bundleClear(bundle);
+    }
+
     //------------------------------ 手势触摸事件 -------------------------------//
     @Override
     public boolean dispatchOnSingleTapUp(final MotionEvent event) {
-        PrimLog.d(TAG,"dispatchOnSingleTapUp");
+        PrimLog.d(TAG, "dispatchOnSingleTapUp");
         if (coverGroup != null) {
-            coverGroup.loopCovers(new ICoverGroup.OnLoopCoverListener() {
+            coverGroup.loopCovers(new ICoverGroup.OnCoverFilter() {
+                @Override
+                public boolean filter(ICover cover) {
+                    return cover instanceof OnCoverGestureListener;
+                }
+            }, new ICoverGroup.OnLoopCoverListener() {
                 @Override
                 public void getCover(ICover cover) {
-                    if (cover instanceof OnCoverGestureListener) {
-                        ((OnCoverGestureListener) cover).onSingleTapUp(event);
-                    }
+                    ((OnCoverGestureListener) cover).onSingleTapUp(event);
                 }
             });
         }
@@ -82,50 +117,69 @@ public class CoverEventDispatcher implements IEventDispatcher {
 
     @Override
     public boolean dispatchOnDoubleTap(final MotionEvent event) {
-        PrimLog.d(TAG,"dispatchOnDoubleTap");
-        if (coverGroup != null) {
-            coverGroup.loopCovers(new ICoverGroup.OnLoopCoverListener() {
-                @Override
-                public void getCover(ICover cover) {
-                    if (cover instanceof OnCoverGestureListener) {
-                        ((OnCoverGestureListener) cover).onDoubleTap(event);
-                    }
-                }
-            });
-        }
+        PrimLog.d(TAG, "dispatchOnDoubleTap");
+        coverGroup.loopCovers(new ICoverGroup.OnCoverFilter() {
+            @Override
+            public boolean filter(ICover cover) {
+                return cover instanceof OnCoverGestureListener;
+            }
+        }, new ICoverGroup.OnLoopCoverListener() {
+            @Override
+            public void getCover(ICover cover) {
+                ((OnCoverGestureListener) cover).onDoubleTap(event);
+            }
+        });
         return false;
     }
 
     @Override
     public boolean dispatchOnDown(final MotionEvent event) {
-        PrimLog.d(TAG,"dispatchOnDown");
-        if (coverGroup != null) {
-            coverGroup.loopCovers(new ICoverGroup.OnLoopCoverListener() {
-                @Override
-                public void getCover(ICover cover) {
-                    if (cover instanceof OnCoverGestureListener) {
-                        ((OnCoverGestureListener) cover).onDown(event);
-                    }
-                }
-            });
-        }
+        PrimLog.d(TAG, "dispatchOnDown");
+        coverGroup.loopCovers(new ICoverGroup.OnCoverFilter() {
+            @Override
+            public boolean filter(ICover cover) {
+                return cover instanceof OnCoverGestureListener;
+            }
+        }, new ICoverGroup.OnLoopCoverListener() {
+            @Override
+            public void getCover(ICover cover) {
+                ((OnCoverGestureListener) cover).onDown(event);
+            }
+        });
         return false;
     }
 
     @Override
     public boolean dispatchOnScroll(final MotionEvent e1, final MotionEvent e2, final float dX, final float dY) {
-        PrimLog.d(TAG,"dispatchOnScroll");
-        if (coverGroup != null) {
-            coverGroup.loopCovers(new ICoverGroup.OnLoopCoverListener() {
-                @Override
-                public void getCover(ICover cover) {
-                    if (cover instanceof OnCoverGestureListener) {
-                        ((OnCoverGestureListener) cover).onScroll(e1, e2, dX, dY);
-                    }
-                }
-            });
-        }
+        PrimLog.d(TAG, "dispatchOnScroll");
+        coverGroup.loopCovers(new ICoverGroup.OnCoverFilter() {
+            @Override
+            public boolean filter(ICover cover) {
+                return cover instanceof OnCoverGestureListener;
+            }
+        }, new ICoverGroup.OnLoopCoverListener() {
+            @Override
+            public void getCover(ICover cover) {
+                ((OnCoverGestureListener) cover).onScroll(e1, e2, dX, dY);
+            }
+        });
         return false;
+    }
+
+    @Override
+    public void dispatchOnTouchCancle() {
+        PrimLog.d(TAG, "dispatchOnTouchCancle");
+        coverGroup.loopCovers(new ICoverGroup.OnCoverFilter() {
+            @Override
+            public boolean filter(ICover cover) {
+                return cover instanceof OnCoverGestureListener;
+            }
+        }, new ICoverGroup.OnLoopCoverListener() {
+            @Override
+            public void getCover(ICover cover) {
+                ((OnCoverGestureListener) cover).onTouchCancle();
+            }
+        });
     }
 
 

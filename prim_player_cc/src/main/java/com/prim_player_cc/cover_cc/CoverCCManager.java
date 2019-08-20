@@ -1,5 +1,7 @@
 package com.prim_player_cc.cover_cc;
 
+import com.prim_player_cc.PrimPlayerCC;
+import com.prim_player_cc.log.PrimLog;
 import com.prim_player_cc.view.BasePlayerCCView;
 
 /**
@@ -58,6 +60,8 @@ public class CoverCCManager {
         return this;
     }
 
+    private static final String TAG = "CoverCCManager";
+
     /**
      * 动态添加视图
      * 在初始化视图时，必须将一个视图组{@link #getCoverGroup()} 赋给
@@ -70,7 +74,11 @@ public class CoverCCManager {
      * @return {@link CoverCCManager}
      */
     public CoverCCManager dynamicInsertCover(String key, ICover cover) {
-        addCover(key, cover);
+        if (!containsCover(key)) {
+            addCover(key, cover);
+        } else {
+            PrimLog.e(TAG, "存在对应key的视图:" + key +" 禁止重复添加");
+        }
         return this;
     }
 
@@ -81,7 +89,11 @@ public class CoverCCManager {
      * @return CoverCCManager
      */
     public CoverCCManager dynamicDeleteCover(String key) {
-        removeCover(key);
+        if (containsCover(key)) {
+            removeCover(key);
+        } else {
+            PrimLog.e(TAG,"不存在对应key的视图:"+key+" 不用移除");
+        }
         return this;
     }
 
@@ -101,6 +113,7 @@ public class CoverCCManager {
 
     /**
      * 查找是否存在对应key的视图
+     *
      * @param key 视图的唯一key
      * @return true 存在视图 false 不存在视图
      */

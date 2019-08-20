@@ -30,7 +30,7 @@ public interface IDataPool {
 
     PlayerSource getCurrentSourceData();
 
-    PlayerSource getSourceData(int index);
+    PlayerSource playIndexData(int index);
 
     int size();
 

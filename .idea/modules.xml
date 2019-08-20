@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/PrimPlayerCC.iml" filepath="$PROJECT_DIR$/PrimPlayerCC.iml" />
       <module fileurl="file://$PROJECT_DIR$/VideoFeed.iml" filepath="$PROJECT_DIR$/VideoFeed.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ijkplayer/ijkplayer.iml" filepath="$PROJECT_DIR$/ijkplayer/ijkplayer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plvideoplayer/plvideoplayer.iml" filepath="$PROJECT_DIR$/plvideoplayer/plvideoplayer.iml" />
       <module fileurl="file://$PROJECT_DIR$/plvideoplayer/plvideoplayer.iml" filepath="$PROJECT_DIR$/plvideoplayer/plvideoplayer.iml" />
       <module fileurl="file://$PROJECT_DIR$/prim_player_cc/prim_player_cc.iml" filepath="$PROJECT_DIR$/prim_player_cc/prim_player_cc.iml" />
     </modules>

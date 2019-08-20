@@ -6,10 +6,12 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 
 import com.prim_player_cc.log.PrimLog;
+import com.prim_player_cc.utils.ObjectEquals;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.HashMap;
+
+import static com.prim_player_cc.utils.ObjectEquals.hash;
 
 /**
  * @author prim
@@ -58,14 +60,45 @@ public class PlayerSource implements Parcelable {
     private String tag;
 
     /**
+     * judge current video is advert video
+     */
+    private boolean isAdvert;
+
+    /**
      * set only player source id
      */
     private String id;
 
     /**
      * play video path:url
+     * 流畅
      */
     private String url;
+
+    /**
+     * 高清
+     */
+    private String heightUrl;
+
+    /**
+     * 广告地址
+     */
+    private String advertUrl;
+
+    /**
+     * 超清
+     */
+    private String superUrl;
+
+    /**
+     * 1080P
+     */
+    private String fullHDUrl;
+
+    /**
+     * 视频的长度
+     */
+    private String videoLength;
 
     /**
      * video thumbnail path
@@ -112,6 +145,13 @@ public class PlayerSource implements Parcelable {
 
     private Uri mUri;
 
+    public Uri getVideoUri() {
+        return mUri;
+    }
+
+    //记录播放的位置
+    private int position;
+
     public boolean isPlayerSource() {
         String url = getUrl();
         Uri uri = getUri();
@@ -123,10 +163,6 @@ public class PlayerSource implements Parcelable {
             return true;
         }
         return false;
-    }
-
-    public Uri getVideoUri() {
-        return mUri;
     }
 
     protected PlayerSource(Parcel in) {
@@ -153,7 +189,13 @@ public class PlayerSource implements Parcelable {
             }
         }
         thumbnailUrl = in.readString();
-
+        isAdvert = in.readByte() != 0;
+        heightUrl = in.readString();
+        superUrl = in.readString();
+        fullHDUrl = in.readString();
+        advertUrl = in.readString();
+        videoLength = in.readString();
+        position = in.readInt();
     }
 
     public static final Creator<PlayerSource> CREATOR = new Creator<PlayerSource>() {
@@ -200,7 +242,61 @@ public class PlayerSource implements Parcelable {
             dest.writeValue(data);
         }
         dest.writeString(thumbnailUrl);
+        dest.writeByte((byte) (isAdvert ? 1 : 0));
+        dest.writeString(heightUrl);
+        dest.writeString(superUrl);
+        dest.writeString(fullHDUrl);
+        dest.writeString(advertUrl);
+        dest.writeString(videoLength);
+        dest.writeInt(position);
+    }
 
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public String getHeightUrl() {
+        return heightUrl;
+    }
+
+    public void setHeightUrl(String heightUrl) {
+        this.heightUrl = heightUrl;
+    }
+
+    public String getAdvertUrl() {
+        return advertUrl;
+    }
+
+    public void setAdvertUrl(String advertUrl) {
+        this.advertUrl = advertUrl;
+    }
+
+    public String getSuperUrl() {
+        return superUrl;
+    }
+
+    public void setSuperUrl(String superUrl) {
+        this.superUrl = superUrl;
+    }
+
+    public String getFullHDUrl() {
+        return fullHDUrl;
+    }
+
+    public void setFullHDUrl(String fullHDUrl) {
+        this.fullHDUrl = fullHDUrl;
+    }
+
+    public String getVideoLength() {
+        return videoLength;
+    }
+
+    public void setVideoLength(String videoLength) {
+        this.videoLength = videoLength;
     }
 
     public String getTag() {
@@ -267,22 +363,31 @@ public class PlayerSource implements Parcelable {
         this.headers = headers;
     }
 
+    public boolean isAdvert() {
+        return isAdvert;
+    }
+
+    public void setAdvert(boolean advert) {
+        isAdvert = advert;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PlayerSource source = (PlayerSource) o;
         return startPos == source.startPos &&
-                ObjectEquals(tag, source.tag) &&
-                ObjectEquals(id, source.id) &&
-                ObjectEquals(url, source.url) &&
-                ObjectEquals(thumbnailUrl, source.thumbnailUrl) &&
-                ObjectEquals(uri, source.uri) &&
-                ObjectEquals(title, source.title) &&
-                ObjectEquals(otherData, source.otherData) &&
-                ObjectEquals(headers, source.headers) &&
-                ObjectEquals(data, source.data) &&
-                ObjectEquals(mUri, source.mUri);
+                ObjectEquals.equals(tag, source.tag) &&
+                ObjectEquals.equals(id, source.id) &&
+                ObjectEquals.equals(url, source.url) &&
+                ObjectEquals.equals(thumbnailUrl, source.thumbnailUrl) &&
+                ObjectEquals.equals(uri, source.uri) &&
+                ObjectEquals.equals(title, source.title) &&
+                ObjectEquals.equals(otherData, source.otherData) &&
+                ObjectEquals.equals(headers, source.headers) &&
+                ObjectEquals.equals(data, source.data) &&
+                ObjectEquals.equals(mUri, source.mUri);
     }
 
     @Override
@@ -290,11 +395,26 @@ public class PlayerSource implements Parcelable {
         return hash(tag, id, url, thumbnailUrl, uri, title, startPos, otherData, headers, data, mUri);
     }
 
-    private int hash(Object... values) {
-        return Arrays.hashCode(values);
-    }
-
-    private boolean ObjectEquals(Object a, Object b) {
-        return (a == b) || (a != null && a.equals(b));
+    @Override
+    public String toString() {
+        return "PlayerSource{" +
+                "tag='" + tag + '\'' +
+                ", isAdvert=" + isAdvert +
+                ", id='" + id + '\'' +
+                ", url='" + url + '\'' +
+                ", heightUrl='" + heightUrl + '\'' +
+                ", advertUrl='" + advertUrl + '\'' +
+                ", superUrl='" + superUrl + '\'' +
+                ", fullHDUrl='" + fullHDUrl + '\'' +
+                ", videoLength='" + videoLength + '\'' +
+                ", thumbnailUrl='" + thumbnailUrl + '\'' +
+                ", uri=" + uri +
+                ", title='" + title + '\'' +
+                ", startPos=" + startPos +
+                ", otherData=" + otherData +
+                ", headers=" + headers +
+                ", data=" + data +
+                ", mUri=" + mUri +
+                '}';
     }
 }

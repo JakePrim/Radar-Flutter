@@ -31,8 +31,17 @@ public interface ICoverGroup {
 
     void loopCovers(OnLoopCoverListener loopCoverListener);
 
+    void loopCovers(OnCoverFilter filter,OnLoopCoverListener loopCoverListener);
+
     interface OnLoopCoverListener {
         void getCover(ICover cover);
+    }
+
+    /**
+     * 视图拦截器
+     */
+    interface OnCoverFilter{
+        boolean filter(ICover cover);
     }
 
     void bindCoverGroupChangeListener(OnCoverGroupChangeListener onCoverGroupChangeListener);

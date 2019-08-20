@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.prim_player_cc.decoder_cc.event_code.ErrorCode;
 import com.prim_player_cc.decoder_cc.event_code.PlayerEventCode;
-import com.prim_player_cc.render_cc.AVOptions;
+import com.prim_player_cc.config.AVOptions;
 import com.prim_player_cc.render_cc.IRenderView;
 import com.prim_player_cc.source_cc.PlayerSource;
 import com.prim_player_cc.decoder_cc.listener.OnBufferingUpdateListener;

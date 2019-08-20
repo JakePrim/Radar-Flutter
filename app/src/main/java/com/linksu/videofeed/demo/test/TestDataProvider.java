@@ -26,6 +26,7 @@ public class TestDataProvider extends AbsDataProvider<List<TestVideoBean>> {
             source.setId(bean.getId() + "");
             source.setThumbnailUrl(bean.getImgUrl());
             source.setTag("Test");
+            source.setUrl(bean.getUrl());
             source.setData(bean);
         }
         return source;

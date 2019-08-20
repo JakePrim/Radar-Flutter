@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.linksu.videofeed.demo.view.DetailsLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/video_details_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.prim_player_cc.view.AssistPlayerView
+        android:id="@+id/temp_player_view"
+        android:layout_width="match_parent"
+        android:layout_height="220dp" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/detail_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
+</com.linksu.videofeed.demo.view.DetailsLayout>

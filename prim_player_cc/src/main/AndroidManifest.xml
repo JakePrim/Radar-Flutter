@@ -2,8 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.prim_player_cc">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application>
-        <activity android:name=".MainActivity"></activity>
+        <service
+            android:name=".service.DecoderService"
+            android:exported="false"
+            android:enabled="false"
+            android:label="DecoderService"/>
     </application>
 
 </manifest>

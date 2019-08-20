@@ -23,4 +23,8 @@ public class Status {
     public static final int STATE_END = -3;
 
     public static final int STATE_INIT = -4;
+
+    public static final int STATE_START = -5;
+
+    public static final int STATE_STOP = -6;
 }

@@ -1,10 +1,12 @@
 package com.prim_player_cc.touch;
 
-import android.accessibilityservice.GestureDescription;
+import android.content.Context;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.View;
 
 import com.prim_player_cc.cover_cc.listener.OnCoverGestureListener;
+import com.prim_player_cc.log.PrimLog;
 
 /**
  * @author prim
@@ -20,8 +22,27 @@ public class TouchGestureHandler extends GestureDetector.SimpleOnGestureListener
 
     private boolean isScrollGesture = true;
 
-    public TouchGestureHandler(OnCoverGestureListener onCoverGestureListener) {
+    private boolean isVoiceGesture = false;
+
+    private boolean isPositionGesture = false;
+
+    private boolean isBrightnessGesture = false;
+
+    private View atLocationView;
+
+    public TouchGestureHandler(Context context, OnCoverGestureListener onCoverGestureListener, View view) {
         this.onCoverGestureListener = onCoverGestureListener;
+        this.atLocationView = view;
+    }
+
+    void onDestory() {
+        onCoverGestureListener = null;
+        atLocationView = null;
+        isGesture = true;
+        isScrollGesture = true;
+        isVoiceGesture = false;
+        isPositionGesture = false;
+        isBrightnessGesture = false;
     }
 
     public void setGesture(boolean gesture) {
@@ -29,6 +50,7 @@ public class TouchGestureHandler extends GestureDetector.SimpleOnGestureListener
     }
 
     public void setScrollGesture(boolean scrollGesture) {
+        PrimLog.e(TAG, "setScrollGesture:" + scrollGesture);
         isScrollGesture = scrollGesture;
     }
 
@@ -42,12 +64,13 @@ public class TouchGestureHandler extends GestureDetector.SimpleOnGestureListener
 
     @Override
     public boolean onDown(MotionEvent e) {
-        if (onCoverGestureListener != null) {
-            onCoverGestureListener.onDown(e);
+        if (isGesture) {
+            if (onCoverGestureListener != null) {
+                onCoverGestureListener.onDown(e);
+            }
         }
         return isGesture;
     }
-
 
     @Override
     public boolean onDoubleTap(MotionEvent e) {
@@ -59,9 +82,20 @@ public class TouchGestureHandler extends GestureDetector.SimpleOnGestureListener
 
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        if (onCoverGestureListener != null) {
-            onCoverGestureListener.onScroll(e1, e2, distanceX, distanceY);
+        PrimLog.e(TAG, "onScroll" + isScrollGesture);
+        if (isScrollGesture) {
+            if (onCoverGestureListener != null) {
+                onCoverGestureListener.onScroll(e1, e2, distanceX, distanceY);
+            }
         }
         return isScrollGesture;
     }
+
+    public void onTouchCancle() {
+        if (onCoverGestureListener != null) {
+            onCoverGestureListener.onTouchCancle();
+        }
+    }
+
+    private static final String TAG = "TouchGestureHandler";
 }

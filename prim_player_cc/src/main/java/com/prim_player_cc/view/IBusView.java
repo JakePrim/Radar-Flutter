@@ -14,11 +14,17 @@ import com.prim_player_cc.render_cc.IRenderView;
 public interface IBusView {
     void setCoverGroup(ICoverGroup coverGroup);
 
+    void setGesture(boolean gesture);
+
     ICoverGroup getCoverGroup();
 
     void destroy();
 
     void setRenderView(IRenderView render);
 
+    void removeRenderView();
+
     void setScrollGesture(boolean scrollGesture);
+
+    void setCoverFilter(ICoverGroup.OnCoverFilter coverFilter);
 }

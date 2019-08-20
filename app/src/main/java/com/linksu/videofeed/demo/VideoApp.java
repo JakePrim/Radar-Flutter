@@ -3,10 +3,12 @@ package com.linksu.videofeed.demo;
 import android.app.Application;
 import android.content.Context;
 
+import com.linksu.videofeed.demo.test.ImageLoader;
 import com.prim_player_cc.PrimPlayerCC;
-import com.prim_player_cc.cover_cc.defualt.DefaultCoverKey;
 import com.prim_player_cc.decoder_cc.DecoderWrapper;
 import com.prim_player_cc.decoder_cc.DefaultDecoder;
+
+import ndk.config.com.ijkplayer.IjkPlayer;
 
 /**
  * ================================================
@@ -25,14 +27,14 @@ public class VideoApp extends Application {
     public void onCreate() {
         super.onCreate();
         mInstantce = this;
-
         //视频播放器组件配置初始化
         PrimPlayerCC.getInstance().init()
-                .setLogEnable(true)
-                .addDecoder(new DecoderWrapper(11, DefaultDecoder.class, "default player 11"))
-                .addDecoder(new DecoderWrapper(12, DefaultDecoder.class,"default player 12"))
-                .setUseDecoderId(11)
-                .build(this);
+                .setLogEnable(true)//log
+                .addDecoder(new DecoderWrapper(11, DefaultDecoder.class, "default player this id:11"))
+                .addDecoder(new DecoderWrapper(12, IjkPlayer.class, "ijk player this id:12"))
+                .setUseDecoderId(12)//设置使用的解码器
+                .setImageLoader(new ImageLoader())//加载图片
+                .build(this);//构建多媒体框架
     }
 
     public static Context getAppContext() {
