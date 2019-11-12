@@ -47,7 +47,7 @@ public abstract class BaseCover implements ICover, ICoverOperate, View.OnClickLi
 
     private String key;
 
-    protected IMediaController.MediaPlayerControl mediaPlayerControl;
+    protected MediaPlayerControl mediaPlayerControl;
 
     public BaseCover(Context context) {
         weakContext = new WeakReference<>(context);
@@ -134,7 +134,7 @@ public abstract class BaseCover implements ICover, ICoverOperate, View.OnClickLi
         return null;
     }
 
-    //-------------------------------------- cover event 也可以通过mediaPlayerControl控制解码器 ----------------------------------//
+    //-------------------------------------- cover event事件用于通知其他视图和外部监听 ----------------------------------//
 
     @Override
     public void coverRequestPause() {
@@ -180,7 +180,7 @@ public abstract class BaseCover implements ICover, ICoverOperate, View.OnClickLi
 
     /**
      * 视图发送事件
-     * 可用于所有视图接收此事件，可通知播放器 方便更灵活处理
+     * 可用于所有视图接收此事件，可通知播放器和外部监听 方便更灵活处理
      *
      * @param code
      * @param bundle

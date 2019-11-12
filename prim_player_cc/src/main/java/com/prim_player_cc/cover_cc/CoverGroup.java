@@ -14,6 +14,7 @@ import java.util.Deque;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author prim
@@ -185,7 +186,7 @@ public class CoverGroup implements ICoverGroup {
         }
     }
 
-    private List<Map.Entry<String, ICover>> coverList;
+    private ArrayList<Map.Entry<String, ICover>> coverList;
 
     private static final String TAG = "CoverGroup";
 
@@ -194,7 +195,7 @@ public class CoverGroup implements ICoverGroup {
      * 的顺序list.add 视图
      */
     @Override
-    public void coverSort() {
+    public synchronized void coverSort() {
         PrimLog.d(TAG, "排序-coverSort");
         coverList = new ArrayList<>(coverMap.entrySet());
 
@@ -213,8 +214,8 @@ public class CoverGroup implements ICoverGroup {
             }
         });
 
-        for (int i = 0; i < coverList.size(); i++) {
-            PrimLog.d(TAG, "排序后的值：" + coverList.get(i).getValue().getCoverLevel());
-        }
+//        for (int i = 0; i < coverList.size(); i++) {
+//            PrimLog.d(TAG, "排序后的值：" + coverList.get(i).getValue().getCoverLevel());
+//        }
     }
 }

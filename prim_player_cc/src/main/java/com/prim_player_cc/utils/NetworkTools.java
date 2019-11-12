@@ -33,6 +33,7 @@ public class NetworkTools {
         if (null == connManager) {
             return NETWORK_STATE_NONE;
         }
+        @SuppressLint("MissingPermission")
         NetworkInfo networkInfo = connManager.getActiveNetworkInfo();
         if (networkInfo == null) {
             return NETWORK_STATE_NONE;

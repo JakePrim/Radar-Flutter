@@ -13,7 +13,7 @@ import com.prim_player_cc.status.PlayerStatus;
  * @time 2018/10/19 - 上午11:00
  */
 public interface IMediaController {
-    void setMediaPlayer(IMediaController.MediaPlayerControl mediaPlayerControl);
+    void setMediaPlayer(MediaPlayerControl mediaPlayerControl);
 
     void show();
 

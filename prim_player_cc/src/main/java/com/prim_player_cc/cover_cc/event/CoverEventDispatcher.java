@@ -34,7 +34,11 @@ public class CoverEventDispatcher implements IEventDispatcher {
                     coverGroup.loopCovers(new ICoverGroup.OnLoopCoverListener() {
                         @Override
                         public void getCover(ICover cover) {
-                            cover.onPlayEvent(eventCode, bundle);
+                            try {
+                                cover.onPlayEvent(eventCode, bundle);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
                 }

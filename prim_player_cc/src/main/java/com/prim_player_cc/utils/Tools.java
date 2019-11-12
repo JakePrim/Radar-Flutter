@@ -6,6 +6,7 @@ import android.content.ContextWrapper;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
+import android.util.Log;
 
 import java.util.Locale;
 
@@ -62,12 +63,16 @@ public class Tools {
     }
 
     public static void setRequestedOrientation(Context context, int orientation) {
-        if (Tools.getAppCompActivity(context) != null) {
-            Tools.getAppCompActivity(context).setRequestedOrientation(
-                    orientation);
-        } else {
-            Tools.scanForActivity(context).setRequestedOrientation(
-                    orientation);
+        try {
+            if (Tools.getAppCompActivity(context) != null) {
+                Tools.getAppCompActivity(context).setRequestedOrientation(
+                        orientation);
+            } else {
+                Tools.scanForActivity(context).setRequestedOrientation(
+                        orientation);
+            }
+        } catch (Exception e) {
+            Log.e("Tools", "set video orientation" + e.getMessage());
         }
     }
 

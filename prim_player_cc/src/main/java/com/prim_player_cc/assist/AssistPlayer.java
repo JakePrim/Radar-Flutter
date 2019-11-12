@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
-import android.graphics.SurfaceTexture;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,18 +16,13 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Surface;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ViewAnimator;
 
-import com.prim_player_cc.PrimPlayerCC;
-import com.prim_player_cc.R;
 import com.prim_player_cc.config.AVOptions;
 import com.prim_player_cc.config.ApplicationAttach;
 import com.prim_player_cc.cover_cc.BaseCover;
@@ -41,26 +35,25 @@ import com.prim_player_cc.decoder_cc.listener.OnPlayerEventListener;
 import com.prim_player_cc.decoder_cc.listener.OnTimerUpdateListener;
 import com.prim_player_cc.expand.producer.NetworkEventProducer;
 import com.prim_player_cc.log.PrimLog;
-import com.prim_player_cc.render_cc.IRenderView;
 import com.prim_player_cc.service.CustomPhoneStateListener;
 import com.prim_player_cc.source_cc.PlayerSource;
 import com.prim_player_cc.status.Status;
-import com.prim_player_cc.utils.NetworkTools;
 import com.prim_player_cc.utils.Tools;
 import com.prim_player_cc.view.AssistPlayerView;
 import com.prim_player_cc.view.BusPlayerView;
 import com.prim_player_cc.view.OnCoverNativePlayerListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static com.prim_player_cc.cover_cc.event.CoverEventCode.COVER_EVENT_MANUAL_PAUSE;
+import static com.prim_player_cc.cover_cc.event.CoverEventCode.COVER_EVENT_SHORT_CUT;
 import static com.prim_player_cc.cover_cc.event.CoverEventCode.COVER_EVENT_START;
-import static com.prim_player_cc.decoder_cc.event_code.PlayerEventCode.PRIM_PLAYER_EVENT_DISPOSABLE;
 import static com.prim_player_cc.decoder_cc.event_code.PlayerEventCode.PRIM_PLAYER_EVENT_FULL_VERTICAL;
+import static com.prim_player_cc.decoder_cc.event_code.PlayerEventCode.PRIM_PLAYER_EVENT_PAUSE;
+import static com.prim_player_cc.decoder_cc.event_code.PlayerEventCode.PRIM_PLAYER_EVENT_PREPARED;
+import static com.prim_player_cc.decoder_cc.event_code.PlayerEventCode.PRIM_PLAYER_EVENT_START;
 import static com.prim_player_cc.decoder_cc.event_code.PlayerEventCode.PRIM_PLAYER_EVENT_STOP;
 import static com.prim_player_cc.decoder_cc.event_code.PlayerEventCode.PRIM_PLAYER_EVENT_VERTICAL_FULL;
 
@@ -314,6 +307,11 @@ public class AssistPlayer implements IAssistPlay {
         }
     }
 
+    public void updatePlay(PlayerSource source) {
+        this.mCurrentSource = source;
+        mPlayerView.updateSource(mCurrentSource);
+    }
+
     private ViewGroup container;
 
     public void attachContainer(ViewGroup container, boolean addBottom) {
@@ -477,11 +475,13 @@ public class AssistPlayer implements IAssistPlay {
     }
 
     public void start() {
-        PrimLog.e("AssistPlayer", "start1");
-        PrimLog.printStackTrace(SMALL_CLENT_NAME + ".");
         if (!isManualPause) {
             proxyDecoderCC.start();
         }
+    }
+
+    public void currentStart() {
+        proxyDecoderCC.start();
     }
 
     /**
@@ -502,12 +502,12 @@ public class AssistPlayer implements IAssistPlay {
     }
 
     public void pause() {
-//        PrimLog.printStackTrace("AssistPlayer-pause");
+        PrimLog.printStackTrace("AssistPlayer-pause");
         proxyDecoderCC.pause();
     }
 
     public void stop() {
-//        PrimLog.printStackTrace("AssistPlayer-stop");
+        PrimLog.printStackTrace("AssistPlayer-stop");
         senderCover(PRIM_PLAYER_EVENT_STOP, null);
         detachPlayerContainer();
         proxyDecoderCC.stop();
@@ -586,7 +586,17 @@ public class AssistPlayer implements IAssistPlay {
                         playerView.setVolume(1, 1);
                     }
                 }
-            }, 200);
+            }, 100);
+        }
+    }
+
+
+    public void configurationPauseOriginT() {
+        if (AssistPlayer.defaultPlayer().getState() == Status.STATE_PAUSE) {
+            Bitmap shortcut = getShortcut();
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("shortcut", shortcut);
+            senderNativeCover(COVER_EVENT_SHORT_CUT, bundle);
         }
     }
 
@@ -629,6 +639,22 @@ public class AssistPlayer implements IAssistPlay {
         }
     }
 
+    public void pauseChange() {
+//        if (isPause()) {
+//            proxyDecoderCC.setVolume(0, 0);
+//            currentStart();
+//            H.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    pause();
+//                    if (isVoice) {
+//                        proxyDecoderCC.setVolume(1, 1);
+//                    }
+//                }
+//            }, 50);
+//        }
+    }
+
     /**
      * 从全屏切换为竖屏
      *
@@ -642,7 +668,7 @@ public class AssistPlayer implements IAssistPlay {
         Window window = Tools.scanForActivity(activity).getWindow();
         if (window != null) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            ViewGroup viewGroup = (ViewGroup) activity.getWindow().getDecorView().findViewById(android.R.id.content);
+            ViewGroup viewGroup = activity.getWindow().getDecorView().findViewById(android.R.id.content);
             viewGroup.removeView(busPlayerView);
         }
         ViewParent parent = busPlayerView.getParent();
@@ -656,6 +682,7 @@ public class AssistPlayer implements IAssistPlay {
         mPlayerView.addView(busPlayerView, params);
         //通知视图已经变为竖屏了
         senderCover(PRIM_PLAYER_EVENT_FULL_VERTICAL, null);
+        pauseChange();
     }
 
     /**
@@ -671,9 +698,10 @@ public class AssistPlayer implements IAssistPlay {
         Window window = activity.getWindow();
         if (window != null) {
             window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            ViewGroup viewGroup = (ViewGroup) window.getDecorView().findViewById(android.R.id.content);
+            ViewGroup viewGroup = window.getDecorView().findViewById(android.R.id.content);
             changeScreen(busPlayerView, viewGroup, PRIM_PLAYER_EVENT_VERTICAL_FULL);
         }
+        pauseChange();
     }
 
     private void changeScreen(BusPlayerView busPlayerView, ViewGroup viewGroup, int key) {
@@ -704,7 +732,7 @@ public class AssistPlayer implements IAssistPlay {
         mOriginHeight = mPlayerView.getHeight();
         mOriginWidth = mPlayerView.getWidth();
         final BusPlayerView busPlayerView = mPlayerView.getBusPlayerView();
-        final ViewGroup content = (ViewGroup) activity.getWindow().getDecorView().findViewById(android.R.id.content);
+        final ViewGroup content = activity.getWindow().getDecorView().findViewById(android.R.id.content);
         ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
         final int width = content.getWidth();
         final int height = content.getHeight();
@@ -735,6 +763,7 @@ public class AssistPlayer implements IAssistPlay {
         animator.setDuration(500);
         animator.start();
         senderCover(PRIM_PLAYER_EVENT_VERTICAL_FULL, null);
+        pauseChange();
     }
 
     /**
@@ -745,7 +774,7 @@ public class AssistPlayer implements IAssistPlay {
     public void exitVerticalFullScreen(Activity activity) {
         isVerticalFull = false;
         final BusPlayerView busPlayerView = mPlayerView.getBusPlayerView();
-        final ViewGroup content = (ViewGroup) activity.getWindow().getDecorView().findViewById(android.R.id.content);
+        final ViewGroup content = activity.getWindow().getDecorView().findViewById(android.R.id.content);
         ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
         int height = content.getMeasuredHeight();
         final int detalH = height - mOriginHeight;
@@ -778,25 +807,34 @@ public class AssistPlayer implements IAssistPlay {
         animator.setDuration(500);
         animator.start();
         senderCover(PRIM_PLAYER_EVENT_FULL_VERTICAL, null);
+        pauseChange();
     }
 
     private OnPlayerEventListener mInternalPlayerEventListener = new OnPlayerEventListener() {
         @Override
         public void onPlayerEvent(int eventCode, Bundle bundle) {
+            for (OnPlayerEventListener listener : onPlayerEventListeners) {
+                listener.onPlayerEvent(eventCode, bundle);
+            }
             switch (eventCode) {
-                case PlayerEventCode.PRIM_PLAYER_EVENT_START:
-                case PlayerEventCode.PRIM_PLAYER_EVENT_PREPARED:
+                case PRIM_PLAYER_EVENT_PREPARED:
+                case PRIM_PLAYER_EVENT_START:
                     IS_VIDEO_BACK = false;
                     isManualPause = false;
+                    getPlayerView().setKeepScreenOn(true);
                     break;
                 case PRIM_PLAYER_EVENT_STOP:
                     detachPlayerContainer();
                     if (bundle == null) {
                         bundle = new Bundle();
                     }
+                    getPlayerView().setKeepScreenOn(false);
                     bundle.putInt("position", mCurrentSource != null ? mCurrentSource.getPosition() : 0);
                     mCurrentSource = null;
                     isManualPause = false;
+                    for (OnPlayerEventListener listener : onPlayerEventListeners) {
+                        listener.onPlayerEvent(eventCode, bundle);
+                    }
                     break;
                 case PlayerEventCode.PRIM_PLAYER_EVENT_COMPLETION:
                     Log.e(TAG, "isAllowStopRemove: PRIM_PLAYER_EVENT_COMPLETION:" + isAllowStopRemove);
@@ -808,9 +846,6 @@ public class AssistPlayer implements IAssistPlay {
                     }
                     isManualPause = false;
                     break;
-            }
-            for (OnPlayerEventListener listener : onPlayerEventListeners) {
-                listener.onPlayerEvent(eventCode, bundle);
             }
         }
     };

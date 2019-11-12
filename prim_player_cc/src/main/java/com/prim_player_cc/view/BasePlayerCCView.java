@@ -105,7 +105,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
     }
 
     public BasePlayerCCView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        this(context, attrs, -1);
+        this(context, attrs, 0);
     }
 
     public BasePlayerCCView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -358,6 +358,10 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
     public void setDataSource(PlayerSource dataSource) {
         this.playerSource = dataSource;
         openVideo(dataSource);
+    }
+
+    public void updateSource(PlayerSource source) {
+        this.playerSource = source;
     }
 
     protected void openVideo(AbsDataProvider provider) {
@@ -799,7 +803,7 @@ public abstract class BasePlayerCCView extends FrameLayout implements IPlayerCCV
                 viewgroup.removeView(busPlayerView);
             }
             busPlayerView.setId(R.id.video_fullscreen_id);
-            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+            LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT);
             viewGroup.addView(busPlayerView, lp);
         } catch (Exception e) {

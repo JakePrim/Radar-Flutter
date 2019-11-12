@@ -12,6 +12,8 @@ public class CoverEventCode {
     //手动触发暂停
     public static final int COVER_EVENT_MANUAL_PAUSE = 618;
 
+    public static final int SEND_COVER_MANUAL_PAUSE = 978;
+
     public static final int COVER_EVENT_RESUME = 682;
 
     public static final int COVER_EVENT_RESET = 780;
@@ -53,5 +55,13 @@ public class CoverEventCode {
     public static final int COVER_EVENT_SOUND = 421;
 
     public static final int COVER_EVENT_ERROR = 908;
+
+    //seek 开始渲染视频
+    public static final int COVER_EVENT_SEEK_RENDERING_START = 643;
+
+    //seek 开始跳转
+    public static final int COVER_EVENT_SEEK_LOADING_START = 64;
+
+    public static final int COVER_EVENT_SHORT_CUT = 901;
 
 }

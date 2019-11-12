@@ -65,7 +65,7 @@ public class CoverCCManager {
     /**
      * 动态添加视图
      * 在初始化视图时，必须将一个视图组{@link #getCoverGroup()} 赋给
-     * {@link com.prim_player_cc.view.BasePlayerCCView#setCoverGroup(ICoverGroup)}
+     * {@link BasePlayerCCView#setCoverGroup(ICoverGroup)}
      * 方法，这样才能通过{@link com.prim_player_cc.view.BusPlayerView#dynamicAttachCover(String, ICover)}}
      * 完成视图的动态插入。
      *

@@ -31,7 +31,7 @@ public interface ICoverGroup {
 
     void loopCovers(OnLoopCoverListener loopCoverListener);
 
-    void loopCovers(OnCoverFilter filter,OnLoopCoverListener loopCoverListener);
+    void loopCovers(OnCoverFilter filter, OnLoopCoverListener loopCoverListener);
 
     interface OnLoopCoverListener {
         void getCover(ICover cover);

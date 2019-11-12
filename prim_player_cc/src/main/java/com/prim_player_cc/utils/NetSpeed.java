@@ -35,7 +35,7 @@ public class NetSpeed {
         preSeBytes = seBytes;
         //根据范围决定显示单位
         String downSpeed = null;
-        NumberFormat df = java.text.NumberFormat.getNumberInstance();
+        NumberFormat df = NumberFormat.getNumberInstance();
         df.setMaximumFractionDigits(2);
         if (downloadSpeed > 1024 * 1024) {
             downloadSpeed /= (1024 * 1024);
@@ -57,7 +57,7 @@ public class NetSpeed {
         preSeBytes = seBytes;
         //根据范围决定显示单位
         String upSpeed = null;
-        NumberFormat df = java.text.NumberFormat.getNumberInstance();
+        NumberFormat df = NumberFormat.getNumberInstance();
         df.setMaximumFractionDigits(2);
         if (uploadSpeed > 1024 * 1024) {
             uploadSpeed /= (1024 * 1024);

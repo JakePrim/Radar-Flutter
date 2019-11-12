@@ -100,7 +100,7 @@ public class PlayerEventCode {
     public static final int PRIM_PLAYER_EVENT_RELEASE = -1025;
 
     /**
-     * when you call {@link com.prim_player_cc.decoder_cc.IDecoder#destroy()}
+     * when you call {@link IDecoder#destroy()}
      */
     public static final int PRIM_PLAYER_EVENT_DESTROY = -1017;
 
@@ -170,4 +170,6 @@ public class PlayerEventCode {
     public static final int PRIM_PLAYER_EVENT_NET_WORK_CHANGED = -0x2010;
 
     public static final int PRIM_PLAYER_EVENT_DISPOSABLE = -3010;
+
+    public static final int PRIM_PLAYER_VIDEO_SEEK_RENDERING_START = 104;
 }

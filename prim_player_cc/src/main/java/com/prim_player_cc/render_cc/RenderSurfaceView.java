@@ -225,7 +225,7 @@ public class RenderSurfaceView extends SurfaceView implements IRenderView {
         }
     }
 
-    private static final class InternalSurfacceHolder implements IRenderView.ISurfaceHolder {
+    private static final class InternalSurfacceHolder implements ISurfaceHolder {
 
         private SurfaceHolder mSurfaceHolder;
         private RenderSurfaceView mSurfaceView;

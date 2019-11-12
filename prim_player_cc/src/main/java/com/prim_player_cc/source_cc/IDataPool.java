@@ -18,7 +18,7 @@ public interface IDataPool {
 
     boolean addNode(PlayerSource source);
 
-    boolean addNode(PlayerSource source,int index);
+    boolean addNode(PlayerSource source, int index);
 
     boolean removeNode(PlayerSource source);
 

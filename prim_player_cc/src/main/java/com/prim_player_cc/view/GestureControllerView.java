@@ -283,7 +283,10 @@ public class GestureControllerView extends FrameLayout {
             return false;
         }
         getParent().requestDisallowInterceptTouchEvent(false);//touch hand over parent view doOauthVerify
-        int value = getHeight() / maxVolume;
+        int height = getHeight();
+        if (height == 0)
+            height = 10;
+        int value = height / maxVolume;
         int newVolume = (int) ((e1.getY() - e2.getY()) / value + oldVolume);
         int volumeProgress = (int) (newVolume / Float.valueOf(maxVolume) * 100);
         audioHelper.setVolume(newVolume);

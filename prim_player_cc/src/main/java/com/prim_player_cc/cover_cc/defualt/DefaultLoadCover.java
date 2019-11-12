@@ -16,6 +16,9 @@ import com.prim_player_cc.utils.NetSpeed;
 import com.prim_player_cc.utils.NetSpeedRate;
 import com.prim_player_cc.utils.NetSpeedTimer;
 
+import static com.prim_player_cc.cover_cc.event.CoverEventCode.COVER_EVENT_SEEK_LOADING_START;
+import static com.prim_player_cc.cover_cc.event.CoverEventCode.COVER_EVENT_SEEK_RENDERING_START;
+
 /**
  * @author prim
  * @version 1.0.0
@@ -103,6 +106,20 @@ public class DefaultLoadCover extends BaseCover {
         coverVisibility(View.GONE);
 //        mNetSpeedTimer.stopSpeedTimer();
 //        forceStopTimer();
+    }
+
+    @Override
+    public void onCoverNativeEvent(int eventCode, Bundle bundle) {
+        super.onCoverNativeEvent(eventCode, bundle);
+        switch (eventCode) {
+            case COVER_EVENT_SEEK_RENDERING_START:
+                coverVisibility(View.GONE);
+                break;
+            case COVER_EVENT_SEEK_LOADING_START:
+//                coverVisibility(View.VISIBLE);
+                break;
+
+        }
     }
 
     @Override

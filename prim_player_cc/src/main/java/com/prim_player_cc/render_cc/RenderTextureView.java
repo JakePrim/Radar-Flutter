@@ -135,11 +135,11 @@ public class RenderTextureView extends TextureView implements IRenderView {
         return getBitmap();
     }
 
-    public IRenderView.ISurfaceHolder getSurfaceHolder() {
+    public ISurfaceHolder getSurfaceHolder() {
         return new InternalSurfaceHolder(this, surfaceCallback.mSurfaceTexture, surfaceCallback);
     }
 
-    private static final class SurfaceCallback implements TextureView.SurfaceTextureListener, ISurfaceTextureHost {
+    private static final class SurfaceCallback implements SurfaceTextureListener, ISurfaceTextureHost {
 
         private WeakReference<RenderTextureView> mWeakRenderView;
 
@@ -306,7 +306,7 @@ public class RenderTextureView extends TextureView implements IRenderView {
     }
 
 
-    private static final class InternalSurfaceHolder implements IRenderView.ISurfaceHolder {
+    private static final class InternalSurfaceHolder implements ISurfaceHolder {
 
         private RenderTextureView renderTextureView;
         private SurfaceTexture surfaceTexture;
