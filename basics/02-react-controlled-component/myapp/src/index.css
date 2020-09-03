@@ -1,0 +1,96 @@
+body,
+h2,
+p,
+h3 {
+    margin: 0;
+}
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+body {
+    background: #f3f3f3;
+}
+.wrap {
+    margin: 30px auto 0;
+    width: 500px;
+    border: 1px solid #ccc;
+    background: #fff;
+    padding: 10px;
+}
+.title {
+    font: bold 20px/40px "宋体";
+    text-align: center;
+    color: #333;
+}
+.addMessage {
+    overflow: hidden;
+}
+.addMessage input {
+    margin: 5px auto 0;
+    display: block;
+    box-sizing: border-box;
+    width: 300px;
+    height: 40px;
+    border-radius: 10px 10px 0 0;
+    border:none;
+    background: #f3f3f3;
+    outline: none;
+    padding: 5px 20px;
+    font: 14px/20px "宋体";
+}
+.addMessage textarea {
+    margin: auto;
+    display: block;
+    overflow: hidden;
+    box-sizing: border-box;
+    resize: none;
+    width: 300px;
+    height: 100px;
+    border-radius:  0 0 10px 10px;
+    border:none;
+    border-top: 1px solid #999;
+    background: #f3f3f3;
+    outline: none;
+    padding: 5px 20px;
+    font: 14px/20px "宋体";
+}
+.addMessage button {
+    display: block;
+    margin: 10px auto; 
+    width: 300px;
+    height: 40px;
+    border-radius: 10px;
+    border:none;
+    background: #f3f3f3;
+}
+.messageList {
+    border-top: 1px solid #ccc;
+}
+.messageList li {
+    margin: 10px auto 0;
+    width: 400px;
+    border: 1px solid #ccc;
+    padding-bottom: 5px;
+    overflow: hidden;
+}
+.messageList h3 {
+    font: 14px/30px "宋体";
+    padding-left: 10px;
+    border-bottom: 1px solid #ccc;
+}
+.messageList p {
+    font: 12px/24px "宋体";
+    padding: 5px 15px;
+    height: 72px;
+    overflow: hidden;
+    text-indent: 2em;
+}
+.messageList a {
+    margin-right: 15px;
+    float: right;
+    font:12px/24px "宋体";
+    color: #0066bf;
+    cursor: pointer;
+}
