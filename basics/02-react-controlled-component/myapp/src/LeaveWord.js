@@ -31,6 +31,10 @@ export default class LeaveWord extends Component {
                             addWord({
                                 name,
                                 info
+                            });
+                            this.setState({
+                                name:'',
+                                info:''
                             })
                         }
                     }
