@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hr SYSTEM "hr.dtd"><!-- 引入dtd文件约束 -->
+<hr>
+	<employee no="1301">
+		<name>张三</name>
+		<age>12</age>
+		<salary>4000</salary>
+		<department>
+			<dname>BOOS1</dname>
+			<address>BEIJING1</address>
+		</department>
+	</employee>
+	<employee no="1302">
+		<name>李四</name>
+		<age>21</age>
+		<salary>3000</salary>
+		<department>
+			<dname>BOOS2</dname>
+			<address>BEIJING2</address>
+		</department>
+	</employee>
+	<employee no="1303">
+		<name>王刚但</name>
+		<age>18</age>
+		<salary>1000</salary>
+		<department>
+			<dname>技术部</dname>
+			<address>1-1-103</address>
+		</department>
+	</employee>
+	<employee no="1304">
+		<name>王刚但1</name>
+		<age>18</age>
+		<salary>1000</salary>
+		<department>
+			<dname>技术部</dname>
+			<address>1-1-103</address>
+		</department>
+	</employee>
+	<employee no="1305">
+		<name>王刚但2</name>
+		<age>18</age>
+		<salary>1000</salary>
+		<department>
+			<dname>技术部</dname>
+			<address>1-1-103</address>
+		</department>
+	</employee>
+	<employee no="1306">
+		<name>王刚但3</name>
+		<age>18</age>
+		<salary>1000</salary>
+		<department>
+			<dname>技术部</dname>
+			<address>1-1-103</address>
+		</department>
+	</employee>
+</hr>

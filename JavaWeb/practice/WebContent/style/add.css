@@ -1,0 +1,11 @@
+.addwrap{background:#fff;width:1200px;box-shadow: 2px 2px 5px #e5e6e8;overflow: hidden;margin:25px 0 40px 0;}
+.addl{padding:45px;width:710px;}
+.addl header{color:#f96972;font-size:24px;border-bottom:1px solid #ccc;padding-bottom: 20px;}
+.addl form{margin-top:35px;}
+.addl .additem label{display:inline-block;width:100px;text-align: right;margin-right:20px;}
+.addl .additem input[type='text'],.addl .additem textarea{width:280px;border-radius:3px;border:1px solid #ccc;line-height: 28px;margin-bottom: 20px;padding-left:4px;}
+.addl .additem input[type='file']{margin-bottom: 20px;}
+.textwrap{position:relative;}
+.addl .additem .ptop{position:absolute;}
+.addl .additem textarea{margin-left: 120px;width:470px;height:62px;}
+.addl form button{margin-left:120px;color:#fff;background:#f01414;border-radius:5px;border:none;padding:12px 14px;}

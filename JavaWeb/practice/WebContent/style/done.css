@@ -1,0 +1,5 @@
+.center{ width:250px; margin:0 auto; margin-top:150px; margin-bottom:150px;}
+.image_center{width:80px;height:104px; margin-left:86px; background: #C0C0C0;}
+.image_center .smile_face{ font-size:50px; float:left; color: #000000; margin-left:30px; display:block; transform:rotate(90deg);}
+.code{margin-top: 20px; text-align:center; color:#000000; font-size:20px;}
+.jump{margin-top: 20px; text-align:center; color:#C0C0C0; font-size:15px;}

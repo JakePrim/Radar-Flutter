@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery.min.js"></script>
+    <script>
+        $(function () {
+            $("#btn").click(function () {
+                $.ajax({
+                    url: "/restful/t",
+                    type: "get",
+                    dataType: "json",
+                    success: function (json) {
+                        $("#result").text(json.message);
+                    }
+                })
+            });
+            $("#btnPost").click(function () {
+                $.ajax({
+                    url: "/restful2/t/100",
+                    type: "post",
+                    data: "name=lily&age=23",
+                    dataType: "json",
+                    success: function (json) {
+                        $("#result").text(json.message + ":" + json.id);
+                    }
+                })
+            });
+            $("#btnPut").click(function () {
+                $.ajax({
+                    url: "/restful/tt",
+                    type: "put",
+                    data: "id=1",
+                    dataType: "json",
+                    success: function (json) {
+                        $("#result").text(json.message);
+                    }
+                })
+            });
+            $("#btnDelete").click(function () {
+                $.ajax({
+                    url: "/restful/t",
+                    type: "delete",
+                    dataType: "json",
+                    success: function (json) {
+                        $("#result").text(json.message);
+                    }
+                })
+            });
+        });
+        $(function () {
+            $("#btnPersons").click(function () {
+                    $.ajax({
+                        url: "/restful2/persons",
+                        type: "get",
+                        dataType: "json",
+                        success: function (json) {
+                            console.log(json);
+                            for (let i = 0; i < json.length; i++) {
+                                let person = json[i];
+                                $("#divPersons").append("<h2>"+person.name+"-"+person.age+"-"+person.birthday+"</h2>");
+                            }
+                        }
+                    });
+                });
+        });
+    </script>
+</head>
+<body>
+<h1>This is Test RESTful</h1>
+<input id="btn" name="btn" type="button" value="发送GET请求">
+<input id="btnPost" name="btn" type="button" value="发送Post请求">
+<input id="btnPut" name="btn" type="button" value="发送Put请求">
+<input id="btnDelete" name="btn" type="button" value="发送Delete请求">
+<h2 id="result"></h2>
+<hr/>
+<input type="button" id="btnPersons" value="查询所有人员">
+<div id="divPersons"></div>
+</body>
+</html>

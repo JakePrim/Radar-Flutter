@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- 配置目标类 -->
+    <bean id="customerDao" class="com.prim.autoproxy.CustomerDao"/>
+    <bean id="productDao" class="com.prim.autoproxy.ProductDao"/>
+    <bean id="studentDao" class="com.prim.autoproxy.StudentDaoImpl"/>
+
+    <!-- 配置通知 增强类的方式 -->
+    <bean id="beforeAdvice" class="com.prim.autoproxy.MyBeforeAdvice"/>
+    <bean id="aroundAdvice" class="com.prim.autoproxy.MyAroundAdvice"/>
+
+    <!-- 配置自动产生代理 基于bean名称的自动代理方式 -->
+    <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+        <!-- 连接的beanName -->
+        <property name="beanNames" value="*Dao"/>
+        <!-- 连接的bean都进行前置增强 -->
+        <property name="interceptorNames" value="beforeAdvice"/>
+    </bean>
+</beans>

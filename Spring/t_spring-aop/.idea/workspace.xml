@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="8f02862e-5d6c-4c56-b54b-a266cb127384" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="spring-beans.schema" />
+        <option value="Class" />
+        <option value="FxmlFile" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1Z4GN7NTI5fPmPOQDgzILGS3rX2" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="abbreviatePackageNames" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="add_unversioned_files" value="$PROJECT_DIR$/src/test/java/Test.java&#10;/Users/prim/java/java-workspace/Awesome-Java-Notebook/Spring/t_spring-aop/.gitignore&#10;/Users/prim/java/java-workspace/Awesome-Java-Notebook/Spring/t_spring-aop/pom.xml&#10;/Users/prim/java/java-workspace/Awesome-Java-Notebook/Spring/t_spring-aop/src/main/java/com/prim/aop/AopImpl.java&#10;/Users/prim/java/java-workspace/Awesome-Java-Notebook/Spring/t_spring-aop/src/main/resources/applicationContext3.xml&#10;/Users/prim/java/java-workspace/Awesome-Java-Notebook/Spring/t_spring-aop/src/main/resources/applicationContext.xml&#10;/Users/prim/java/java-workspace/Awesome-Java-Notebook/Spring/t_spring-aop/src/test/java/PointAutoProxyTest.java&#10;/Users/prim/java/java-workspace/Awesome-Java-Notebook/Spring/t_spring-aop/src/main/java/com/prim/UserService.java&#10;/Users/prim/java/java-workspace/Awesome-Java-Notebook/Spring/t_spring-aop/src/main/resources/applicationContext2.xml&#10;/Users/prim/java/java-workspace/Awesome-Java-Notebook/Spring/t_spring-aop/src/main/java/com/prim/UserDaoImpl.java&#10;/Users/prim/java/java-workspace/Awesome-Java-Notebook/Spring/t_spring-aop/src/main/java/com/prim/UserDao.java&#10;/Users/prim/java/java-workspace/Awesome-Java-Notebook/Spring/t_spring-aop/src/main/resources/applicationContext4.xml&#10;/Users/prim/java/java-workspace/Awesome-Java-Notebook/Spring/t_spring-aop/src/main/java/com/prim/spring/aop/StudentDao.java&#10;/Users/prim/java/java-workspace/Awesome-Java-Notebook/Spring/t_spring-aop/src/test/java/SpringAopTest.java" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="" />
+      <recent name="com.prim.autoproxy" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+      <recent name="$PROJECT_DIR$/src/main/java/com/prim/pointcut/autoproxy" />
+      <recent name="$PROJECT_DIR$/src/main/java/com/prim/autoproxy" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.PointAutoProxyTest.pointcutTest">
+    <configuration name="AdviceTest.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="t_spring_aop" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="AdviceTest" />
+      <option name="METHOD_NAME" value="test" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AopTest.testCglib" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="t_spring_aop" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="AopTest" />
+      <option name="METHOD_NAME" value="testCglib" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AutoProxyTest.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="t_spring_aop" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="AutoProxyTest" />
+      <option name="METHOD_NAME" value="test" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PointAutoProxyTest.pointcutTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="t_spring_aop" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="PointAutoProxyTest" />
+      <option name="METHOD_NAME" value="pointcutTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SpringAopTest.test1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="t_spring_aop" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="SpringAopTest" />
+      <option name="METHOD_NAME" value="test1" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.PointAutoProxyTest.pointcutTest" />
+        <item itemvalue="JUnit.AutoProxyTest.test" />
+        <item itemvalue="JUnit.AdviceTest.test" />
+        <item itemvalue="JUnit.SpringAopTest.test1" />
+        <item itemvalue="JUnit.AopTest.testCglib" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8f02862e-5d6c-4c56-b54b-a266cb127384" name="Default Changelist" comment="" />
+      <created>1584090909947</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1584090909947</updated>
+      <workItem from="1584091305551" duration="144000" />
+      <workItem from="1584091477515" duration="1086000" />
+      <workItem from="1584094407830" duration="13986000" />
+      <workItem from="1584346837409" duration="3862000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="533" y="166" key="#com.intellij.ide.util.MemberChooser" timestamp="1584171528522">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="533" y="166" key="#com.intellij.ide.util.MemberChooser/0.0.1440.900@0.0.1440.900" timestamp="1584171528522" />
+    <state width="1878" height="303" key="GridCell.Tab.0.bottom" timestamp="1584353715069">
+      <screen x="-1920" y="-180" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="303" key="GridCell.Tab.0.bottom/0.0.1440.900/-1920.-180.1920.1080@-1920.-180.1920.1080" timestamp="1584353715069" />
+    <state width="1398" height="244" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1584174957923" />
+    <state width="1398" height="303" key="GridCell.Tab.0.bottom/0.23.1440.812@0.23.1440.812" timestamp="1584170942606" />
+    <state width="1878" height="303" key="GridCell.Tab.0.center" timestamp="1584353715066">
+      <screen x="-1920" y="-180" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="303" key="GridCell.Tab.0.center/0.0.1440.900/-1920.-180.1920.1080@-1920.-180.1920.1080" timestamp="1584353715066" />
+    <state width="1398" height="244" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1584174957922" />
+    <state width="1398" height="303" key="GridCell.Tab.0.center/0.23.1440.812@0.23.1440.812" timestamp="1584170942604" />
+    <state width="1878" height="303" key="GridCell.Tab.0.left" timestamp="1584353715064">
+      <screen x="-1920" y="-180" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="303" key="GridCell.Tab.0.left/0.0.1440.900/-1920.-180.1920.1080@-1920.-180.1920.1080" timestamp="1584353715064" />
+    <state width="1398" height="244" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1584174957921" />
+    <state width="1398" height="303" key="GridCell.Tab.0.left/0.23.1440.812@0.23.1440.812" timestamp="1584170942603" />
+    <state width="1878" height="303" key="GridCell.Tab.0.right" timestamp="1584353715068">
+      <screen x="-1920" y="-180" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="303" key="GridCell.Tab.0.right/0.0.1440.900/-1920.-180.1920.1080@-1920.-180.1920.1080" timestamp="1584353715068" />
+    <state width="1398" height="244" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1584174957923" />
+    <state width="1398" height="303" key="GridCell.Tab.0.right/0.23.1440.812@0.23.1440.812" timestamp="1584170942605" />
+    <state width="1398" height="303" key="GridCell.Tab.1.bottom" timestamp="1584173695686">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="303" key="GridCell.Tab.1.bottom/0.0.1440.900@0.0.1440.900" timestamp="1584173695686" />
+    <state width="1398" height="303" key="GridCell.Tab.1.bottom/0.23.1440.812@0.23.1440.812" timestamp="1584170943558" />
+    <state width="1398" height="303" key="GridCell.Tab.1.center" timestamp="1584173695685">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="303" key="GridCell.Tab.1.center/0.0.1440.900@0.0.1440.900" timestamp="1584173695685" />
+    <state width="1398" height="303" key="GridCell.Tab.1.center/0.23.1440.812@0.23.1440.812" timestamp="1584170943558" />
+    <state width="1398" height="303" key="GridCell.Tab.1.left" timestamp="1584173695684">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="303" key="GridCell.Tab.1.left/0.0.1440.900@0.0.1440.900" timestamp="1584173695684" />
+    <state width="1398" height="303" key="GridCell.Tab.1.left/0.23.1440.812@0.23.1440.812" timestamp="1584170943557" />
+    <state width="1398" height="303" key="GridCell.Tab.1.right" timestamp="1584173695685">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="303" key="GridCell.Tab.1.right/0.0.1440.900@0.0.1440.900" timestamp="1584173695685" />
+    <state width="1398" height="303" key="GridCell.Tab.1.right/0.23.1440.812@0.23.1440.812" timestamp="1584170943558" />
+    <state x="-1449" y="-18" key="SettingsEditor" timestamp="1584094940137">
+      <screen x="-1920" y="-180" width="1920" height="1080" />
+    </state>
+    <state x="-1449" y="-18" key="SettingsEditor/0.0.1440.900/-1920.-180.1920.1080@-1920.-180.1920.1080" timestamp="1584094940137" />
+    <state x="-1259" y="207" key="com.intellij.ide.util.TipDialog" timestamp="1584094459919">
+      <screen x="-1920" y="-180" width="1920" height="1080" />
+    </state>
+    <state x="-1259" y="207" key="com.intellij.ide.util.TipDialog/0.0.1440.900/-1920.-180.1920.1080@-1920.-180.1920.1080" timestamp="1584094459919" />
+    <state width="600" height="424" key="javadoc.popup" timestamp="1584352406552">
+      <screen x="-1920" y="-180" width="1920" height="1080" />
+    </state>
+    <state width="600" height="424" key="javadoc.popup/0.0.1440.900/-1920.-180.1920.1080@-1920.-180.1920.1080" timestamp="1584352406552" />
+    <state x="111" y="105" key="new project wizard" timestamp="1584176284385">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="111" y="105" key="new project wizard/0.0.1440.900@0.0.1440.900" timestamp="1584176284385" />
+    <state x="469" y="201" width="670" height="564" key="search.everywhere.popup" timestamp="1584173550486">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="-1295" y="61" width="670" height="676" key="search.everywhere.popup/0.0.1440.900/-1920.-180.1920.1080@-1920.-180.1920.1080" timestamp="1584095318772" />
+    <state x="469" y="201" width="670" height="564" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1584173550486" />
+    <state x="298" y="141" key="spring file set editor" timestamp="1584151755141">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="298" y="141" key="spring file set editor/0.0.1440.900@0.0.1440.900" timestamp="1584151755141" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/test/java/AopTest.java</url>
+          <line>9</line>
+          <properties class="AopTest" method="testCommon">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

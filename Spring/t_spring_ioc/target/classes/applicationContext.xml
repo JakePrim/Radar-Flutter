@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- 配置bean,由Spring来创建bean的实例 -->
+    <!--    <bean id="userService" class="org.prim.ioc.impl.UserServiceImpl">-->
+    <!--        &lt;!&ndash; 设置属性 依赖注入&ndash;&gt;-->
+    <!--        <property name="name" value="李四"/>-->
+    <!--    </bean>-->
+    <!--  -->
+    <!--    <bean id="food" class="org.prim.ioc.Food">-->
+    <!--        <property name="name" value="香蕉"/>-->
+    <!--        <property name="taste" value="水果"/>-->
+    <!--        <property name="kind" value="甜甜的"/>-->
+    <!--    </bean>-->
+
+    <!--    &lt;!&ndash; Bean 实例化的三种方式 &ndash;&gt;-->
+    <!--    &lt;!&ndash; 第一种无参构造器的方式 &ndash;&gt;-->
+    <!--    <bean id="bean1" class="org.prim.ioc.bean.Bean1"/>-->
+
+    <!--    &lt;!&ndash; 第二种静态工厂方式 &ndash;&gt;-->
+    <!--    <bean id="bean2" class="org.prim.ioc.bean.Bean2Factory" factory-method="createBean2"/>-->
+
+    <!--    &lt;!&ndash; 第三种实例工厂方式 &ndash;&gt;-->
+    <!--    <bean id="bean3Factory" class="org.prim.ioc.bean.Bean3Factory"/>-->
+    <!--    <bean id="bean3" factory-bean="bean3Factory" factory-method="createBean3"/>-->
+
+    <!-- 测试Bean的作用范围 -->
+    <!--    <bean id="person" class="org.prim.ioc.demo3.Persion" scope="prototype"/>-->
+
+    <!-- Bean的生命周期 -->
+    <!--    <bean id="man" class="org.prim.ioc.demo3.Man" init-method="init" destroy-method="beanclose">-->
+    <!--        <property name="name" value="name"/>-->
+    <!--    </bean>-->
+
+    <!-- 在生成类的实例过程中自动调用 -->
+    <!--    <bean class="org.prim.ioc.demo3.MyBeanPostProcessor"/>-->
+
+    <!--    <bean id="userDao" class="org.prim.ioc.demo3.UserDaoImpl"/>-->
+
+    <!-- 通过构造方法注入属性 -->
+    <!--    <bean id="user" class="org.prim.ioc.demo4.User">-->
+    <!--        <constructor-arg name="name" value="lily"/>-->
+    <!--        <constructor-arg name="age" value="18"/>-->
+    <!--    </bean>-->
+
+    <!-- 通过setter注入属性 -->
+    <!--    <bean id="person" class="org.prim.ioc.demo4.Person">-->
+    <!--        <property name="name" value="jakeprim"/>-->
+    <!--        <property name="age" value="28"/> &lt;!&ndash; 注入普通值 &ndash;&gt;-->
+    <!--        <property name="cat" ref="cat"/> &lt;!&ndash; 注入其他bean &ndash;&gt;-->
+    <!--    </bean>-->
+
+    <!--    <bean id="cat" class="org.prim.ioc.demo4.Cat">-->
+    <!--        <property name="name" value="折耳猫"/>-->
+    <!--    </bean>-->
+
+    <!-- p命名空间注入 -->
+    <!--    <bean id="person" class="org.prim.ioc.demo4.Person" p:name="lily" p:age="27" p:cat-ref="cat"/>-->
+    <!--    <bean id="cat" class="org.prim.ioc.demo4.Cat" p:name="小花"/>-->
+
+    <!--SpEL 属性注入 -->
+    <!--    <bean id="product" class="org.prim.ioc.demo4.Produce">-->
+    <!--        <property name="name" value="#{'男装'}"/>-->
+    <!--        <property name="price" value="#{productInfo.calculatePrice()}"/>-->
+    <!--        <property name="category" value="#{category}"/>-->
+    <!--    </bean>-->
+    <!--    <bean id="category" class="org.prim.ioc.demo4.Category">-->
+    <!--        <property name="name" value="#{'手机'}"/>-->
+    <!--    </bean>-->
+    <!--    <bean id="productInfo" class="org.prim.ioc.demo4.ProductInfo"/>-->
+
+    <!-- 集合类型属性注入 -->
+    <!--    <bean id="collection" class="org.prim.ioc.demo5.CollectionBean">-->
+    <!--        &lt;!&ndash; 数组类型 &ndash;&gt;-->
+    <!--        <property name="arrs">-->
+    <!--            <list>-->
+    <!--                <value>aaa</value>-->
+    <!--                <value>ab</value>-->
+    <!--                <value>abc</value>-->
+    <!--            </list>-->
+    <!--        </property>-->
+    <!--        &lt;!&ndash; list类型 &ndash;&gt;-->
+    <!--        <property name="list">-->
+    <!--            <list>-->
+    <!--                <value>l1</value>-->
+    <!--                <value>l2</value>-->
+    <!--                <value>l3</value>-->
+    <!--            </list>-->
+    <!--        </property>-->
+    <!--        &lt;!&ndash; set 注入 &ndash;&gt;-->
+    <!--        <property name="set">-->
+    <!--            <set>-->
+    <!--                <value>s1</value>-->
+    <!--                <value>s2</value>-->
+    <!--                <value>s3</value>-->
+    <!--            </set>-->
+    <!--        </property>-->
+    <!--        &lt;!&ndash; map &ndash;&gt;-->
+    <!--        <property name="map">-->
+    <!--            <map>-->
+    <!--                <entry key="m1" value="1" />-->
+    <!--                <entry key="m2" value="2" />-->
+    <!--                <entry key="m3" value="3" />-->
+    <!--            </map>-->
+    <!--        </property>-->
+    <!--        &lt;!&ndash; properties &ndash;&gt;-->
+    <!--        <property name="properties">-->
+    <!--            <props>-->
+    <!--                <prop key="username">root</prop>-->
+    <!--                <prop key="password">123456</prop>-->
+    <!--            </props>-->
+    <!--        </property>-->
+    <!--    </bean>-->
+
+    <!-- 注解的方式 开启注解扫描 -->
+    <context:component-scan base-package="org.prim.ioc.demo6"/>
+    <context:component-scan base-package="org.prim.ioc.demo7"/>
+
+    <bean id="productService" class="org.prim.ioc.demo7.ProductService"/>
+    <bean id="productDao" class="org.prim.ioc.demo7.ProductDao"/>
+    <bean id="categoryDao" class="org.prim.ioc.demo7.CategoryDao"/>
+
+</beans>

@@ -1,0 +1,5 @@
+.center{margin: 50% 50%;}
+.image_center{width:80px;height:104px;background: #C0C0C0;margin:50%;}
+.image_center .smile_face{ font-size:50px; float:left; color: #000000; margin-left:30px; display:block; transform:rotate(90deg);}
+ .code{margin-top: 20px; color:#000000; width: 220px; font-size:20px;margin-left: -10px;}
+.jump{margin-top: 20px; color:#C0C0C0; width: 220px;font-size:15px;margin-left: -35px;}

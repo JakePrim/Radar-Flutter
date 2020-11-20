@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%thread %d %level %logger{10} - %msg%n]</pattern>
+        </encoder>
+    </appender>
+    <!-- RollingFileAppender 输出器 生成按天的日志文件 -->
+    <appender name="accessHistoryLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 滚动策略 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 配置生成文件的路径 和 生成日志的名称-->
+            <fileNamePattern>/Users/prim/java/java-workspace/Awesome-Java-Notebook/SpringMVC/logs/history.%d.log
+            </fileNamePattern>
+        </rollingPolicy>
+        <!-- 配置日志文件输出的格式 -->
+        <encoder>
+            <pattern>[%thread %d %level %logger{10} - %msg%n]</pattern>
+        </encoder>
+    </appender>
+    <root level="debug">
+        <appender-ref ref="console"/>
+    </root>
+    <!--
+    additivity="false" 日志指向文件中输出
+    启用accessHistoryLog
+     -->
+    <logger name="com.prim.interceptor.AccessHistoryInterceptor" level="INFO" additivity="false">
+        <appender-ref ref="accessHistoryLog"/>
+    </logger>
+</configuration>

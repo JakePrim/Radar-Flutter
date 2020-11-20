@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- mybatis 的文档约束 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 命名空间 这样不会出现混乱的情况 -->
+<mapper namespace="goods">
+    <!-- 手动配置二级缓存 推荐保留单个的实体对象的缓存 而对于集合不进行缓存，如果集合的数据量太大对内存存在太大的压力
+         注意：二级缓存开启后默认的所有操作均使用缓存 推荐保留单个的实体对象的缓存
+         在写操作提交时commit，会对该namespace下的缓存强制清空
+         配置flushCache=true代表强制清空缓存
+         配置useCache=false，表示可以不用缓存
+
+         eviction:缓存清除的策略 LRU：最近最少使用算法，移除最长时间不被使用的对象 - 推荐使用
+         FIFO ：先进先出：按对象进入缓存的顺序来移除它们
+         SOFT：软应用：移除基于垃圾回收器状态和软引用规则的对象
+         WEAK：弱引用：更积极地移除基于垃圾收集器的状态和弱引用规则的对象
+
+         flushInterval： 间隔多长时间自动清空缓存 单位毫秒
+
+         size: 缓存存储上限 用于保存对象或集合（1个集合算一个对象）的数量上限 缓存多少个对象,最大数量 （一般返回集合不推荐使用返回 因为集合缓存的命中率较低）
+
+         readOnly：true表示缓存是只读的 每次从缓存取出的是缓存对象本身，执行率较高；false 代表每次取出的是缓存对象的"副本"，每一次取出的对象都是不同的，这种安全性较高
+         -->
+    <cache eviction="LRU" flushInterval="600000" size="512" readOnly="true"/>
+    <!-- id 说明了这个SQL语句的名称别名  resultType 说明了返回的对象是什么如下查询到的每一条对象包装为Goods对象
+    useCache 代表是否使用缓存，对于返回集合的SQL不推荐使用缓存，如果数据量太大 对内存有很大的压力 ，false 表示查询结果不被放入缓存 -->
+    <select id="selectAll" resultType="com.prim.pojo.Goods" useCache="false">
+        select * from t_goods
+        order by goods_id desc
+        limit 10
+    </select>
+
+    <!-- 查询传递单个参数 parameterType表示传递参数的类型 -->
+    <select id="selectById" parameterType="Integer" resultType="com.prim.pojo.Goods">
+        select * from t_goods where goods_id = #{value} <!--#{value} 是固定的写法 value不能改变 -->
+    </select>
+
+    <!-- 传递多个参数 将parameterType 设置为Map类型 同时#{key} 就是map的key,通过key获取map中的value-->
+    <select id="selectByPriceRange" parameterType="java.util.Map" resultType="com.prim.pojo.Goods" useCache="false">
+        select * from t_goods
+        where current_price between #{min} and #{max}
+        limit 0,#{count}
+    </select>
+
+    <!-- 多表联合查询结果 :利用LinkedHashMap保存多表关联结果，LinkedHashMap 有助于按照表结构的顺序显示结果
+    而如果使用HashMap 结果可能是混乱排序的
+     key是字段名
+    value 是字段对应的值，字段类型根据表结果自行判断 优点：易于扩展 易于使用 缺点：太过灵活，无法进行编译时检查-->
+    <select id="selectGoodsMap" resultType="java.util.LinkedHashMap" useCache="false">
+        select g.*,c.category_name from t_goods g,t_category c
+        where g.category_id = c.category_id
+    </select>
+
+    <!-- ResultMap 结果映射 如果是复杂的联合查询就需要构建DTO 虽然会写很多映射规则 但是有助于团队的开发 -->
+    <resultMap id="rmGoods" type="com.prim.dto.GoodsDTO">
+        <!-- 设置主键字段和属性映射 column为数据库字段映射-->
+        <id property="goods.goodsId" column="goods_id"/>
+        <!-- 设置非主键字段和属性映射 property 是实体类属性名 column是数据库表的字段名 -->
+        <result property="goods.title" column="title"/>
+        <result property="goods.subTitle" column="sub_title"/>
+        <result property="goods.originalCost" column="original_cost"/>
+        <result property="goods.currentPrice" column="current_price"/>
+        <result property="goods.discount" column="discount"/>
+        <result property="goods.isFreeDelivery" column="is_free_delivery"/>
+        <result property="goods.categoryId" column="category_id"/>
+        <result property="category.categoryId" column="category_id"/>
+        <result property="category.categoryName" column="category_name"/>
+        <result property="category.parentId" column="parent_id"/>
+        <result property="category.categoryLevel" column="category_level"/>
+        <result property="category.categoryOrder" column="category_order"/>
+    </resultMap>
+    <select id="selectGoodsDto" resultMap="rmGoods" flushCache="true">
+        select g.*,c.* from t_goods g,t_category c
+        where g.category_id = c.category_id
+    </select>
+
+    <!-- 通过<insert> 标签插入数据 flushCache:true 表示立马清除缓存而不是等待 commit提交的时候在清除缓存-->
+    <insert id="insertGoods" parameterType="com.prim.pojo.Goods" useGeneratedKeys="true" keyProperty="goodsId" keyColumn="goods_id" >
+        insert into t_goods(title,sub_title,original_cost,current_price,discount,is_free_delivery,category_id)
+        values (#{title},#{subTitle},#{originalCost},#{currentPrice},#{discount},#{isFreeDelivery},#{categoryId})
+        <!-- selectKey 在insert语句执行完后 last_insert_id 查询当前连接最后产生的ID 回填给传递的参数Goods对象的goodsId
+         以方便后续的操作 -->
+<!--        <selectKey resultType="Integer" keyProperty="goodsId" order="AFTER">-->
+<!--                select last_insert_id()-->
+<!--        </selectKey>-->
+        <!--selectKey 与 useGeneratedKeys 的区别是什么
+         useGeneratedKeys="true" keyProperty="goodsId" keyColumn="goods_id"
+         如果使用的数据库都支持自增属性 推荐使用useGeneratedKeys     如果有各种各样的不同的数据库推荐使用selectKey
+         -->
+    </insert>
+
+    <!-- 更新操作 -->
+    <update id="updateGoods" parameterType="com.prim.pojo.Goods">
+        update t_goods set title=#{title},sub_title=#{subTitle},original_cost=#{originalCost},
+        current_price=#{currentPrice},discount=#{discount},is_free_delivery=#{isFreeDelivery},
+        category_id=#{categoryId}
+        where goods_id=#{goodsId}
+    </update>
+
+    <!-- 删除操作 -->
+    <delete id="deleteGoods" parameterType="Integer">
+        delete from t_goods where goods_id=#{value}
+    </delete>
+    
+    <select id="dynamicSql" parameterType="java.util.Map" resultType="com.prim.pojo.Goods">
+        select * from t_goods
+        <where>
+            <!-- <where> 标签可以自行判断是否去掉and关键字 -->
+            <if test="categoryId!=null">
+                and category_id = #{categoryId}
+            </if>
+            <if test="currentPrice!=null">
+                and current_price &lt; #{currentPrice}
+            </if>
+        </where>
+    </select>
+
+    <!-- 一对多查询 例如商品表多应这详情表的多条记录 如何查询呢？ -->
+    <resultMap id="detailMap" type="com.prim.pojo.Goods">
+        <!-- 必须添加主键 -->
+        <id column="goods_id" property="goodsId"/>
+        <!-- 映射集合对应的就是商品详情页的集合记录
+            property 设置实体类的属性名
+            select 查询商品详情表的查询语句 可以从另一个mapper中查询
+            column 字段名用户传递给查询详情页的SQL语句 作为查询条件
+        -->
+        <collection property="goodsDetails" select="goodsDetail.selectGoodsDetail" column="goods_id"/>
+    </resultMap>
+    <select id="oneToMore" resultMap="detailMap">
+        select * from t_goods limit 0,1
+    </select>
+
+    <!-- 测试分页查询 -->
+    <select id="selectPage" resultType="com.prim.pojo.Goods">
+        select * from t_goods where current_price &lt; 1000
+    </select>
+
+    <!-- 批量插入数据
+     insert table values(),(),()
+     -->
+    <insert id="batchInsert" parameterType="java.util.List">
+        insert into t_goods(title,sub_title,original_cost,current_price,discount,is_free_delivery,category_id)
+        values
+        <!--
+        通过foreach标签类似循环 进行批量插入
+        注意这几个属性的值 是mybatis强制的 不要改变 collection="list" item="item" index="index"
+         separator 分割器 每一条（），（），（） 逗号进行分割
+         注意：批量插入会存在两个问题：无法获取插入数据的主键ID
+                批量生成的SQL太长，可能会被服务器拒绝，需要提前进行压力测试
+         -->
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.title},#{item.subTitle},#{item.originalCost},#{item.currentPrice},#{item.discount},#{item.isFreeDelivery},#{item.categoryId})
+        </foreach>
+    </insert>
+
+    <!-- 批量删除
+        delete from table where goods_id in (, , , , , ,)
+     -->
+    <delete id="batchDelete" parameterType="java.util.List">
+        delete from t_goods
+        where goods_id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>

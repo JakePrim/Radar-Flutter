@@ -1,0 +1,92 @@
+
+.width1200{width:1200px; margin:auto; overflow:hidden}
+.btn{
+	border-radius:3px;
+	-moz-border-radius:3px;
+	-ms-border-radius:3px;
+	-o-border-radius:3px;
+	-webkit-border-radius:3px;
+	text-align:center;
+}
+
+.btn-bg-red{
+	display:inline-block;
+	width:150px;
+	height:32px;
+	line-height:32px;
+	background-color:#f01414;
+	color:#fff;
+}
+
+.btn-sm-white{
+	display:inline-block;
+	width:62px;
+	height:32px;
+	line-height:32px;
+	background-color:#fff;
+	color:#f01414;
+}
+
+.section .sec_intru_bg{
+	background:url(../image/MG_details_04.png) no-repeat center;
+	width:330px;
+	height:368px;
+	color:#fff;
+	padding-top:64px;
+	padding-left:68px;
+	padding-right:68px;
+	font-size:14px;
+}
+
+.section .sec_intru_bg dl{
+	border-bottom:1px solid #596364;
+	padding-bottom:10px;
+	margin-bottom:40px;
+}
+.section .sec_intru_bg dt{ 
+	font-size:30px;
+	margin-bottom:20px;
+}
+
+.section .sec_intru_bg dd{
+	line-height:37px;
+}
+
+.section .sec_intru_bg ul {
+	overflow:hidden;
+}
+.section .sec_intru_bg ul li{
+	float:left;overflow:hidden;
+} 
+
+.section .sec_intru_bg ul li.btn{
+	margin-top:15px;
+} 
+
+.section .sec_intru_bg ul li span.price{
+	font-size:24px;
+} 
+.secion_words .width1200{
+	box-shadow:0px 4px 3px -2px #d1d1d2;
+}
+.secion_wordsCon{
+	background-color:#fff;
+	padding:70px 120px;
+	font-size:14px;
+	color:#55595a;
+	line-height:24px;
+    box-shadow: 2px 4px 6px #000;
+	/*text-indent:2em;*/	
+}
+
+.secion_wordsCon p{
+	line-height: 35px;
+	text-indent: 2em;
+	font-size:14px;
+	margin-bottom: 20px;
+}
+
+.section-margin-fix{
+	margin-top:20px;
+}
+

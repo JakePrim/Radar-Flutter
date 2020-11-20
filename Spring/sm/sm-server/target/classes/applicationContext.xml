@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- spring 和 mybatis整合 -->
+    <!-- 配置数据源 -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/sm?useUnicode=true&amp;characterEncoding=UTF-8"/>
+    </bean>
+    <!-- 通过配置的数据源获取 session 工厂-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!-- 别名所在的包 简化所在mapper配置文件返回实体类型的别名一般在数据库查询返回的实体类型都是：com.prim.xxx.xxx
+            配置了typeAliasesPackage后，只需要输入类名即可
+         -->
+        <property name="typeAliasesPackage" value="com.prim.pojo"/>
+    </bean>
+    <!-- 配置持久化操作对象mapper -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.prim.dao"/> <!-- 扫描dao下的注解 mapper需要配置在这个包下 -->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+    <!-- 声明式事务 -->
+    <!-- 必须配置事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- 配置通知 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <!-- 针对不同的方法进行处理 -->
+        <tx:attributes>
+            <!-- 对于查询操作自动提交事务 -->
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="find*" read-only="true"/>
+            <tx:method name="search*" read-only="true"/>
+            <!-- 其他操作必须使用事务管理手动提交事务 -->
+            <tx:method name="*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+    <!-- 织入 -->
+    <aop:config>
+        <!-- 配置切入点 切入所有的service方法 -->
+        <aop:pointcut id="txPointcut" expression="execution(* com.prim.service.*.*(..))"/>
+        <!-- 配置通知和切入点 -->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
+    </aop:config>
+
+    <!-- 自动扫描bean -->
+    <context:component-scan base-package="com.prim"/>
+    <!-- aspectj 注解扫描 -->
+    <aop:aspectj-autoproxy/>
+</beans>

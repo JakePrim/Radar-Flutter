@@ -1,0 +1,136 @@
+﻿body{
+	font-family:"微软雅黑";
+	text-align:center;
+	font-size:12px;
+	color:#656565;
+	background:#E9E9E9;
+}
+a{
+	color:#6565F5;
+}
+img{
+	padding:0px;
+	margin:0px;
+	border:0px;
+}
+/*头部*/
+.head{
+	width:100%;
+	height:80px;
+	min-width:1200px;
+	margin:0px auto;
+	background:#FFFFFF;
+	border-bottom:#666666 5px solid;
+}
+.head .logo{
+	width:40%;
+	float:left;
+	text-align:left;
+}
+.head .logo img{
+	width:150px;
+	height:80px;
+	margin:0px 0px 0px 0px;
+	vertical-align:top;
+}
+.head .curr{
+	width:300px;
+	height:80px;
+	float:right;
+	position:relative;
+}
+.head .curr span{
+	position:absolute;
+	bottom:5px;
+	right:20px;
+}
+/*左边导航*/
+.sidenav{
+	background:#F9F9F9;
+	width:220px;
+	border-right:1px solid #BABABA;
+}
+.sidenav li{
+	border-bottom:1px solid #DEDEDE;
+	border-top:1px solid #fff;
+	background:#F3F3F3;
+}
+.sidenav li .nav_m{
+	width:100%;
+	height:45px;
+	position:relative;
+	text-align:left;
+	cursor:pointer;
+	background:#F3F3F3;
+}
+.sidenav li .nav_m span , .sidenav li .nav_m i{
+	display:inline-block;
+	*display:inline;
+	zoom:1;
+	vertical-align:top;
+	height:10px;
+	line-height:10px;
+	margin-top:20px;
+}
+.sidenav li .nav_m span a{
+	font-size:12px;
+	color:#434343;
+	margin-left:35px;
+	font-weight:bold;
+}
+.sidenav li.now{
+	background:#FFF;
+	color:#3D89CB;
+}
+.sidenav li.now .nav_m span a , .sidenav li.now .erji li a{
+	color:#3D89CB;
+}
+.sidenav li .nav_m i{
+	width:10px;
+	height:10px;
+	position:absolute;
+	margin:0px;
+	right:20px;
+	top:20px;
+	background:url(../images/icon3.png)no-repeat;
+	overflow:hidden;
+}
+.sidenav li.now .nav_m i{
+	background:url(../images/icon2.png)no-repeat;
+}
+.sidenav li.now .erji{
+	display:block;
+}
+.sidenav li .erji{
+	width:100%;
+	display:none;
+}
+.sidenav li .erji li{
+	width:100%;
+	height:30px;
+	line-height:30px;
+	border:0px;
+	background-image:url(../images/icon4.png);
+	background-position:18px center;
+	background-repeat:no-repeat;
+}
+.sidenav li.now .erji li{
+	background-color:#FFF;
+}
+.sidenav li.now .erji li:hover , .sidenav li.now .erji li.now_li {
+	background-color:#E5E5E5;
+}
+.sidenav li .erji li a{
+	font-size:12px;
+	color:#434343;
+}
+.sidenav li .erji li span{
+	display:block;
+	margin:0px;
+	height:30px;
+	line-height:30px;
+	text-align:left;
+}
+.sidenav li .erji li span a{
+	margin-left:35px;
+}

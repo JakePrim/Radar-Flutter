@@ -1,0 +1,86 @@
+/*
+* @Author: Administrator
+* @Date:   2017-02-16 15:40:11
+* @Last Modified by:   Administrator
+* @Last Modified time: 2017-02-16 15:44:43
+*/
+
+.center{
+        width: 100%;
+        padding-bottom: 48px;
+        margin-top: 25px;
+}
+.center-login{
+        width: 100%;
+        height: 536px;
+        box-shadow: 2px 2px 5px #e5e6e8;
+}
+.login-banner
+, .user-login{
+        width: 50%;
+        height: 100%;
+        float: left;
+}
+.user-login{
+        background-color: #fff;
+}
+.user-box{
+        margin:132px 0 0 128px;
+}
+.user-title{
+        width: 314px;
+        border-bottom: 1px solid #DCDDE1;
+}
+.user-title p{
+        font-size: 24px;
+        font-family: "微软雅黑";
+        color: #EE1415;
+        padding-bottom: 22px;
+}
+.login-table{
+        padding-top: 48px;
+}
+.login-left
+,.login-right{
+    padding-bottom: 20px;
+}
+.username
+,.passwd{
+       height: 30px;
+      line-height: 30px;
+        font-size: 14px;
+        color: #2C372F;
+        float: left;
+        padding-left: 16px;
+}
+.passwd{
+    padding-left: 29px;
+}
+.yhmiput{
+        width: 220px;
+        height: 30px;
+        margin-left: 20px;
+        border:1px solid #DCDDE1;
+        border-radius: 4px;
+}
+.codeiput{
+        width: 96px;
+        height: 25px;
+        margin-left: 20px;
+        border:1px solid #DCDDE1;
+        border-radius: 4px;
+}
+.login-btn{
+    width: 100%;
+    padding-left: 78px;
+}
+.login-btn button{
+        width: 62px;
+        height: 32px;
+        color: #fff;
+        font-size: 14px;
+        background-color: #F01414;
+        border: 1px solid #F01414;
+        border-radius: 4px;
+        cursor: pointer;
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学员调查问卷</title>
+    <style>
+        .container {
+            position: absolute;
+            border: 1px solid #cccccc;
+            left: 50%;
+            top: 50%;
+            width: 400px;
+            height: 300px;
+            margin-left: -200px;
+            margin-top: -150px;
+            box-sizing: border-box;
+            padding: 10px;
+        }
+
+        h2 {
+            margin: 10px 0px;
+            text-align: center;
+        }
+
+        h3 {
+            margin: 10px 0px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>学员调查问卷</h2>
+    <form action="/um/apply" method="post">
+        <h3>您的姓名</h3>
+        <input name="name" class="text" style="width: 150px">
+        <h3>您正在学习的技术方向</h3>
+        <select name="course" style="width: 150px">
+            <option value="java">Java</option>
+            <option value="h5">HTML5</option>
+            <option value="python">Python</option>
+            <option value="php">PHP</option>
+        </select>
+        <h3>收货人</h3>
+        <input name="idCard.person" class="text" style="width: 150px">
+        <h3>联系电话</h3>
+        <input name="idCard.phone" class="text" style="width: 150px">
+        <h3>收货地址</h3>
+        <input name="idCard.address" class="text" style="width: 150px">
+        <div>
+            <h3>您的学习目的：</h3>
+            <input type="checkbox" name="purpose" value="1">就业找工作
+            <input type="checkbox" name="purpose" value="2">工作要求
+            <input type="checkbox" name="purpose" value="3">兴趣爱好
+            <input type="checkbox" name="purpose" value="4">其他
+        </div>
+        <div style="text-align: center;padding-top:10px">
+            <input type="submit" value="提交" style="width:100px">
+        </div>
+    </form>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 创建约束 -->
+<!ELEMENT hr (employee+)>
+<!ELEMENT employee (name,age,salary,department)>
+
+<!-- 属性约束 -->
+<!ATTLIST employee no CDATA "">
+
+<!-- 定义标签的值 都是纯文本-->
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT age (#PCDATA)>
+<!ELEMENT salary (#PCDATA)>
+<!ELEMENT department (dname,address)>
+<!ELEMENT dname (#PCDATA)>
+<!ELEMENT address (#PCDATA)>

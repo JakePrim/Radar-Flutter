@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <!-- 日志的打印配置 关于其他的设置可参考官方网站 -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- 日志输出的格式 %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n-->
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level [%p][%c][%M][%L] -> %m%n</pattern>
+        </encoder>
+    </appender>
+    <!-- 设置日志级别 -->
+    <root level="debug">
+        <appender-ref ref="console"/>
+    </root>
+</configuration>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- mybatis 的文档约束 -->
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- mybatis 设置项 -->
+    <settings>
+        <!-- 开启驼峰命名转换例如数据库命名goods_id 而实体类命名goodsId -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    
+    <!-- 添加mybatis插件plugin PageHelper就是mybatis的一个插件 -->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!-- 配置分页插件选择哪种数据库连接 -->
+            <property name="helperDialect" value="mysql"/>
+            <!-- 分页合理化 默认为false -->
+            <property name="reasonable" value="true"/>
+        </plugin>
+    </plugins>
+    
+    <!-- mybatis 环境设置 -->
+    <environments default="dev"> <!-- default 表示使用哪个环境下的数据库 dev这是用id=dev的数据库 prd使用id=prd数据库 -->
+        <environment id="dev"> <!-- 开发环境配置 -->
+            <!-- 采用JDBC的方式对事务进行管理commit/rollback -->
+            <transactionManager type="JDBC"></transactionManager>
+            <!-- type 采用什么方式对数据源进行管理 POOLED 采用连接池的方式管理 mybatis 自己实现的连接池-->
+<!--            <dataSource type="POOLED">-->
+<!--                <property name="driver" value="com.mysql.jdbc.Driver"/>-->
+<!--                <property name="url" value="jdbc:mysql://localhost:3306/babytun?useUnicode=true&amp;characterEncoding=UTF-8"/>-->
+<!--                <property name="username" value="root"/>-->
+<!--                <property name="password" value="root"/>-->
+<!--            </dataSource>-->
+            <dataSource type="com.prim.datasource.C3P0DataSourceFactory">
+                <!-- 注意以下属性名称要和c3p0属性名称相符合 不同的连接池参考相应的文档 -->
+                <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+                <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/babytun?useUnicode=true&amp;characterEncoding=UTF-8"/>
+                <property name="user" value="root"/>
+                <property name="password" value="root"/>
+                <!-- 初始化连接池 -->
+                <property name="initialPoolSize" value="5"/>
+                <!-- 最大连接池数量 -->
+                <property name="maxPoolSize" value="20"/>
+                <!-- 最小连接池的数量 -->
+                <property name="minPoolSize" value="5"/>
+            </dataSource>
+        </environment>
+        <environment id="prd"> <!-- 生产环境配置 -->
+            <!-- 采用JDBC的方式对事务进行管理commit/rollback -->
+            <transactionManager type="JDBC"></transactionManager>
+            <!-- type 采用什么方式对数据源进行管理 POOLED 采用连接池的方式管理 -->
+<!--            <dataSource type="POOLED">-->
+<!--                <property name="driver" value="com.mysql.jdbc.Driver"/>-->
+<!--                <property name="url" value="jdbc:mysql://192.168.1.124:3306/babytun?useUnicode=true&amp;characterEncoding=UTF-8"/>-->
+<!--                <property name="username" value="root"/>-->
+<!--                <property name="password" value="root"/>-->
+<!--            </dataSource>-->
+            <dataSource type="com.prim.datasource.C3P0DataSourceFactory">
+                <!-- 注意以下属性名称要和c3p0属性名称相符合 不同的连接池参考相应的文档 -->
+                <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+                <property name="jdbcUrl" value="jdbc:mysql://192.168.1.124:3306/babytun?useUnicode=true&amp;characterEncoding=UTF-8"/>
+                <property name="user" value="root"/>
+                <property name="password" value="root"/>
+                <!-- 初始化连接池 -->
+                <property name="initialPoolSize" value="5"/>
+                <!-- 最大连接池数量 -->
+                <property name="maxPoolSize" value="20"/>
+                <!-- 最小连接池的数量 -->
+                <property name="minPoolSize" value="5"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!-- 核心配置文件声明mappers mybatis 启动时会自动的加载mapper.xml文件 -->
+    <mappers>
+        <mapper resource="mappers/goods.xml"/>
+        <mapper resource="mappers/student.xml"/>
+        <mapper resource="mappers/goods_detail"/>
+        <mapper resource="mappers/classes.xml"/>
+    </mappers>
+</configuration>
