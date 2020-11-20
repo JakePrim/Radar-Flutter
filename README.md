@@ -50,8 +50,8 @@
 
 | 文章标题                                                     | 状态     | 原创/转载 |
 | ------------------------------------------------------------ | -------- | --------- |
-| [Java 面向对象](https://www.yuque.com/docs/share/ad7f4a63-0465-494d-9a9d-1ef5fcd6dc8e?# 《Java 面向对象》) | [已完成] | 【原创】  |
-| [Java核心类库-上](https://www.yuque.com/docs/share/87519407-774c-4a07-9ba0-68150bdb5a41?# 《Java核心类库》) | [已完成] | 【原创】  |
+| [Java 面向对象](https://www.yuque.com/jakeprim/java/ir64h7)  | [已完成] | 【原创】  |
+| [Java核心类库-上](https://www.yuque.com/jakeprim/java/lgpglx) | [已完成] | 【原创】  |
 |                                                              |          |           |
 
 ## 数据结构与算法 :pencil2:
