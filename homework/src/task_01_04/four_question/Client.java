@@ -14,15 +14,17 @@ public class Client {
         ObjectOutputStream oos = null;
         ObjectInputStream ois = null;
         try {
-            s = new Socket("127.0.0.1", 8888);
+            s = new Socket("127.0.0.1", 8888);//socket去连接服务端
             System.out.println("连接服务器成功!");
-            //向服务器发送信息
+            //然后通过ObjectOutputStream 向服务器发送信息
             oos = new ObjectOutputStream(s.getOutputStream());
+            //创建UserManager对象 类型 用户信息
             UserManager tum = new UserManager("check", new User("admin1", "123456"));
+            //进行发送给服务端
             oos.writeObject(tum);
             oos.flush();
             System.out.println("登录中...");
-            //接受服务发送过来的信息
+            //等待服务端的反馈 判断是否登录成功 接受服务发送过来的信息
             ois = new ObjectInputStream(s.getInputStream());
             UserManager result = (UserManager) ois.readObject();
             System.out.println("接受到服务器发送过来的消息:" + result);

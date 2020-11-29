@@ -20,7 +20,7 @@ public class Server {
     public static void main(String[] args) {
         ServerSocket ss = null;
         //存储链接客户端的一个集合
-        List<OutputStream> socketList = new ArrayList<>();
+        List<Socket> socketList = new ArrayList<>();
         ExecutorService es = null;
         try {
             es = Executors.newCachedThreadPool();
@@ -29,8 +29,8 @@ public class Server {
             while (true) {
                 System.out.println("等待客户端连接中...");
                 Socket s = ss.accept();
-                //每次进来一个客户端 存储它的输出流
-                socketList.add(s.getOutputStream());
+                //每次进来一个客户端 存储它的输出流 通知所有的客户端
+                socketList.add(s);
                 System.out.println("用户在线数:" + socketList.size());
                 //每个用户交给一个线程去管理
                 es.submit(new ServerRunnable(s, socketList));

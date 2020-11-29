@@ -2,7 +2,7 @@
 
 ![images](README.assets/images.jpeg)
 
-> Superman是什么：构建Java 高级开发技术的知识体系，从基础不断打怪升级成为超人之路。编程基础、JVM深度剖析、并发编程、 Spring全家桶、高并发、分布式、高性能存储、性能调优、容器化、微服务。只要你掌握这些知识就可以成为Java界的Superman。
+> Superman是什么：构建Java 高级开发技术的知识体系，Java项目最佳实践，从基础不断打怪升级成为超人之路。编程基础、JVM深度剖析、并发编程、 Spring全家桶、高并发、分布式、高性能存储、性能调优、容器化、微服务。只要你掌握这些知识就可以成为Java界的Superman。
 
 👍 推荐阅读: 所有文章都整理在了语雀:https://www.yuque.com/jakeprim/java 可直接从语雀查看.
 
@@ -52,7 +52,7 @@
 | ------------------------------------------------------------ | -------- | --------- |
 | [Java 面向对象](https://www.yuque.com/jakeprim/java/ir64h7)  | [已完成] | 【原创】  |
 | [Java核心类库-上](https://www.yuque.com/jakeprim/java/lgpglx) | [已完成] | 【原创】  |
-|                                                              |          |           |
+| [Java核心类库-下](https://www.yuque.com/jakeprim/java/uhqr16) | [已完成] | 【原创】  |
 
 ## 数据结构与算法 :pencil2:
 

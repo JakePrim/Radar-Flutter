@@ -77,7 +77,7 @@ public class Console {
      * 保存学生信息
      */
     private void save() {
-        //获取所有学生信息，写入文件系统
+        //1. 获取所有学生信息，写入文件系统
         List<Student> all = studentService.findAll();
         //将对象写入文件
         ObjectOutputStream oos = null;
@@ -111,6 +111,7 @@ public class Console {
                 if (newFile) {
                     System.out.println("创建文件成功");
                 }
+                //
             } else {
                 //如果读取的是个空文件 会报错EOFException
                 ois = new ObjectInputStream(new FileInputStream(file));

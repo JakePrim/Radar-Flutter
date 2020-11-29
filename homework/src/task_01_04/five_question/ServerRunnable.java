@@ -11,32 +11,30 @@ public class ServerRunnable implements Runnable {
     //接收对象
     private ObjectInputStream ois = null;
 
-    private List<OutputStream> socketList;
+    private List<Socket> socketList;
 
-    public ServerRunnable(Socket s, List<OutputStream> socketList) {
+    public ServerRunnable(Socket s, List<Socket> socketList) {
         this.s = s;
         this.socketList = socketList;
     }
 
     @Override
     public void run() {
-        //读取客户端发送过来的聊天信息
+        //读取客户端发送过来的聊天信息 转发给所有的客户端
         try {
             ois = new ObjectInputStream(s.getInputStream());
             while (true) {
                 try {
-                    if (s.isClosed()) {
-                        return;
-                    }
                     //接收数据，当没有数据时此方法阻塞
                     User user = (User) ois.readObject();
                     System.out.println("服务接收到用户:" + user.getName() + "的信息->" + user);
-                    //将信息发送给所有客户端
-                    for (OutputStream os : socketList) {
-                        ObjectOutputStream output = new ObjectOutputStream(os);
-                        output.writeObject(user);
-                        output.flush();
-                        output.reset();
+                    //2. 将信息发送给所有客户端 socketList所有客户端的输出流
+                    for (Socket ts : socketList) {
+                        if (ts != s) {
+                            ObjectOutputStream output = new ObjectOutputStream(ts.getOutputStream());
+                            //将当前客户端发送过来的信息转发出去
+                            output.writeObject(user);
+                        }
                     }
                 } catch (EOFException e) {
                     //表示连接断开
