@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/ExamSystemServer/ExamSystemServer.iml" filepath="$PROJECT_DIR$/ExamSystemServer/ExamSystemServer.iml" />
       <module fileurl="file://$PROJECT_DIR$/JavaBasics.iml" filepath="$PROJECT_DIR$/JavaBasics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/java9-01/java9-01.iml" filepath="$PROJECT_DIR$/java9-01/java9-01.iml" />
+      <module fileurl="file://$PROJECT_DIR$/java9-02/java9-02.iml" filepath="$PROJECT_DIR$/java9-02/java9-02.iml" />
     </modules>
   </component>
 </project>
