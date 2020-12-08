@@ -128,20 +128,22 @@ public class StudentView {
         //接收服务器返回的考题列表并显示
         tum = (UserMessage<List<Exam>>) cic.getOis().readObject();
         List<Exam> examList = tum.getContent();
-        //每道题的分数计算
+        //每道题的分数计算 100分
         float score = 100f / examList.size();
-        float sumScore = 0f;
-        for (Exam exam : examList) {
+        float sumScore = 0f;//记录总分数
+        for (Exam exam : examList) {//循环考题列表 由学员进行输入
             System.out.println("题目 " + exam.getSubject() + "[每道题分数:" + score + "分]：");
+            //循环打印选项
             for (int i = 0; i < exam.getSelect().size(); i++) {
                 System.out.println("选项" + (i+1) + " : " + exam.getSelect().get(i));
             }
             System.out.print("请输入选项:");
+            //右用户输入 选项：
             int choose = ClientScanner.getScanner().nextInt();
             exam.setChoose(choose);
-            //记录分数
+            //记录分数 用户选项和正确答案的选项 相等
             if (choose == exam.getCorrectResponse()) {
-                sumScore += score;
+                sumScore += score;//总分数修改
             }
             System.out.println();
         }
@@ -149,6 +151,7 @@ public class StudentView {
         //存储成绩
         Grade grade = new Grade(random.nextInt(10000), loginStudent.getsId(), sumScore);
         grade.setExamList(examList);
+        //创建消息体
         UserMessage<Grade> gradeUserMessage = new UserMessage<>("saveGrade", grade);
         cic.getOos().writeObject(gradeUserMessage);
         gradeUserMessage = (UserMessage<Grade>) cic.getOis().readObject();
@@ -231,6 +234,7 @@ public class StudentView {
         UserMessage<Student> loginStudent = (UserMessage<Student>) cic.getOis().readObject();
         if ("success".equals(loginStudent.getType())) {
             System.out.println("登录成功，欢迎使用");
+            //记录登录的学员信息
             this.loginStudent = loginStudent.getContent();
         } else {
             System.out.println("用户名或密码错误");

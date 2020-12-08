@@ -16,7 +16,7 @@
 
 | Ⅰ | Ⅱ | Ⅲ | Ⅳ | Ⅴ | Ⅵ |
 |:---------:| :---------: | :-------: | :-------: | :-------: | :-------: |
-| 高性能数据库 [:fire:](#高性能数据库-fire) | 高并发分布式 [:zap:](#高并发分布式-zap) | 性能优化[:rocket:](#性能优化-rocket) | 搜索引擎[:muscle:](#搜索引擎-muscle) | 容器化技术[:rabbit:](#容器化技术-rabbit) | 微服务[:cloud:](#容器化技术-cloud) |
+| 高性能数据库 [:fire:](#高性能数据库-fire) | 并发编程 [:zap:](#Java并发编程-zap) | 性能优化[:rocket:](#性能优化-rocket) | 搜索引擎[:muscle:](#搜索引擎-muscle) | 容器化技术[:rabbit:](#容器化技术-rabbit) | 微服务[:cloud:](#容器化技术-cloud) |
 
 ## 读书 :arrow_forward:
 
@@ -71,16 +71,26 @@
 | [算法基础:二分搜索树](https://jakeprim.cn/2019/09/02/bst1/) | [已完成] | 原创 |
 | [算法基础:链表结构](https://jakeprim.cn/2019/09/11/linkedlist1/) | [已完成] | 原创 |
 
-### 算法
-
-| 文章标题 | 状态 | 原创/转载 |
-| -------- | ---- | --------- |
-|          |      |           |
 ## 设计模式 :trophy:
 
 | 文章标题 | 状态 | 原创/转载 |
 | -------- | ---- | --------- |
 |          |      |           |
+## 高性能数据库 :fire:
+
+### MySQL 数据库
+
+| 文章标题                                                     | 状态     | 原创/转载 |
+| ------------------------------------------------------------ | -------- | --------- |
+| **[MySQL 数据类型](https://www.yuque.com/jakeprim/java/li66dt)** | [完成]   | 原创      |
+| **[MySQL 表的管理]()**                                       | [完成]   | 原创      |
+| **[MySQL 数据管理](https://www.yuque.com/jakeprim/java/sqehlt)** | [完成]   | 原创      |
+| **[MySQL 常用函数](https://www.yuque.com/jakeprim/java/ldm0hf)** | [完成]   | 原创      |
+| **[JDBC Java连接数据库](https://www.yuque.com/jakeprim/java/xiixmo)**  JDBC[示例代码](https://github.com/JakePrim/Awesome-Java-Notebook/tree/master/JDBC) | [完成]   | 原创      |
+| [事务管理-同时修改两个表多次获取连接的问题](https://www.yuque.com/jakeprim/java/lk3iud) | [完成]   | 原创      |
+| [JavaWeb 连接数据库实战](https://www.yuque.com/jakeprim/java/lk3iud) | [整理中] | 原创      |
+| [新-SQL基础](https://www.yuque.com/jakeprim/java/hrxd7f)     | [完成]   | 原创      |
+
 ## JavaWeb 核心技术
 
 [项目地址](https://github.com/JakePrim/Awesome-Java-Notebook/tree/master/JavaWeb)
@@ -113,7 +123,17 @@
 
 ## 并发编程 :two_hearts:
 
+|      |      |      |
+| ---- | ---- | ---- |
+|      |      |      |
+|      |      |      |
+
 ## 网络编程和Netty:collision:
+
+|      |      |      |
+| ---- | ---- | ---- |
+|      |      |      |
+|      |      |      |
 
 ## 剖析MyBatis源码 :notes:
 
@@ -135,7 +155,7 @@
 | [项目搭建及初始化springMvc和mybatis配置]() | [敬请期待] | 原创 |
 | [实现用户模块接口]() | [敬请期待] | 原创 |
 
-### 剖析Spring源码 :dash:
+## 剖析Spring源码 :dash:
 
 全面掌握Spring
 
@@ -148,30 +168,14 @@
 
 
 
-## 高性能数据库 :fire:
+## Java并发编程 :zap:
 
-深入MySQL 数据库
+|      |      |      |
+| ---- | ---- | ---- |
+|      |      |      |
+|      |      |      |
 
-JDBC[示例代码](https://github.com/JakePrim/Awesome-Java-Notebook/tree/master/JDBC)
 
-| 文章标题                                                     | 状态     | 原创/转载 |
-| ------------------------------------------------------------ | -------- | --------- |
-| **[MySQL 数据类型](https://www.yuque.com/jakeprim/java/li66dt)** | [完成]   | 原创      |
-| **[MySQL 表的管理]()**                                       | [完成]   | 原创      |
-| **[MySQL 数据管理](https://www.yuque.com/jakeprim/java/sqehlt)** | [完成]   | 原创      |
-| **[MySQL 常用函数](https://www.yuque.com/jakeprim/java/ldm0hf)** | [完成]   | 原创      |
-| **[JDBC Java连接数据库](https://www.yuque.com/jakeprim/java/xiixmo)** | [完成]   | 原创      |
-| **[事务管理-同时修改两个表多次获取连接的问题](https://www.yuque.com/jakeprim/java/lk3iud)** | [完成]   | 原创      |
-| **[JavaWeb 连接数据库实战](https://www.yuque.com/jakeprim/java/lk3iud)** | [整理中] | 原创      |
-
-## Java高并发分布式专题 :zap:
-
-Java 进阶的第一步掌握高并发.
-
-Java高并发-多线程原理
-
-| 文章标题 | 状态 | 原创/转载 |
-| --- | --- | --- |
 
 ## 性能优化专题 :rocket:
 

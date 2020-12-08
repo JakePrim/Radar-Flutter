@@ -6,6 +6,9 @@ import project.client.ClientView;
 
 import java.io.IOException;
 
+/**
+ * 在线考试系统
+ */
 public class ClientTest {
     public static void main(String[] args) {
         ClientInitClose cic = null;

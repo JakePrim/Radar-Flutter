@@ -43,6 +43,7 @@ public class ServerView {
             try {
                 UserMessage tum = (UserMessage) sic.getOis().readObject();
                 String type = tum.getType();
+                //
                 StringBuilder sb = new StringBuilder("服务端接收到客户端" + sic.getSocket().getInetAddress() + "的");
                 sb.append("\"");
                 sb.append(type).append("\"请求,");

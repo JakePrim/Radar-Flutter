@@ -6,8 +6,9 @@ import java.util.List;
 public class Student implements Serializable {
     private static final long serialVersionUID = 3422953473682278660L;
     private Integer sId;//学员id
-    private String name;
-    private String password;
+    private String name;//学员姓名
+    private String password;//密码
+    //忽略
     private List<Grade> gradeList;//成绩列表 不需要直接根据学员ID查询成绩表即可 忽略该字段
 
     public Student() {

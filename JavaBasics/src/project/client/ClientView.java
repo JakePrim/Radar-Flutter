@@ -63,6 +63,7 @@ public class ClientView {
             if (studentFile.exists()) {
                 ois = new ObjectInputStream(new FileInputStream(ServerDao.studentPath));
                 List<Student> studentList = (List<Student>) ois.readObject();
+                //
                 UserMessage<List<Student>> message = new UserMessage<>("import-student", studentList);
                 cic.getOos().writeObject(message);
 
@@ -129,6 +130,7 @@ public class ClientView {
         String name = ClientScanner.getScanner().next();
         System.out.println("请输入学员密码信息:");
         String password = ClientScanner.getScanner().next();
+
         UserMessage<User> tum = new UserMessage<>("studentCheck", new User(name, password));
         cic.getOos().writeObject(tum);
         UserMessage<Student> loginStudent = (UserMessage<Student>) cic.getOis().readObject();
@@ -150,6 +152,7 @@ public class ClientView {
         String userName = ClientScanner.getScanner().next();
         System.out.println("请输入管理员的密码信息：");
         String password = ClientScanner.getScanner().next();
+        //创建消息体对象
         UserMessage tum = new UserMessage("managerCheck", new User(userName, password));
         //2. 将tum对象发送给服务器
         cic.getOos().writeObject(tum);

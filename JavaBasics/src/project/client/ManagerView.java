@@ -36,6 +36,7 @@ public class ManagerView {
     //合成复用原则
     public ManagerView(ClientInitClose cic) {
         this.cic = cic;
+        //客户端的输入流和输出流
     }
 
     /**
@@ -255,6 +256,7 @@ public class ManagerView {
             System.out.println("只能输入1~4请重新输入");
         } else {
             Exam exam = new Exam(id, selectList, name, enterSelect);
+            //
             UserMessage<Exam> tum = new UserMessage<>(ADD_EXAM, exam);
             cic.getOos().writeObject(tum);
             //接收服务端返回来的信息
@@ -404,6 +406,7 @@ public class ManagerView {
         String name = ClientScanner.getScanner().next();
         System.out.println("请输入学员密码:");
         String password = ClientScanner.getScanner().next();
+        //创建消息体
         UserMessage<Student> tum = new UserMessage<>(ADD_STUDENT,
                 new Student(id, name, password, null));
         //发送给服务器
