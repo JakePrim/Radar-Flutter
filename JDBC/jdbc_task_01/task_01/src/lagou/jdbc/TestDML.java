@@ -1,4 +1,4 @@
-package lagou.demo01;
+package lagou.jdbc;
 
 import org.junit.Test;
 

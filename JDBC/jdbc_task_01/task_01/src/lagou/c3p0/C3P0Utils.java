@@ -1,4 +1,4 @@
-package lagou.demo3;
+package lagou.c3p0;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 

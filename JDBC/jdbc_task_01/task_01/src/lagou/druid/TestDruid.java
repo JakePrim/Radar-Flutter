@@ -1,19 +1,19 @@
-package lagou.demo3;
+package lagou.druid;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Test {
+public class TestDruid {
     public static void main(String[] args) throws SQLException {
-        Connection connection = C3P0Utils.getConnection();
+        Connection connection = DruidUtils.getConnection();
 
-        String sql = "select * from employee where ename = ?";
+        String sql = "select * from employee where salary between 3000 and 5000";
         PreparedStatement ps = connection.prepareStatement(sql);
-        ps.setString(1,"李白");
+
         ResultSet resultSet = ps.executeQuery();
-        while (resultSet.next()){
+        while (resultSet.next()) {
             System.out.println(resultSet.getString("ename"));
             System.out.println(resultSet.getInt("eid"));
             System.out.println(resultSet.getInt("age"));
@@ -22,6 +22,6 @@ public class Test {
             System.out.println(resultSet.getDate("empdate"));
         }
 
-        C3P0Utils.close(connection,ps,resultSet);
+        DruidUtils.close(connection, ps, resultSet);
     }
 }

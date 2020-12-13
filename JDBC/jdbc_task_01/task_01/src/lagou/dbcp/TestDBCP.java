@@ -1,4 +1,4 @@
-package lagou.demo02;
+package lagou.dbcp;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

@@ -1,12 +1,10 @@
 package lagou.dbutils;
 
-
-import lagou.demo04.DruidUtils;
+import lagou.druid.DruidUtils;
 import lagou.entity.Employee;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.*;
 import org.junit.Test;
-
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;

@@ -1,4 +1,4 @@
-package lagou.demo04;
+package lagou.druid;
 
 import com.alibaba.druid.pool.DruidDataSourceFactory;
 

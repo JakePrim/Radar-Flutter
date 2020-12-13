@@ -1,6 +1,6 @@
 package lagou.dbutils;
 
-import lagou.demo04.DruidUtils;
+import lagou.druid.DruidUtils;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.junit.Test;
@@ -44,7 +44,6 @@ public class DBUtilsDemo02 {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
     }
 
     //删除操作

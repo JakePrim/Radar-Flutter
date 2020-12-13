@@ -1,50 +1,48 @@
-package lagou.demo02;
+package lagou.jdbc;
 
-import org.apache.commons.dbcp.BasicDataSource;
-
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
- * DBCP 连接池工具类
+ * JDBC 工具类封装
  */
-public class DBCPUtils {
-    //1. 定义常量 保存数据库连接的相关信息
+public class JDBCUtils {
+    //1. 将连接信息定义为 字符串常量
     public static final String DRIVER_NAME = "com.mysql.jdbc.Driver";
     public static final String URL = "jdbc:mysql://localhost:3306/db5?characterEncoding=UTF-8";
-    public static final String USERNAME = "root";
+    public static final String USER = "root";
     public static final String PASSWORD = "123456";
 
-    //2. 创建连接池对象
-    public static BasicDataSource dataSource = new BasicDataSource();
-
-    //3. 使用静态代码块进行配置
+    //2. 静态代码块 随着类的加载而加载的
     static {
-        dataSource.setDriverClassName(DRIVER_NAME);
-        dataSource.setUrl(URL);
-        dataSource.setUsername(USERNAME);
-        dataSource.setPassword(PASSWORD);
+        try {
+            //注册驱动
+            Class.forName(DRIVER_NAME);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
-    //4. 获取连接的方法
-    public static Connection getConnection() throws SQLException {
-        //从连接池中获取
-        Connection connection = dataSource.getConnection();
+    //3. 获取连接方法
+    public static Connection getConnection() {
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         return connection;
     }
 
-    //5. 释放资源
+    //4. 关闭资源的方法
     public static void close(Connection connection, Statement statement) {
-        if (null != statement){
+        if (null != statement) {
             try {
                 statement.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         }
-        if (null != connection){
+        if (null != connection) {
             try {
                 connection.close();
             } catch (SQLException throwables) {
@@ -61,14 +59,14 @@ public class DBCPUtils {
                 throwables.printStackTrace();
             }
         }
-        if (null != statement){
+        if (null != statement) {
             try {
                 statement.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         }
-        if (null != connection){
+        if (null != connection) {
             try {
                 connection.close();
             } catch (SQLException throwables) {
@@ -76,5 +74,4 @@ public class DBCPUtils {
             }
         }
     }
-
 }

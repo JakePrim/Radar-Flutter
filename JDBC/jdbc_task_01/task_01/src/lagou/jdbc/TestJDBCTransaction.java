@@ -1,4 +1,4 @@
-package lagou.demo01;
+package lagou.jdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

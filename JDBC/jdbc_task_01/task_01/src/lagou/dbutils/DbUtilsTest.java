@@ -1,6 +1,6 @@
 package lagou.dbutils;
 
-import lagou.demo04.DruidUtils;
+import lagou.druid.DruidUtils;
 import org.apache.commons.dbutils.QueryRunner;
 
 public class DbUtilsTest {

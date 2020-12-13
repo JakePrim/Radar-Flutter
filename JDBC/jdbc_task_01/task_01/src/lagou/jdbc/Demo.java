@@ -1,4 +1,4 @@
-package lagou.demo01;
+package lagou.jdbc;
 
 /**
  * DEMO 测试
