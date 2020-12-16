@@ -89,6 +89,7 @@
 | [事务管理-同时修改两个表多次获取连接的问题](https://www.yuque.com/jakeprim/java/lk3iud) | [完成]   | 原创      |
 | [JavaWeb 连接数据库实战](https://www.yuque.com/jakeprim/java/lk3iud) | [整理中] | 原创      |
 | [新-SQL基础](https://www.yuque.com/jakeprim/java/hrxd7f)     | [完成]   | 原创      |
+| [新-JDBC技术](https://www.yuque.com/jakeprim/java/img0c6)     | [完成]   | 原创      |
 
 ## JavaWeb 核心技术
 
