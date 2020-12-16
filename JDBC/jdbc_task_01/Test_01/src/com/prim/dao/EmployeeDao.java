@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class EmployeeDao {
+    //需求1: 查询所有的员工信息 (不包含没有部门的员工)。
     public List<Employee> findAllEmployeeByNotDept() throws SQLException {
         QueryRunner qr = new QueryRunner(DruidUtils.getDataSource());
         String sql = "select * from employee where did is not null";
@@ -18,6 +19,7 @@ public class EmployeeDao {
         return employees;
     }
 
+    //需求2: 查询每个员工的 姓名, 薪资 和 所属部门名称
     public List<Employee> findAllEmployee() throws SQLException {
         QueryRunner qr = new QueryRunner(DruidUtils.getDataSource());
         String sql = "select * from employee";

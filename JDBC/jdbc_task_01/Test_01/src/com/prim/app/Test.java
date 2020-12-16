@@ -57,7 +57,7 @@ public class Test {
             }
             //提交事务，并且安静 的关闭连接
             DbUtils.commitAndCloseQuietly(connection);
-        } catch (SQLException throwables) {
+        } catch (Exception throwables) {
             throwables.printStackTrace();
             System.out.println("转账失败");
             try {
