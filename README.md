@@ -119,6 +119,7 @@
 | ------------------------------------------------------------ | ------ | --------- |
 | [JVM基础及内存区域](https://www.yuque.com/jakeprim/java/hs50zz) | [完成] | 原创      |
 | [深入理解JVM内存区域](https://www.yuque.com/jakeprim/java/qhmxou) |   [完成] |  原创 |
+| [JVM中的对象及引用](https://www.yuque.com/jakeprim/java/dg1z8m) | [完成] | 原创 |
 
 ## 并发编程成神之路 :two_hearts:
 
