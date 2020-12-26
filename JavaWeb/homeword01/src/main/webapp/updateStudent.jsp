@@ -1,81 +1,85 @@
+<%@ page import="com.homework.homeword01.pojo.Student" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>修改图书信息</title>
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/add.css">
-    </head>
-    <body>
-        <nav class="navbar navbar-default">
-            <div class="container">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="/dept/list.do">
-                        图书信息管理
-                    </a>
-                </div>
-            </div>
-        </nav>
-        <div class="container">
-            <div class="jumbotron">
-                <h1>Hello, XXX!</h1>
-                <p>请小心的修改图书信息。。。</p>
-            </div>
-            <div class="page-header">
-                <h3><small>修改</small></h3>
-            </div>
-            <form class="form-horizontal" action="/dept/add.do" method="post">
-
-                <div class="form-group">
-                    <label for="bookId" class="col-sm-2 control-label">图书编号 ：</label>
-                    <div class="col-sm-8">
-                        <input name="bookId" class="form-control" id="bookId" readonly="readonly">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="bookName" class="col-sm-2 control-label">图书名称 ：</label>
-                    <div class="col-sm-8">
-                        <input name="bookName" class="form-control" id="bookName">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="categoryId" class="col-sm-2 control-label">分类 ：</label>
-                    <select id="categoryId" name="categoryId" class="col-sm-2 form-control" style="width: auto;margin-left: 15px">
-                       <option value="ca0001" selected="">计算机</option>
-                       <option value="ca0002">文学</option>
-                       <option value="ca0003">历史</option>
-                       <!-- 下拉列表的内容要从分类中进行读取，value值是分类id -->
-                    </select>
-                </div>
-
-                 <div class="form-group">
-                    <label for="bookPrice" class="col-sm-2 control-label">价格 ：</label>
-                    <div class="col-sm-8">
-                        <input name="bookPrice" class="form-control" id="bookPrice">
-                    </div>
-                  </div>
-                   
-                  <div class="form-group" >
-                    <label for="bookPic" class="col-sm-2 control-label">图书封面 ：</label>
-                    <input type="file" id="bookPic" name="bookPic" style="padding-left: 15px">
-                  </div>
-
-                  <div class="form-group">
-                    <label for="remarks" class="col-sm-2 control-label">备注 ：</label>
-                    <div class="col-sm-8">
-                        <input name="remarks" class="form-control" id="remarks">
-                    </div>
-                  </div>
-
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-primary">修改</button>&nbsp;&nbsp;&nbsp;
-                    </div>
-                </div>
-            </form>
+<head>
+    <meta charset="UTF-8">
+    <title>修改学生信息</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/add.css">
+</head>
+<body>
+<%
+    //获取学生信息
+    Student student = (Student) request.getAttribute("student");
+%>
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="main">
+                学生信息管理
+            </a>
         </div>
-        <footer class="text-center" >
-            copy@imooc
-        </footer>
-    </body>
+    </div>
+</nav>
+<div class="container">
+    <div class="jumbotron">
+        <h1>Hello, 欢迎修改学生信息!</h1>
+        <span style="color: red"><%=request.getAttribute("error") != null ? request.getAttribute("error") : ""%></span>
+    </div>
+    <div class="page-header">
+        <h3><small>修改</small></h3>
+    </div>
+    <form class="form-horizontal" action="update" method="post">
+        <div class="form-group">
+            <label for="num" class="col-sm-2 control-label">学号 ：</label>
+            <div class="col-sm-8">
+                <input name="num" class="form-control" id="num" value="<%=student.getId()%>" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="name" class="col-sm-2 control-label">姓名 ：</label>
+            <div class="col-sm-8">
+                <input name="name" class="form-control" id="name" value="<%=student.getName()%>">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="sex" class="col-sm-2 control-label">性别 ：</label>
+            <select id="sex" name="sex" class="col-sm-2 form-control"
+                    style="width: auto;margin-left: 15px">
+                <option value="0" <%= student.getSex() == 0 ? "selected" : ""%>>女生</option>
+                <option value="1" <%= student.getSex() == 1 ? "selected" : ""%>>男生</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="date" class="col-sm-2 control-label">出生日期 ：</label>
+            <div class="col-sm-8">
+                <input name="date" class="form-control" id="date" type="date" value="<%=student.getBrithday()%>">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email" class="col-sm-2 control-label">邮箱 ：</label>
+            <input type="email" id="email" name="email" style="padding-left: 15px" value="<%=student.getEmail()%>">
+        </div>
+
+        <div class="form-group">
+            <label for="desc" class="col-sm-2 control-label">备注 ：</label>
+            <div class="col-sm-8">
+                <input name="desc" class="form-control" id="desc" value="<%=student.getDesc()%>">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">保存</button>&nbsp;&nbsp;&nbsp;
+            </div>
+        </div>
+    </form>
+</div>
+<footer class="text-center">
+    copy@jakeprim
+</footer>
+</body>
 </html>

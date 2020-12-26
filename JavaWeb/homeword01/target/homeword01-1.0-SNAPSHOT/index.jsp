@@ -9,7 +9,7 @@
 <%
     if (session.getAttribute("login") != null) {
         //登录成功 进入首页
-        response.sendRedirect("main.jsp");
+        response.sendRedirect("/main");
     } else {
         //重定向到登录页面
         response.sendRedirect("login.jsp");

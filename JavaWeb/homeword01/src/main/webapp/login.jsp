@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +14,7 @@
         </h1>
         <button></button>
     </div>
+    <span style="color: red"> <%= request.getAttribute("error") != null ? request.getAttribute("error") : "" %> </span>
     <form action="login" method="post">
         <div class="name">
             用户名:<input type="text" id="name" name="username">

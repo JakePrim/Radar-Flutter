@@ -1,4 +1,4 @@
-package com.example.task04;
+package com.example.task04.servlet;
 
 import java.io.*;
 import javax.servlet.http.*;

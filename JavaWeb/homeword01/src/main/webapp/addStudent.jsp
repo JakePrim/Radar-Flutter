@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +11,7 @@
 <nav class="navbar navbar-default">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/dept/list.do">
+            <a class="navbar-brand" href="main">
                 学生信息管理
             </a>
         </div>
@@ -18,8 +19,8 @@
 </nav>
 <div class="container">
     <div class="jumbotron">
-        <h1>Hello, XXX!</h1>
-        <p>请小心地新增图书信息，要是建了一个错误的就不好了。。。</p>
+        <h1>Hello, 欢迎来添加学生信息!</h1>
+        <span style="color:red;"><%= request.getAttribute("error") != null ? request.getAttribute("error") : ""%></span>
     </div>
     <div class="page-header">
         <h3><small>新建</small></h3>

@@ -7,10 +7,13 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-  <head>
-    <title>$Title$</title>
-  </head>
-  <body>
-  $END$
-  </body>
+<head>
+    <title>实现JavaBean组件数据的删除</title>
+</head>
+<body>
+<%
+    //从session内置对象中删除名字为student的属性
+    session.removeAttribute("student");
+%>
+</body>
 </html>

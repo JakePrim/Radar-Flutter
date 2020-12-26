@@ -11,8 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "UpdateServlet", urlPatterns = "/update")
-public class UpdateServlet extends HttpServlet {
+/**
+ * 更新信息中转页面
+ */
+@WebServlet(name = "UpdateTransitServlet", urlPatterns = "/updateTransit")
+public class UpdateTransitServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //1. 首先查询学生信息
@@ -24,7 +27,7 @@ public class UpdateServlet extends HttpServlet {
             request.setAttribute("student", student);
             RequestDispatcher dispatcher = request.getRequestDispatcher("updateStudent.jsp");
             dispatcher.forward(request, response);
-        }else {
+        } else {
             request.setAttribute("error", "无法查询到此学生，请联系管理员");
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("main.jsp");
             requestDispatcher.forward(request, response);

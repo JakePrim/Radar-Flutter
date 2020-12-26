@@ -1,4 +1,4 @@
-package com.jakeprim.task02.utils;
+package com.example.task04.util;
 
 import java.sql.*;
 

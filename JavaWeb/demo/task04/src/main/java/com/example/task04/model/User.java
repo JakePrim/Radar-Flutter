@@ -1,4 +1,4 @@
-package com.jakeprim.task02.model;
+package com.example.task04.model;
 
 public class User {
     private int id;
