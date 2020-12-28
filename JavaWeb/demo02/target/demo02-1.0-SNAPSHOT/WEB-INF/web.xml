@@ -3,6 +3,68 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+
+    <!--Listener配置-->
+    <!--    <listener>-->
+    <!--        <listener-class>com.jakeprim.demo02.listener.MyRequestListener</listener-class>-->
+    <!--    </listener>-->
+    <!--    <listener>-->
+    <!--        <listener-class>com.jakeprim.demo02.listener.MyRequestAttributeListener</listener-class>-->
+    <!--    </listener>    -->
+    <!--    <listener>-->
+    <!--        <listener-class>com.jakeprim.demo02.listener.MySessionListener</listener-class>-->
+    <!--    </listener>-->
+<!--    <listener>-->
+<!--        <listener-class>com.jakeprim.demo02.listener.MySessionAttributeListener</listener-class>-->
+<!--    </listener>-->
+    <listener>
+        <listener-class>com.jakeprim.demo02.listener.OnlineUser</listener-class>
+    </listener>
+
+
+
+    <!--session配置-->
+    <session-config>
+        <session-timeout>1</session-timeout>
+    </session-config>
+    <!-- filter的配置 -->
+    <!--    <filter>-->
+    <!--        <filter-name>LoginFilter</filter-name>-->
+    <!--        <filter-class>com.jakeprim.demo02.filter.LoginFilter</filter-class>-->
+    <!--        <init-param>-->
+    <!--            <param-name>username</param-name>-->
+    <!--            <param-value>admin</param-value>-->
+    <!--        </init-param>-->
+    <!--        <init-param>-->
+    <!--            <param-name>password</param-name>-->
+    <!--            <param-value>123456</param-value>-->
+    <!--        </init-param>-->
+    <!--    </filter>-->
+    <!--    <filter-mapping>-->
+    <!--        <filter-name>LoginFilter</filter-name>-->
+    <!--        <url-pattern>/main.jsp</url-pattern>-->
+    <!--    </filter-mapping>-->
+
+    <!--多个过滤器请求 按照配置顺序请求-->
+    <filter>
+        <filter-name>AFilter</filter-name>
+        <filter-class>com.jakeprim.demo02.filter.AFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AFilter</filter-name>
+        <url-pattern>*.avi</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>BFilter</filter-name>
+        <filter-class>com.jakeprim.demo02.filter.BFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>BFilter</filter-name>
+        <url-pattern>*.avi</url-pattern>
+    </filter-mapping>
+
+
     <!-- 对于ServletContext参数进行配置 -->
     <context-param>
         <param-name>param1</param-name>
