@@ -45,6 +45,8 @@
 
 ### 操作系统
 
+- [Linux基础](https://www.yuque.com/jakeprim/java/ufs57p)
+
 ### Java基础
 
 - [Java 面向对象](https://www.yuque.com/jakeprim/java/ir64h7)
