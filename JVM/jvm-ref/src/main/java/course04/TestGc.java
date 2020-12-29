@@ -57,10 +57,10 @@ public class TestGc {
 
     public static void main(String[] args) {
         //填充对象线程和打印线程同时启动
-//        FillListThread myThread = new FillListThread(); //造成GC，造成STW
-//        TimerThread timerThread = new TimerThread(); //时间打印线程
-//        myThread.start();
-//        timerThread.start();
+        FillListThread myThread = new FillListThread(); //造成GC，造成STW
+        TimerThread timerThread = new TimerThread(); //时间打印线程
+        myThread.start();
+        timerThread.start();
 
         String name1 = "张";
         String name2 = "三";
