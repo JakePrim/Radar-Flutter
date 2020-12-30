@@ -1,5 +1,6 @@
 package com.homework.homeword01.controller;
 
+import com.homework.homeword01.pojo.PageHelp;
 import com.homework.homeword01.pojo.Student;
 import com.homework.homeword01.service.StudentService;
 
@@ -35,9 +36,12 @@ public class SearchServlet extends HttpServlet {
             }
         } else {
             //如果什么都没有输入则查询全部
-            students = service.findAll();
+//            students = service.findAll();
+            response.sendRedirect(getServletContext().getContextPath() + "/main.do");
+            return;
         }
-        request.setAttribute("students", students);
+        PageHelp<Student> page = new PageHelp<>(students, students.size(), 1, 5);
+        request.setAttribute("page", page);
         //将查询的信息转发到main.jsp
         RequestDispatcher dispatcher = request.getRequestDispatcher("main.jsp");
         dispatcher.forward(request, response);

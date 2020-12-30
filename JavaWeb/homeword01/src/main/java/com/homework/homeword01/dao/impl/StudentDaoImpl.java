@@ -57,7 +57,7 @@ public class StudentDaoImpl implements StudentDao {
             //3  10  page-1 * size
 
             //查询学生信息以及与之关联的班级信息
-            students = qr.query("select * from t_student limit ?,?", new BeanListHandler<>(Student.class), page == 1 ? page : (page - 1) * pageSize, pageSize);
+            students = qr.query("select * from t_student limit ?,?", new BeanListHandler<>(Student.class), page == 1 ? 0 : (page - 1) * pageSize, pageSize);
             //查询班级信息
             for (Student student : students) {
                 int cid = student.getCid();
