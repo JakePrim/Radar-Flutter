@@ -15,8 +15,6 @@ import java.io.IOException;
 public class UpdateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //注意中文乱码问题
-        request.setCharacterEncoding("utf-8");
         String id = request.getParameter("num");
         String name = request.getParameter("name");
         String sex = request.getParameter("sex");

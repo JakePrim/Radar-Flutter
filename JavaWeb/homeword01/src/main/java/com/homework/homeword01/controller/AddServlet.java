@@ -15,7 +15,6 @@ import java.io.IOException;
 public class AddServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("utf-8");
         String name = request.getParameter("name");
         String date = request.getParameter("date");
         String sex = request.getParameter("sex");
