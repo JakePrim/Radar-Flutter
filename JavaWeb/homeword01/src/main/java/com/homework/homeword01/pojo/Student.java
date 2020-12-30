@@ -12,6 +12,9 @@ public class Student {
     private String brithday;
     private String desc;
     private String email;
+    private int cid;//班级id
+
+    private SClass sClass;//具体的班级信息
 
     public Student() {
     }
@@ -22,6 +25,15 @@ public class Student {
         this.brithday = brithday;
         this.desc = desc;
         this.email = email;
+    }
+
+    public Student(String name, int sex, String brithday, String desc, String email,int cid) {
+        this.name = name;
+        this.sex = sex;
+        this.brithday = brithday;
+        this.desc = desc;
+        this.email = email;
+        this.cid = cid;
     }
 
     public int getId() {
@@ -72,6 +84,22 @@ public class Student {
         this.email = email;
     }
 
+    public int getCid() {
+        return cid;
+    }
+
+    public void setCid(int cid) {
+        this.cid = cid;
+    }
+
+    public SClass getsClass() {
+        return sClass;
+    }
+
+    public void setsClass(SClass sClass) {
+        this.sClass = sClass;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
@@ -80,6 +108,7 @@ public class Student {
                 ", sex=" + sex +
                 ", brithday=" + brithday +
                 ", desc='" + desc + '\'' +
+                ", cid='" + cid + '\'' +
                 '}';
     }
 }

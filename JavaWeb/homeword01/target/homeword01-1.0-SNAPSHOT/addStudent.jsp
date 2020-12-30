@@ -11,7 +11,7 @@
 <nav class="navbar navbar-default">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="main">
+            <a class="navbar-brand" href="main.do">
                 学生信息管理
             </a>
         </div>
@@ -25,7 +25,7 @@
     <div class="page-header">
         <h3><small>新建</small></h3>
     </div>
-    <form class="form-horizontal" action="add" method="post">
+    <form class="form-horizontal" action="add.do" method="post">
         <div class="form-group">
             <label for="name" class="col-sm-2 control-label">姓名 ：</label>
             <div class="col-sm-8">

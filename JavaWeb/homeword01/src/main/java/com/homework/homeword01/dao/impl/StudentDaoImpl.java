@@ -9,7 +9,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import java.sql.SQLException;
 import java.util.List;
-
+//班级名称、年级、班主任名称、班级口号 、班级人数
 public class StudentDaoImpl implements StudentDao {
     @Override
     public List<Student> findAll() {

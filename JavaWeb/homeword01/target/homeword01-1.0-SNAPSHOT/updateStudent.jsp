@@ -16,7 +16,7 @@
 <nav class="navbar navbar-default">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="main">
+            <a class="navbar-brand" href="main.do">
                 学生信息管理
             </a>
         </div>
@@ -30,44 +30,44 @@
     <div class="page-header">
         <h3><small>修改</small></h3>
     </div>
-    <form class="form-horizontal" action="update" method="post">
+    <form class="form-horizontal" action="update.do" method="post">
         <div class="form-group">
             <label for="num" class="col-sm-2 control-label">学号 ：</label>
             <div class="col-sm-8">
-                <input name="num" class="form-control" id="num" value="${requestScope.student.getId()}" readonly>
+                <input name="num" class="form-control" id="num" value="${requestScope.student.id}" readonly>
             </div>
         </div>
         <div class="form-group">
             <label for="name" class="col-sm-2 control-label">姓名 ：</label>
             <div class="col-sm-8">
-                <input name="name" class="form-control" id="name" value="${requestScope.student.getName()}">
+                <input name="name" class="form-control" id="name" value="${requestScope.student.name}">
             </div>
         </div>
         <div class="form-group">
             <label for="sex" class="col-sm-2 control-label">性别 ：</label>
             <select id="sex" name="sex" class="col-sm-2 form-control"
                     style="width: auto;margin-left: 15px">
-                <option value="0" ${requestScope.student.getSex() == 0 ? "selected" : ""}>女生</option>
-                <option value="1" ${requestScope.student.getSex() == 1 ? "selected" : ""}>男生</option>
+                <option value="0" ${requestScope.student.sex == 0 ? "selected" : ""}>女生</option>
+                <option value="1" ${requestScope.student.sex == 1 ? "selected" : ""}>男生</option>
             </select>
         </div>
 
         <div class="form-group">
             <label for="date" class="col-sm-2 control-label">出生日期 ：</label>
             <div class="col-sm-8">
-                <input name="date" class="form-control" id="date" type="date" value="${requestScope.student.getBrithday()}">
+                <input name="date" class="form-control" id="date" type="date" value="${requestScope.student.brithday}">
             </div>
         </div>
 
         <div class="form-group">
             <label for="email" class="col-sm-2 control-label">邮箱 ：</label>
-            <input type="email" id="email" name="email" style="padding-left: 15px" value="${requestScope.student.getEmail()}">
+            <input type="email" id="email" name="email" style="padding-left: 15px" value="${requestScope.student.email}">
         </div>
 
         <div class="form-group">
             <label for="desc" class="col-sm-2 control-label">备注 ：</label>
             <div class="col-sm-8">
-                <input name="desc" class="form-control" id="desc" value="${requestScope.student.getDesc()}">
+                <input name="desc" class="form-control" id="desc" value="${requestScope.student.desc}">
             </div>
         </div>
 

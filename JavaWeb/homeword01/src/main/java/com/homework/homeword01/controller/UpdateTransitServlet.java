@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * 更新信息中转页面
  */
-@WebServlet(name = "UpdateTransitServlet", urlPatterns = "/updateTransit")
+@WebServlet(name = "UpdateTransitServlet", urlPatterns = "/updateTransit.do")
 public class UpdateTransitServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,7 +29,7 @@ public class UpdateTransitServlet extends HttpServlet {
             dispatcher.forward(request, response);
         } else {
             request.setAttribute("error", "无法查询到此学生，请联系管理员");
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("main.jsp");
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("main.do");
             requestDispatcher.forward(request, response);
         }
     }

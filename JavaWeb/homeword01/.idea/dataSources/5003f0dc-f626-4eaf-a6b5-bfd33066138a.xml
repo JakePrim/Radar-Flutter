@@ -748,54 +748,90 @@ SELECT|sys.sys_config
       <ObjectGrants>ALL PRIVILEGES!
 </ObjectGrants>
     </user>
-    <table id="232" parent="2" name="t_student"/>
-    <table id="233" parent="2" name="t_user"/>
-    <column id="234" parent="232" name="id">
+    <table id="232" parent="2" name="t_class"/>
+    <table id="233" parent="2" name="t_student"/>
+    <table id="234" parent="2" name="t_user"/>
+    <column id="235" parent="232" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="235" parent="232" name="name">
+    <column id="236" parent="232" name="name">
       <Position>2</Position>
       <DataType>varchar(20)|0s</DataType>
     </column>
-    <column id="236" parent="232" name="sex">
+    <column id="237" parent="232" name="grade">
       <Position>3</Position>
-      <DataType>tinyint(1)|0s</DataType>
+      <DataType>varchar(20)|0s</DataType>
     </column>
-    <column id="237" parent="232" name="brithday">
+    <column id="238" parent="232" name="teacher">
       <Position>4</Position>
-      <DataType>date|0s</DataType>
+      <DataType>varchar(20)|0s</DataType>
     </column>
-    <column id="238" parent="232" name="desc">
+    <column id="239" parent="232" name="slogan">
       <Position>5</Position>
-      <DataType>varchar(255)|0s</DataType>
-    </column>
-    <column id="239" parent="232" name="email">
-      <Position>6</Position>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <key id="240" parent="232" name="PRIMARY">
+    <column id="240" parent="232" name="num">
+      <Position>6</Position>
+      <DataType>int(11)|0s</DataType>
+    </column>
+    <key id="241" parent="232" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="241" parent="233" name="id">
+    <column id="242" parent="233" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="242" parent="233" name="username">
+    <column id="243" parent="233" name="name">
       <Position>2</Position>
       <DataType>varchar(20)|0s</DataType>
     </column>
-    <column id="243" parent="233" name="password">
+    <column id="244" parent="233" name="sex">
+      <Position>3</Position>
+      <DataType>tinyint(1)|0s</DataType>
+    </column>
+    <column id="245" parent="233" name="brithday">
+      <Position>4</Position>
+      <DataType>date|0s</DataType>
+    </column>
+    <column id="246" parent="233" name="email">
+      <Position>5</Position>
+      <DataType>varchar(50)|0s</DataType>
+    </column>
+    <column id="247" parent="233" name="desc">
+      <Position>6</Position>
+      <DataType>varchar(255)|0s</DataType>
+    </column>
+    <column id="248" parent="233" name="cid">
+      <Position>7</Position>
+      <DataType>int(11)|0s</DataType>
+    </column>
+    <key id="249" parent="233" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="250" parent="234" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="251" parent="234" name="username">
+      <Position>2</Position>
+      <DataType>varchar(20)|0s</DataType>
+    </column>
+    <column id="252" parent="234" name="password">
       <Position>3</Position>
       <DataType>varchar(50)|0s</DataType>
     </column>
-    <key id="244" parent="233" name="PRIMARY">
+    <key id="253" parent="234" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>

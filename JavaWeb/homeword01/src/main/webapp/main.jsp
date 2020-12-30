@@ -16,7 +16,10 @@
 <header>
     <div class="container">
         <nav>
-            <a href="main">学生信息后台管理</a>
+            <a href="main.do">学生信息后台管理</a>
+        </nav>
+        <nav>
+            <a href="classmain.do">班级信息后台管理</a>
         </nav>
     </div>
 </header>
@@ -31,7 +34,7 @@
 </section>
 <section class="main">
     <div class="container">
-        <form class="form-horizontal" action="search" method="post">
+        <form class="form-horizontal" action="search.do" method="post">
             <div class="form-group" style="float: right;">
                 <div class="col-sm-offset-2 col-sm-10">
                     <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp;&nbsp;
@@ -62,21 +65,21 @@
             <tbody>
             <c:forEach var="student" items="${requestScope.students}">
                 <tr id="tr1">
-                    <td>${student.getId()}
+                    <td>${student.id}
                     </td>
-                    <td>${student.getName()}
+                    <td>${student.name}
                     </td>
-                    <td>${student.getSex() == 0 ? "女" : "男"}
+                    <td>${student.sex == 0 ? "女" : "男"}
                     </td>
-                    <td>${student.getBrithday()}
+                    <td>${student.brithday}
                     </td>
-                    <td>${student.getEmail()}
+                    <td>${student.email}
                     </td>
-                    <td>${student.getDesc()}
+                    <td>${student.desc}
                     </td>
                     <td>
-                        <a href="updateTransit?id=${student.getId()}">修改</a>
-                        <a href="delete?id=${student.getId()}">删除</a>
+                        <a href="updateTransit.do?id=${student.id}">修改</a>
+                        <a href="delete.do?id=${student.id}">删除</a>
                     </td>
                 </tr>
             </c:forEach>

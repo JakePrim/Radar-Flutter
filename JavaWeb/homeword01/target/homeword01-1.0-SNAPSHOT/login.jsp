@@ -10,12 +10,12 @@
 <div class="login">
     <div class="header">
         <h1>
-            <a href="login">登录 学生管理系统</a>
+            <a href="login.jsp">登录 学生管理系统</a>
         </h1>
         <button></button>
     </div>
     <span style="color: red"> ${requestScope.error} </span>
-    <form action="login" method="post">
+    <form action="login.do" method="post">
         <div class="name">
             用户名:<input type="text" id="name" name="username">
             <p></p>

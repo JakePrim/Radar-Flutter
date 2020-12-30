@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "AddServlet", urlPatterns = "/add")
+@WebServlet(name = "AddServlet", urlPatterns = "/add.do")
 public class AddServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -25,7 +25,7 @@ public class AddServlet extends HttpServlet {
         int row = service.add(new Student(name, Integer.parseInt(sex), date, desc, email));
         if (row > 0) {
             //添加成功，重定向到/main 重新请求数据库显示数据
-            response.sendRedirect(getServletContext().getContextPath() + "/main");
+            response.sendRedirect(getServletContext().getContextPath() + "/main.do");
         } else {
             //添加失败 转发给当前页面显示失败信息
             request.setAttribute("error", "添加信息失败，请重试！");

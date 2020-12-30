@@ -12,7 +12,7 @@ import java.io.IOException;
 /**
  * 管理员登录
  */
-@WebServlet(name = "LoginServlet", urlPatterns = "/login")
+@WebServlet(name = "LoginServlet", urlPatterns = "/login.do")
 public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,7 +32,7 @@ public class LoginServlet extends HttpServlet {
                 cookie.setPath(request.getContextPath());//只有访问该项目的URL才会传递cookie
                 response.addCookie(cookie);
                 //注意重定向到某个Servlet需要指定工程名
-                response.sendRedirect(getServletContext().getContextPath()+"/main");
+                response.sendRedirect(getServletContext().getContextPath()+"/main.do");
             } else {
                 request.setAttribute("error", "用户名或密码错误");
                 RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");

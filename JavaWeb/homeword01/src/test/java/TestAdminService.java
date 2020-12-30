@@ -1,6 +1,8 @@
 import com.homework.homeword01.pojo.Admin;
+import com.homework.homeword01.pojo.SClass;
 import com.homework.homeword01.pojo.Student;
 import com.homework.homeword01.service.AdminService;
+import com.homework.homeword01.service.SClassService;
 import com.homework.homeword01.service.StudentService;
 import org.junit.jupiter.api.Test;
 
@@ -22,5 +24,14 @@ public class TestAdminService {
 //        for (Student student : all) {
 //            System.out.println(student);
 //        }
+    }
+
+    @Test
+    public void findAllClass(){
+        SClassService sClassService = new SClassService();
+        List<SClass> all = sClassService.findAll();
+        for (SClass sClass : all) {
+            System.out.println(sClass);
+        }
     }
 }

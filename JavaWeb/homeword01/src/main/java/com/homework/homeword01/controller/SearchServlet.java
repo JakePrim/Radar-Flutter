@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "SearchServlet", urlPatterns = "/search")
+@WebServlet(name = "SearchServlet", urlPatterns = "/search.do")
 public class SearchServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -26,7 +26,7 @@ public class SearchServlet extends HttpServlet {
                 //如果什么都没有输入则查询全部
                 request.setAttribute("error", "没有查询到此学生的任何信息!");
                 //将查询的信息转发到main.jsp
-                RequestDispatcher dispatcher = request.getRequestDispatcher("main");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("main.do");
                 dispatcher.forward(request, response);
                 return;
             } else {

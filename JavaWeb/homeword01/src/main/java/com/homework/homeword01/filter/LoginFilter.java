@@ -9,8 +9,9 @@ import java.io.IOException;
 
 /**
  * 登录信息过滤 拦截该项目的所有URL
+ * 主要不要拦截资源文件否则 资源文件无法加载 只拦截定义好的规则 .do .jsp
  */
-@WebFilter(filterName = "LoginFilter",urlPatterns = "/*" )
+@WebFilter(filterName = "LoginFilter",urlPatterns = {"*.do","*.jsp"})
 public class LoginFilter implements Filter {
     public void destroy() {
     }

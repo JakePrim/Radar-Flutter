@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "UpdateServlet", urlPatterns = "/update")
+@WebServlet(name = "UpdateServlet", urlPatterns = "/update.do")
 public class UpdateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -27,7 +27,7 @@ public class UpdateServlet extends HttpServlet {
         int update = service.update(student);
         if (update > 0) {
             //更新成功 重定向到main
-            response.sendRedirect(getServletContext().getContextPath() + "/main");
+            response.sendRedirect(getServletContext().getContextPath() + "/main.do");
         } else {
             request.setAttribute("error", "更新失败，请联系管理员");
             RequestDispatcher dispatcher = request.getRequestDispatcher("updateStudent.jsp");
