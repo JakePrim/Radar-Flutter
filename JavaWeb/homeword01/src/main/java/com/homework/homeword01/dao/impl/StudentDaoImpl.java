@@ -1,6 +1,7 @@
 package com.homework.homeword01.dao.impl;
 
 import com.homework.homeword01.dao.StudentDao;
+import com.homework.homeword01.pojo.PageHelp;
 import com.homework.homeword01.pojo.SClass;
 import com.homework.homeword01.pojo.Student;
 import com.homework.homeword01.service.SClassService;
@@ -8,6 +9,7 @@ import com.homework.homeword01.utils.DruidUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -33,6 +35,41 @@ public class StudentDaoImpl implements StudentDao {
             throwables.printStackTrace();
         }
         return students;
+    }
+
+    /**
+     * 实现分页查询
+     *
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public PageHelp<Student> findPage(int page, int pageSize) {
+        QueryRunner qr = new QueryRunner(DruidUtils.getDataSource());
+        List<Student> students = null;
+        Long total = 0L;
+        try {
+            //查询总数
+            total = qr.query("select count(1) from t_student", new ScalarHandler<>());
+            //1  1
+            //2  5
+            //3  10  page-1 * size
+
+            //查询学生信息以及与之关联的班级信息
+            students = qr.query("select * from t_student limit ?,?", new BeanListHandler<>(Student.class), page == 1 ? page : (page - 1) * pageSize, pageSize);
+            //查询班级信息
+            for (Student student : students) {
+                int cid = student.getCid();
+                SClassService classService = new SClassService();
+                SClass sClass = classService.findById(cid);
+                student.setsClass(sClass);
+                System.out.println("student:" + student);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return new PageHelp<Student>(students, total.intValue(), page, pageSize);
     }
 
     @Override

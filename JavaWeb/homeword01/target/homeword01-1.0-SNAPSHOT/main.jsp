@@ -33,6 +33,15 @@
     </div>
 </section>
 <section class="main">
+    <section class="page">
+        <div class="container">
+            <div id="fatie">
+                <a href="addTransit.do">
+                    <button>新建</button>
+                </a>
+            </div>
+        </div>
+    </section>
     <div class="container">
         <form class="form-horizontal" action="search.do" method="post">
             <div class="form-group" style="float: right;">
@@ -64,7 +73,7 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="student" items="${requestScope.students}">
+            <c:forEach var="student" items="${requestScope.page.items}">
                 <tr id="tr1">
                     <td>${student.id}
                     </td>
@@ -78,7 +87,8 @@
                     </td>
                     <td>${student.desc}
                     </td>
-                    <td>${student.sClass != null ? student.sClass.grade : ""} - ${student.sClass != null ? student.sClass.name : ""}
+                    <td>${student.sClass != null ? student.sClass.grade : ""}
+                        - ${student.sClass != null ? student.sClass.name : ""}
                     </td>
                     <td>
                         <a href="updateTransit.do?id=${student.id}">修改</a>
@@ -90,17 +100,32 @@
         </table>
     </div>
 </section>
-<section class="page">
-    <div class="container">
-        <div id="fatie">
-            <a href="addTransit.do">
-                <button>新建</button>
-            </a>
-        </div>
-    </div>
-</section>
+
+<nav aria-label="Page navigation example" style="text-align: center">
+    <ul class="pagination justify-content-center">
+        <li class="page-item ${requestScope.page.currentPage == 1 ? "disabled" : ""}">
+            <a class="page-link" href="#" tabindex="-1">Previous</a>
+        </li>
+        <c:forEach begin="1" end="${requestScope.page.pageCount}" var="p">
+            <li class="page-item ${requestScope.page.currentPage==p ? "active" : ""}">
+                <a class="page-link" href="#">${p}</a>
+            </li>
+        </c:forEach>
+        <li class="page-item">
+            <a class="page-link" href="#">Next</a>
+        </li>
+    </ul>
+</nav>
 <footer>
     copy@JakePrim
 </footer>
+<script>
+    for (let x of document.getElementsByClassName("page-item")) {
+        x.onclick = function () {
+            window.location = "main.do?page=" + x.innerText;
+        }
+    }
+
+</script>
 </body>
 </html>

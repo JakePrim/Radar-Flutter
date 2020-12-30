@@ -2,6 +2,7 @@ package com.homework.homeword01.service;
 
 import com.homework.homeword01.dao.StudentDao;
 import com.homework.homeword01.factory.StudentFactory;
+import com.homework.homeword01.pojo.PageHelp;
 import com.homework.homeword01.pojo.Student;
 
 import javax.naming.spi.StateFactory;
@@ -32,5 +33,9 @@ public class StudentService {
 
     public int update(Student student) {
         return studentDao.update(student);
+    }
+
+    public PageHelp<Student> findPage(int page, int pageSize) {
+        return studentDao.findPage(page, pageSize);
     }
 }
