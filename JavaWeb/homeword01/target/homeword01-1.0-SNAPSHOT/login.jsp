@@ -14,7 +14,7 @@
         </h1>
         <button></button>
     </div>
-    <span style="color: red"> <%= request.getAttribute("error") != null ? request.getAttribute("error") : "" %> </span>
+    <span style="color: red"> ${requestScope.error} </span>
     <form action="login" method="post">
         <div class="name">
             用户名:<input type="text" id="name" name="username">

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.homework.homeword01.pojo.Student" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
@@ -24,7 +25,7 @@
         <div>
             <h1>学生信息后台管理</h1>
             <p>学生信息管理</p>
-            <span style="color:red;"><%= request.getAttribute("error") != null ? request.getAttribute("error") : ""%></span>
+            <span style="color:red;">${requestScope.error}</span>
         </div>
     </div>
 </section>
@@ -59,29 +60,26 @@
             </tr>
             </thead>
             <tbody>
-            <%
-                List<Student> students = (List<Student>) request.getAttribute("students");
-                for (Student student : students) {
-            %>
-            <tr id="tr1">
-                <td><%=student.getId()%>
-                </td>
-                <td><%=student.getName()%>
-                </td>
-                <td><%=student.getSex() == 0 ? "女" : "男" %>
-                </td>
-                <td><%=student.getBrithday()%>
-                </td>
-                <td><%=student.getEmail()%>
-                </td>
-                <td><%=student.getDesc()%>
-                </td>
-                <td>
-                    <a href="updateTransit?id=<%=student.getId()%>">修改</a>
-                    <a href="delete?id=<%=student.getId()%>">删除</a>
-                </td>
-            </tr>
-            <% } %>
+            <c:forEach var="student" items="${requestScope.students}">
+                <tr id="tr1">
+                    <td>${student.getId()}
+                    </td>
+                    <td>${student.getName()}
+                    </td>
+                    <td>${student.getSex() == 0 ? "女" : "男"}
+                    </td>
+                    <td>${student.getBrithday()}
+                    </td>
+                    <td>${student.getEmail()}
+                    </td>
+                    <td>${student.getDesc()}
+                    </td>
+                    <td>
+                        <a href="updateTransit?id=${student.getId()}">修改</a>
+                        <a href="delete?id=${student.getId()}">删除</a>
+                    </td>
+                </tr>
+            </c:forEach>
             </tbody>
         </table>
     </div>

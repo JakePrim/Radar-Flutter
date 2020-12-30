@@ -20,7 +20,7 @@
 <div class="container">
     <div class="jumbotron">
         <h1>Hello, 欢迎来添加学生信息!</h1>
-        <span style="color:red;"><%= request.getAttribute("error") != null ? request.getAttribute("error") : ""%></span>
+        <span style="color:red;">${requestScope.error}</span>
     </div>
     <div class="page-header">
         <h3><small>新建</small></h3>
