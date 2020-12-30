@@ -26,7 +26,12 @@ public class SearchClassServlet extends HttpServlet {
                 case "cid":
                     SClass sClass = service.findById(Integer.parseInt(searchContent));
                     System.out.println("得到的结果:" + sClass);
-                    extracted(request, response, sClass);
+                    List<SClass> classes = new ArrayList<>();
+                    classes.add(sClass);
+                    request.setAttribute("classes", classes);
+                    //将查询的信息转发到main.jsp
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("mainClass.jsp");
+                    dispatcher.forward(request, response);
                     break;
                 case "name":
                     extracted(request, response, service.findByName(searchContent));
@@ -50,10 +55,8 @@ public class SearchClassServlet extends HttpServlet {
         }
     }
 
-    private void extracted(HttpServletRequest request, HttpServletResponse response, SClass sClass) throws ServletException, IOException {
-        List<SClass> classes = new ArrayList<>();
-        classes.add(sClass);
-        request.setAttribute("classes", classes);
+    private void extracted(HttpServletRequest request, HttpServletResponse response, List<SClass> sClass) throws ServletException, IOException {
+        request.setAttribute("classes", sClass);
         //将查询的信息转发到main.jsp
         RequestDispatcher dispatcher = request.getRequestDispatcher("mainClass.jsp");
         dispatcher.forward(request, response);

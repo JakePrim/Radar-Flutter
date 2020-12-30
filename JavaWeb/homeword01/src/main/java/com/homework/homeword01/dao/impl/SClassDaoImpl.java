@@ -7,6 +7,7 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -38,12 +39,12 @@ public class SClassDaoImpl implements SClassDao {
     }
 
     @Override
-    public SClass findByName(String name) {
+    public List<SClass> findByName(String name) {
         QueryRunner qr = new QueryRunner(DruidUtils.getDataSource());
         String sql = "select * from t_class where name = ?";
-        SClass sClass = null;
+        List<SClass> sClass = null;
         try {
-            sClass = qr.query(sql, new BeanHandler<>(SClass.class), name);
+            sClass = qr.query(sql, new BeanListHandler<>(SClass.class), name);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -51,12 +52,12 @@ public class SClassDaoImpl implements SClassDao {
     }
 
     @Override
-    public SClass findByGrade(String grade) {
+    public List<SClass> findByGrade(String grade) {
         QueryRunner qr = new QueryRunner(DruidUtils.getDataSource());
         String sql = "select * from t_class where grade = ?";
-        SClass sClass = null;
+        List<SClass> sClass = null;
         try {
-            sClass = qr.query(sql, new BeanHandler<>(SClass.class), grade);
+            sClass = qr.query(sql, new BeanListHandler<>(SClass.class), grade);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -64,12 +65,12 @@ public class SClassDaoImpl implements SClassDao {
     }
 
     @Override
-    public SClass findByTeacher(String teacher) {
+    public List<SClass> findByTeacher(String teacher) {
         QueryRunner qr = new QueryRunner(DruidUtils.getDataSource());
         String sql = "select * from t_class where teacher = ?";
-        SClass sClass = null;
+        List<SClass> sClass = null;
         try {
-            sClass = qr.query(sql, new BeanHandler<>(SClass.class), teacher);
+            sClass = qr.query(sql, new BeanListHandler<>(SClass.class), teacher);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -109,6 +110,58 @@ public class SClassDaoImpl implements SClassDao {
         int update = 0;
         try {
             update = qr.update(sql, sClass.getName(), sClass.getGrade(), sClass.getTeacher(), sClass.getSlogan(), sClass.getNum(), sClass.getId());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return update;
+    }
+
+    @Override
+    public int updateNumAdd(int id) {
+        QueryRunner qr = new QueryRunner(DruidUtils.getDataSource());
+        String sql = "update t_class set num=num+1 where id=?";
+        int update = 0;
+        try {
+            update = qr.update(sql, id);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return update;
+    }
+
+    @Override
+    public int updateNumSub(int id) {
+        QueryRunner qr = new QueryRunner(DruidUtils.getDataSource());
+        String sql = "update t_class set num=num-1 where id=?";
+        int update = 0;
+        try {
+            update = qr.update(sql, id);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return update;
+    }
+
+    @Override
+    public int updateNumAdd(Connection connection, int id) {
+        QueryRunner qr = new QueryRunner();
+        String sql = "update t_class set num=num+1 where id=?";
+        int update = 0;
+        try {
+            update = qr.update(connection, sql, id);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return update;
+    }
+
+    @Override
+    public int updateNumSub(Connection connection, int id) {
+        QueryRunner qr = new QueryRunner();
+        String sql = "update t_class set num=num-1 where id=?";
+        int update = 0;
+        try {
+            update = qr.update(connection, sql, id);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

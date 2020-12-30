@@ -56,6 +56,18 @@ public class DruidUtils {
     }
 
 
+    public static void close(Connection con) {
+
+        if (con != null) {
+            try {
+                //归还连接
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
     //释放资源
     public static void close(Connection con, Statement statement) {
 

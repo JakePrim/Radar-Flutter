@@ -59,6 +59,7 @@
                 <th>出生日期</th>
                 <th>邮箱</th>
                 <th>备注</th>
+                <th>所在班级</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -77,6 +78,8 @@
                     </td>
                     <td>${student.desc}
                     </td>
+                    <td>${student.sClass != null ? student.sClass.grade : ""} - ${student.sClass != null ? student.sClass.name : ""}
+                    </td>
                     <td>
                         <a href="updateTransit.do?id=${student.id}">修改</a>
                         <a href="delete.do?id=${student.id}">删除</a>
@@ -90,7 +93,7 @@
 <section class="page">
     <div class="container">
         <div id="fatie">
-            <a href="addStudent.jsp">
+            <a href="addTransit.do">
                 <button>新建</button>
             </a>
         </div>

@@ -21,7 +21,8 @@ public class UpdateServlet extends HttpServlet {
         String date = request.getParameter("date");
         String email = request.getParameter("email");
         String desc = request.getParameter("desc");
-        Student student = new Student(name, Integer.parseInt(sex), date, desc, email);
+        String aClass = request.getParameter("class");
+        Student student = new Student(name, Integer.parseInt(sex), date, desc, email, Integer.parseInt(aClass));
         student.setId(Integer.parseInt(id));
         StudentService service = new StudentService();
         int update = service.update(student);

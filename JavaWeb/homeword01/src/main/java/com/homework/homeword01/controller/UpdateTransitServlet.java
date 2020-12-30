@@ -1,6 +1,8 @@
 package com.homework.homeword01.controller;
 
+import com.homework.homeword01.pojo.SClass;
 import com.homework.homeword01.pojo.Student;
+import com.homework.homeword01.service.SClassService;
 import com.homework.homeword01.service.StudentService;
 
 import javax.servlet.RequestDispatcher;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * 更新信息中转页面
@@ -23,6 +26,11 @@ public class UpdateTransitServlet extends HttpServlet {
         if (null != id && !"".equals(id)) {
             StudentService service = new StudentService();
             Student student = service.findById(Integer.parseInt(id));
+            //查询所有班级信息
+            SClassService sClassService = new SClassService();
+            List<SClass> classes = sClassService.findAll();
+            // 将所有的班级信息添加到请求参数中
+            request.setAttribute("classes", classes);
             //2. 将学生信息添加到请求参数中通过转发 显示学生信息 用户修改
             request.setAttribute("student", student);
             RequestDispatcher dispatcher = request.getRequestDispatcher("updateStudent.jsp");

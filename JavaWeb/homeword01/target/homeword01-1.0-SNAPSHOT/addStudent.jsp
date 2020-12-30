@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -52,7 +53,14 @@
             <label for="email" class="col-sm-2 control-label">邮箱 ：</label>
             <input type="email" id="email" name="email" style="padding-left: 15px">
         </div>
-
+        <div class="form-group">
+            <label for="class" class="col-sm-2 control-label">所在班级 ：</label>
+            <select id="class" name="class">
+                <c:forEach items="${requestScope.classes}" var="c">
+                    <option value="${c.id}" ${requestScope.student.cid==c.id ? "selected" : ""}>${c.grade}-${c.name}</option>
+                </c:forEach>
+            </select>
+        </div>
         <div class="form-group">
             <label for="desc" class="col-sm-2 control-label">备注 ：</label>
             <div class="col-sm-8">

@@ -2,6 +2,7 @@ package com.homework.homeword01.dao;
 
 import com.homework.homeword01.pojo.SClass;
 
+import java.sql.Connection;
 import java.util.List;
 
 public interface SClassDao {
@@ -9,15 +10,23 @@ public interface SClassDao {
 
     SClass findById(int id);
 
-    SClass findByName(String name);
+    List<SClass> findByName(String name);
 
-    SClass findByGrade(String grade);
+    List<SClass> findByGrade(String grade);
 
-    SClass findByTeacher(String teacher);
+    List<SClass> findByTeacher(String teacher);
 
     int add(SClass sClass);
 
     int delete(int id);
 
     int update(SClass sClass);
+
+    int updateNumAdd(int id);
+
+    int updateNumSub(int id);
+
+    int updateNumAdd(Connection connection,int id);
+
+    int updateNumSub(Connection connection,int id);
 }

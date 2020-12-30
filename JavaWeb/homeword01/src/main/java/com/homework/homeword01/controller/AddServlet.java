@@ -20,9 +20,10 @@ public class AddServlet extends HttpServlet {
         String sex = request.getParameter("sex");
         String email = request.getParameter("email");
         String desc = request.getParameter("desc");
+        String aClass = request.getParameter("class");
         System.out.println(name + ":" + date + ":" + sex + ":" + email + ":" + desc);
         StudentService service = new StudentService();
-        int row = service.add(new Student(name, Integer.parseInt(sex), date, desc, email));
+        int row = service.add(new Student(name, Integer.parseInt(sex), date, desc, email, Integer.parseInt(aClass)));
         if (row > 0) {
             //添加成功，重定向到/main 重新请求数据库显示数据
             response.sendRedirect(getServletContext().getContextPath() + "/main.do");

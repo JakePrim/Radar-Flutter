@@ -4,6 +4,7 @@ import com.homework.homeword01.dao.SClassDao;
 import com.homework.homeword01.factory.SClassFactory;
 import com.homework.homeword01.pojo.SClass;
 
+import java.sql.Connection;
 import java.util.List;
 
 public class SClassService {
@@ -21,7 +22,7 @@ public class SClassService {
         return sClassDao.findById(id);
     }
 
-    public SClass findByName(String name) {
+    public List<SClass> findByName(String name) {
         return sClassDao.findByName(name);
     }
 
@@ -37,11 +38,27 @@ public class SClassService {
         return sClassDao.update(sClass);
     }
 
-    public SClass findByGrade(String grade) {
+    public List<SClass> findByGrade(String grade) {
         return sClassDao.findByGrade(grade);
     }
 
-    public SClass findByTeacher(String teacher) {
+    public List<SClass> findByTeacher(String teacher) {
         return sClassDao.findByTeacher(teacher);
+    }
+
+    public int updateNumAdd(int id) {
+        return sClassDao.updateNumAdd(id);
+    }
+
+    public int updateNumSub(int id) {
+        return sClassDao.updateNumSub(id);
+    }
+
+    public int updateNumAdd(Connection connection, int id) {
+        return sClassDao.updateNumAdd(connection, id);
+    }
+
+    public int updateNumSub(Connection connection, int id) {
+        return sClassDao.updateNumSub(connection, id);
     }
 }
