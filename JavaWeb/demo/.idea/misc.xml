@@ -9,6 +9,7 @@
     <file type="web" url="file://$PROJECT_DIR$/task02" />
     <file type="web" url="file://$PROJECT_DIR$/task03" />
     <file type="web" url="file://$PROJECT_DIR$/task04" />
+    <file type="web" url="file://$PROJECT_DIR$/task05" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
@@ -17,6 +18,7 @@
         <option value="$PROJECT_DIR$/task02/pom.xml" />
         <option value="$PROJECT_DIR$/task03/pom.xml" />
         <option value="$PROJECT_DIR$/task04/pom.xml" />
+        <option value="$PROJECT_DIR$/task05/pom.xml" />
       </list>
     </option>
   </component>
