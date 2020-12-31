@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.colobu:fastjson-jaxrs-json-provider:0.3.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/java/maven/repository/com/colobu/fastjson-jaxrs-json-provider/0.3.1/fastjson-jaxrs-json-provider-0.3.1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/java/maven/repository/com/colobu/fastjson-jaxrs-json-provider/0.3.1/fastjson-jaxrs-json-provider-0.3.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/java/maven/repository/com/colobu/fastjson-jaxrs-json-provider/0.3.1/fastjson-jaxrs-json-provider-0.3.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
