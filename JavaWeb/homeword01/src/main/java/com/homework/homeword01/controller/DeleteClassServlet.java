@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "DeleteClassServlet",urlPatterns = "/deleteclass.do")
+    @WebServlet(name = "DeleteClassServlet",urlPatterns = "/deleteclass.do")
 public class DeleteClassServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");

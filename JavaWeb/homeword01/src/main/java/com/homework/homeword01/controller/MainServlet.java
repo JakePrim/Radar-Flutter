@@ -34,7 +34,7 @@ public class MainServlet extends HttpServlet {
         StudentService service = new StudentService();
         PageHelp<Student> page = service.findPage(curPage, pageSize);
         System.out.println("curPage："+page.getCurrentPage()+" startIndex:"+page.getStartIndex()
-                +" nextIndex:"+page.getNextIndex());
+                +" getPageCount:"+page.getPageCount());
         request.setAttribute("page", page);
         //转发给main.jsp 进行显示
         RequestDispatcher dispatcher = request.getRequestDispatcher("main.jsp");

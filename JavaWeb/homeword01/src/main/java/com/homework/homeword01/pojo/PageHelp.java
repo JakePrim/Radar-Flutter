@@ -92,8 +92,9 @@ public class PageHelp<T> {
         } else if (startIndex < 0) {
             this.startIndex = 0;
         } else {
-            this.startIndex = indexes[startIndex / pageSize];
+            this.startIndex = indexes[startIndex-1];
         }
+        System.out.println("startIndex:"+startIndex+" index:"+(startIndex/pageSize)+" indexes:"+Arrays.toString(indexes));
     }
 
     /**

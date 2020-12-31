@@ -103,15 +103,17 @@
 
 <nav aria-label="Page navigation example" style="text-align: center">
     <ul class="pagination justify-content-center">
-        <li class="page-item ${requestScope.page.currentPage == 1 ? "disabled" : ""}">
+        <li class="page-item ${requestScope.page.currentPage == 1 ? "disabled" : ""}"
+            onclick="previous(${requestScope.page.currentPage},${requestScope.page.pageCount})">
             <a class="page-link" href="#" tabindex="-1">Previous</a>
         </li>
         <c:forEach begin="1" end="${requestScope.page.pageCount}" var="p">
-            <li class="page-item ${requestScope.page.currentPage==p ? "active" : ""}">
+            <li class="page-item ${requestScope.page.currentPage==p ? "active" : ""}" onclick="select(${p})">
                 <a class="page-link" href="#">${p}</a>
             </li>
         </c:forEach>
-        <li class="page-item">
+        <li class="page-item ${(requestScope.page.currentPage == requestScope.page.pageCount) ? "disabled" : ""}"
+            onclick="next(${requestScope.page.currentPage},${requestScope.page.pageCount})">
             <a class="page-link" href="#">Next</a>
         </li>
     </ul>
@@ -120,10 +122,29 @@
     copy@JakePrim
 </footer>
 <script>
-    for (let x of document.getElementsByClassName("page-item")) {
-        x.onclick = function () {
-            window.location = "main.do?page=" + x.innerText;
+    // for (let x of document.getElementsByClassName("page-item")) {
+    //     x.onclick = function () {
+    //         window.location = "main.do?page=" + x.innerText;
+    //     }
+    // }
+
+    function select(page){
+        window.location = "main.do?page=" + page
+    }
+
+    function previous(page,count) {
+        if (page === 1){
+            return;
         }
+        window.location = "main.do?page=" + (page - 1)
+    }
+
+    function next(page,count) {
+        if (page === count){
+            return;
+        }
+        console.log("page:" + page)
+        window.location = "main.do?page=" + (page + 1)
     }
 
 </script>

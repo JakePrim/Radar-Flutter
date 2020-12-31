@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="lib (2)">
+  <library name="lib">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/commons-dbutils-1.6.jar!/" />
       <root url="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/druid-1.0.9.jar!/" />

@@ -32,11 +32,13 @@ public class LoginFilter implements Filter {
         }else {
             Cookie[] cookies = request.getCookies();
             boolean isLogin = false;
-            for (Cookie cookie : cookies) {
-                if ("isLogin".equalsIgnoreCase(cookie.getName())){
-                    String name = cookie.getValue();
-                    //查询数据库中是否存在该用户
-                    isLogin = true;
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if ("isLogin".equalsIgnoreCase(cookie.getName())) {
+                        String name = cookie.getValue();
+                        //查询数据库中是否存在该用户
+                        isLogin = true;
+                    }
                 }
             }
             if (isLogin){
