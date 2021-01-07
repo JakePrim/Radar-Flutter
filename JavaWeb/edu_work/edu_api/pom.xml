@@ -96,6 +96,13 @@
             <version>1.2.1</version>
         </dependency>
 
+        <!-- 简化表单提交数据封装到Javabean中 -->
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.8.3</version>
+        </dependency>
+
         <!-- lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>

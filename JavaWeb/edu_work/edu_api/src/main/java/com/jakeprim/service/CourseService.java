@@ -9,4 +9,12 @@ import java.util.List;
  */
 public interface CourseService {
     List<Course> findCourseList();
+
+    List<Course> findByCourseNameAndStatus(String courseName, String status);
+
+    String saveCourseSalesInfo(Course course);
+
+    Course findCourseById(int id);
+
+    String updateCourseSalesInfo(Course course);
 }
