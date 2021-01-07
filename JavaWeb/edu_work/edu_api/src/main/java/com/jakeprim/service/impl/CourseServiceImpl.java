@@ -7,7 +7,9 @@ import com.jakeprim.pojo.Course;
 import com.jakeprim.service.CourseService;
 import com.jakeprim.utils.DateUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 课程模块业务层的实现
@@ -56,5 +58,20 @@ public class CourseServiceImpl implements CourseService {
         } else {
             return StatusCode.FAIL.toString();
         }
+    }
+
+    @Override
+    public Map<String, Integer> updateCourseStatus(Course course) {
+        course.setUpdate_time(DateUtils.getDateFormart());
+        int row = courseDao.updateCourseStatus(course);
+        Map<String, Integer> map = new HashMap<>();
+        if (row > 0) {
+            if (course.getStatus() == 0) {
+                map.put("status", 0);
+            } else {
+                map.put("status", 1);
+            }
+        }
+        return map;
     }
 }

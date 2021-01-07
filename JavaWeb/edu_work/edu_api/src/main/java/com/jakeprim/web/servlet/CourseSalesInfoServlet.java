@@ -71,10 +71,19 @@ public class CourseSalesInfoServlet extends HttpServlet {
             }
             //4. 使用BeanUtils 将map中的数据封装到JavaBean中
             BeanUtils.populate(course, paramsMap);
-            //5. 数据业务操作
-            CourseService courseService = new CourseServiceImpl();
-            String result = courseService.saveCourseSalesInfo(course);
-            response.getWriter().print(result);
+            if (paramsMap.get("id") != null) {
+                //修改操作
+                //5. 数据业务操作
+                CourseService courseService = new CourseServiceImpl();
+                String result = courseService.updateCourseSalesInfo(course);
+                response.getWriter().print(result);
+            } else {
+                //新建操作
+                //5. 数据业务操作
+                CourseService courseService = new CourseServiceImpl();
+                String result = courseService.saveCourseSalesInfo(course);
+                response.getWriter().print(result);
+            }
         } catch (FileUploadException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }

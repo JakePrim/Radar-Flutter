@@ -2,6 +2,7 @@ package com.jakeprim.dao.impl;
 
 import com.jakeprim.dao.CourseDao;
 import com.jakeprim.pojo.Course;
+import com.jakeprim.utils.DateUtils;
 import com.jakeprim.utils.DruidUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
@@ -153,6 +154,19 @@ public class CourseDaoImpl implements CourseDao {
                     course.getPrice_tag(), course.getShare_image_title(), course.getShare_title(), course.getShare_description(),
                     course.getCourse_description(), course.getCourse_img_url(), course.getUpdate_time(), course.getId()};
             int update = qr.update(sql, params);
+            return update;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public int updateCourseStatus(Course course) {
+        try {
+            QueryRunner qr = new QueryRunner(DruidUtils.getDataSource());
+            String sql = "update course set status=?,update_time=? where id = ?";
+            int update = qr.update(sql, course.getStatus(), course.getUpdate_time(), course.getId());
             return update;
         } catch (SQLException throwables) {
             throwables.printStackTrace();

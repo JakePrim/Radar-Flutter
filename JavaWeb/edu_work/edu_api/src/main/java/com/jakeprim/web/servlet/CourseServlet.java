@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 课程模块的Web层实现
@@ -80,6 +81,34 @@ public class CourseServlet extends BaseServlet {
                     , "preview_first_field", "preview_second_field", "discounts", "price", "price_tag",
                     "share_image_title", "share_title", "share_description", "course_description", "course_img_url");
             String result = JSON.toJSONString(course, filter);
+            response.getWriter().print(result);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 更新课程状态信息
+     *
+     * @param request
+     * @param response
+     */
+    public void updateCourseSalesInfo(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String id = request.getParameter("id");
+            //业务处理
+            CourseService courseService = new CourseServiceImpl();
+            Course course = courseService.findCourseById(Integer.parseInt(id));//根据课程id查询课程的信息
+            //判断课程信息状态 进行取反的设置
+            int status = course.getStatus();
+            if (status == 0) {
+                course.setStatus(1);
+            } else {
+                course.setStatus(0);
+            }
+            Map<String, Integer> map = courseService.updateCourseStatus(course);
+            //返回响应结果
+            String result = JSON.toJSONString(map);
             response.getWriter().print(result);
         } catch (IOException e) {
             e.printStackTrace();

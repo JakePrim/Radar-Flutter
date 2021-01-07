@@ -8,6 +8,7 @@
 /Users/prim/workspace/java/Superman/JavaWeb/edu_work/edu_api/src/main/java/com/jakeprim/dao/CourseDao.java
 /Users/prim/workspace/java/Superman/JavaWeb/edu_work/edu_api/src/main/java/com/jakeprim/pojo/Course_Media.java
 /Users/prim/workspace/java/Superman/JavaWeb/edu_work/edu_api/src/main/java/com/jakeprim/pojo/Course_Section.java
+/Users/prim/workspace/java/Superman/JavaWeb/edu_work/edu_api/src/main/java/com/jakeprim/base/Constants.java
 /Users/prim/workspace/java/Superman/JavaWeb/edu_work/edu_api/src/main/java/com/jakeprim/dao/impl/CourseDaoImpl.java
 /Users/prim/workspace/java/Superman/JavaWeb/edu_work/edu_api/src/main/java/com/jakeprim/utils/DruidUtils.java
 /Users/prim/workspace/java/Superman/JavaWeb/edu_work/edu_api/src/main/java/com/jakeprim/pojo/Course_Lesson.java

@@ -3,6 +3,7 @@ com/jakeprim/dao/impl/CourseDaoImpl.class
 com/jakeprim/utils/DruidUtils.class
 com/jakeprim/pojo/Course_Lesson.class
 com/jakeprim/web/filter/EncodingFilter.class
+com/jakeprim/base/Constants.class
 com/jakeprim/web/servlet/FileUploadServlet.class
 com/jakeprim/pojo/Course_Section.class
 com/jakeprim/web/servlet/CourseServlet.class
