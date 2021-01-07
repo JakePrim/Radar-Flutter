@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <!--
+        在Spring ioc 初始化过程中，自动创建管理com.prim.springmvc及自包中拥有一下注解的对象
+        @Repository
+        @Service
+        @Controller
+        @Component
+     -->
+    <context:component-scan base-package="com.prim.springmvc"/>
+    <!-- 启动Spring MVC注解开发模式 conversion-service 一旦遇到date类型就会根据配置的转换 -->
+    <mvc:annotation-driven conversion-service="conversionService">
+        <!-- 设置消息的转换器 -->
+        <mvc:message-converters>
+            <!-- 对于http响应的消息文本转换 -->
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <!-- 原始的写法： response.setContextType() -->
+                        <value>text/html;charset=utf-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+    <!-- 将图片js/css等静态资源排除在外 不通过DispatcherServlet处理 提高执行效率 -->
+    <mvc:default-servlet-handler/>
+
+    <!-- 通知Spring MVC 有哪些自定义的时间格式转换类 -->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <bean class="com.prim.springmvc.converter.DateConverter"/>
+            </set>
+        </property>
+    </bean>
+
+    <!-- freemarker 配置 -->
+    <!-- 开启freemarker -->
+    <bean id="ViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <!-- 产生结果以后 输出文本向客户端输出的字符集 -->
+        <property name="contentType" value="text/html;charset=utf-8"/>
+        <!-- 配置扩展名 -->
+        <property name="suffix" value=".ftl"/>
+    </bean>
+    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <!-- 配置模版文件目录 WEB-IN 目录下外部无法访问可以保证安全性-->
+        <property name="templateLoaderPath" value="/WEB-INF/ftl"/>
+        <property name="freemarkerSettings">
+            <props>
+                <!-- 渲染产生最终结果设置的字符集 -->
+                <prop key="defaultEncoding">UTF-8</prop>
+            </props>
+        </property>
+    </bean>
+</beans>

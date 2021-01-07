@@ -1,0 +1,118 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-size: 14px;
+    font-family: "microsoft YaHei";
+    background: #f4f5f7;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.header {
+    /* overflow: hidden; */
+    width: 1200px;
+    height: 50px;
+    margin: 25px auto 0 auto;
+}
+
+.header .logo {
+    width: 300px;
+    float: left;
+}
+
+.header .menu {
+    width: 80px;
+    margin-left: 16px;
+    float: left;
+    position: relative;
+}
+
+.header .menu:hover {
+    background-color: #fff;
+}
+
+.header .menu .menu-title {
+    line-height: 50px;
+    font-size: 14px;
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+
+.header .menu-title a:hover {
+    text-decoration: none;
+
+}
+
+.header .menu ul {
+    display: none;
+    width: 100%;
+    text-align: center;
+    line-height: 40px;
+    background-color: #fff;
+    position: absolute;
+}
+
+.header .menu:hover ul {
+    display: block;
+}
+
+.header .auth {
+    float: right;
+}
+
+.header ul {
+    list-style: none;
+    overflow: hidden;
+    line-height: 60px;
+}
+
+.header .auth ul li {
+    float: left;
+    margin-right: 50px;
+}
+
+.header ul li a {
+    color: #000;
+}
+
+.content {
+    width: 1200px;
+    height: auto;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.footer {
+    height: 88px;
+    margin: 60px auto 0 auto;
+    width: 1200px;
+    border-top: 1px solid #CCC;
+    overflow: hidden;
+}
+
+.footer p {
+    text-align: center;
+    line-height: 88px;
+    margin: 0px;
+}
+
+.footer p span {
+    color: #f96972;
+}

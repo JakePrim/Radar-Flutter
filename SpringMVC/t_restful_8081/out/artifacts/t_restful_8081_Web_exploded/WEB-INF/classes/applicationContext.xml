@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!-- 开启bean 注解扫描 -->
+    <context:component-scan base-package="com.prim"/>
+    <!-- 启动Spring MVC 注解开发模式 -->
+    <mvc:annotation-driven>
+        <!-- 处理response中文乱码问题 -->
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/html;charset=utf-8</value>
+                        <!-- 通知浏览器使用 utf-8 的方式显示 -->
+                        <value>application/json;charset=utf-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!-- DispatcherServlet 不拦截图片 css js等静态资源 提高执行效率 -->
+    <mvc:default-servlet-handler/>
+
+<!--    &lt;!&ndash; 配置拦截器 可配置多个 &ndash;&gt;-->
+<!--    <mvc:interceptors>-->
+<!--        <mvc:interceptor>-->
+<!--            &lt;!&ndash; 拦截所有请求 &ndash;&gt;-->
+<!--            <mvc:mapping path="/restful2/**"/>-->
+<!--            <mvc:mapping path="/webapi/**"/>-->
+<!--            &lt;!&ndash; 排序静态资源 &ndash;&gt;-->
+<!--            <mvc:exclude-mapping path="/**.ico"/>-->
+<!--            <mvc:exclude-mapping path="/**.jpg"/>-->
+<!--            <mvc:exclude-mapping path="/**.gif"/>-->
+<!--            <mvc:exclude-mapping path="/**.js"/>-->
+<!--            <mvc:exclude-mapping path="/**.css"/>-->
+<!--            <mvc:exclude-mapping path="/resources/**"/>-->
+<!--            &lt;!&ndash; 配置拦截器实现类 &ndash;&gt;-->
+<!--            <bean class="com.prim.interceptor.MyInterceptor"/>-->
+<!--        </mvc:interceptor>-->
+<!--        <mvc:interceptor>-->
+<!--            &lt;!&ndash; 拦截所有请求 &ndash;&gt;-->
+<!--            <mvc:mapping path="/restful2/**"/>-->
+<!--            <mvc:mapping path="/webapi/**"/>-->
+<!--            &lt;!&ndash; 排序静态资源 &ndash;&gt;-->
+<!--            <mvc:exclude-mapping path="/**.ico"/>-->
+<!--            <mvc:exclude-mapping path="/**.jpg"/>-->
+<!--            <mvc:exclude-mapping path="/**.gif"/>-->
+<!--            <mvc:exclude-mapping path="/**.js"/>-->
+<!--            <mvc:exclude-mapping path="/**.css"/>-->
+<!--            <mvc:exclude-mapping path="/resources/**"/>-->
+<!--            &lt;!&ndash; 配置拦截器实现类 &ndash;&gt;-->
+<!--            <bean class="com.prim.interceptor.MyInterceptor1"/>-->
+<!--        </mvc:interceptor>-->
+<!--    </mvc:interceptors>-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/resources/**"/>
+            <bean class="com.prim.interceptor.AccessHistoryInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+</beans>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	id="WebApp_ID" version="3.1">
+	<display-name>filter</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+
+	<!-- 配置过滤器 -->
+	<filter>
+		<filter-name>sample1</filter-name>
+		<filter-class>com.jakeprim.filter.FilterSample1</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>character</filter-name>
+		<filter-class>com.jakeprim.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>p1</param-name>
+			<param-value>v1</param-value>
+		</init-param>
+		<init-param>
+			<param-name>p2</param-name>
+			<param-value>v2</param-value>
+		</init-param>
+	</filter>
+	
+	<filter>
+		<filter-name>UrlPatternFilter</filter-name>
+		<filter-class>com.jakeprim.filter.UrlPatternFilter</filter-class>
+	</filter>
+	
+	<!-- <filter-mapping>
+		<filter-name>UrlPatternFilter</filter-name>
+		<url-pattern>/</url-pattern> 过滤器的作用范围 只用于/test.jsp /servlet/*  *.jsp
+	</filter-mapping>
+	可增加多个FilterMapping
+	<filter-mapping>
+		<filter-name>UrlPatternFilter</filter-name>
+		<url-pattern>/index.html</url-pattern> 过滤器的作用范围 只用于/test.jsp /servlet/*  *.jsp
+	</filter-mapping> -->
+	<filter-mapping>
+		<filter-name>UrlPatternFilter</filter-name>
+		<url-pattern>/test.jsp</url-pattern> <!-- 过滤器的作用范围 只用于/test.jsp /servlet/*  *.jsp-->
+	</filter-mapping>
+	<!-- <filter-mapping>
+		<filter-name>UrlPatternFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern> 过滤器的作用范围 只用于/test.jsp /servlet/*  *.jsp
+	</filter-mapping> -->
+
+	<filter-mapping>
+		<filter-name>sample1</filter-name>
+		<url-pattern>/*</url-pattern> <!-- 过滤器的作用范围 /*表示对所有的URL进行拦截 -->
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>character</filter-name>
+		<url-pattern>/*</url-pattern> <!-- 过滤器的作用范围 /*表示对所有的URL进行拦截 -->
+	</filter-mapping>
+</web-app>

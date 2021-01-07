@@ -1,0 +1,26 @@
+[
+	{
+		"empno": 1001,
+		"ename": "JakePrim",
+		"job": "软件工程师",
+		"date": "2019-10-10",
+		"salary": 17000,
+		"dname": "研发部"
+	},
+	{
+		"empno": 1002,
+		"ename": "JakePrim2",
+		"job": "市场管理员",
+		"date": "2019-10-11",
+		"salary": 1700,
+		"dname": "市场部",
+		"customers": [
+			{
+				"cname": "历史"
+			},
+			{
+				"cname": "张三"
+			}
+		]
+	}
+]

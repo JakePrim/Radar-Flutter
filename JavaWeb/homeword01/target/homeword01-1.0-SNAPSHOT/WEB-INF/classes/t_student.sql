@@ -1,0 +1,13 @@
+INSERT INTO `t_student`(`id`, `name`, `sex`, `brithday`, `email`, `desc`, `cid`) VALUES (1, 'Jake Prim', 1, '2020-12-25', '1760473022@qq.com', 'ceshi', 2);
+INSERT INTO `t_student`(`id`, `name`, `sex`, `brithday`, `email`, `desc`, `cid`) VALUES (6, '刘备', 1, '2020-12-12', '1@qq.com', '刘皇叔', 1);
+INSERT INTO `t_student`(`id`, `name`, `sex`, `brithday`, `email`, `desc`, `cid`) VALUES (8, '关羽', 1, '2020-12-20', '1760473022@qq.com', '大哥', 1);
+INSERT INTO `t_student`(`id`, `name`, `sex`, `brithday`, `email`, `desc`, `cid`) VALUES (10, '1', 0, '2020-12-25', '1@qq.com', '1', 1);
+INSERT INTO `t_student`(`id`, `name`, `sex`, `brithday`, `email`, `desc`, `cid`) VALUES (11, '2', 0, '2020-12-26', 'sufululove@gmail.com', '2', 1);
+INSERT INTO `t_student`(`id`, `name`, `sex`, `brithday`, `email`, `desc`, `cid`) VALUES (12, '3', 0, '2020-12-16', 'sufululove@gmail.com', '3', 1);
+INSERT INTO `t_student`(`id`, `name`, `sex`, `brithday`, `email`, `desc`, `cid`) VALUES (13, '4', 0, '2020-12-19', '1760473022@qq.com', '4', 5);
+INSERT INTO `t_student`(`id`, `name`, `sex`, `brithday`, `email`, `desc`, `cid`) VALUES (14, '5', 0, '2020-12-19', '1760473022@qq.com', '5', 1);
+INSERT INTO `t_student`(`id`, `name`, `sex`, `brithday`, `email`, `desc`, `cid`) VALUES (15, '8', 0, '2020-12-15', '1@qq.com', '8', 1);
+INSERT INTO `t_student`(`id`, `name`, `sex`, `brithday`, `email`, `desc`, `cid`) VALUES (16, '9', 0, '2020-12-18', '1@qq.com', '9', 1);
+INSERT INTO `t_student`(`id`, `name`, `sex`, `brithday`, `email`, `desc`, `cid`) VALUES (17, '10', 0, '2020-12-17', '1@qq.com', '10', 1);
+INSERT INTO `t_student`(`id`, `name`, `sex`, `brithday`, `email`, `desc`, `cid`) VALUES (18, '11', 0, '2020-12-12', '1@qq.com', '11', 1);
+INSERT INTO `t_student`(`id`, `name`, `sex`, `brithday`, `email`, `desc`, `cid`) VALUES (19, '12', 0, '2020-12-07', '1@qq.com', '12', 1);

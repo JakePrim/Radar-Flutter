@@ -1,0 +1,15 @@
+/Users/prim/jakeprim/work/idea-works/book-mybatis/src/main/java/com/prim/utils/FileUtils.java
+/Users/prim/jakeprim/work/idea-works/book-mybatis/src/main/java/com/prim/biz/CategoryBiz.java
+/Users/prim/jakeprim/work/idea-works/book-mybatis/src/main/java/com/prim/pojo/Category.java
+/Users/prim/jakeprim/work/idea-works/book-mybatis/src/main/java/com/prim/global/EncodingFilter.java
+/Users/prim/jakeprim/work/idea-works/book-mybatis/src/main/java/com/prim/dao/CategoryDao.java
+/Users/prim/jakeprim/work/idea-works/book-mybatis/src/main/java/com/prim/global/DaoFactory.java
+/Users/prim/jakeprim/work/idea-works/book-mybatis/src/main/java/com/prim/global/InitListener.java
+/Users/prim/jakeprim/work/idea-works/book-mybatis/src/main/java/com/prim/global/CoreController.java
+/Users/prim/jakeprim/work/idea-works/book-mybatis/src/main/java/com/prim/biz/impl/BookBizImpl.java
+/Users/prim/jakeprim/work/idea-works/book-mybatis/src/main/java/com/prim/biz/BookBiz.java
+/Users/prim/jakeprim/work/idea-works/book-mybatis/src/main/java/com/prim/dao/BookDao.java
+/Users/prim/jakeprim/work/idea-works/book-mybatis/src/main/java/com/prim/controller/BookController.java
+/Users/prim/jakeprim/work/idea-works/book-mybatis/src/main/java/com/prim/pojo/Book.java
+/Users/prim/jakeprim/work/idea-works/book-mybatis/src/main/java/com/prim/biz/impl/CategoryBizImpl.java
+/Users/prim/jakeprim/work/idea-works/book-mybatis/src/main/java/com/prim/controller/CategoryController.java
