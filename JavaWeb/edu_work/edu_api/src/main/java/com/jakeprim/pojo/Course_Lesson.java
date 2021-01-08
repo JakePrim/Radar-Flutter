@@ -99,4 +99,7 @@ public class Course_Lesson  implements Serializable {
   @JSONField(serialize = false)
   private String publish_time;  //定时发布时间
 
+  //添加章节信息
+  private Course_Section section;
+
 }
