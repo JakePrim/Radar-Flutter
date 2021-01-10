@@ -52,7 +52,19 @@ public interface CourseContentDao {
      */
     List<Course_Section> findSectionByCourseId(int course_id);
 
+    /**
+     * 保存课时信息
+     *
+     * @param lesson
+     * @return
+     */
     int saveCourseLesson(Course_Lesson lesson);
 
+    /**
+     * 更新课时信息
+     *
+     * @param lesson
+     * @return
+     */
     int updateCourseLesson(Course_Lesson lesson);
 }

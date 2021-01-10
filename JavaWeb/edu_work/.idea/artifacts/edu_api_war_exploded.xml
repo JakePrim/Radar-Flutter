@@ -23,6 +23,8 @@
           <element id="library" level="project" name="Maven: com.colobu:fastjson-jaxrs-json-provider:0.3.1" />
           <element id="library" level="project" name="Maven: commons-io:commons-io:1.4" />
           <element id="library" level="project" name="Maven: commons-fileupload:commons-fileupload:1.2.1" />
+          <element id="library" level="project" name="Maven: com.thetransactioncompany:cors-filter:2.5" />
+          <element id="library" level="project" name="Maven: com.thetransactioncompany:java-property-utils:1.9.1" />
         </element>
       </element>
       <element id="directory" name="META-INF">

@@ -19,7 +19,7 @@ public class CourseContentDaoImpl implements CourseContentDao {
         try {
             QueryRunner qr = new QueryRunner(DruidUtils.getDataSource());
             String sql = "select id,course_id,section_name,description,order_num,status " +
-                    "from course_section where course_id=? and is_del=0";
+                    "from course_section where course_id=?";
             List<Course_Section> sections = qr.query(sql, new BeanListHandler<>(Course_Section.class), courseId);
             //根据章节id查询课时信息
             for (Course_Section section : sections) {

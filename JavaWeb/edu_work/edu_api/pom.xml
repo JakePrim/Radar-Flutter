@@ -111,6 +111,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- 解决跨域问题 -->
+        <dependency>
+            <groupId>com.thetransactioncompany</groupId>
+            <artifactId>cors-filter</artifactId>
+            <version>2.5</version>
+        </dependency>
+
     </dependencies>
 
     <!-- 添加插件 设置编译的jdk版本 -->

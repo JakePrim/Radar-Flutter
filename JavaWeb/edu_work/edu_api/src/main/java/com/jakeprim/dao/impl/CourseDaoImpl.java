@@ -118,7 +118,8 @@ public class CourseDaoImpl implements CourseDao {
                     "                       share_title," +
                     "                       share_description," +
                     "                       course_description," +
-                    "                       course_img_url" +
+                    "                       course_img_url," +
+                    "                       status" +
                     " from course where id = ?";
             Course course = qr.query(sql, new BeanHandler<>(Course.class), id);
             return course;

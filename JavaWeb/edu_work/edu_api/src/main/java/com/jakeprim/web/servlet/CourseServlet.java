@@ -93,7 +93,7 @@ public class CourseServlet extends BaseServlet {
      * @param request
      * @param response
      */
-    public void updateCourseSalesInfo(HttpServletRequest request, HttpServletResponse response) {
+    public void updateCourseStatus(HttpServletRequest request, HttpServletResponse response) {
         try {
             String id = request.getParameter("id");
             //业务处理
