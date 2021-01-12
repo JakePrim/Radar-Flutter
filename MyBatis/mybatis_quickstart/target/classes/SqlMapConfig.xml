@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!-- 加载properties文件 -->
+    <properties resource="jdbc.properties"></properties>
+
+    <!-- 设置别名 -->
+    <typeAliases>
+<!--        <typeAlias type="com.jakeprim.User" alias="user"></typeAlias>-->
+
+        <!-- 对该包下的类批量起别名，别名可以忽略大小写:可以是user 也可以是 USER -->
+        <package name="com.jakeprim.domain"/>
+    </typeAliases>
+
+    <!-- 运行环境 -->
+    <environments default="development">
+        <!-- 配置多个环境：测试、生产、开发等环境 -->
+        <environment id="development">
+            <!-- transactionManager:事务管理器 当前的事物管理器是JDBC -->
+            <transactionManager type="JDBC"></transactionManager>
+            <!-- dataSource 数据源信息 POOLED：使用mybatis的连接池，UNPOOLED 不使用连接池-->
+            <dataSource type="POOLED">
+                <!-- 数据库驱动 从properties 文件中动态获取值 -->
+                <property name="driver" value="${jdbc.driver}"/>
+                <!-- 连接数据库地址 -->
+                <property name="url" value="${jdbc.url}"/>
+                <!-- 数据库用户名 -->
+                <property name="username" value="${jdbc.username}"/>
+                <!-- 数据库密码 -->
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!-- 关联映射配置文件 -->
+    <mappers>
+        <!-- 相当于类路径的资源引用 必须在当前工程中 -->
+        <mapper resource="mapper/UserMapper.xml"></mapper>
+
+        <!-- url 完全资源限定 设置的mapper映射文件 不用必须在当前工程 而是可以设置到磁盘目录 比如C盘 D盘中直接访问
+            不推荐使用 不利于统一管理
+         -->
+<!--        <mapper url="file:///var/mappers/userMapper.xml"></mapper>-->
+
+        <!-- 使用映射接口实现类的完全限定类名 -->
+<!--        <mapper class="org.mybatis.builder.UserMapper"></mapper>-->
+
+        <!-- 将包内的映射接口实现全部注册为映射器 -->
+<!--        <package name=""></package>-->
+    </mappers>
+</configuration>

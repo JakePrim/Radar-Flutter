@@ -68,6 +68,7 @@ public class CourseContentServiceImpl implements CourseContentService {
 
     @Override
     public String saveCourseLesson(Course_Lesson lesson) {
+        //补全信息
         String dateFormart = DateUtils.getDateFormart();
         lesson.setCreate_time(dateFormart);
         lesson.setUpdate_time(dateFormart);
@@ -82,6 +83,7 @@ public class CourseContentServiceImpl implements CourseContentService {
 
     @Override
     public String updateCourseLesson(Course_Lesson lesson) {
+        //补全信息
         String dateFormart = DateUtils.getDateFormart();
         lesson.setUpdate_time(dateFormart);
         int row = dao.updateCourseLesson(lesson);

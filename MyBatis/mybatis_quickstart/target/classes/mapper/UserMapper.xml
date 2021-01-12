@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 命名空间与id属性共同构成唯一标识 -->
+<mapper namespace="UserMapper">
+    <!-- UserMapper.findAll 定位当前的SQL语句,
+    resultType 将查询的结果封装为User实体，调用setter方法,注意实体的属性名和数据表中的字段一一对应 -->
+    <select id="findAll" resultType="User">
+        select *
+        from user
+    </select>
+
+    <!-- 新增用户 mybatis 的占位符#{} 等同于jdbc的?占位符
+        parameterType：指定接收到的参数类型
+        #{}:需要和参数的类型属性保持一致
+    -->
+    <insert id="save" parameterType="User">
+        insert into user(username, birthday, sex, address)
+        VALUES (#{username}, #{birthday}, #{sex}, #{address})
+    </insert>
+
+    <!-- 修改用户 -->
+    <update id="updateUser" parameterType="User">
+        update user
+        set username=#{username},
+            birthday=#{birthday},
+            sex=#{sex},
+            address=#{address}
+        where id = #{id}
+    </update>
+
+    <!-- 删除用户
+         parameterType="java.lang.Integer"
+         #{value} 名称可以随意写 一般写value
+         java.lang.Integer 的别名 int
+    -->
+    <delete id="deleteUser" parameterType="int">
+        delete
+        from user
+        where id = #{value}
+    </delete>
+</mapper>
