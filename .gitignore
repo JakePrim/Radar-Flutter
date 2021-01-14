@@ -8,3 +8,7 @@
 /captures
 .externalNativeBuild
 /.idea/
+*/.idea/
+*/build
+*/captures
+*/.externalNativeBuild
