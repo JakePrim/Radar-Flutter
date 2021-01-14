@@ -15,8 +15,8 @@
 | 深入剖析JVM [:alien:](#深入剖析JVM-alien)          | [写作中]   | JVM底层原理     |
 | 并发编程成神之路 [:two_hearts:](#并发编程成神之路) | [写作中]   | 线程的本质      |
 | 网络编程和Netty[:collision:](#网络编程和Netty)     | [敬请期待] |                 |
-| 剖析Mybatis源码 [:notes:](#剖析MyBatis源码)        | [敬请期待] |                 |
-| 剖析Spring源码 [:dash:](#剖析Spring源码)           | [敬请期待] |                 |
+| 剖析Mybatis源码 [:notes:](#剖析MyBatis源码)        | [写作中]   |                 |
+| 剖析Spring源码 [:dash:](#剖析Spring源码)           | [写作中]   |                 |
 
 | 技术专题                                          | 状态     | 历史记录 |
 | ------------------------------------------------- | -------- | -------- |
@@ -47,7 +47,7 @@
 
 - [Linux基础](https://www.yuque.com/jakeprim/java/ufs57p)
 
-### Java基础
+### Java核心技术
 
 - [Java 面向对象](https://www.yuque.com/jakeprim/java/ir64h7)
 - [Java核心类库-上](https://www.yuque.com/jakeprim/java/lgpglx)
@@ -110,6 +110,7 @@
 - [Maven入门](https://www.yuque.com/jakeprim/java/no7s2e)
 -  **[MyBatis 入门](https://www.yuque.com/jakeprim/java/xuog0h)**
 - [MyBatis 高级特性](https://www.yuque.com/jakeprim/java/og1ahc)
+- [MyBatis技术整理](https://www.yuque.com/jakeprim/java/dg0m08)
 
 ## 剖析Spring源码 :dash:
 

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.homework.mapper.ArticleMapper">
+    <!-- 配置映射结果 -->
+    <resultMap id="articleMap" type="article">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <!-- 关联评论表 开启延迟加载 -->
+        <collection property="commentList" ofType="com.homework.pojo.Comment" column="id"
+                    select="com.homework.mapper.CommentMapper.findByAid" fetchType="lazy">
+
+        </collection>
+    </resultMap>
+
+    <select id="findAllWithComment" resultMap="articleMap">
+        select *
+        from t_article
+    </select>
+</mapper>

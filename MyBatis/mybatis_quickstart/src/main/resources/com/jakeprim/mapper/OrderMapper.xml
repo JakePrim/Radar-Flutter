@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jakeprim.mapper.OrderMapper">
+    <resultMap id="orderMap" type="orders">
+        <id property="id" column="id"/>
+        <result property="ordertime" column="ordertime"/>
+        <result property="total" column="total"/>
+        <result property="uid" column="uid"/>
+        <!-- orders实体的user属性配置
+            association ：主要用于一对一关联插叙配置
+                property: orders 实体的user属性名
+                javaType：要封装的实体的属性类型，User类的全路径
+         -->
+        <association property="user" javaType="com.jakeprim.domain.User">
+            <!-- column 不能写id 否则id配置重复了,column写uid因为他和user.id是相等的 -->
+            <id property="id" column="uid"/>
+            <result property="username" column="username"/>
+            <result property="birthday" column="birthday"/>
+            <result property="sex" column="sex"/>
+            <result property="address" column="address"/>
+        </association>
+    </resultMap>
+    <!-- 使用resultMap 完成手动的映射配置 需要在orders中配置user信息 -->
+    <select id="findOrdersWithUser" resultMap="orderMap">
+        select *
+        from orders o
+                 left join user u on u.id = o.uid
+    </select>
+
+    <resultMap id="orderMap2" type="orders">
+        <id column="id" property="id"/>
+        <result property="ordertime" column="ordertime"/>
+        <result property="total" column="total"/>
+        <result property="uid" column="uid"/>
+        <!-- 根据查询到的uid查询-用户表的数据
+            select : statement 的id namespace.id
+            column : 作为参数进行传递给select中的映射SQL
+         -->
+        <association property="user" select="com.jakeprim.mapper.UserMapper.findById" column="uid"
+                     javaType="com.jakeprim.domain.User" fetchType="eager"></association>
+    </resultMap>
+    <!-- 嵌套查询 -->
+    <select id="findOrdersWithUser2" resultMap="orderMap2">
+        select *
+        from orders
+    </select>
+
+    <select id="findById" parameterType="int" resultType="orders">
+        select *
+        from orders
+        where uid = #{uid}
+    </select>
+</mapper>

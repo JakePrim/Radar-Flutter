@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 需要和UserMapper接口的全限定名相同 -->
+<mapper namespace="com.jakeprim.mapper.RoleMapper">
+    <select id="findByUid" resultType="role" parameterType="int">
+        select *
+        from sys_role r
+                 inner join sys_user_role sur on r.id = sur.userid
+        where userid = #{userid}
+    </select>
+</mapper>

@@ -1,34 +1,50 @@
 package com.jakeprim.domain;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * User实体
  */
-public class User {
-    private int id;
+public class User implements Serializable {
+    private Integer id;
     private String username;
     private String password;
     private Date birthday;
     private String sex;
     private String address;
+    //一个用户可以有多个订单
+    private List<Orders> ordersList;
+
+    //一个用户可以有多个角色
+    private List<Role> roleList;
+
+    public List<Role> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
+    }
+
+    public List<Orders> getOrdersList() {
+        return ordersList;
+    }
+
+    public void setOrdersList(List<Orders> ordersList) {
+        this.ordersList = ordersList;
+    }
 
     public User() {
     }
 
-    public User(String username, String password, Date birthday, String sex, String address) {
-        this.username = username;
-        this.password = password;
-        this.birthday = birthday;
-        this.sex = sex;
-        this.address = address;
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -81,6 +97,8 @@ public class User {
                 ", birthday=" + birthday +
                 ", sex='" + sex + '\'' +
                 ", address='" + address + '\'' +
+                ", ordersList='" + ordersList + '\'' +
+                ", roleList='" + roleList + '\'' +
                 '}';
     }
 }
