@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!--
+        id:唯一标识
+        class:类全路径
+        bean 必须有无参构造函数，如果没有无参构造函数 那么bean对象是无法创建成功的
+        scope：对象的作用范围
+            singleton: 默认值 单例的 每次从容器中取出的是一个对象
+            prototype: 多例的 每次从容器中取出该对象，那么该对象就会重新创建
+            request：在web 项目中，对象存储到request域中
+            session：在web 项目中，对象会存到session域中
+            global session:在web项目中，应用在Portlet环境，如果没有该环境就会存储在session域中
+
+        init-method: 创建实例时，调用的方法
+        destroy-method：销毁实例时，调用的方法
+
+    -->
+
+    <!-- user 对象 -->
+    <bean id="user" class="com.prim.domin.User">
+        <property name="username" value="jakeprim"/>
+        <property name="age" value="28"/>
+    </bean>
+
+    <!-- userDao 对象 -->
+    <bean id="userDao"
+          class="com.prim.dao.impl.UserDaoImpl">
+        <property name="username" value="jakeprim"/>
+        <property name="age" value="18"/>
+        <!-- list集合注入 -->
+        <property name="list">
+            <list>
+                <value>aa</value>
+                <!-- 将user对象注入到list集合中 -->
+                <ref bean="user"></ref>
+            </list>
+        </property>
+        <!-- set集合注入 -->
+        <property name="set">
+            <set>
+                <value>aa</value>
+                <ref bean="user"></ref>
+            </set>
+        </property>
+        <!-- 数组注入 -->
+        <property name="array">
+            <array>
+                <value>aa</value>
+                <ref bean="user"></ref>
+            </array>
+        </property>
+        <!-- Map集合注入 -->
+        <property name="map">
+            <map>
+                <entry key="k1" value="kkk"></entry>
+                <entry key="k2" value-ref="user"></entry>
+            </map>
+        </property>
+        <!-- properties注入 -->
+        <property name="properties">
+            <props>
+                <prop key="p1">v1</prop>
+                <prop key="p2">v2</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- 配置userService set方法构造实例对象 -->
+    <bean id="userService" class="com.prim.service.impl.UserServiceImpl" p:userDao-ref="userDao">
+        <!--
+            name: set的属性名称
+            ref: 引用对象
+            value: 普通类型的数据
+         -->
+        <!--        <property name="userDao" ref="userDao"/>-->
+    </bean>
+
+
+    <!-- 配置userService 有参构造实例对象 -->
+    <!--    <bean id="userService" class="com.prim.service.impl.UserServiceImpl">-->
+    <!--        &lt;!&ndash; index: UserServiceImpl的构造参数第一个参数进行赋值-->
+    <!--             type: 参数的类型-->
+    <!--             ref:  引用IOC容器中的对象，其实就是和bean标签配置的id值一样-->
+    <!--         &ndash;&gt;-->
+    <!--&lt;!&ndash;        <constructor-arg index="0" ref="userDao" type="com.prim.dao.UserDao"></constructor-arg>&ndash;&gt;-->
+
+    <!--        &lt;!&ndash;-->
+    <!--            第二种写法-->
+    <!--            name: 构造参数的参数名-->
+    <!--         &ndash;&gt;-->
+    <!--        <constructor-arg name="userDao" ref="userDao"/>-->
+    <!--    </bean>-->
+
+    <!-- 共同实现了相同的接口 -->
+    <!--    <bean id="userDao2" class="com.prim.dao.impl.UserDaoImpl2"></bean>-->
+
+    <bean id="factoryUserDao"
+          class="com.prim.factory.StaticFactoryBean"
+          factory-method="createUserDao">
+
+    </bean>
+
+
+    <!-- 普通工厂实例化 -->
+    <!-- 先生成工厂类的实例 - 存到IOC容器中 -->
+    <bean id="dynamicFactory" class="com.prim.factory.DynamicFactoryBean"/>
+
+    <!-- 再生产UserDao的实例 - 存到IOC容器中 -->
+    <bean id="dynamicUserDao" factory-method="createUserDao" factory-bean="dynamicFactory"/>
+
+    <!-- import标签 设置加载的配置文件 -->
+    <import resource="classpath:applicationContext-user.xml"/>
+    <import resource="classpath:applicationContext-product.xml"/>
+</beans>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 开启注解扫描 -->
+    <context:component-scan base-package="com.example"></context:component-scan>
+
+    <!-- 引入jdbc.properties
+        注意：如果要引入外部的文件都需要加上classpath:这个前缀
+    -->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+
+
+    <!-- 创建 DataSource 数据源对象 -->
+    <!-- 抽取数据库配置文件 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <!-- 创建 QueryRunner 对象 -->
+    <bean id="queryRunner" class="org.apache.commons.dbutils.QueryRunner">
+        <!-- 数据源对象DataSource 通过构造函数的方式注入 -->
+        <constructor-arg name="ds" ref="dataSource"/>
+    </bean>
+
+    <!-- DAO层bean实例化 -->
+<!--    <bean id="accountDao" class="com.example.dao.impl.AccountDaoImpl">-->
+<!--        &lt;!&ndash; set方式 注入QueryRunner对象 &ndash;&gt;-->
+<!--        <property name="queryRunner" ref="queryRunner"/>-->
+<!--    </bean>-->
+
+<!--    <bean id="accountDao2" class="com.example.dao.impl.AccountDaoImpl"></bean>-->
+
+
+    <!-- service层bean实例化 -->
+<!--    <bean id="accountService" class="com.example.service.impl.AccountServiceImpl">-->
+<!--        &lt;!&ndash; set 方式 注入AccountDao对象 &ndash;&gt;-->
+<!--        <property name="accountDao" ref="accountDao"/>-->
+<!--    </bean>-->
+</beans>
