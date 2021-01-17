@@ -35,7 +35,7 @@
     <!-- DAO层bean实例化 -->
     <bean id="accountDao" class="com.example.dao.impl.AccountDaoImpl">
         <!-- set方式 注入QueryRunner对象 -->
-        <property name="queryRunner" ref="queryRunner"/>
+<!--        <property name="queryRunner" ref="queryRunner"/>-->
     </bean>
 
 <!--    <bean id="accountDao2" class="com.example.dao.impl.AccountDaoImpl"></bean>-->

@@ -6,7 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="spring_aop_xml" />
+        <module name="spring_jdbcTemplate" />
+        <module name="spring_web" />
         <module name="spring_ioc_dbutils" />
+        <module name="homework" />
+        <module name="spring_aop" />
       </profile>
     </annotationProcessing>
   </component>
