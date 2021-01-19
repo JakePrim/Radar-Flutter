@@ -32,4 +32,38 @@
             </set>
         </property>
     </bean>
+
+    <!-- 方式一：放行指定的静态资源 mapping：映射资源 location：放行的目录-->
+    <mvc:resources mapping="/js/**" location="/js/"/>
+    <mvc:resources mapping="/css/**" location="/css/"/>
+    <mvc:resources mapping="/images/**" location="/images/"/>
+
+    <!-- 方式二：开启DefaultServlet处理静态资源 放行全部的静态资源 -->
+    <mvc:default-servlet-handler/>
+
+    <!-- 配置文件上传解析器 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 设定文件上传的最大值为5M -->
+        <property name="maxUploadSize" value="5242880"/>
+        <!-- 设定文件上传时 写入内存的最大值，如果小于这个参数不会生成临时文件 默认10240 -->
+        <property name="maxInMemorySize" value="40960"/>
+    </bean>
+
+    <!-- 配置异常处理器 -->
+    <bean id="globalExceptionResolver" class="com.prim.exception.GlobalExceptionResolver"></bean>
+
+    <!-- 配置拦截器 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!-- 对应拦截的路径 /** 对所有controller类的所有方法都进行拦截 -->
+            <mvc:mapping path="/**"/>
+            <bean class="com.prim.interceptor.MyInterceptor1"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <!-- 对应拦截的路径 /** 对所有controller类的所有方法都进行拦截 -->
+            <mvc:mapping path="/**"/>
+            <bean class="com.prim.interceptor.MyInterceptor2"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 </beans>

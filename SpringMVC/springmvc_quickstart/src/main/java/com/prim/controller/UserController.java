@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @Controller //bean 对象注入到了IOC容器
 @RequestMapping("/user") //一级访问目录
@@ -22,6 +23,7 @@ public class UserController {
     //二级访问目录 http://localhost:8080/../user/quick?accountName=...
     @RequestMapping(path = "/quick", method = RequestMethod.GET, params = {"accountName"})
     public String quick() {
+        int i = 1/0;
         //业务逻辑
         System.out.println("spring mvc quick start");
         //视图跳转 跳转的路径写在return中 逻辑视图名
@@ -199,6 +201,7 @@ public class UserController {
 
     /**
      * ModelAndView 进行页面跳转 方式二 推荐使用
+     *
      * @return
      */
     @RequestMapping("/returnModelAndView2")
@@ -214,5 +217,17 @@ public class UserController {
         // 会根据在SpringMVC中的核心配置的视图解析器配置，拼接前缀和后缀
 
         return modelAndView;
+    }
+
+    /**
+     * ajax异步交互
+     *
+     * @return
+     */
+    @RequestMapping("/ajaxRequest")
+    @ResponseBody
+    public List<User> ajaxRequest(@RequestBody List<User> userList) {
+        System.out.println(userList);//[User{id=1, username='张飞'}, User{id=2, username='关羽'}]
+        return userList;
     }
 }
