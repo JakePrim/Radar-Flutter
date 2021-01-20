@@ -89,7 +89,7 @@
 -  [JavaWeb 项目实战](https://www.yuque.com/jakeprim/java/kzr1w5)
 ## 深入剖析JVM :alien:
 
-<img src="README.assets/image-20201229175147972.png" alt="image-20201229175147972" style="zoom:50%;" />
+<img src="README.assets/image-20201229175147972.png" alt="image-20201229175147972" style="zoom: 25%;" />
 
 - [JVM基础及内存区域](https://www.yuque.com/jakeprim/java/hs50zz) 
 -  [深入理解JVM内存区域](https://www.yuque.com/jakeprim/java/qhmxou) 
