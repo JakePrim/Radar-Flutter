@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- 扫描controller层的IOC注解 -->
+    <context:component-scan base-package="com.edu.controller"/>
+
+    <!-- mvc注解增强：支持json读写 -->
+    <mvc:annotation-driven/>
+
+    <!-- 视图解析器 暂时不用配置，因为该项目是前后端分离的项目 -->
+
+    <!-- 文件解析器 注意 id的值必须是：multipartResolver -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="1048567"/>
+    </bean>
+
+    <!-- 静态资源放行 -->
+    <mvc:default-servlet-handler/>
+</beans>

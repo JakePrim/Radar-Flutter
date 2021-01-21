@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edu.dao.CourseContentMapper">
+    <resultMap id="courseSectionMap" type="courseSection">
+        <id property="id" column="id"/>
+        <result property="courseId" column="course_id"/>
+        <result property="sectionName" column="section_name"/>
+        <result property="description" column="description"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDe" column="is_de"/>
+        <result property="orderNum" column="order_num"/>
+        <result property="status" column="status"/>
+        <collection property="lessonList" ofType="courseLesson"
+                    select="com.edu.dao.CourseLessonMapper.findBySectionId"
+                    column="id">
+        </collection>
+    </resultMap>
+    <insert id="saveCourseSectionByCourseId" parameterType="courseSection">
+        insert into course_section(course_id, section_name, description, create_time, update_time, is_de, order_num,
+                                   status)
+        values (#{courseId}, #{sectionName}, #{description}, #{createTime}, #{updateTime}, #{isDe}, #{orderNum},
+                #{status})
+    </insert>
+    <update id="updateCourseSectionById" parameterType="courseSection">
+        UPDATE course_section
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sectionName != null and sectionName != ''">
+                section_name = #{sectionName},
+            </if>
+
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+
+            <if test="orderNum != null and orderNum != '' or orderNum == 0">
+                order_num = #{orderNum},
+            </if>
+
+            <if test="updateTime != null">
+                update_time=#{updateTime},
+            </if>
+        </trim>
+        <where>
+            <if test="id != null and id != '' ">id = #{id}</if>
+        </where>
+    </update>
+    <update id="updateSectionStatusById" parameterType="courseSection">
+        update course_section
+        set status=#{status},
+            update_time=#{updateTime}
+        where id = #{id}
+    </update>
+
+    <!-- 根据课程id查询课时 -->
+    <select id="findSectionAndLessonByCourseId" resultMap="courseSectionMap" parameterType="int">
+        select *
+        from course_section
+        where course_id = #{id}
+        order by order_num
+    </select>
+    <select id="findCourseByCourseId" resultType="com.edu.pojo.Course" parameterType="int">
+        select id, course_name
+        from course
+        where id = #{courseId}
+    </select>
+</mapper>
