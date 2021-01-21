@@ -1,7 +1,9 @@
 package com.edu.service.impl;
 
 import com.edu.dao.CourseContentMapper;
+import com.edu.dao.CourseLessonMapper;
 import com.edu.pojo.Course;
+import com.edu.pojo.CourseLesson;
 import com.edu.pojo.CourseSection;
 import com.edu.service.CourseContentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ public class CourseContentServiceImpl implements CourseContentService {
 
     @Autowired
     private CourseContentMapper courseContentMapper;
+
+    @Autowired
+    private CourseLessonMapper courseLessonMapper;
 
     @Override
     public List<CourseSection> findSectionAndLessonByCourseId(Integer courseId) {
@@ -51,5 +56,33 @@ public class CourseContentServiceImpl implements CourseContentService {
         courseSection.setStatus(status);
         courseSection.setUpdateTime(new Date());
         courseContentMapper.updateSectionStatusById(courseSection);
+    }
+
+    @Override
+    public void saveLesson(CourseLesson courseLesson) {
+        Date date = new Date();
+        courseLesson.setIsDel(0);
+        courseLesson.setStatus(0);
+        courseLesson.setCreateTime(date);
+        courseLesson.setUpdateTime(date);
+        courseLessonMapper.saveLesson(courseLesson);
+    }
+
+    @Override
+    public void updateLesson(CourseLesson courseLesson) {
+        Date date = new Date();
+        courseLesson.setUpdateTime(date);
+
+        courseLessonMapper.updateLesson(courseLesson);
+    }
+
+    @Override
+    public void updateLessonStatus(Integer id, Integer status) {
+        CourseLesson courseLesson = new CourseLesson();
+        courseLesson.setId(id);
+        courseLesson.setStatus(status);
+        courseLesson.setUpdateTime(new Date());
+
+        courseLessonMapper.updateLessonStatus(courseLesson);
     }
 }

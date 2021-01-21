@@ -2,6 +2,7 @@ package com.edu.controller;
 
 import com.edu.common.StateCode;
 import com.edu.pojo.Course;
+import com.edu.pojo.CourseLesson;
 import com.edu.pojo.CourseSection;
 import com.edu.pojo.ResponseResult;
 import com.edu.service.CourseContentService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -60,8 +62,32 @@ public class CourseContentController {
     @PostMapping("/updateSectionStatus")
     public ResponseResult updateSectionStatus(Integer id, Integer status) {
         courseContentService.updateSectionStatus(id, status);
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("status", status);
+        ResponseResult result =
+                new ResponseResult(true, StateCode.SUCCESS.getCode(), StateCode.SUCCESS.getMsg(), map);
+        return result;
+    }
+
+    @PostMapping("/saveOrUpdateLesson")
+    public ResponseResult saveOrUpdateLesson(@RequestBody CourseLesson courseLesson) {
+        if (courseLesson.getId() != null) {
+            courseContentService.updateLesson(courseLesson);
+        } else {
+            courseContentService.saveLesson(courseLesson);
+        }
         ResponseResult result =
                 new ResponseResult(true, StateCode.SUCCESS.getCode(), StateCode.SUCCESS.getMsg(), null);
+        return result;
+    }
+
+    @PostMapping("/updateLessonStatus")
+    public ResponseResult updateLessonStatus(Integer id, Integer status) {
+        courseContentService.updateLessonStatus(id, status);
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("status", status);
+        ResponseResult result =
+                new ResponseResult(true, StateCode.SUCCESS.getCode(), StateCode.SUCCESS.getMsg(), map);
         return result;
     }
 }
