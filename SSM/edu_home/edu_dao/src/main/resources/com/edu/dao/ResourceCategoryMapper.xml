@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edu.dao.ResourceCategoryMapper">
+    <select id="findAllResourceCategory" resultType="ResourceCategory">
+        select *
+        from resource_category
+    </select>
+</mapper>

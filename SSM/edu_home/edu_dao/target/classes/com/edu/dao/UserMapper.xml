@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edu.dao.UserMapper">
+    <update id="updateUserStatus" parameterType="User">
+        update user
+        set status=#{status},
+            update_time=#{update_time}
+        where id = #{id}
+    </update>
+
+    <select id="findAllUserByPage" resultType="User" parameterType="UserVo">
+        select * from user
+        <where>
+            <if test="username != null and username != ''">
+                and name=#{username}
+            </if>
+            <if test="startCreateTime != null and endCreateTime != null">
+                and create_time BETWEEN #{startCreateTime} and #{endCreateTime}
+            </if>
+            <if test="true">
+                and is_del != 1
+            </if>
+        </where>
+    </select>
+</mapper>

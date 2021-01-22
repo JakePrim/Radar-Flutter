@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
 ">
     <!-- 1. 配置数据源 jdbc.properties -->
     <context:property-placeholder location="classpath:jdbc.properties"/>
@@ -21,15 +24,15 @@
     <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <!-- applicationContext配置mybatis插件 -->
-<!--        <property name="plugins">-->
-<!--            <array>-->
-<!--                <bean class="com.github.pagehelper.PageHelper">-->
-<!--                    <property name="properties">-->
-<!--                        <value>helperDialect=mysql</value>-->
-<!--                    </property>-->
-<!--                </bean>-->
-<!--            </array>-->
-<!--        </property>-->
+        <!--        <property name="plugins">-->
+        <!--            <array>-->
+        <!--                <bean class="com.github.pagehelper.PageHelper">-->
+        <!--                    <property name="properties">-->
+        <!--                        <value>helperDialect=mysql</value>-->
+        <!--                    </property>-->
+        <!--                </bean>-->
+        <!--            </array>-->
+        <!--        </property>-->
 
         <!-- 引入mybatis的其他配置 -->
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
@@ -39,4 +42,12 @@
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.edu.dao"/>
     </bean>
+
+    <!-- 4. 开启声明式事务管理 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- 开启事务注解驱动 -->
+    <tx:annotation-driven/>
 </beans>
