@@ -3,12 +3,21 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+
     <settings>
         <!-- 开启驼峰命名 -->
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
+
     <!-- pojo类别名 -->
     <typeAliases>
         <package name="com.edu.pojo"/>
     </typeAliases>
+    <!-- mybatis插件配置 -->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+            <!-- 指定方言 -->
+            <property name="dialect" value="mysql"/>
+        </plugin>
+    </plugins>
 </configuration>

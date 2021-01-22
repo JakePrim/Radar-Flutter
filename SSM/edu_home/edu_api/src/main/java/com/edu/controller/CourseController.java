@@ -16,10 +16,11 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/course")
-public class CourseController {
+public class CourseController extends BaseController {
 
     @Autowired
     private CourseService courseService;
@@ -37,41 +38,8 @@ public class CourseController {
     }
 
     @PostMapping("/courseUpload")
-    public ResponseResult fileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IOException {
-        //1. 判断文件是否为空
-        if (file.isEmpty()) {
-            throw new RuntimeException();
-        }
-        //2. 获取项目部署路径
-        //tomcat/webapp/edu_home/
-        String realPath = request.getServletContext().getRealPath("/");
-        //截取文件路径：tomcat/webapp/
-        String path = realPath.substring(0, realPath.indexOf("edu_api"));
-
-        //3. 获取文件的原名 jake.jpg
-        String originalFilename = file.getOriginalFilename();
-
-        //4. 生成新的文件名
-        long millis = System.currentTimeMillis();
-        //1231321213_.jpg
-        String fileName = millis + "_" + originalFilename.substring(originalFilename.lastIndexOf("."));
-
-        //5. 文件上传
-        //文件上传的目录
-        String uploadPath = path + "upload";
-        File filePath = new File(uploadPath, fileName);
-        //如果目录不存在 则进行创建
-        if (!filePath.getParentFile().exists()) {
-            filePath.getParentFile().mkdirs();
-        }
-        //图片就进行了真正的上传了
-        file.transferTo(filePath);
-
-        //6. 将文件名和文件路径返回进行响应
-        HashMap<String, String> map = new HashMap<>();
-        map.put("fileName", fileName);
-        //如何将地址动态写活呢？
-        map.put("filePath", "http://localhost:8080/upload/" + fileName);
+    public ResponseResult courseUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IOException {
+        Map<String, String> map = fileUpload("upload/course/", file, request);
         ResponseResult result = new ResponseResult(true, StateCode.SUCCESS.getCode(), StateCode.SUCCESS.getMsg(), map);
         return result;
     }

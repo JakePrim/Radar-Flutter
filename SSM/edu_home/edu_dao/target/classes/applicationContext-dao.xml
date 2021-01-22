@@ -20,6 +20,17 @@
     <!-- 2. sqlSessionFactory -->
     <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
+        <!-- applicationContext配置mybatis插件 -->
+<!--        <property name="plugins">-->
+<!--            <array>-->
+<!--                <bean class="com.github.pagehelper.PageHelper">-->
+<!--                    <property name="properties">-->
+<!--                        <value>helperDialect=mysql</value>-->
+<!--                    </property>-->
+<!--                </bean>-->
+<!--            </array>-->
+<!--        </property>-->
+
         <!-- 引入mybatis的其他配置 -->
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
     </bean>
