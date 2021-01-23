@@ -3,12 +3,27 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.edu.dao.UserMapper">
+
     <update id="updateUserStatus" parameterType="User">
         update user
         set status=#{status},
             update_time=#{update_time}
         where id = #{id}
     </update>
+    <!--
+        删除用户角色中间表用户关联的数据
+     -->
+    <delete id="deleteUserContextRole" parameterType="int">
+        delete
+        from user_role_relation
+        where user_id = #{userId}
+    </delete>
+
+    <!-- 建立用户和角色的关联关系 -->
+    <insert id="insertUserContextRole" parameterType="User_Role_relation">
+        insert into user_role_relation
+        values (null, #{userId}, #{roleId}, #{createdTime}, #{updatedTime}, #{createdBy}, #{updatedby})
+    </insert>
 
     <select id="findAllUserByPage" resultType="User" parameterType="UserVo">
         select * from user
@@ -23,5 +38,60 @@
                 and is_del != 1
             </if>
         </where>
+    </select>
+    <select id="findByPhone" resultType="User" parameterType="string">
+        select *
+        from user
+        where phone = #{phone}
+    </select>
+
+    <!-- 查询用户拥有的角色 -->
+    <select id="findUserRoleById" resultType="com.edu.pojo.Role" parameterType="int">
+        select *
+        from roles r
+                 inner join user_role_relation urr on r.id = urr.role_id
+        where user_id = #{id}
+    </select>
+
+    <!--  根据角色id 查询顶级菜单 -->
+    <select id="findParentMenuByRoleId" resultType="Menu" parameterType="list">
+        select DISTINCT m.* from roles r inner join role_menu_relation rmr on r.id = rmr.role_id
+        inner join menu m on rmr.menu_id = m.id
+        where m.parent_id=-1 and r.id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <!-- 根据顶级菜单去查询所分配的子级菜单 且只包括了有权限的所有子菜单id -->
+    <select id="findSubMenuByPid" resultType="Menu">
+        select * from menu where parent_id = #{pid} and id in
+        <foreach collection="contextSubIds" item="subId" open="(" separator="," close=")">
+            #{subId}
+        </foreach>
+    </select>
+
+    <!-- 查询有权限的所有子菜单id -->
+    <select id="findContextSubByRoleId" resultType="java.lang.Integer">
+        select distinct m.id from menu m join role_menu_relation rmr on m.id = rmr.menu_id
+        join roles r on rmr.role_id = r.id
+        where r.id in
+        <foreach collection="role_ids" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+        and m.id not in
+        <foreach collection="pids" item="pid" open="(" separator="," close=")">
+            #{pid}
+        </foreach>
+    </select>
+
+    <!-- 获取用户关联的资源权限信息 -->
+    <select id="findUserContextResourceByRoleId" resultType="com.edu.pojo.Resource" parameterType="list">
+        select * from resource r inner join role_resource_relation rrr on r.id = rrr.resource_id
+        inner join roles r2 on rrr.role_id = r2.id
+        where r2.id in
+        <foreach collection="list" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
     </select>
 </mapper>

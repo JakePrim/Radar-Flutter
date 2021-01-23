@@ -26,4 +26,22 @@ public class ResourceController {
         ResponseResult responseResult = new ResponseResult(true, StateCode.SUCCESS.getCode(), StateCode.SUCCESS.getMsg(), pageInfo);
         return responseResult;
     }
+
+    @PostMapping("/saveOrUpdateResource")
+    public ResponseResult saveOrUpdateResource(@RequestBody Resource resource) {
+        if (resource.getId() != null) {
+            resourceService.updateResource(resource);
+        } else {
+            resourceService.saveResource(resource);
+        }
+        ResponseResult responseResult = new ResponseResult(true, StateCode.SUCCESS.getCode(), StateCode.SUCCESS.getMsg(), null);
+        return responseResult;
+    }
+
+    @PostMapping("/deleteResource")
+    public ResponseResult deleteResource(Integer id) {
+        resourceService.deleteResource(id);
+        ResponseResult responseResult = new ResponseResult(true, StateCode.SUCCESS.getCode(), StateCode.SUCCESS.getMsg(), null);
+        return responseResult;
+    }
 }

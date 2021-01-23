@@ -3,6 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.edu.dao.ResourceCategoryMapper">
+
+    <!-- 查询所有资源分类 -->
     <select id="findAllResourceCategory" resultType="ResourceCategory">
         select *
         from resource_category
