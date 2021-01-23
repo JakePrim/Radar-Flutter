@@ -52,10 +52,23 @@
         where role_id = #{roleId}
     </delete>
 
+    <!-- 删除资源和角色的关联关系 -->
+    <delete id="deleteResourceContextRoleByRoleId" parameterType="int">
+        delete
+        from role_resource_relation
+        where role_id = #{roleId}
+    </delete>
+
     <!-- 关联角色的菜单，为角色分配菜单 -->
     <insert id="roleContextMenu" parameterType="Role_menu_relation">
         insert into role_menu_relation
         values (null, #{menuId}, #{roleId}, #{createdTime}, #{updatedTime}, #{createdBy}, #{updatedBy})
+    </insert>
+
+    <!-- 关联角色的资源，为角色分配资源 -->
+    <insert id="roleContextResource" parameterType="RoleResourceRelation">
+        insert into role_resource_relation
+        values (null, #{resourceId}, #{roleId}, #{createdTime}, #{updatedTime}, #{createdBy}, #{updatedBy})
     </insert>
 
     <select id="findAllRole" parameterType="Role" resultType="Role">
@@ -65,5 +78,22 @@
                 name=#{name}
             </if>
         </where>
+    </select>
+    <!-- 查询该角色拥有的资源分类信息 -->
+    <select id="findResourceCategoryByRoleId" resultType="com.edu.pojo.ResourceCategory" parameterType="int">
+        select distinct rc.*
+        from resource_category rc
+                 inner join resource r on r.category_id = rc.id
+                 inner join role_resource_relation rrr on r.id = rrr.resource_id
+                 inner join roles r2 on rrr.role_id = r2.id
+        where r2.id = #{id}
+    </select>
+    <!-- 查询该角色下的资源 -->
+    <select id="findResourceByRoleId" resultType="com.edu.pojo.Resource" parameterType="int">
+        select r.*
+        from resource r
+                 inner join role_resource_relation rrr on r.id = rrr.resource_id
+                 inner join roles r2 on rrr.role_id = r2.id
+        where r2.id = #{id}
     </select>
 </mapper>

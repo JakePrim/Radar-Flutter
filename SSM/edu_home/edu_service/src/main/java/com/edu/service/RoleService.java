@@ -1,7 +1,9 @@
 package com.edu.service;
 
+import com.edu.pojo.ResourceCategory;
 import com.edu.pojo.Role;
 import com.edu.pojo.vo.RoleMenuVo;
+import com.edu.pojo.vo.RoleResourceVo;
 
 import java.util.List;
 
@@ -27,4 +29,17 @@ public interface RoleService {
     void roleContextMenu(RoleMenuVo roleMenuVo);
 
     void deleteRole(Integer roleId);
+
+    /**
+     * 查询该角色的拥有的资源信息
+     *
+     * @param roleId
+     * @return
+     */
+    List<ResourceCategory> findResourceListByRoleId(Integer roleId);
+
+    /**
+     * 为角色分配资源
+     */
+    void roleContextResource(RoleResourceVo roleResourceVo);
 }

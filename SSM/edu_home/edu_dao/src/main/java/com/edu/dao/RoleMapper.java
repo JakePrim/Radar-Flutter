@@ -1,7 +1,6 @@
 package com.edu.dao;
 
-import com.edu.pojo.Role;
-import com.edu.pojo.Role_menu_relation;
+import com.edu.pojo.*;
 
 import java.util.List;
 
@@ -35,4 +34,27 @@ public interface RoleMapper {
     void deleteRole(Integer roleId);
 
     void deleteRoleContextUser(Integer roleId);
+
+    /**
+     * 查询该角色的拥有的资源分类
+     */
+    List<ResourceCategory> findResourceCategoryByRoleId(Integer roleId);
+
+    /**
+     * 查询该角色下的资源
+     *
+     * @param roleId
+     * @return
+     */
+    List<Resource> findResourceByRoleId(Integer roleId);
+
+    /**
+     * 删除资源和角色的关联关系
+     */
+    void deleteResourceContextRoleByRoleId(Integer roleId);
+
+    /**
+     * 为资源分配角色
+     */
+    void roleContextResource(RoleResourceRelation roleResourceRelation);
 }
