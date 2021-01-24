@@ -18,17 +18,17 @@
 | 剖析Mybatis框架源码 [:notes:](#剖析MyBatis源码)    | [写作中]   |                 |
 | 剖析Spring系列框架源码 [:dash:](#剖析Spring源码)   | [写作中]   |                 |
 
-| 技术专题                                   | 状态     | 历史记录 |
-| ------------------------------------------ | -------- | -------- |
-| **分布式架构设计**                         | [未开启] |          |
-| **分布式消息服务中间件**                   | [未开启] |          |
-| **微服务深入剖析**                         | [未开启] |          |
-| **分布式系统缓存与存储系统架构** [:fire:]( | [未开启] |          |
-| **分布式架构性能调优**                     | [未开启] |          |
-| **容器虚拟化技术和自动化部署**             | [未开启] |          |
-| **分布式搜索引擎进阶**                     | [未开启] |          |
-| 面试专题                                   | [未开启] |          |
-| 海量数据存储/计算(大数据扩展)              | [未开启] |          |
+| 技术专题                          | 状态     | 历史记录 |
+| --------------------------------- | -------- | -------- |
+| **分布式架构设计**                | [未开启] |          |
+| **分布式消息服务中间件**          | [未开启] |          |
+| **微服务深入剖析**                | [未开启] |          |
+| **分布式系统缓存与存储系统架构**  | [未开启] |          |
+| **分布式架构性能调优**            | [未开启] |          |
+| **容器虚拟化技术和自动化部署**    | [未开启] |          |
+| **分布式搜索引擎进阶**            | [未开启] |          |
+| **面试专题**                      | [未开启] |          |
+| **海量数据存储/计算(大数据扩展)** | [未开启] |          |
 
 ## 读书 :arrow_forward:
 
@@ -57,7 +57,7 @@
 
 ## 设计模式 :trophy:
 
-## 高性能数据库 :fire:
+## 分布式系统缓存与存储系统架构
 
 ### MySQL 数据库
 
@@ -69,6 +69,8 @@
 - **[JDBC Java连接数据库](https://www.yuque.com/jakeprim/java/xiixmo)**  JDBC[示例代码](https://github.com/JakePrim/Awesome-Java-Notebook/tree/master/JDBC)
 - [事务管理-同时修改两个表多次获取连接的问题](https://www.yuque.com/jakeprim/java/lk3iud)
 - [JavaWeb 连接数据库实战](https://www.yuque.com/jakeprim/java/lk3iud)
+
+### Redis
 
 ## JavaWeb 核心技术
 
@@ -116,7 +118,7 @@
 
 ### MyBatis 原理剖析 【必看】
 
-
+- [持久层框架设计]()
 
 ## 剖析Spring源码 :dash:
 
@@ -127,8 +129,8 @@
 - [JdbcTemplate&事务&Web集成](https://www.yuque.com/jakeprim/java/ugr9yq)
 - [Spring MVC](https://www.yuque.com/jakeprim/java/gei0w1)
 - [SSM框架整合](https://www.yuque.com/jakeprim/java/niolov)
-- [SSM 单体架构实战-常见需求实现](https://www.yuque.com/jakeprim/java/wszo0g)
 - [Maven聚合工程](https://www.yuque.com/jakeprim/java/hpqzy6)
+- [SSM 单体架构实战-常见需求实现](https://www.yuque.com/jakeprim/java/wszo0g)
 
 ### 全面掌握Spring核心原理【必看】
 
@@ -147,3 +149,15 @@
 
 
 ### SpringWebFlux源码剖析【选看】
+
+
+
+## 分布式架构性能调优
+
+
+
+## 分布式架构设计
+
+
+
+## 微服务深入剖析
