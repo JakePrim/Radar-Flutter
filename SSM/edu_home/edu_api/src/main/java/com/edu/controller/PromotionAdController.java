@@ -64,7 +64,7 @@ public class PromotionAdController extends BaseController {
         return result;
     }
 
-    @PostMapping("/updatePromotionAdStatus")
+    @GetMapping("/updatePromotionAdStatus")
     public ResponseResult updatePromotionAdStatus(Integer id, Integer status) {
         promotionAdService.updatePromotionAdStatus(id, status);
         ResponseResult result = new ResponseResult(true, StateCode.SUCCESS.getCode(), StateCode.SUCCESS.getMsg(), null);

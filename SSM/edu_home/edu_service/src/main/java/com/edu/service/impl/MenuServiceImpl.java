@@ -2,9 +2,13 @@ package com.edu.service.impl;
 
 import com.edu.dao.MenuMapper;
 import com.edu.pojo.Menu;
+import com.edu.pojo.vo.PageVO;
 import com.edu.service.MenuService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.xml.crypto.Data;
 import java.util.Date;
@@ -23,9 +27,11 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<Menu> findAllMenu() {
+    public PageInfo<Menu> findAllMenu(PageVO pageVO) {
+        PageHelper.startPage(pageVO.getCurrentPage(), pageVO.getPageSize());
         List<Menu> menuList = menuMapper.findAllMenu();
-        return menuList;
+        PageInfo<Menu> pageInfo = new PageInfo<>(menuList);
+        return pageInfo;
     }
 
     @Override
@@ -49,5 +55,13 @@ public class MenuServiceImpl implements MenuService {
         menu.setUpdatedTime(new Date());
         menu.setUpdatedBy("system");
         menuMapper.updateMenu(menu);
+    }
+
+    @Transactional
+    @Override
+    public void deleteMenu(Integer id) {
+        menuMapper.deleteMenuContextRoleByMenuId(id);
+        menuMapper.deleteMenuById(id);
+        menuMapper.deleteMenuByParentId(id);
     }
 }

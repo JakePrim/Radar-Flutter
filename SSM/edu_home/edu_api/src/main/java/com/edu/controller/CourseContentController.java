@@ -7,10 +7,7 @@ import com.edu.pojo.CourseSection;
 import com.edu.pojo.ResponseResult;
 import com.edu.service.CourseContentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +56,7 @@ public class CourseContentController {
     /**
      * 修改章节的状态
      */
-    @PostMapping("/updateSectionStatus")
+    @GetMapping("/updateSectionStatus")
     public ResponseResult updateSectionStatus(Integer id, Integer status) {
         courseContentService.updateSectionStatus(id, status);
         HashMap<String, Integer> map = new HashMap<>();
@@ -81,7 +78,7 @@ public class CourseContentController {
         return result;
     }
 
-    @PostMapping("/updateLessonStatus")
+    @GetMapping("/updateLessonStatus")
     public ResponseResult updateLessonStatus(Integer id, Integer status) {
         courseContentService.updateLessonStatus(id, status);
         HashMap<String, Integer> map = new HashMap<>();

@@ -65,7 +65,7 @@ public class RoleController {
         return responseResult;
     }
 
-    @PostMapping("/deleteRole")
+    @GetMapping("/deleteRole")
     public ResponseResult deleteRole(Integer roleId) {
         roleService.deleteRole(roleId);
         ResponseResult responseResult = new ResponseResult(true, StateCode.SUCCESS.getCode(), StateCode.SUCCESS.getMsg(), "删除角色成功");

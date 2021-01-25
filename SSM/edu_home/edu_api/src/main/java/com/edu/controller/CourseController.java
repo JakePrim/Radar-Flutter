@@ -69,8 +69,8 @@ public class CourseController extends BaseController {
         }
     }
 
-    @GetMapping("/findByCourseId")
-    public ResponseResult findByCourseId(Integer id) {
+    @GetMapping("/findCourseById")
+    public ResponseResult findCourseById(Integer id) {
         CourseBo courseBo = courseService.findByCourseId(id);
         ResponseResult result =
                 new ResponseResult(true, StateCode.SUCCESS.getCode(),

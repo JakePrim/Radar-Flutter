@@ -18,7 +18,7 @@
         <result column="updated_by" property="updatedBy"></result>
 
         <collection property="subMenuList" ofType="Menu"
-                    select="findAllMenu" column="id">
+                    select="findSubMenuListByPid" column="id">
 
         </collection>
     </resultMap>
@@ -67,6 +67,23 @@
             </if>
         </where>
     </update>
+
+    <delete id="deleteMenuContextRoleByMenuId" parameterType="int">
+        delete
+        from role_menu_relation
+        where menu_id = #{id}
+    </delete>
+    <delete id="deleteMenuById" parameterType="int">
+        delete
+        from menu
+        where id = #{id}
+    </delete>
+    <delete id="deleteMenuByParentId" parameterType="int">
+        delete
+        from menu
+        where parent_id = #{pid}
+    </delete>
+
 
     <!-- 查询所有父子关系的菜单 -->
     <select id="findSubMenuListByPid" resultMap="menuMap" parameterType="int">

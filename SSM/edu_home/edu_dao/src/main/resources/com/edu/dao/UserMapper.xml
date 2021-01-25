@@ -7,7 +7,7 @@
     <update id="updateUserStatus" parameterType="User">
         update user
         set status=#{status},
-            update_time=#{update_time}
+            update_time=#{updateTime}
         where id = #{id}
     </update>
     <!--

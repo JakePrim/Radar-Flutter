@@ -30,7 +30,7 @@ public class UserController {
         return responseResult;
     }
 
-    @PostMapping("/updateUserStatus")
+    @GetMapping("/updateUserStatus")
     public ResponseResult updateUserStatus(Integer id, String status) {
         userService.updateUserStatus(id, status);
         ResponseResult responseResult = new ResponseResult(true, StateCode.SUCCESS.getCode(), StateCode.SUCCESS.getMsg(), status);

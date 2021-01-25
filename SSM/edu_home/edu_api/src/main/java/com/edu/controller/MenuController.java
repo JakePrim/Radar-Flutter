@@ -3,7 +3,9 @@ package com.edu.controller;
 import com.edu.common.StateCode;
 import com.edu.pojo.Menu;
 import com.edu.pojo.ResponseResult;
+import com.edu.pojo.vo.PageVO;
 import com.edu.service.MenuService;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +20,8 @@ public class MenuController {
     private MenuService menuService;
 
     @GetMapping("/findAllMenu")
-    public ResponseResult findAllMenu() {
-        List<Menu> menuList = menuService.findAllMenu();
+    public ResponseResult findAllMenu(PageVO pageVO) {
+        PageInfo<Menu> menuList = menuService.findAllMenu(pageVO);
         ResponseResult responseResult = new ResponseResult(true, StateCode.SUCCESS.getCode(), StateCode.SUCCESS.getMsg(), menuList);
         return responseResult;
     }
@@ -61,5 +63,18 @@ public class MenuController {
         }
         ResponseResult responseResult = new ResponseResult(true, StateCode.SUCCESS.getCode(), StateCode.SUCCESS.getMsg(), "");
         return responseResult;
+    }
+
+    @GetMapping("/deleteMenu")
+    public ResponseResult deleteMenu(Integer id){
+        if (id != null){
+            menuService.deleteMenu(id);
+            ResponseResult responseResult = new ResponseResult(true, StateCode.SUCCESS.getCode(), StateCode.SUCCESS.getMsg(), "");
+            return responseResult;
+        }else {
+            ResponseResult responseResult = new ResponseResult(true, "400", "请求错误", "");
+            return responseResult;
+        }
+
     }
 }
