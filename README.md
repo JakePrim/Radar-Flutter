@@ -154,10 +154,18 @@
 
 ## 分布式架构性能调优
 
+### Nginx
 
+- [Nginx快速入门](https://www.yuque.com/jakeprim/java/gl87gi)
 
 ## 分布式架构设计
 
+### Zookeeper
 
+- [Zookeeper快速入门](https://www.yuque.com/jakeprim/java/ib5c4n)
+
+### Dubbo
+
+- [Dubbo快速入门](https://www.yuque.com/jakeprim/java/eh4w3w)
 
 ## 微服务深入剖析
