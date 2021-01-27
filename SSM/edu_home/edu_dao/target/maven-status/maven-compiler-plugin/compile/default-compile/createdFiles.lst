@@ -1,2 +1,11 @@
-com/edu/dao/TestMapper.class
+com/edu/dao/PromotionSpaceMapper.class
+com/edu/dao/CourseLessonMapper.class
+com/edu/dao/PromotionAdMapper.class
 com/edu/dao/CourseMapper.class
+com/edu/dao/MenuMapper.class
+com/edu/dao/CourseContentMapper.class
+com/edu/dao/TestMapper.class
+com/edu/dao/ResourceMapper.class
+com/edu/dao/RoleMapper.class
+com/edu/dao/UserMapper.class
+com/edu/dao/ResourceCategoryMapper.class
