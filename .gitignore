@@ -9,6 +9,9 @@
 .externalNativeBuild
 /.idea/
 /*/.idea/
+/target/
+/*/target/
+*/target
 */.idea/
 */build
 */captures
