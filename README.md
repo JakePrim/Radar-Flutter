@@ -176,13 +176,14 @@
 
 ### Redis
 
-- [Redis快速入门]()
+- [Redis快速入门](https://www.yuque.com/jakeprim/java/wmtgr9)
+- [Redis入门实战](https://www.yuque.com/jakeprim/java/sxxf08)
 
 
 
 ### FastDFS
 
-- [FastDFS快速入门]()
+- [FastDFS快速入门](https://www.yuque.com/jakeprim/java/cr8lu7)
 
 
 
@@ -190,5 +191,5 @@
 
 ### RabbitMQ
 
-- [RabbitMQ 快速入门]()
+- [RabbitMQ 快速入门](https://www.yuque.com/jakeprim/java/dakonk)
 
