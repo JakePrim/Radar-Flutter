@@ -14,7 +14,7 @@ import java.io.IOException;
  * @PackageName: simplest
  * @ClassName: Recer.java
  **/
-public class Recer1 {
+public class Recer2 {
     static int i = 1;//统计吃掉羊肉串的数量
 
     public static void main(String[] args) throws Exception {
@@ -22,16 +22,19 @@ public class Recer1 {
         Connection connection = ConnectionUtils.getConnection();
         //2. 获得通道
         Channel channel = connection.createChannel();
+        //queueDeclare 该方法有双重作用，如果队列不存在，则创建；如果队列存在，则获取
+        channel.queueDeclare("test_work_queue", false, false, false, null);
+        channel.basicQos(1);
         //3. 从信道中获得消息
         DefaultConsumer consumer = new DefaultConsumer(channel) {
             // 交付处理（收件人信息，包裹上的快递标签，协议的配置，消息）
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
                 String s = new String(body);
-                System.out.println("【顾客1】吃掉：" + s + " ！总共吃【" + i++ + "】串！");
-                //模拟网络延迟
+                System.out.println("【顾客2】吃掉：" + s + " ！总共吃【" + i++ + "】串！");
+                //模拟网络延迟 牙口不太好吃掉一串要花费 0.9s
                 try {
-                    Thread.sleep(200);
+                    Thread.sleep(900);
                 } catch (Exception e) {
 
                 }

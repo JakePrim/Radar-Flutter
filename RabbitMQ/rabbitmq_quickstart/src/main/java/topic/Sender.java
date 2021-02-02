@@ -1,7 +1,8 @@
-package direct;
+package topic;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.MessageProperties;
 import utils.ConnectionUtils;
 
 /**
@@ -21,12 +22,14 @@ public class Sender {
         //声明路由,创建网红主播
         //第一个参数：路由名称
         //第二个参数：路由类型 一共有四种。
+        //第三个参数：表示否是持久化路由
         //direct:根据路由键进行定向分发消息
-        channel.exchangeDeclare("text_exchange_direct", "direct");
-        String msg = "用户注册，【userid=s101】";
+        //topic:模糊匹配的定向分发
+        channel.exchangeDeclare("text_exchange_topic", "topic", true);
+        String msg = "订单下单";
         //推消息到路由器
         //第二个参数必填，路由键
-        channel.basicPublish("text_exchange_direct", "select", null, msg.getBytes());
+        channel.basicPublish("text_exchange_topic", "order.down", MessageProperties.PERSISTENT_TEXT_PLAIN, msg.getBytes());
         System.out.println("[用户系统]：" + msg);
         //5. 释放资源
         channel.close();

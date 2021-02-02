@@ -1,4 +1,4 @@
-package pubandsub;
+package direct;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -21,12 +21,13 @@ public class Sender {
         //声明路由,创建网红主播
         //第一个参数：路由名称
         //第二个参数：路由类型 一共有四种。
-        //fanout类型：不处理路由键(只需要将队列绑定到路由上，发送到路由的消息就都会被转发到与该路由绑定的所有队列上)
-        channel.exchangeDeclare("text_exchange_fanout", "fanout");
-        String msg = "hello everyone";
-        //向绑定路由、网红主播的人发送消息
-        channel.basicPublish("text_exchange_fanout", "", null, msg.getBytes());
-        System.out.println("生产者：" + msg);
+        //direct:根据路由键进行定向分发消息
+        channel.exchangeDeclare("text_exchange_direct", "direct");
+        String msg = "用户注册，【userid=s101】";
+        //推消息到路由器
+        //第二个参数必填，路由键
+        channel.basicPublish("text_exchange_direct", "select", null, msg.getBytes());
+        System.out.println("[用户系统]：" + msg);
         //5. 释放资源
         channel.close();
         connection.close();
