@@ -9,6 +9,7 @@
 .externalNativeBuild
 /.idea/
 /*/.idea/
+target/
 /target/
 /*/target/
 */target
