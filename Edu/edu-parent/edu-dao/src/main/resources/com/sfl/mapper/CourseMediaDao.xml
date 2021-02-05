@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sfl.mapper.CourseMediaDao">
+
+    <resultMap type="CourseMedia" id="CourseMediaMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="courseId" column="course_id" jdbcType="INTEGER"/>
+        <result property="sectionId" column="section_id" jdbcType="INTEGER"/>
+        <result property="lessonId" column="lesson_id" jdbcType="INTEGER"/>
+        <result property="coverImageUrl" column="cover_image_url" jdbcType="VARCHAR"/>
+        <result property="duration" column="duration" jdbcType="VARCHAR"/>
+        <result property="fileEdk" column="file_edk" jdbcType="VARCHAR"/>
+        <result property="fileSize" column="file_size" jdbcType="VARCHAR"/>
+        <result property="fileName" column="file_name" jdbcType="VARCHAR"/>
+        <result property="fileDk" column="file_dk" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="isDel" column="is_del" jdbcType="VARCHAR"/>
+        <result property="durationNum" column="duration_num" jdbcType="INTEGER"/>
+        <result property="fileId" column="file_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询某个课时下的媒体信息-->
+    <select id="queryByLessonId" resultMap="CourseMediaMap" parameterType="int">
+        select id,
+               course_id,
+               section_id,
+               lesson_id,
+               cover_image_url,
+               duration,
+               file_edk,
+               file_size,
+               file_name,
+               file_dk,
+               create_time,
+               update_time,
+               is_del,
+               duration_num,
+               file_id
+        from edu.course_media
+        where lesson_id = #{lesson_id}
+    </select>
+</mapper>
+

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sfl.mapper.CourseDao">
+    <resultMap type="Course" id="CourseMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="courseName" column="course_name" jdbcType="VARCHAR"/>
+        <result property="brief" column="brief" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="VARCHAR"/>
+        <result property="priceTag" column="price_tag" jdbcType="VARCHAR"/>
+        <result property="discounts" column="discounts" jdbcType="VARCHAR"/>
+        <result property="discountsTag" column="discounts_tag" jdbcType="VARCHAR"/>
+        <result property="courseDescriptionMarkDown" column="course_description_mark_down" jdbcType="VARCHAR"/>
+        <result property="courseDescription" column="course_description" jdbcType="VARCHAR"/>
+        <result property="courseImgUrl" column="course_img_url" jdbcType="VARCHAR"/>
+        <result property="isNew" column="is_new" jdbcType="VARCHAR"/>
+        <result property="isNewDes" column="is_new_des" jdbcType="VARCHAR"/>
+        <result property="lastOperatorId" column="last_operator_id" jdbcType="INTEGER"/>
+        <result property="autoOnlineTime" column="auto_online_time" jdbcType="TIMESTAMP"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="isDel" column="is_del" jdbcType="VARCHAR"/>
+        <result property="totalDuration" column="total_duration" jdbcType="INTEGER"/>
+        <result property="courseListImg" column="course_list_img" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="sortNum" column="sort_num" jdbcType="INTEGER"/>
+        <result property="previewFirstField" column="preview_first_field" jdbcType="VARCHAR"/>
+        <result property="previewSecondField" column="preview_second_field" jdbcType="VARCHAR"/>
+        <result property="sales" column="sales" jdbcType="INTEGER"/>
+        <!-- 老师的信息 -->
+        <association property="teacher" javaType="Teacher"
+                     select="com.sfl.mapper.TeacherDao.queryByCourseId" column="id">
+        </association>
+        <!-- 章节信息 -->
+        <collection property="courseSectionList" ofType="CourseSection"
+                    select="com.sfl.mapper.CourseSectionDao.queryByCourseId" column="id">
+        </collection>
+    </resultMap>
+
+    <select id="queryAll" resultMap="CourseMap">
+        select *
+        from course
+    </select>
+
+</mapper>
+

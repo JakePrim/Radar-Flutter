@@ -46,6 +46,7 @@
 ### 操作系统
 
 - [Linux基础](https://www.yuque.com/jakeprim/java/ufs57p)
+- [虚拟机克隆问题](https://www.yuque.com/jakeprim/java/loqygc)
 
 ### Java核心技术
 

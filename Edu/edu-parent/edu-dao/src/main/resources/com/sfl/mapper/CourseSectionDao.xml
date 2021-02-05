@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sfl.mapper.CourseSectionDao">
+
+    <resultMap type="CourseSection" id="CourseSectionMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="courseId" column="course_id" jdbcType="INTEGER"/>
+        <result property="sectionName" column="section_name" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="isDe" column="is_de" jdbcType="VARCHAR"/>
+        <result property="orderNum" column="order_num" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <collection property="courseLessonList" ofType="CourseLesson"
+                    column="id" select="com.sfl.mapper.CourseLessonDao.queryBySectionId">
+        </collection>
+    </resultMap>
+
+    <!--根据课程查询章节-->
+    <select id="queryByCourseId" resultMap="CourseSectionMap" parameterType="int">
+        select id,
+               course_id,
+               section_name,
+               description,
+               create_time,
+               update_time,
+               is_de,
+               order_num,
+               status
+        from edu.course_section
+        where course_id = #{course_id}
+    </select>
+</mapper>
+

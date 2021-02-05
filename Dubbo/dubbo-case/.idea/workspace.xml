@@ -2,14 +2,31 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="dubbo-web:war exploded" />
+      <artifact name="dubbo-service:war exploded" />
     </artifacts-to-build>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4cade4cd-d7a2-4595-8737-34b6df54e18f" name="Default Changelist" comment="" />
+    <list default="true" id="4cade4cd-d7a2-4595-8737-34b6df54e18f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../../Edu/edu-parent/edu-dao/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Edu/edu-parent/edu-dao/src/main/java/com/sfl/mapper/UserDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Edu/edu-parent/edu-dao/src/main/resources/com/sfl/mapper/UserDao.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Edu/edu-parent/edu-dao/src/main/resources/jdbc.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Edu/edu-parent/edu-dao/src/main/resources/mybatis/mybatis-config.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Edu/edu-parent/edu-dao/src/main/resources/spring/spring-dao.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Edu/edu-parent/edu-dao/src/test/java/UserTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Edu/edu-parent/edu-pojo/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Edu/edu-parent/edu-pojo/src/main/java/com/sfl/pojo/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Edu/edu-parent/edu-service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Edu/edu-parent/edu-service/src/main/java/com/sfl/service/UserService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Edu/edu-parent/edu-service/src/main/java/com/sfl/service/impl/UserServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Edu/edu-parent/edu-service/src/main/resources/spring/spring-service.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Edu/edu-parent/edu-service/src/test/java/UserServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../README.md" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -69,7 +86,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.obroom.plugin.mybatislog.indexNum" value="49" />
+    <property name="com.obroom.plugin.mybatislog.indexNum" value="50" />
     <property name="database.data.extractors.current.export.id" value="SQL-Insert-Statements.sql.groovy" />
     <property name="jdk.selected.JAVA_MODULE" value="1.8" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../dubbo-parent/dubbo-web/src/main/webapp" />
@@ -90,18 +107,7 @@
       <recent name="$PROJECT_DIR$/../dubbo-parent/dubbo-web/src/main" />
     </key>
   </component>
-  <component name="RunManager" selected="Tomcat Server.consumer">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Tomcat Server.server">
     <configuration name="Test.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="dubbo-dao" />
       <option name="PACKAGE_NAME" value="" />
@@ -313,6 +319,8 @@
       <option name="presentableId" value="Default" />
       <updated>1611813691515</updated>
       <workItem from="1611813692703" duration="10548000" />
+      <workItem from="1612427904835" duration="600000" />
+      <workItem from="1612493682597" duration="43000" />
     </task>
     <servers />
   </component>
