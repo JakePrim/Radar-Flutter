@@ -1,5 +1,6 @@
 package com.sfl.service;
 
+import com.sfl.pojo.Course;
 import com.sfl.pojo.ResultDTO;
 import com.sfl.pojo.User;
 import org.apache.ibatis.annotations.Param;
@@ -18,4 +19,8 @@ public interface UserService {
     Integer checkPhone(String phone);
 
     Integer register(String phone, String password);
+
+    Integer updateUserInfo(User user);
+
+    Integer updatePassword(User user);
 }

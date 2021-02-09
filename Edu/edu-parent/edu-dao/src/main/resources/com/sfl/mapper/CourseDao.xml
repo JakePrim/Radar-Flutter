@@ -30,15 +30,76 @@
         <association property="teacher" javaType="Teacher"
                      select="com.sfl.mapper.TeacherDao.queryByCourseId" column="id">
         </association>
+        <!-- 课程活动信息 -->
+        <association property="activityCourse" javaType="ActivityCourse">
+            <result property="id" column="ac_id" jdbcType="INTEGER"/>
+            <result property="courseId" column="ac_course_id" jdbcType="INTEGER"/>
+            <result property="beginTime" column="begin_time" jdbcType="TIMESTAMP"/>
+            <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+            <result property="amount" column="amount" jdbcType="VARCHAR"/>
+            <result property="stock" column="stock" jdbcType="INTEGER"/>
+            <result property="status" column="ac_status" jdbcType="VARCHAR"/>
+            <result property="isDel" column="ac_is_del" jdbcType="VARCHAR"/>
+            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+            <result property="createTime" column="ac_create_time" jdbcType="TIMESTAMP"/>
+            <result property="createUser" column="create_user" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="ac_update_time" jdbcType="TIMESTAMP"/>
+            <result property="updateUser" column="update_user" jdbcType="VARCHAR"/>
+        </association>
         <!-- 章节信息 -->
         <collection property="courseSectionList" ofType="CourseSection"
                     select="com.sfl.mapper.CourseSectionDao.queryByCourseId" column="id">
         </collection>
     </resultMap>
 
+    <sql id="courseInfo">
+        select c.*,
+               ac.id          ac_id,
+               ac.course_id   ac_course_id,
+               ac.begin_time,
+               ac.end_time,
+               ac.amount,
+               ac.stock,
+               ac.status      ac_status,
+               ac.is_del      ac_is_del,
+               ac.remark,
+               ac.create_time ac_create_time,
+               ac.update_time ac_update_time,
+               ac.update_user,
+               ac.create_user
+        from activity_course ac
+                 right join course c on c.id = ac.course_id
+    </sql>
+
+    <!-- 查询所有课程需要根据条件过滤，有活动课程的优先显示、根据价格排序、id顺序显示、开始时间最近的优先显示 -->
     <select id="queryAll" resultMap="CourseMap">
-        select *
-        from course
+        <include refid="courseInfo"/>
+        order by ac.amount desc, ac.id, ac.create_time desc
+    </select>
+
+    <!-- 查询用户已购课程 -->
+    <select id="getCourseByUserId" resultMap="CourseMap" parameterType="list">
+        <include refid="courseInfo"/>
+        where c.id in
+        <foreach collection="collection" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        order by ac.amount desc, ac.id, ac.create_time desc
+    </select>
+
+    <!-- 查询用户已购课程的id -->
+    <select id="getCourseIdByUserId" resultType="java.lang.Integer">
+        select course_id
+        from user_course_order
+        where user_id = #{user_id}
+          and status = 20
+          and is_del = 0
+    </select>
+
+    <!-- 课程详情信息 -->
+    <select id="getCourseById" resultMap="CourseMap">
+        <include refid="courseInfo"/>
+        where c.id=#{id}
     </select>
 
 </mapper>

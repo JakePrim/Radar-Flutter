@@ -37,5 +37,20 @@
         from user
         where phone = #{phone}
     </select>
+
+    <!-- 更新用户头像和昵称 -->
+    <update id="updateUserInfo" parameterType="User">
+        update user
+        set name       = #{name},
+            portrait=#{portrait},
+            update_time=sysdate()
+        where id = #{id}
+    </update>
+    <update id="updatePassword" parameterType="User">
+        update user
+        set password   = #{password},
+            update_time=sysdate()
+        where id = #{id}
+    </update>
 </mapper>
 

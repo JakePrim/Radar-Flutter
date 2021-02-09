@@ -25,10 +25,16 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
+    <!-- 上传文件的解析器-规定上传文件的大小限制 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 限制文件最大200M -->
+        <property name="maxUploadSize" value="2048000"/>
+    </bean>
+
     <!--1.服务提供方在Zookeeper中的别名-->
     <dubbo:application name="edu-web"/>
     <!--    2. 注册中心的地址-->
     <dubbo:registry address="zookeeper://172.16.150.130:2181"/>
     <!--    3. 扫描类：将什么包下的类作为服务消费类 -->
-    <dubbo:annotation package="com.sfl"/>
+    <dubbo:annotation package="com.sfl.controller"/>
 </beans>

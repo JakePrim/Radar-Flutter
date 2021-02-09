@@ -1,7 +1,9 @@
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.sfl.mapper.UserDao;
+import com.sfl.pojo.CourseCommentFavoriteRecord;
 import com.sfl.pojo.ResultDTO;
 import com.sfl.pojo.User;
+import com.sfl.service.CourseCommentService;
 import com.sfl.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,9 +27,18 @@ public class UserServiceTest {
     @Reference
     private UserService userService;
 
+    @Autowired
+    private CourseCommentService courseCommentService;
+
     @Test
     public void testLogin() {
 //        User dto = userService.login("110", "123");
 //        System.out.println(dto);
+
+        CourseCommentFavoriteRecord re = new CourseCommentFavoriteRecord();
+        re.setCommentId(1);
+        re.setUserId(123);
+
+        courseCommentService.favoriteComment(re);
     }
 }

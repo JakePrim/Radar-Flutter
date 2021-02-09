@@ -24,5 +24,14 @@ public interface UserDao {
     Integer checkPhone(@Param("phone") String phone);
 
     Integer register(@Param("phone") String phone, @Param("password") String password);
+
+    Integer updateUserInfo(User user);
+
+    /**
+     * 修改密码
+     *
+     * @return
+     */
+    Integer updatePassword(User user);
 }
 

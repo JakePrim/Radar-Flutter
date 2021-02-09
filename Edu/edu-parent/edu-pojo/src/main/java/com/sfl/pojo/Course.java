@@ -26,6 +26,8 @@ public class Course implements Serializable {
 
     private List<CourseSection> courseSectionList;//一门课程对应着多个章节
 
+    private ActivityCourse activityCourse;//课程活动表
+
     /**
      * id
      */

@@ -39,4 +39,14 @@ public interface UserService {
      * @return
      */
     Integer register(String phone, String password);
+
+    /**
+     * 更新用户
+     *
+     * @param user
+     * @return
+     */
+    Integer updateUserInfo(User user);
+
+    Integer updatePassword(User user);
 }

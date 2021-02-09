@@ -27,12 +27,20 @@ public class ResultDTO<T> implements Serializable {
     private String message;// 状态描述
     private T content;// 响应内容
 
+    public static <T> ResultDTO<T> createSuccess(String message) {
+        return new ResultDTO<>(200, message, null);
+    }
+
     public static <T> ResultDTO<T> createSuccess(String message, T content) {
         return new ResultDTO<>(200, message, content);
     }
 
     public static <T> ResultDTO<T> createError(String message, T content) {
         return new ResultDTO<>(400, message, content);
+    }
+
+    public static <T> ResultDTO<T> createError(String message) {
+        return new ResultDTO<>(400, message, null);
     }
 
     public static <T> ResultDTO<T> create(Integer state, String message, T content) {

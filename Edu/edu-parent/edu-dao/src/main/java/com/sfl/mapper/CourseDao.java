@@ -15,4 +15,15 @@ import java.util.List;
  **/
 public interface CourseDao {
     List<Course> queryAll();
+
+    List<Integer> getCourseIdByUserId(String user_id);
+
+    List<Course> getCourseByUserId(List<Integer> ids);
+
+    /**
+     * 查询某门课程的消息信息
+     * @param id
+     * @return
+     */
+    Course getCourseById(Integer id);
 }

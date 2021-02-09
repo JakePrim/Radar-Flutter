@@ -2,11 +2,14 @@ package com.sfl.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.sfl.mapper.UserDao;
+import com.sfl.pojo.Course;
 import com.sfl.pojo.ResultDTO;
 import com.sfl.pojo.User;
 import com.sfl.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * 用户表(User)表服务实现类
@@ -75,6 +78,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public Integer register(String phone, String password) {
         Integer row = userDao.register(phone, password);
+        return row;
+    }
+
+    @Override
+    public Integer updateUserInfo(User user) {
+        Integer row = userDao.updateUserInfo(user);
+        return row;
+    }
+
+    @Override
+    public Integer updatePassword(User user) {
+        Integer row = userDao.updatePassword(user);
         return row;
     }
 }
