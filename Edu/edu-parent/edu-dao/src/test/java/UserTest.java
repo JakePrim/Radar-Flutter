@@ -36,8 +36,8 @@ public class UserTest {
 
     @Test
     public void testLogin() {
-//        User user = userDao.login("110", "123");
-//        System.out.println(user);
+        User user = userDao.login("110", "123");
+        System.out.println(user);
 //        List<Course> courses = courseDao.queryAll();
 //        Course course = courses.get(0);
 //        System.out.println("课程:" + course.getCourseName() + " id:" + course.getId());

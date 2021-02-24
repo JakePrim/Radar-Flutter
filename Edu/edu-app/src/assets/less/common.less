@@ -1,0 +1,79 @@
+*{ padding:0; margin:0;}
+li {list-style: none;}
+a {text-decoration: none;color: #333333;}
+.px2rem(@name, @px){
+    @{name}: @px / 75 * 1rem;
+}
+//定位
+.top (@top){.px2rem(top, @top);}
+.left (@left){.px2rem(left, @left);}
+.right (@right){.px2rem(right, @right);}
+.bottom (@bottom){.px2rem(bottom, @bottom);}
+
+
+.webkit{
+    display: -webkit-box;
+    display: -moz-box;
+}
+.line-height(@arg){.px2rem(line-height, @arg);}
+.font-size(@arg){.px2rem(font-size, @arg);}
+
+.font(@fz,@color){
+    .px2rem(font-size,@fz);
+    color: @color;
+}
+.border-radius(@arg){.px2rem(border-radius, @arg);}
+.border-bottom(@px,@xian,@color){
+    .px2rem(border-bottom-width,@px);
+    border-bottom-style: @xian;
+    border-bottom-color: @color;
+}
+.border-top(@px,@xian,@color){
+    .px2rem(border-top-width,@px);
+    border-top-style: @xian;
+    border-top-color: @color;
+}
+.border-left(@px,@xian,@color){
+    .px2rem(border-left-width,@px);
+    border-left-style: @xian;
+    border-left-color: @color;
+}
+.border-right(@px,@xian,@color){
+    .px2rem(border-right-width,@px);
+    border-right-style: @xian;
+    border-right-color: @color;
+}
+.border-bottom(@px,@xian,@color){
+    .px2rem(border-bottom-width,@px);
+    border-bottom-style: @xian;
+    border-bottom-color: @color;
+}
+.border(@px,@xian,@color){.px2rem(border-width,@px);border-style: @xian; border-color: @color;}
+
+.padding-top(@top){.px2rem(padding-top, @top);}
+.padding-right(@right){.px2rem(padding-right, @right);}
+.padding-bottom(@bottom){.px2rem(padding-bottom, @bottom);}
+.padding-left(@left){.px2rem(padding-left, @left);}
+
+.padding(@top,@right,@bottom,@left){
+   .px2rem(padding-top,@top);
+   .px2rem(padding-right,@right);
+   .px2rem(padding-bottom,@bottom);
+   .px2rem(padding-left,@left);
+}
+
+.margin-top(@top){.px2rem(margin-top, @top);}
+.margin-right(@right){.px2rem(margin-right, @right);}
+.margin-bottom(@bottom){.px2rem(margin-bottom, @bottom);}
+.margin-left(@left){.px2rem(margin-left, @left);}
+
+.margin(@top,@right,@bottom,@left){
+   .px2rem(margin-top,@top);
+   .px2rem(margin-right,@right);
+   .px2rem(margin-bottom,@bottom);
+   .px2rem(margin-left,@left);
+}
+html,body {
+  height: 100%;
+  width: 100%;
+}

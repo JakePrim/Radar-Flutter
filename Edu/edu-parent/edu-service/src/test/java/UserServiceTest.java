@@ -24,21 +24,21 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = {"classpath:spring/spring-service.xml"})
 public class UserServiceTest {
 
-    @Reference
-    private UserService userService;
-
-    @Autowired
-    private CourseCommentService courseCommentService;
+//    @Reference
+//    private UserService userService;
+//
+//    @Autowired
+//    private CourseCommentService courseCommentService;
 
     @Test
     public void testLogin() {
 //        User dto = userService.login("110", "123");
 //        System.out.println(dto);
 
-        CourseCommentFavoriteRecord re = new CourseCommentFavoriteRecord();
-        re.setCommentId(1);
-        re.setUserId(123);
-
-        courseCommentService.favoriteComment(re);
+//        CourseCommentFavoriteRecord re = new CourseCommentFavoriteRecord();
+//        re.setCommentId(1);
+//        re.setUserId(123);
+//
+//        courseCommentService.favoriteComment(re);
     }
 }

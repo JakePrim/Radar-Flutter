@@ -10,44 +10,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="403dd6fe-4175-4b9e-a3d2-31b6961109e2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/java/com/sfl/mapper/CourseCommentDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/java/com/sfl/mapper/OrderDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/resources/com/sfl/mapper/CourseCommentDao.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/resources/com/sfl/mapper/OrderDao.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../edu-parent/edu-pojo/src/main/java/com/sfl/pojo/ActivityCourse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../edu-parent/edu-pojo/src/main/java/com/sfl/pojo/CourseComment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../edu-parent/edu-pojo/src/main/java/com/sfl/pojo/CourseCommentFavoriteRecord.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../edu-parent/edu-pojo/src/main/java/com/sfl/pojo/UserCourseOrder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../edu-parent/edu-pojo/src/main/java/com/sfl/pojo/bo/PageBo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../edu-parent/edu-service/src/main/java/com/sfl/service/CourseCommentService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../edu-parent/edu-service/src/main/java/com/sfl/service/CourseService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../edu-parent/edu-service/src/main/java/com/sfl/service/OrderService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../edu-parent/edu-service/src/main/java/com/sfl/service/impl/CourseCommentServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../edu-parent/edu-service/src/main/java/com/sfl/service/impl/CourseServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../edu-parent/edu-service/src/main/java/com/sfl/service/impl/OrderServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sfl/FileSystem.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sfl/controller/CommentController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sfl/controller/CourseController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sfl/controller/OrderController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sfl/service/CourseCommentService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sfl/service/CourseService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sfl/service/OrderService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/config/fastdfs-client.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-dao/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-dao/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/java/com/sfl/mapper/CourseDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/java/com/sfl/mapper/CourseDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/java/com/sfl/mapper/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/java/com/sfl/mapper/UserDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/resources/com/sfl/mapper/CourseDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/resources/com/sfl/mapper/CourseDao.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/resources/com/sfl/mapper/UserDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/resources/com/sfl/mapper/UserDao.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/resources/jdbc.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/resources/jdbc.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../edu-parent/edu-dao/src/test/java/UserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-dao/src/test/java/UserTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-pojo/src/main/java/com/sfl/pojo/Course.java" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-pojo/src/main/java/com/sfl/pojo/Course.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-pojo/src/main/java/com/sfl/pojo/ResultDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-pojo/src/main/java/com/sfl/pojo/ResultDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-service/src/main/java/com/sfl/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-service/src/main/java/com/sfl/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-service/src/main/java/com/sfl/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-service/src/main/java/com/sfl/service/impl/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-service/src/main/resources/spring/spring-service.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-service/src/main/resources/spring/spring-service.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../edu-parent/edu-service/src/test/java/UserServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-service/src/test/java/UserServiceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sfl/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sfl/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sfl/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sfl/service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/spring/spring-consumer.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/spring/spring-consumer.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -85,9 +55,9 @@
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="localRepository" value="$USER_HOME$/java/maven/repository" />
-        <option name="mavenHome" value="$USER_HOME$/java/maven/apache-maven-3.6.3" />
-        <option name="userSettingsFile" value="$USER_HOME$/java/maven/apache-maven-3.6.3/conf/settings.xml" />
+        <option name="localRepository" value="$PROJECT_DIR$/../../../../maven/repository" />
+        <option name="mavenHome" value="$PROJECT_DIR$/../../../../maven/apache-maven-3.6.3" />
+        <option name="userSettingsFile" value="$PROJECT_DIR$/../../../../maven/apache-maven-3.6.3/conf/settings.xml" />
       </MavenGeneralSettings>
     </option>
   </component>
@@ -120,17 +90,6 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="8002" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 8.5.50" ALTERNATIVE_JRE_ENABLED="false">
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
@@ -232,6 +191,7 @@
       <workItem from="1612506385462" duration="771000" />
       <workItem from="1612507206075" duration="74000" />
       <workItem from="1612507323021" duration="17903000" />
+      <workItem from="1614142170898" duration="795000" />
     </task>
     <servers />
   </component>
