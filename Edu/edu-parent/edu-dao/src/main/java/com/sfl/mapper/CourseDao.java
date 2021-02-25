@@ -14,14 +14,28 @@ import java.util.List;
  * @ClassName: CourseDao.java
  **/
 public interface CourseDao {
+    /**
+     * 查询所有课程
+     * @return
+     */
     List<Course> queryAll();
 
+    /**
+     * 查询用户已购课程
+     * @param user_id
+     * @return
+     */
     List<Integer> getCourseIdByUserId(String user_id);
 
+    /**
+     * 查询用户已购课程的id
+     * @param ids
+     * @return
+     */
     List<Course> getCourseByUserId(List<Integer> ids);
 
     /**
-     * 查询某门课程的消息信息
+     * 查询某门课程的详细信息
      * @param id
      * @return
      */

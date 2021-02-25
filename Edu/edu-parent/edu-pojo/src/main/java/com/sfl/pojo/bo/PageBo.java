@@ -1,5 +1,7 @@
 package com.sfl.pojo.bo;
 
+import java.io.Serializable;
+
 /**
  * @program: Edu
  * @Description: 分页参数
@@ -9,7 +11,7 @@ package com.sfl.pojo.bo;
  * @PackageName: com.sfl.pojo.bo
  * @ClassName: PageBo.java
  **/
-public class PageBo {
+public class PageBo implements Serializable {
     private Integer courseId;
     private Integer page;
     private Integer pageSize;

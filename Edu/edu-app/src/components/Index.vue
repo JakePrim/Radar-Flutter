@@ -1,20 +1,16 @@
 <template>
   <div>
     <Header></Header>
-    <div
-      style="width: 850PX;display: inline-block; margin:0px auto;
-"
-    >
+    <div style="width: 850PX;display: inline-block; margin:0px auto;">
       <el-tabs v-model="activeName">
         <el-tab-pane label="选课" name="allLesson">
           <ul class="course-ul-pc">
             <!-- 课程信息展示开始 -->
-            <li class="course-li">
+            <li class="course-li" v-for="(item,index) in courseList" :key="index">
               <!-- 课程封面图 -->
               <img
-                src="https://edu-lagou.oss-cn-beijing.aliyuncs.com/images/2020/07/10/15943482627237468.jpg"
-                class="teacher-portrait hover-pointer"
-              />
+                :src="item.courseImgUrl"
+                class="teacher-portrait hover-pointer"/>
               <!-- 课程文字信息 -->
               <div class="content-main">
                 <!-- 课程标题 -->
@@ -22,58 +18,40 @@
                   <div
                     class="p-title"
                     style="text-align:left;"
-                    @click="gotoDetail"
+                    @click="gotoDetail(item)"
                   >
                     <span>
-                      修仙仕途
+                      {{item.courseName}}
                     </span>
                   </div>
                   <!-- 作者和职称 -->
                   <p class="p-title-buy text-overflow">
                     <span class="p-author-span">
-                      苍井空
+                      {{item.teacher.teacherName}}
                     </span>
                     <span class="p-author-line" />
                     <span class="p-author-span">
-                      高级培训师
+                      {{item.teacher.position}}
                     </span>
                   </p>
                   <p></p>
                   <!-- 课程简单描述 -->
                   <p class="p-describe" style="text-align:left;">
-                    东京热不热
+                    {{item.brief}}
                   </p>
                 </div>
                 <!-- 课程前两个章节信息 -->
                 <ul class="content-course" style="text-align:left;">
-                  <!-- 章节1 -->
-                  <li
-                    class="content-course-lesson text-overflow"
-                    style="width:300px" 
-                    
-                  >
+                  <!-- 章节1 的前两节 -->
+                  <li class="content-course-lesson text-overflow"
+                    style="width:300px" v-for="(lesson,index) in item.courseSectionList[0].courseLessonList.slice(0,2)" :key="index">
                     <!-- 免费试看图标 -->
                     <img
                       src="@/assets/course-list/free-course.png"
                       class="free-label hover-pointer"
                     />
                     <span class="theme-span hover-pointer">
-                      筑基
-                      </span>
-                  </li>
-                  <!-- 章节2 -->
-                  <li
-                    class="content-course-lesson text-overflow"
-                    style="width:300px" 
-                    
-                  >
-                    <!-- 免费试看图标 -->
-                    <img
-                      src="@/assets/course-list/free-course.png"
-                      class="free-label hover-pointer"
-                    />
-                    <span class="theme-span hover-pointer">
-                      结丹
+                      {{lesson.theme}}
                       </span>
                   </li>
                 </ul>
@@ -81,13 +59,13 @@
                 <div class="content-price" style="text-align:left;">
                   <p class="content-price-p">
                     <span class="content-price-orange-sm">￥</span>
-                    <span class="content-price-orange">998</span>
+                    <span class="content-price-orange">{{item.discounts}}</span>
                     <span class="current-price">
                       <span class="current-price-unite">￥</span>
-                      99
+                      {{item.price}}
                     </span>
-                    <span class="activity-name">成就自己</span>
-                    <span class="content-price-buy">66人购买</span>
+                    <span class="activity-name">{{item.discountsTag}}</span>
+                    <span class="content-price-buy">{{item.sales}}人购买</span>
                   </p>
                   <div class="btn btn-green btn-offset">立即购买</div>
                 </div>
@@ -98,13 +76,70 @@
           </ul>
         </el-tab-pane>
         <el-tab-pane label="已购" name="hasPay">
-          <img
-            src="@/assets/course-list/no-login@2x.png"
-            class="no-data-icon"
-          />
-          <div class="no-data-title">您还没有登录</div>
-          <div class="no-data-title">登录后即可查看已购课程</div>
-          <div class="btn btn-yellow btn-center">立即登录</div>
+          <div v-if="!isLogin">
+            <img
+              src="@/assets/course-list/no-login@2x.png"
+              class="no-data-icon"
+            />
+            <div class="no-data-title">您还没有登录</div>
+            <div class="no-data-title">登录后即可查看已购课程</div>
+            <div class="btn btn-yellow btn-center">立即登录</div>
+          </div>
+          <div v-else>
+            <ul class="course-ul-pc">
+            <!-- 课程信息展示开始 -->
+            <li class="course-li" v-for="(item,index) in myCourseList" :key="index">
+              <!-- 课程封面图 -->
+              <img
+                :src="item.courseImgUrl"
+                class="teacher-portrait hover-pointer"/>
+              <!-- 课程文字信息 -->
+              <div class="content-main">
+                <!-- 课程标题 -->
+                <div class="content-title hover-pointer">
+                  <div
+                    class="p-title"
+                    style="text-align:left;"
+                    @click="gotoDetail(item)">
+                    <span>
+                      {{item.courseName}}
+                    </span>
+                  </div>
+                  <!-- 作者和职称 -->
+                  <p class="p-title-buy text-overflow">
+                    <span class="p-author-span">
+                      {{item.teacher.teacherName}}
+                    </span>
+                    <span class="p-author-line" />
+                    <span class="p-author-span">
+                      {{item.teacher.position}}
+                    </span>
+                  </p>
+                  <p></p>
+                  <!-- 课程简单描述 -->
+                  <p class="p-describe" style="text-align:left;">
+                    {{item.brief}}
+                  </p>
+                </div>
+                <!-- 价格信息 -->
+                <div class="content-price" style="text-align:left;">
+                  <p class="content-price-p">
+                    <span class="content-price-orange-sm">￥</span>
+                    <span class="content-price-orange">{{item.discounts}}</span>
+                    <span class="current-price">
+                      <span class="current-price-unite">￥</span>
+                      {{item.price}}
+                    </span>
+                    <span class="activity-name">{{item.discountsTag}}</span>
+                    <span class="content-price-buy">{{item.sales}}人购买</span>
+                  </p>
+                  <div class="btn btn-yellow btn-offset">开始学习</div>
+                </div>
+              </div>
+            </li>
+            <!-- 课程信息结束 -->
+          </ul>
+          </div>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -124,17 +159,48 @@ export default {
   data() {
     return {
       activeName: "allLesson",
+      courseList:[],//课程集合
+      user:null,//登录的用户对象
+      isLogin:false,//是否登录
+      myCourseList:[],//用户购买过的课程列表
     };
   },
   created() {
+    //获取登录的用户对象
+    this.user = JSON.parse(localStorage.getItem("user"));
+    console.log(this.user);
+    if (this.user !== null) {
+      this.isLogin = true;
+      this.getCourseUserList();
+    }
+    this.getCourseList();
   },
   methods: {
     changeCourseTab(tabName) {
       this.classSelect = tabName;
       sessionStorage && sessionStorage.setItem("courseTab", tabName);
     },
-    gotoDetail() {
-      this.$router.push({ name: "Course", params: { courseid: 1 } });
+    gotoDetail(item) {
+      console.log("item:",item);
+      this.$router.push({ name: "Course", params: { course: item } });
+    },
+    getCourseList(){
+      //去dubbo服务查询获取全部课程的数据
+      return this.axios.get("http://localhost:8002/course/getAllCourse").then(res=>{
+          this.courseList  = res.data.content;
+          console.log(this.courseList);
+      }).catch(()=>{
+          this.$message.error('获取课程信息失败');
+      })
+    },
+    getCourseUserList(){
+      //去dubbo服务查询获取全部课程的数据
+      return this.axios.get("http://localhost:8002/course/getCourseByUserId/"+this.user.content.id).then(res=>{
+          this.myCourseList = res.data.content;
+          console.log(this.myCourseList);
+      }).catch(()=>{
+          this.$message.error('获取课程信息失败');
+      })
     }
   },
 };

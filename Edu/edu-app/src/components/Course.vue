@@ -1,51 +1,53 @@
 <template>
   <div>
     <Header></Header>
-    <div style="background: #eee;">
+    <div style="background: #eee">
       <!-- 面包屑导航 -->
       <div class="nav-wrap">
-        <p class="nav-p-pc" style="margin-top:-25px;text-align:left;">
+        <p class="nav-p-pc" style="margin-top: -25px; text-align: left">
           <a href="#">课程列表</a>
           <span class="sharp-content">&gt;</span>
-          <span class="nav-sec">文案高手的18项修炼</span>
+          <span class="nav-sec">{{ course.courseName }}</span>
         </p>
       </div>
 
       <!-- 课程详情 -->
       <div class="container">
-        <div style="height: 100%;">
+        <div style="height: 100%">
           <div class="weui-tab content-wrapper">
             <div
               id="vux_view_box_body"
               class="weui-tab__panel vux-fix-safari-overflow-scrolling"
             >
-              <div style="position: relative;">
+              <div style="position: relative">
                 <div class="intro">
                   <div class="intro-content">
                     <img
                       class="course-img"
-                      src="https://edu-lagou.oss-cn-beijing.aliyuncs.com/images/2020/07/10/1594348262748358.jpg"
+                      :src="course.courseImgUrl"
                       alt="课程图片"
                     />
                     <div class="conent-wrap">
-                      <div class="name" style="text-align:left;">
-                        文案高手的18项修炼
+                      <div class="name" style="text-align: left">
+                        {{ course.courseName }}
                       </div>
-                      <div class="des text-omit" style="text-align:left;">
-                        手把手教你写出实用的高转化文案
+                      <div class="des text-omit" style="text-align: left">
+                        {{ course.brief }}
                       </div>
                       <div class="title">
                         <div class="teacher-name text-omit">
-                          讲师：兔妈
+                          {{ course.teacher.teacherName }}
                           <span class="line"></span>
-                          有赞高级讲师
+                          {{ course.teacher.position }}
                         </div>
                       </div>
                       <div class="lesson-info">
                         <div class="boook-icon backgroun-img-set"></div>
-                        <div class="time">100讲 / 50课时</div>
+                        <div class="time">
+                          {{ totalLessons }}讲 / {{ course.totalDuration }}课时
+                        </div>
                         <div class="person-icon backgroun-img-set"></div>
-                        <div class="person">1314人已购买</div>
+                        <div class="person">{{ course.sales }}人已购买</div>
                       </div>
                     </div>
 
@@ -62,82 +64,93 @@
               <div class="public-class-container is-pc">
                 <el-tabs v-model="activeName">
                   <el-tab-pane label="课程信息" name="intro">
-                    <div class="content-p pc-background">
-                      <p>
-                        背景介绍
-                        自媒体时代，无论你是做新媒体编辑、运营，还是市场营销、电商，微信推文、推广海报、产品详情页、朋友圈话术……
-                      </p>
-                    </div>
+                    <div
+                      class="content-p pc-background"
+                      v-html="course.courseDescription"
+                    ></div>
                   </el-tab-pane>
                   <el-tab-pane label="目录" name="directory">
                     <div
                       class="class-menu-contaniner list-page-container more-sections more-sections-padding"
                     >
-                      <div>
+                      <!-- 第一章节 -->
+                      <div
+                        v-for="(section, index) in course.courseSectionList.slice(0,1)"
+                        :key="index"
+                      >
                         <div class="section-name single-line">
-                          开篇词 | 从小白到文案高手，手把手教你写出爆款文案
+                          {{ section.sectionName }}
                         </div>
+                        <!-- 课时 -->
                         <div class="class-menu-block">
                           <div
+                            v-for="(lesson, index) in section.courseLessonList"
+                            :key="index"
                             class="class-level-one over-ellipsis"
                             @click="watchCourse(1)"
                           >
                             <div class="text-wrap">
-                              <div class="content">手把手教你写出爆款文案</div>
-                              <div
+                              <div class="content">{{ lesson.theme }}</div>
+                              <div 
                                 class="item-status-wrap item-status-wrap-list"
                               >
-                                <div class="item-status test-watch">试看</div>
+                              <!-- 第一章前两节课 -->
+                              <div v-if="index<2">
+                                <!-- 未登录试看 -->
+                                <div v-if="!isLogin" class="item-status test-watch">试看</div>
+                                <!-- 已登录未购买 -->
+                                <div v-else-if="isLogin && !isBuy" class="item-status test-watch">试看</div>
+                                <!-- 已登录已购买 -->
+                                <div v-else class="item-status test-watch">播放</div>
                               </div>
-                            </div>
-                          </div>
-                          <div
-                            class="class-level-one over-ellipsis isfree "
-                            @click="watchCourse(2)"
-                          >
-                            <div class="text-wrap">
-                              <div class="content">从小白到文案高手</div>
-                              <div
-                                class="item-status-wrap item-status-wrap-list"
-                              >
-                                <div class="item-status test-watch">试看</div>
+                              <div v-if="index>1">
+                                <!-- 未登录试看 -->
+                                <div v-if="!isLogin" class="item-status lock"></div>
+                                <!-- 已登录未购买 -->
+                                <div v-else-if="isLogin && !isBuy" class="item-status lock"></div>
+                                <!-- 已登录已购买 -->
+                                <div v-else class="item-status test-watch">播放</div>
+                              </div>
                               </div>
                             </div>
                           </div>
                         </div>
+                        <!-- 课时 -->
                       </div>
-
-                      <div>
-                        <div class="section-name single-line">章节一</div>
+                      <div
+                        v-for="(section, index) in course.courseSectionList.slice(1,course.courseSectionList.length)"
+                        :key="index"
+                      >
+                        <div class="section-name single-line">
+                          {{ section.sectionName }}
+                        </div>
+                        <!-- 课时 -->
                         <div class="class-menu-block">
                           <div
+                            v-for="(lesson, index) in section.courseLessonList"
+                            :key="index"
                             class="class-level-one over-ellipsis"
-                            @click="watchCourse(3)"
+                            @click="watchCourse(1)"
                           >
                             <div class="text-wrap">
-                              <div class="content">第1节：简介</div>
-                              <div
+                              <div class="content">{{ lesson.theme }}</div>
+                              <div 
                                 class="item-status-wrap item-status-wrap-list"
                               >
-                                <div class="item-status lock"></div>
-                              </div>
-                            </div>
-                          </div>
-                          <div
-                            class="class-level-one over-ellipsis"
-                            @click="watchCourse(4)"
-                          >
-                            <div class="text-wrap">
-                              <div class="content">第2节：使用</div>
-                              <div
-                                class="item-status-wrap item-status-wrap-list"
-                              >
-                                <div class="item-status lock"></div>
+                              <!-- 第一章前两节课 -->
+                                <!-- 未登录试看 -->
+                                <div v-if="!isLogin" class="item-status lock"></div>
+                                <!-- 已登录未购买 -->
+                                <div v-else-if="isLogin && !isBuy" class="item-status lock"></div>
+                                <!-- 已登录已购买 -->
+                                <div v-else class="item-status test-watch">播放</div>
                               </div>
                             </div>
                           </div>
                         </div>
+                        <!-- 课时 -->
                       </div>
+                      <!-- 章节 -->
                     </div>
                   </el-tab-pane>
                 </el-tabs>
@@ -153,25 +166,25 @@
         <div
           class="public-class-footer"
           slot="bottom"
-          style="border:1px solid #eee; height:60px; text-align:left;"
+          style="border: 1px solid #eee; height: 60px; text-align: left"
         >
-          <span class="product-descript" style="font-size:.347rem"
+          <span class="product-descript" style="font-size: 0.347rem"
             >成就自己</span
           >
-          <span class="current-price" style="font-size:28px">
-            <span class="current-price-unite" style="font-size:.347rem">
+          <span class="current-price" style="font-size: 28px">
+            <span class="current-price-unite" style="font-size: 0.347rem">
               ￥</span
-            >100
+            >{{ course.discounts }}
           </span>
           <span class="current-price price">
             <span class="current-price-unite">￥</span>
-            263
+            {{ course.price }}
           </span>
           <button
             @click="buy(7)"
             type="button"
             class="weui-btn purchase-button weui-btn_mini weui-btn_primary"
-            style="width:155px;height:45px;font-size:17px;"
+            style="width: 155px; height: 45px; font-size: 17px"
           >
             立即购买
             <!-- ::after -->
@@ -207,11 +220,53 @@
               </div>
               <button class="message-edit-btn disableBg">发表留言</button>
 
+              <!-- 留言 开始 -->
+              <div
+                class="message-list"
+                v-for="(comment, index) in commentList"
+                :key="index"
+              >
+                <div class="message-list-title">
+                  <div class="message-list-title-left">
+                    <div class="message-list-title-left-name">
+                      {{ comment.userName }}
+                    </div>
+                    <div class="message-list-title-left-tag"></div>
+                  </div>
+                  <!-- 已赞 data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4BAMAAABaqCYtAAAAJFBMVEVHcEwAuI4AtIsAtIsAtIoAtYwAtIsAtYwAtowAx5kAtIsAs4qd4c1kAAAAC3RSTlMAGMfz3VGnbTYIhXtDq8EAAAETSURBVDjLldWhb8JAFAbwg8CGhGSGzNQtULNkWUioWbJkpmYKAQaBITPLLKZysmLz+xfolUL6/XM72msh9N2X8ImaX17vrq+vVeqU39XTuK/kdEMA01jGDY4ZyYWFIRPxp0S8u+8KeBJ+WDxIGFrMJbQm7qhVYSJgr8JUwNsKtYDtCiHgPavcsDVDstsuyDk7NeYDk6G8pM3bWXNawQUijWq8QyPPpQy+50ET9bF09go5pus3cMV0feFEc2DfieZRBU7Up7fjSkwZZgz3DA8MHxl6DP8YRgxjgokimDHcMdwyfGG4ZPjJMCKoY4KJIpgz3DHcMvQYFuPpk/005t1mffHlOs/ETvxXAA0Ul3oQHsp/xD93wxfHcC4VkwAAAABJRU5ErkJggg== -->
+                  <!-- <div @click="cancelzan(comment)" v-if="JSON.stringify(comment.favoriteRecords).indexOf( user.content.id ) >= 0" class="message-list-title-right">
+                            <img class="message-list-title-right-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4BAMAAABaqCYtAAAAJFBMVEVHcEwAuI4AtIsAtIsAtIoAtYwAtIsAtYwAtowAx5kAtIsAs4qd4c1kAAAAC3RSTlMAGMfz3VGnbTYIhXtDq8EAAAETSURBVDjLldWhb8JAFAbwg8CGhGSGzNQtULNkWUioWbJkpmYKAQaBITPLLKZysmLz+xfolUL6/XM72msh9N2X8ImaX17vrq+vVeqU39XTuK/kdEMA01jGDY4ZyYWFIRPxp0S8u+8KeBJ+WDxIGFrMJbQm7qhVYSJgr8JUwNsKtYDtCiHgPavcsDVDstsuyDk7NeYDk6G8pM3bWXNawQUijWq8QyPPpQy+50ET9bF09go5pus3cMV0feFEc2DfieZRBU7Up7fjSkwZZgz3DA8MHxl6DP8YRgxjgokimDHcMdwyfGG4ZPjJMCKoY4KJIpgz3DHcMvQYFuPpk/005t1mffHlOs/ETvxXAA0Ul3oQHsp/xD93wxfHcC4VkwAAAABJRU5ErkJggg==" alt="">
+                            <div class="message-list-title-right-praise">{{comment.likeCount}}</div>
+                          </div> -->
+                  <!-- 没点过赞 -->
+                  <div @click="zan(comment)" class="message-list-title-right">
+                    <img
+                      class="message-list-title-right-icon"
+                      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4BAMAAABaqCYtAAAAKlBMVEVHcExnZ2dzc3NmZmZqampmZmZmZmZnZ2dnZ2dnZ2dmZmZoaGhmZmZmZmZl+8SAAAAADXRSTlMA/AbsFtilbj5YwSqJPyESoQAAAZxJREFUOMt1lTtLA1EQha8xRhPTBEmhuKCCoNgoIlYLMcRKBG0sxIUgCDaBSDohEO0FEbQyIBZaBazERvAPWCwxPnP+i3tnrlGTmVPswn73NXNm7hrzq9m9kZ2ckTUUABifkOEBrK7liR7BMRFOA/uFc+BUgnV8mFisEW5IsIFi9FzBuwR91KJnAm8S9EIbxSBeBRZHk86MrBQJWjymJUC3nlugSyk+SQyhANfxos+s4krfM0DZvmbw2cuSCHNGi3PAfUygXYiU79ryyw1ibf0xZ9intBsz6SBadx24iiZXz8kPxCiTtYdLPzKTVFkkLQAZO/VikwYW/x/wHohcT/MiPQE8W9frxJrlbpiw4xvA0vbNmWyhj2Nrhmy+B7nEyTsN0rIaJAc0SDWqwX7rhAYfMa/Dui0bDZbwZAwUGNjWUWActnUUyN2hwDTaOkxRaSiwj6pRhjHKgTazSkWlwBK1jgIpBwrkHCgwyZ0oQ86BAjkHCjziG0KE8YBvCA/5KacOm6sgrHFAotouT6J23bkkLbsNDjM9yt7yP+IbQYga5De+eBMAAAAASUVORK5CYII="
+                      alt=""
+                    />
+                    <div class="message-list-title-right-praise">
+                      {{ comment.likeCount }}
+                    </div>
+                  </div>
+                </div>
+                <div class="message-list-content">
+                  {{ comment.comment }}
+                </div>
+                <!--删除留言（必须登录才能删除自己的）-->
+                <!--
+                        <div class="message-delete pointer">
+                          <img class="message-delete-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4BAMAAABaqCYtAAAAD1BMVEWZmZn4+fqysrPu7/DS09OEJUPlAAAAf0lEQVQ4y+3VwQ2AIAwF0C9hAAUHgDgBToD7L2UiUMDiwQMXpQfS9B3ohQ+WVDtibTRCarRJKBzDGVQTQ59RMjSwoVEQDIF4lQYa2Oi6IR6qJ5Yr1Et9ExvnwIGv8A9vxdWmCzRFdMdIF4Se54wkVBwtYQ7/+hMIe643Fcc1PgEbl0u1B0v+VgAAAABJRU5ErkJggg==" alt="">删除
+                        </div>
+                        -->
+              </div>
+              <!-- 留言 结束 -->
+
               <!-- 表情大全，待完善 -->
               <div
                 id="myPanel"
                 class="message-edit-emojilist"
-                style="display: none;"
+                style="display: none"
               >
                 <em class="message-edit-emojilist-tip">◆</em>
                 <span class="message-edit-emojilist-tip">◆</span>
@@ -244,7 +299,33 @@ export default {
   data() {
     return {
       activeName: "intro",
+      course: null,
+      totalLessons: 0,
+      commentList: null,
+      isLogin: false,
+      myCourseList: [],
+      isBuy: false,
+      user: null,
     };
+  },
+  created() {
+    this.course = this.$route.params.course;
+    //检查是否登录
+    this.user = JSON.parse(localStorage.getItem("user"));
+    if (this.user != null) {
+      this.isLogin = true;
+      //查询当前用于购买的课程
+      this.getMyCourseList();
+    }
+    let x = 0;
+    for (let index = 0; index < this.course.courseSectionList.length; index++) {
+      const element = this.course.courseSectionList[index]; //每一章
+      for (let index = 0; index < element.courseLessonList.length; index++) {
+        x++;
+      }
+    }
+    this.totalLessons = x;
+    this.getComment();
   },
   methods: {
     watchCourse(lessonid) {
@@ -256,6 +337,46 @@ export default {
     },
     buy(courseid) {
       alert("购买第【" + courseid + "】门课程成功，加油！");
+    },
+    getComment() {
+      return this.axios
+        .get("http://localhost:8002/comment/findCourseComment", {
+          params: {
+            courseId: this.course.id,
+            page: 1,
+            pageSize: 50,
+          },
+        })
+        .then((res) => {
+          console.log("comment:", res);
+          this.commentList = res.data.content.list;
+        })
+        .catch(() => {
+          this.$message.error("获取留言失败");
+        });
+    },
+    getMyCourseList() {
+      return this.axios
+        .get(
+          "http://localhost:8002/course/getCourseByUserId/" +
+            this.user.content.id
+        )
+        .then((res) => {
+          this.myCourseList = res.data.content;
+          console.log(this.myCourseList);
+          //检测当前的课程是否购买过
+          for (let index = 0; index < this.myCourseList.length; index++) {
+            const element = this.myCourseList[index];
+            if (element.id==this.course.id) {
+              this.isBuy = true;//标记购买过
+              console.log("购买过该课程");
+              break;
+            }
+          }
+        })
+        .catch(() => {
+          this.$message.error("获取课程信息失败");
+        });
     },
   },
 };

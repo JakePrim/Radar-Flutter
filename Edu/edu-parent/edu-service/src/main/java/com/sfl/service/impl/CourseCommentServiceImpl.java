@@ -37,9 +37,14 @@ public class CourseCommentServiceImpl implements CourseCommentService {
     @Override
     public PageInfo<CourseComment> findCommentByCourseId(PageBo pageBo) {
         if (pageBo != null) {
+            //TODO 分页存在问题
             PageHelper.startPage(pageBo.getPage(), pageBo.getPageSize());
             List<CourseComment> comments = courseCommentDao.findCommentByCourseId(pageBo.getCourseId());
+            for (CourseComment comment : comments) {
+                System.out.println(comment);
+            }
             PageInfo<CourseComment> pageInfo = new PageInfo<>(comments);
+            System.out.println("pageInfo:" + pageInfo);
             return pageInfo;
         }
         return null;

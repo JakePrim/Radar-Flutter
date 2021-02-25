@@ -38,6 +38,7 @@ public class CommentController {
     @GetMapping("/findCourseComment")
     public ResultDTO findCourseComment(PageBo pageBo) {
         PageInfo<CourseComment> pageInfo = courseCommentService.findCommentByCourseId(pageBo);
+        System.out.println(pageInfo);
         return ResultDTO.createSuccess("success", pageInfo);
     }
 

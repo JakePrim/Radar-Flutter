@@ -16,10 +16,10 @@
         <package name="com.sfl.pojo"/>
     </typeAliases>
     <!-- mybatis插件配置 -->
-    <!--    <plugins>-->
-    <!--        <plugin interceptor="com.github.pagehelper.PageHelper">-->
-    <!--            &lt;!&ndash; 指定方言 &ndash;&gt;-->
-    <!--            <property name="dialect" value="mysql"/>-->
-    <!--        </plugin>-->
-    <!--    </plugins>-->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+            <!-- 指定方言 -->
+            <property name="dialect" value="mysql"/>
+        </plugin>
+    </plugins>
 </configuration>

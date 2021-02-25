@@ -79,6 +79,7 @@ export default {
       dialogFormVisible: false, // 是否显示登录框，true：显示，false：隐藏
       phone: "", // 双向绑定表单 手机号
       password: "", // 双向绑定表单 密码
+      userDTO:null,
     };
   },
   computed: {
@@ -88,6 +89,12 @@ export default {
   mounted() {
   },
   created(){
+    //获取本地存储的用户数据
+    this.userDTO = JSON.parse(localStorage.getItem("user"));
+    console.log("sss:",this.userDTO);
+    if(this.userDTO !== null){
+      this.isLogin = true;
+    }
   },
   methods: {
     goToSetting() {
@@ -104,6 +111,28 @@ export default {
     },
     toToNotic(){
     },
+    login(){
+      // 登录请求远程服务dubbo
+      return this.axios.get("http://localhost:8002/user/login",{
+        params:{
+          phone:this.phone,
+          password:this.password
+        }
+      }).then(res=>{
+        this.dialogFormVisible = false;
+        this.isLogin = true;
+        this.userDTO = res.data;
+        // 保存到本地
+        console.log("aaa:"+JSON.stringify(this.userDTO));
+        localStorage.setItem("user",JSON.stringify(this.userDTO));
+      }).catch(()=>{
+        this.$message.error('登录失败');
+      })
+    },
+    logout(){
+      localStorage.setItem("user",null);
+      this.isLogin = false;
+    }
   },
 };
 </script>

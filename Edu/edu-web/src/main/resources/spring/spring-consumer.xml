@@ -33,7 +33,7 @@
 
     <!--1.服务提供方在Zookeeper中的别名-->
     <dubbo:application name="edu-web"/>
-    <!--    2. 注册中心的地址-->
+    <!--    2. zookeeper注册中心的地址 获取dubbo服务-->
     <dubbo:registry address="zookeeper://172.16.160.131:2181"/>
     <!--    3. 扫描类：将什么包下的类作为服务消费类 -->
     <dubbo:annotation package="com.sfl.controller"/>
