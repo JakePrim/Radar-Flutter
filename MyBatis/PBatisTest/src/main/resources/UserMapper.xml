@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mapper namespace="user">
+    <select id="findAll" resultType="com.pbatis.pojo.User">
+        select * from user
+    </select>
+
+    <select id="findById" resultType="com.pbatis.pojo.User" parameterType="com.pbatis.pojo.User">
+        select * from user where id = #{id} and username=#{username}
+    </select>
+</mapper>
