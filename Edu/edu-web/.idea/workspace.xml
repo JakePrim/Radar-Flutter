@@ -10,17 +10,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="403dd6fe-4175-4b9e-a3d2-31b6961109e2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../edu-parent/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/java/com/sfl/mapper/CourseCommentFavoriteRecordDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/resources/com/sfl/mapper/CourseCommentFavoriteRecordDao.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../MyBatis/IPersistence/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../MyBatis/IPersistence/src/main/java/com/persistence/io/Resources.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../MyBatis/IPersistence/src/main/java/com/persistence/pojo/MappedStatement.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../MyBatis/PBatis/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../MyBatis/PBatis/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../MyBatis/PBatis/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../MyBatis/PBatis/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../MyBatis/PBatis/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../MyBatis/PBatisTest/src/main/java/com/pbatis/test/IPersistenceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../edu-app/src/components/Course.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-app/src/components/Course.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../edu-app/src/components/Header/Header.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-app/src/components/Header/Header.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../edu-app/src/components/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-app/src/components/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/java/com/sfl/mapper/CourseDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/java/com/sfl/mapper/CourseDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/resources/mybatis/mybatis-config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/resources/mybatis/mybatis-config.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-pojo/src/main/java/com/sfl/pojo/bo/PageBo.java" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-pojo/src/main/java/com/sfl/pojo/bo/PageBo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../edu-app/src/components/videoDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-app/src/components/videoDetail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/resources/com/sfl/mapper/CourseCommentDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/resources/com/sfl/mapper/CourseCommentDao.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-dao/src/test/java/UserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-dao/src/test/java/UserTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-pojo/src/main/java/com/sfl/pojo/CourseComment.java" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-pojo/src/main/java/com/sfl/pojo/CourseComment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-pojo/src/main/java/com/sfl/pojo/CourseCommentFavoriteRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-pojo/src/main/java/com/sfl/pojo/CourseCommentFavoriteRecord.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../edu-parent/edu-service/src/main/java/com/sfl/service/impl/CourseCommentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-service/src/main/java/com/sfl/service/impl/CourseCommentServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-service/src/main/resources/spring/spring-service.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-service/src/main/resources/spring/spring-service.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sfl/controller/CommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sfl/controller/CommentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/spring/spring-consumer.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/spring/spring-consumer.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,6 +205,9 @@
       <workItem from="1612507323021" duration="17903000" />
       <workItem from="1614142170898" duration="795000" />
       <workItem from="1614174185318" duration="6960000" />
+      <workItem from="1614239071257" duration="82000" />
+      <workItem from="1614259603985" duration="4242000" />
+      <workItem from="1614321020298" duration="147000" />
     </task>
     <servers />
   </component>

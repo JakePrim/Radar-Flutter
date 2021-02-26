@@ -8,7 +8,7 @@
             <span style="">&nbsp;返回</span>
           </div>
           <span style="position:absolute;left:80px;">
-            文案高手的18项修炼 > 从小白到文案高手</span
+            {{course.courseName}} > {{lesson.theme}}</span
           >
         </nav>
         <div class="video-content calc">
@@ -73,7 +73,7 @@
                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAYAAACohjseAAADHUlEQVRoQ+2a30sUURTHv3dMS60Xg8AIQV+ChCBmJqInqXAx6iXah6CghzCkiMz8C3qJfllRhNJDEEWwEUFFJBW9KMbMEAkWvbjgg0FRYO76o92dE1Ma686d8c4y7rrDncfdc+85n3t+zL1zD0PEHxZxPkjASvewsAd1XW8lohNE1A6gCcD6EsOnAEwwxgYZY3cNwxgT0b8sYDwer0kmk9eIqAuAIjJpCWRsxtid5ubmc4lE4refPl9AB258fPwlgD0lMLoYFW9bWlo6/CB9ATVNu0VEp4rRXKoxjLHbpmme9tLnCejknG3bo6soLL0YbEVRtnvlpCegpml9RHSWM2sGwCvG2KSIl4ioU0SuUIYxNpD/GxFtBhADUM2RvW6aZjdPjyegqqpOldpWMCijKEqbYRjDokarqkqisvlylmW5bNN1fbdt2+84kJ8sy2oNCjjNeRU8tyzrYBCDwwR09Kqq+gzAgQIbUpZlbQgK6Fp5J2xM0zxZTkBN0/p5Yc/zuGOnX4hKQBFPhh2i0oMFqx5qiNJIx5acbV8CoY1AjY6uXWd+iDjaJTNycyN33IUHqZkX7+frCv9c8RxcgPtIRA35ysMGvPgojafDcy74FQfMDsceEtGRQs3RARyKTS6GpYgH69b9y46ZOf4+wCtEy+bBzFA711KeB/fuqEH3ofq/gH1P0njzwX3iqUjApk1V6I3XQ9+6dDtpfMngciKNiW+5/86vKMC11QzH22txbF8t1lTxi2o2B9x/PYt7g7OYzxAqBvD8wDR6DtejsUHsY8DXnzauPk7jSid3a4lVl4NFvQR9BknAldrJeFVR6cGAKyBDVIbowgrwznF+J3qZgwFzzUtc5qDMQZmD/M+GssjIIiO2ArKKyioqq6isomLVokgpWWQCFJlAF6CletH39P/C0Jhzi77kKeoCNNAVdikAR5NZdN2YQs52xXfwK+ygTQj7d9Ycra5irlufIlPNNez7VA4jnzM8ODDGgjchRL6NxFnCSDcCOYCRb+VahIxsM15+pke2nTKsKliueZbtFy2XYWHplYBhrWS55vkDgsoDZgBZavwAAAAASUVORK5CYII="
                 alt=""
               />
-              <span class="progress-label">文案高手的18项修炼</span>
+              <span class="progress-label"></span>
             </div>
           </div>
           <div class="detail-part-content-pc calc detail-part-content">
@@ -81,9 +81,11 @@
               <div class="content-fold-img"></div>
             </div>
             <div class="content-container">
-              <div>
+              <!-- 遍历章节 -->
+              <!-- 第一章开始 -->
+              <div v-for="(section,index) in course.courseSectionList.slice(0,1)" :key="index">
                 <div class="content-label">
-                  <div class="content-label-title single-line">第一章</div>
+                  <div class="content-label-title single-line">{{section.sectionName}}</div>
                   <img
                     class="arrow-icon"
                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkBAMAAAATLoWrAAAAGFBMVEVHcEz///////////////////////////8dS1W+AAAAB3RSTlMAgwWyMeGgBsFrrQAAAFVJREFUKM9jYBiugMUBQ0i8EF2EsbxcAF1ReXkhuqJiczRl4uVGyqjKgIoUmFCVARUxMKAoAyliYEBRBlaEqiwcpAikrBShKglCqyFUMcEYCgwjBAAAeaoQrHtg6QoAAAAASUVORK5CYII="
@@ -92,37 +94,88 @@
                 </div>
 
                 <div class="content-sections">
+                  <!-- 遍历小节 -->
                   <!-- 未播放的视频 -->
-                  <div class="content-section" @click="playLesson">
-                    <div class="section-item clearfix">
-                      <span class="kw-icon-video section-type-icon fl"
-                        ><i class="el-icon-video-play"></i
-                      ></span>
-                      <span class="section-dec need-update">1.概述</span>
-                      <span class="section-status-icon pause-play">未解锁</span>
+                  <div  :class="{'content-section':lesson.id != lessonid,
+                    'content-section content-section-choose':lesson.id == lessonid
+                  }"   @click="playLesson(1,index,lesson)" v-for="(lesson,index) in section.courseLessonList" :key="index">
+                    <div v-if="index<2">
+                      <div class="section-item clearfix">
+                        <span
+                        :class="{'kw-icon-video section-type-icon':lesson.id != lessonid,
+                    'kw-icon-video section-type-icon lv':lesson.id == lessonid}"
+                          ><i class="el-icon-video-play"></i
+                        ></span>
+                        <span 
+                          :class="{'section-dec':lesson.id != lessonid,
+                    'section-dec lv':lesson.id == lessonid}"
+                        >{{lesson.theme}}</span>
+                        <span class="section-status-icon pause-play" v-if="lesson.id != lessonid">试看</span>
+                        <span class="section-status-icon pause-play" v-else></span>
+                      </div>
+                      <div class="section-duration">
+                        <span v-if="lesson.courseMedia!=null">时长：{{lesson.courseMedia.duration}}</span>
+                        <span v-else>时长：0</span>
+                      </div>
                     </div>
-                    <div class="section-duration">
-                      <span>时长：0</span>
-                    </div>
-                  </div>
-                  <!-- 正在播放的视频 -->
-                  <div
-                    class="content-section content-section-choose"
-                    style=" color: #00b38a;"
-                    @click="playLesson"
-                  >
-                    <div class="section-item clearfix">
-                      <span class="kw-icon-video section-type-icon fl"
-                        ><i class="el-icon-video-play"></i
-                      ></span>
-                      <span class="section-dec">2.起步</span>
-                      <span class="section-status-icon pause-play"></span>
-                    </div>
-                    <div class="section-duration">
-                      <span>时长：0</span>
+                    <div v-if="index>1">
+                      <div class="section-item clearfix">
+                        <span :class="{'kw-icon-video section-type-icon':lesson.id != lessonid,
+                    'kw-icon-video section-type-icon lv':lesson.id == lessonid}"
+                          ><i class="el-icon-video-play"></i
+                        ></span>
+                        <span  :class="{'section-dec':lesson.id != lessonid,
+                    'section-dec lv':lesson.id == lessonid}">{{lesson.theme}}</span>
+                        <span class="section-status-icon pause-play" v-if="!isLogin">未解锁</span>
+                        <span class="section-status-icon pause-play"  v-else-if="isLogin && !isBuy">未解锁</span>
+                        <span class="section-status-icon pause-play"  v-else-if="lesson.id==lessonid && isLogin && isBuy"></span>
+                        <span class="section-status-icon pause-play"  v-else>播放</span>
+                      </div>
+                      <div class="section-duration">
+                        <span v-if="lesson.courseMedia!=null">时长：{{lesson.courseMedia.duration}}</span>
+                        <span v-else>时长：0</span>
+                      </div>
                     </div>
                   </div>
                 </div>
+                <!-- 第一章结束 -->
+              </div>
+              <!-- 第一章结束 -->
+              <!-- 其余章节开始 -->
+              <div v-for="(section,index) in course.courseSectionList.slice(1,course.courseSectionList.length)" :key="index">
+                <div class="content-label">
+                  <div class="content-label-title single-line">{{section.sectionName}}</div>
+                  <img
+                    class="arrow-icon"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkBAMAAAATLoWrAAAAGFBMVEVHcEz///////////////////////////8dS1W+AAAAB3RSTlMAgwWyMeGgBsFrrQAAAFVJREFUKM9jYBiugMUBQ0i8EF2EsbxcAF1ReXkhuqJiczRl4uVGyqjKgIoUmFCVARUxMKAoAyliYEBRBlaEqiwcpAikrBShKglCqyFUMcEYCgwjBAAAeaoQrHtg6QoAAAAASUVORK5CYII="
+                    alt=""
+                  />
+                </div>
+                <div class="content-sections">
+                  <!-- 遍历小节 -->
+                  <!-- 未播放的视频 -->
+                  <div :class="{'content-section':lesson.id != lessonid,
+                    'content-section content-section-choose':lesson.id == lessonid
+                  }"  @click="playLesson(2,index,lesson)" v-for="(lesson,index) in section.courseLessonList" :key="index">
+                      <div class="section-item clearfix">
+                        <span :class="{'kw-icon-video section-type-icon':lesson.id != lessonid,
+                    'kw-icon-video section-type-icon lv':lesson.id == lessonid}"
+                          ><i class="el-icon-video-play"></i
+                        ></span>
+                        <span :class="{'section-dec':lesson.id != lessonid,
+                    'section-dec lv':lesson.id == lessonid}">{{lesson.theme}}</span>
+                        <span class="section-status-icon pause-play" v-if="!isLogin">未解锁</span>
+                        <span class="section-status-icon pause-play"  v-else-if="isLogin && !isBuy">未解锁</span>
+                        <span class="section-status-icon pause-play"  v-else-if="lesson.id==lessonid && isLogin && isBuy"></span>
+                        <span class="section-status-icon pause-play"  v-else>播放</span>
+                      </div>
+                      <div class="section-duration">
+                        <span v-if="lesson.courseMedia!=null">时长：{{lesson.courseMedia.duration}}</span>
+                        <span v-else>时长：0</span>
+                      </div>
+                  </div>
+                </div>
+                <!-- 第一章结束 -->
               </div>
             </div>
           </div>
@@ -142,14 +195,57 @@ export default {
       isplay: false, //是否在播放
       nowTime: "00:00", //当前播放时间
       totalTime: "00:00", //总时长
+      lessonid:0,
+      course:null,
+      lesson:null,
+      isLogin: false,
+      isBuy: false,
     };
   },
   computed: {},
-  created() {},
+  created() {
+    // this.myvideo = document.getElementById("myvideo");
+    // this.myvideo.controls = true;
+    //检查是否登录
+    this.user = JSON.parse(localStorage.getItem("user"));
+    if (this.user != null) {
+      this.isLogin = true;
+    }
+    //获取参数
+    this.isBuy = this.$route.params.isBuy;
+    this.course = this.$route.params.course;
+    this.lessonid = this.$route.params.lessonid;
+    console.log(this.course);
+
+  },
   mounted() {
-    this.myvideo = document.getElementById("myvideo");
+    
+    this.initplay();//初始化播放的视频
   },
   methods: {
+    initplay(){
+      //1. 在课程信息中查找即将播放的小节视频的编号
+      for (let index = 0; index < this.course.courseSectionList.length; index++) {
+        const section = this.course.courseSectionList[index];
+        for (let index = 0; index < section.courseLessonList.length; index++) {
+          const lesson = section.courseLessonList[index];
+          if (lesson !== null && this.lessonid === lesson.id) {
+            this.lesson = lesson;
+            //播放视频
+            if (lesson.courseMedia != null) {
+              const fileEdk = lesson.courseMedia.fileEdk;
+              console.log("视频地址："+fileEdk);
+              this.myvideo = document.getElementById("myvideo");
+              this.myvideo.controls = true;
+              this.myvideo.src = fileEdk;
+            }
+            return;
+          }
+        }
+        
+      }
+      //2. 将小节视频的地址赋值给播放器 进行播放
+    },
     play() {
       this.isplay = !this.isplay;
       if (this.isplay) {
@@ -185,17 +281,58 @@ export default {
     },
     //返回
     goBack() {
-      this.$router.push({ name: "Course" });
+      this.$router.push({ name: "Course",params:{course:this.course} });
     },
     //播放课程
-    playLesson() {
-      alert("播放视频！");
+    playLesson(status,index,lesson) {
+      if (this.lessonid == lesson.id) {
+        this.$message.error("当前正在播放")
+      }else{
+        this.lessonid = lesson.id;
+        const media = lesson.courseMedia;
+        if (media == null || media == "") {
+          this.$message.error("视频地址不存在无法播放");
+          return;
+        }
+        let fileEdk = lesson.courseMedia.fileEdk;
+        console.log("播放地址:"+fileEdk);
+        this.myvideo = document.getElementById("myvideo");
+        this.myvideo.controls = true;
+      //试看的可以跳转到播放页面
+      //锁上的 先验证是否登录
+      //登录后，再验证是否购买过
+        if (status===1 && index<2) {
+          //观看视频
+            this.myvideo.src = fileEdk;
+            this.myvideo.play();
+            this.isplay = true;
+        }else{
+          //走验证
+          if (!this.isLogin) {
+            this.$message.error("请登录");
+          }else{
+            if (!this.isBuy) {
+              this.$message.error("请购买");
+            }else{
+              //观看视频
+              this.myvideo.src = fileEdk;
+              this.myvideo.play();
+              this.isplay = true;
+            }
+          }
+        }
+        
+      }
+
     },
   },
 };
 </script>
 
 <style lang="less">
+.lv{
+  color: #00b38a;
+}
 .video {
   position: relative;
   video {
@@ -439,6 +576,7 @@ img {
     no-repeat;
   background-size: cover;
   background-position: 0 0;
+  color: #00b38a;
 }
 .detail-part-content-pc .content-section:last-of-type {
   border-bottom: none;
@@ -448,11 +586,13 @@ img {
   background: #2b3035;
   cursor: pointer;
 }
-
-.detail-part-content-pc .content-section-choose .section-status-icon,
-.detail-part-content-pc .content-section-choose {
+.detail-part-content-pc .content-section-choose{
   color: #00b38a;
 }
+.detail-part-content-pc .content-section-choose .section-status-icon{
+  color: #00b38a;
+}
+
 .kw-icon-video:before {
   // content: "\E903";
 }

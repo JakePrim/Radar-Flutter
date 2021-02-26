@@ -23,6 +23,11 @@
         <result property="isNotify" column="is_notify" jdbcType="VARCHAR"/>
         <result property="markBelong" column="mark_belong" jdbcType="VARCHAR"/>
         <result property="replied" column="replied" jdbcType="VARCHAR"/>
+        <!-- 查询留言点赞的具体信息 -->
+        <collection property="favoriteRecords" ofType="CourseCommentFavoriteRecord"
+                    column="id" select="com.sfl.mapper.CourseCommentFavoriteRecordDao.findByCommentId">
+
+        </collection>
     </resultMap>
 
     <insert id="saveComment" parameterType="CourseComment">

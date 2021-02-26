@@ -24,20 +24,20 @@ import java.util.UUID;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/spring-dao.xml"})
 public class UserTest {
-    @Autowired
-    private UserDao userDao;
-
-    @Autowired
-    private CourseDao courseDao;
-
-    @Autowired
-    private OrderDao orderDao;
+//    @Autowired
+//    private UserDao userDao;
+//
+//    @Autowired
+//    private CourseDao courseDao;
+//
+//    @Autowired
+//    private OrderDao orderDao;
 
 
     @Test
     public void testLogin() {
-        User user = userDao.login("110", "123");
-        System.out.println(user);
+//        User user = userDao.login("110", "123");
+//        System.out.println(user);
 //        List<Course> courses = courseDao.queryAll();
 //        Course course = courses.get(0);
 //        System.out.println("课程:" + course.getCourseName() + " id:" + course.getId());

@@ -1,7 +1,9 @@
 package com.sfl.pojo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 课程留言表(CourseComment)实体类
@@ -92,6 +94,15 @@ public class CourseComment implements Serializable {
      */
     private Object replied;
 
+    private List<CourseCommentFavoriteRecord> favoriteRecords = new ArrayList<>();
+
+    public List<CourseCommentFavoriteRecord> getFavoriteRecords() {
+        return favoriteRecords;
+    }
+
+    public void setFavoriteRecords(List<CourseCommentFavoriteRecord> favoriteRecords) {
+        this.favoriteRecords = favoriteRecords;
+    }
 
     public Object getId() {
         return id;
@@ -253,4 +264,30 @@ public class CourseComment implements Serializable {
         this.replied = replied;
     }
 
+    @Override
+    public String toString() {
+        return "CourseComment{" +
+                "id=" + id +
+                ", courseId=" + courseId +
+                ", sectionId=" + sectionId +
+                ", lessonId=" + lessonId +
+                ", userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", parentId=" + parentId +
+                ", isTop=" + isTop +
+                ", comment='" + comment + '\'' +
+                ", likeCount=" + likeCount +
+                ", isReply=" + isReply +
+                ", type=" + type +
+                ", status=" + status +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", isDel=" + isDel +
+                ", lastOperator=" + lastOperator +
+                ", isNotify=" + isNotify +
+                ", markBelong=" + markBelong +
+                ", replied=" + replied +
+                ", favoriteRecords=" + favoriteRecords +
+                '}';
+    }
 }

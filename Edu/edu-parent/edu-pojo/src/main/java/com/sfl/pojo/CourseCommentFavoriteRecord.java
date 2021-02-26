@@ -85,4 +85,15 @@ public class CourseCommentFavoriteRecord implements Serializable {
         this.updateTime = updateTime;
     }
 
+    @Override
+    public String toString() {
+        return "CourseCommentFavoriteRecord{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", commentId=" + commentId +
+                ", isDel=" + isDel +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 }

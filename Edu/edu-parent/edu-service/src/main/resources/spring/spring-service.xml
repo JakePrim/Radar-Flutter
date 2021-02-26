@@ -32,7 +32,7 @@
 
     <!-- connectionFactory 提供主机ip和port -->
     <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-        <property name="hostName" value="172.16.150.131"/>
+        <property name="hostName" value="172.16.160.131"/>
         <property name="port" value="6379"/>
     </bean>
 

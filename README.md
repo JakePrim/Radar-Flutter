@@ -58,21 +58,6 @@
 
 ## 设计模式 :trophy:
 
-## 分布式系统缓存与存储系统架构
-
-### MySQL 数据库
-
-- [新-SQL基础](https://www.yuque.com/jakeprim/java/hrxd7f)
-- [新-JDBC技术](https://www.yuque.com/jakeprim/java/img0c6)
-- [MySQL 数据类型](https://www.yuque.com/jakeprim/java/li66dt)
-- [MySQL 数据管理](https://www.yuque.com/jakeprim/java/sqehlt)
-- [MySQL 常用函数](https://www.yuque.com/jakeprim/java/ldm0hf)
-- **[JDBC Java连接数据库](https://www.yuque.com/jakeprim/java/xiixmo)**  JDBC[示例代码](https://github.com/JakePrim/Awesome-Java-Notebook/tree/master/JDBC)
-- [事务管理-同时修改两个表多次获取连接的问题](https://www.yuque.com/jakeprim/java/lk3iud)
-- [JavaWeb 连接数据库实战](https://www.yuque.com/jakeprim/java/lk3iud)
-
-### Redis
-
 ## JavaWeb 核心技术
 
 - [JavaWeb核心技术(Servlet和Jsp)](https://www.yuque.com/jakeprim/java/owtxpn)
@@ -90,9 +75,8 @@
 -  **[监听器 - Listener](https://www.yuque.com/jakeprim/java/ku7a0l)** 
 -  **[文件上传](https://www.yuque.com/jakeprim/java/vz06g3)**  
 -  [JavaWeb 项目实战](https://www.yuque.com/jakeprim/java/kzr1w5)
-## 深入剖析JVM :alien:
 
-<img src="README.assets/image-20201229175147972.png" alt="image-20201229175147972" style="zoom: 25%;" />
+## 深入剖析JVM :alien:
 
 - [JVM基础及内存区域](https://www.yuque.com/jakeprim/java/hs50zz) 
 -  [深入理解JVM内存区域](https://www.yuque.com/jakeprim/java/qhmxou) 
@@ -174,6 +158,17 @@
 
 
 ## 分布式系统缓存与存储系统架构
+
+### MySQL 数据库
+
+- [新-SQL基础](https://www.yuque.com/jakeprim/java/hrxd7f)
+- [新-JDBC技术](https://www.yuque.com/jakeprim/java/img0c6)
+- [MySQL 数据类型](https://www.yuque.com/jakeprim/java/li66dt)
+- [MySQL 数据管理](https://www.yuque.com/jakeprim/java/sqehlt)
+- [MySQL 常用函数](https://www.yuque.com/jakeprim/java/ldm0hf)
+- **[JDBC Java连接数据库](https://www.yuque.com/jakeprim/java/xiixmo)**  JDBC[示例代码](https://github.com/JakePrim/Awesome-Java-Notebook/tree/master/JDBC)
+- [事务管理-同时修改两个表多次获取连接的问题](https://www.yuque.com/jakeprim/java/lk3iud)
+- [JavaWeb 连接数据库实战](https://www.yuque.com/jakeprim/java/lk3iud)
 
 ### Redis
 

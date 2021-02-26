@@ -9,6 +9,8 @@ import com.sfl.pojo.bo.PageBo;
 import com.sfl.service.CourseCommentService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @program: edu-web
  * @Description: 留言api
@@ -38,7 +40,7 @@ public class CommentController {
     @GetMapping("/findCourseComment")
     public ResultDTO findCourseComment(PageBo pageBo) {
         PageInfo<CourseComment> pageInfo = courseCommentService.findCommentByCourseId(pageBo);
-        System.out.println(pageInfo);
+        List<CourseComment> list = pageInfo.getList();
         return ResultDTO.createSuccess("success", pageInfo);
     }
 

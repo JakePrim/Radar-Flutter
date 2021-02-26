@@ -1,25 +1,25 @@
 <template>
   <div>
     <Header></Header>
-    <div style="background: #eee">
+    <div style="background: #eee;">
       <!-- 面包屑导航 -->
       <div class="nav-wrap">
-        <p class="nav-p-pc" style="margin-top: -25px; text-align: left">
-          <a href="#">课程列表</a>
+        <p class="nav-p-pc" style="margin-top:-25px;text-align:left;">
+          <a href="/">课程列表</a>
           <span class="sharp-content">&gt;</span>
-          <span class="nav-sec">{{ course.courseName }}</span>
+          <span class="nav-sec">{{course.courseName}}</span>
         </p>
       </div>
 
       <!-- 课程详情 -->
       <div class="container">
-        <div style="height: 100%">
+        <div style="height: 100%;">
           <div class="weui-tab content-wrapper">
             <div
               id="vux_view_box_body"
               class="weui-tab__panel vux-fix-safari-overflow-scrolling"
             >
-              <div style="position: relative">
+              <div style="position: relative;">
                 <div class="intro">
                   <div class="intro-content">
                     <img
@@ -28,26 +28,24 @@
                       alt="课程图片"
                     />
                     <div class="conent-wrap">
-                      <div class="name" style="text-align: left">
-                        {{ course.courseName }}
+                      <div class="name" style="text-align:left;">
+                        {{course.courseName}}
                       </div>
-                      <div class="des text-omit" style="text-align: left">
-                        {{ course.brief }}
+                      <div class="des text-omit" style="text-align:left;">
+                        {{course.brief}}
                       </div>
                       <div class="title">
                         <div class="teacher-name text-omit">
-                          {{ course.teacher.teacherName }}
+                          讲师：{{course.teacher.teacherName}}
                           <span class="line"></span>
-                          {{ course.teacher.position }}
+                         {{course.teacher.position}}
                         </div>
                       </div>
                       <div class="lesson-info">
                         <div class="boook-icon backgroun-img-set"></div>
-                        <div class="time">
-                          {{ totalLessons }}讲 / {{ course.totalDuration }}课时
-                        </div>
+                        <div class="time">{{totalLessons}} 讲 / {{course.totalDuration}} 课时</div>
                         <div class="person-icon backgroun-img-set"></div>
-                        <div class="person">{{ course.sales }}人已购买</div>
+                        <div class="person">{{course.sales}}人已购买</div>
                       </div>
                     </div>
 
@@ -64,93 +62,136 @@
               <div class="public-class-container is-pc">
                 <el-tabs v-model="activeName">
                   <el-tab-pane label="课程信息" name="intro">
-                    <div
-                      class="content-p pc-background"
-                      v-html="course.courseDescription"
-                    ></div>
+                    <div v-html="course.courseDescription" class="content-p pc-background">
+                    </div>
+
+                    <!-- 留言板 开始-->
+                    <div class="message">
+                      <div class="message-topic">
+                        <div class="message-topic-title normal-font">精选留言</div>
+                      </div>
+                      <div>
+                        <div class="message-edit">
+                          <textarea rows="20" style="border:none;resize: none;" 
+                            contenteditable="true"
+                            placeholder="分享学习心得、思考感悟或者给自己一个小鼓励吧！"
+                            class="edit-div pcStyle"
+                            v-model="comment"
+                          ></textarea>
+                        </div>
+                        <div class="message-edit-footer flex">
+                          <button class="message-edit-btn disableBg" @click="saveComment">发表留言</button>
+                        </div>
+                      </div>
+                    
+
+                      <!-- 留言 开始 -->
+                      <div class="message-list" v-for="(comment , index) in commentList" :key="index">
+                        <div class="message-list-title">
+                          <div class="message-list-title-left">
+                            <div class="message-list-title-left-name">{{comment.userName}}</div>
+                            <div class="message-list-title-left-tag"></div>
+                          </div>
+                          <!-- 已赞 data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4BAMAAABaqCYtAAAAJFBMVEVHcEwAuI4AtIsAtIsAtIoAtYwAtIsAtYwAtowAx5kAtIsAs4qd4c1kAAAAC3RSTlMAGMfz3VGnbTYIhXtDq8EAAAETSURBVDjLldWhb8JAFAbwg8CGhGSGzNQtULNkWUioWbJkpmYKAQaBITPLLKZysmLz+xfolUL6/XM72msh9N2X8ImaX17vrq+vVeqU39XTuK/kdEMA01jGDY4ZyYWFIRPxp0S8u+8KeBJ+WDxIGFrMJbQm7qhVYSJgr8JUwNsKtYDtCiHgPavcsDVDstsuyDk7NeYDk6G8pM3bWXNawQUijWq8QyPPpQy+50ET9bF09go5pus3cMV0feFEc2DfieZRBU7Up7fjSkwZZgz3DA8MHxl6DP8YRgxjgokimDHcMdwyfGG4ZPjJMCKoY4KJIpgz3DHcMvQYFuPpk/005t1mffHlOs/ETvxXAA0Ul3oQHsp/xD93wxfHcC4VkwAAAABJRU5ErkJggg== -->
+                          <div @click="cancelzan(comment)" v-if="JSON.stringify(comment.favoriteRecords).indexOf( user.content.id ) >= 0" class="message-list-title-right">
+                            <img class="message-list-title-right-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4BAMAAABaqCYtAAAAJFBMVEVHcEwAuI4AtIsAtIsAtIoAtYwAtIsAtYwAtowAx5kAtIsAs4qd4c1kAAAAC3RSTlMAGMfz3VGnbTYIhXtDq8EAAAETSURBVDjLldWhb8JAFAbwg8CGhGSGzNQtULNkWUioWbJkpmYKAQaBITPLLKZysmLz+xfolUL6/XM72msh9N2X8ImaX17vrq+vVeqU39XTuK/kdEMA01jGDY4ZyYWFIRPxp0S8u+8KeBJ+WDxIGFrMJbQm7qhVYSJgr8JUwNsKtYDtCiHgPavcsDVDstsuyDk7NeYDk6G8pM3bWXNawQUijWq8QyPPpQy+50ET9bF09go5pus3cMV0feFEc2DfieZRBU7Up7fjSkwZZgz3DA8MHxl6DP8YRgxjgokimDHcMdwyfGG4ZPjJMCKoY4KJIpgz3DHcMvQYFuPpk/005t1mffHlOs/ETvxXAA0Ul3oQHsp/xD93wxfHcC4VkwAAAABJRU5ErkJggg==" alt="">
+                            <div class="message-list-title-right-praise">{{comment.likeCount}}</div>
+                          </div>
+                          <!-- 没点过赞 -->
+                          <div @click="zan(comment)" class="message-list-title-right">
+                            <img class="message-list-title-right-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4BAMAAABaqCYtAAAAKlBMVEVHcExnZ2dzc3NmZmZqampmZmZmZmZnZ2dnZ2dnZ2dmZmZoaGhmZmZmZmZl+8SAAAAADXRSTlMA/AbsFtilbj5YwSqJPyESoQAAAZxJREFUOMt1lTtLA1EQha8xRhPTBEmhuKCCoNgoIlYLMcRKBG0sxIUgCDaBSDohEO0FEbQyIBZaBazERvAPWCwxPnP+i3tnrlGTmVPswn73NXNm7hrzq9m9kZ2ckTUUABifkOEBrK7liR7BMRFOA/uFc+BUgnV8mFisEW5IsIFi9FzBuwR91KJnAm8S9EIbxSBeBRZHk86MrBQJWjymJUC3nlugSyk+SQyhANfxos+s4krfM0DZvmbw2cuSCHNGi3PAfUygXYiU79ryyw1ibf0xZ9intBsz6SBadx24iiZXz8kPxCiTtYdLPzKTVFkkLQAZO/VikwYW/x/wHohcT/MiPQE8W9frxJrlbpiw4xvA0vbNmWyhj2Nrhmy+B7nEyTsN0rIaJAc0SDWqwX7rhAYfMa/Dui0bDZbwZAwUGNjWUWActnUUyN2hwDTaOkxRaSiwj6pRhjHKgTazSkWlwBK1jgIpBwrkHCgwyZ0oQ86BAjkHCjziG0KE8YBvCA/5KacOm6sgrHFAotouT6J23bkkLbsNDjM9yt7yP+IbQYga5De+eBMAAAAASUVORK5CYII=" alt="">
+                            <div class="message-list-title-right-praise">{{comment.likeCount}}</div>
+                          </div>
+                        </div>
+                        <div class="message-list-content">
+                          {{comment.comment}}
+                        </div>
+                        <!--删除留言（必须登录才能删除自己的）-->
+                        <!--
+                        <div class="message-delete pointer">
+                          <img class="message-delete-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4BAMAAABaqCYtAAAAD1BMVEWZmZn4+fqysrPu7/DS09OEJUPlAAAAf0lEQVQ4y+3VwQ2AIAwF0C9hAAUHgDgBToD7L2UiUMDiwQMXpQfS9B3ohQ+WVDtibTRCarRJKBzDGVQTQ59RMjSwoVEQDIF4lQYa2Oi6IR6qJ5Yr1Et9ExvnwIGv8A9vxdWmCzRFdMdIF4Se54wkVBwtYQ7/+hMIe643Fcc1PgEbl0u1B0v+VgAAAABJRU5ErkJggg==" alt="">删除
+                        </div>
+                        -->
+                      </div>
+                      <!-- 留言 结束 -->
+
+                    </div>
+                    <!-- 留言板 结束-->
+                    
                   </el-tab-pane>
                   <el-tab-pane label="目录" name="directory">
                     <div
                       class="class-menu-contaniner list-page-container more-sections more-sections-padding"
                     >
-                      <!-- 第一章节 -->
-                      <div
-                        v-for="(section, index) in course.courseSectionList.slice(0,1)"
-                        :key="index"
-                      >
+                      <!-- 第一章 开始 -->
+                      <div v-for="(section,index) in course.courseSectionList.slice(0,1)" :key="index">
                         <div class="section-name single-line">
-                          {{ section.sectionName }}
+                          {{section.sectionName}}
                         </div>
-                        <!-- 课时 -->
                         <div class="class-menu-block">
+                          <!-- 每节课 开始 -->
                           <div
-                            v-for="(lesson, index) in section.courseLessonList"
-                            :key="index"
                             class="class-level-one over-ellipsis"
-                            @click="watchCourse(1)"
-                          >
+                            @click="watchCourse(1,lesson.id,index,lesson.courseMedia)"
+                            v-for="(lesson , index) in section.courseLessonList" :key="index">
                             <div class="text-wrap">
-                              <div class="content">{{ lesson.theme }}</div>
-                              <div 
-                                class="item-status-wrap item-status-wrap-list"
-                              >
-                              <!-- 第一章前两节课 -->
-                              <div v-if="index<2">
-                                <!-- 未登录试看 -->
-                                <div v-if="!isLogin" class="item-status test-watch">试看</div>
-                                <!-- 已登录未购买 -->
-                                <div v-else-if="isLogin && !isBuy" class="item-status test-watch">试看</div>
-                                <!-- 已登录已购买 -->
-                                <div v-else class="item-status test-watch">播放</div>
-                              </div>
-                              <div v-if="index>1">
-                                <!-- 未登录试看 -->
-                                <div v-if="!isLogin" class="item-status lock"></div>
-                                <!-- 已登录未购买 -->
-                                <div v-else-if="isLogin && !isBuy" class="item-status lock"></div>
-                                <!-- 已登录已购买 -->
-                                <div v-else class="item-status test-watch">播放</div>
-                              </div>
+                              <div class="content">{{lesson.theme}}</div>
+                              <div class="item-status-wrap item-status-wrap-list">
+                                <!-- 第一章，前两节 -->
+                                <div v-if="index<2">
+                                  <!-- 未登录 => 试看 -->
+                                  <div v-if="!isLogin" class="item-status test-watch">试看</div>
+                                  <!-- 已登录，未购买 => 试看 -->
+                                  <div v-else-if="isLogin && !isBuy" class="item-status test-watch">试看</div>
+                                  <!-- 已登录，已购买 => 播放 -->
+                                  <div v-else class="item-status test-watch">播放</div>
+                                </div>
+                                  
+                                <!-- 第一章，除了前两节的 -->
+                                <div v-if="index>1">
+                                  <!-- 未登录 => 锁 -->
+                                  <div v-if="!isLogin" class="item-status lock"></div>
+                                  <!-- 已登录，未购买 => 锁 -->
+                                  <div v-else-if="isLogin && !isBuy" class="item-status lock"></div>
+                                  <!-- 已登录，已购买 => 播放 -->
+                                  <div v-else class="item-status test-watch">播放</div>
+                                </div>
+
                               </div>
                             </div>
                           </div>
+                          <!-- 每节课 结束 -->
                         </div>
-                        <!-- 课时 -->
                       </div>
-                      <div
-                        v-for="(section, index) in course.courseSectionList.slice(1,course.courseSectionList.length)"
-                        :key="index"
-                      >
+                      <!-- 第一章 结束 -->
+
+                      <!-- 其余章 开始 -->
+                      <div v-for="(section,index) in course.courseSectionList.slice(1,course.courseSectionList.length)" :key="index">
                         <div class="section-name single-line">
-                          {{ section.sectionName }}
+                          {{section.sectionName}}
                         </div>
-                        <!-- 课时 -->
                         <div class="class-menu-block">
+                          <!-- 每节课 开始 -->
                           <div
-                            v-for="(lesson, index) in section.courseLessonList"
-                            :key="index"
                             class="class-level-one over-ellipsis"
-                            @click="watchCourse(1)"
-                          >
+                            @click="watchCourse(2,lesson.id,index,lesson.courseMedia)"
+                            v-for="(lesson , index) in section.courseLessonList" :key="index">
                             <div class="text-wrap">
-                              <div class="content">{{ lesson.theme }}</div>
-                              <div 
-                                class="item-status-wrap item-status-wrap-list"
-                              >
-                              <!-- 第一章前两节课 -->
-                                <!-- 未登录试看 -->
-                                <div v-if="!isLogin" class="item-status lock"></div>
-                                <!-- 已登录未购买 -->
-                                <div v-else-if="isLogin && !isBuy" class="item-status lock"></div>
-                                <!-- 已登录已购买 -->
-                                <div v-else class="item-status test-watch">播放</div>
+                              <div class="content">{{lesson.theme}}</div>
+                              <div class="item-status-wrap item-status-wrap-list">
+                                  <!-- 未登录 => 锁 -->
+                                  <div v-if="!isLogin" class="item-status lock"></div>
+                                  <!-- 已登录，未购买 => 锁 -->
+                                  <div v-else-if="isLogin && !isBuy" class="item-status lock"></div>
+                                  <!-- 已登录，已购买 => 播放 -->
+                                  <div v-else class="item-status test-watch">播放</div>
                               </div>
                             </div>
                           </div>
+                          <!-- 每节课 结束 -->
                         </div>
-                        <!-- 课时 -->
                       </div>
-                      <!-- 章节 -->
+                      <!-- 其余章 结束 -->
                     </div>
                   </el-tab-pane>
                 </el-tabs>
@@ -162,131 +203,48 @@
           </div>
         </div>
 
+        <!-- 微信支付二维码-->
+        <el-dialog :visible.sync="dialogFormVisible" style="width:800px;margin:0px auto;" >
+          <h1 style="font-size:30px;color:#00B38A" >微信扫一扫支付</h1>
+          <div id="qrcode" style="width:210px;margin:20px auto;"></div>
+          <h2 id="statusText"></h2>
+          <p id="closeText"></p>
+        </el-dialog>
+
         <!-- 底部购买 -->
         <div
           class="public-class-footer"
           slot="bottom"
-          style="border: 1px solid #eee; height: 60px; text-align: left"
+          style="border:1px solid #eee; height:60px; text-align:left;"
         >
-          <span class="product-descript" style="font-size: 0.347rem"
+          <span class="product-descript" style="font-size:.347rem"
             >成就自己</span
           >
-          <span class="current-price" style="font-size: 28px">
-            <span class="current-price-unite" style="font-size: 0.347rem">
+          <span class="current-price" style="font-size:28px">
+            <span class="current-price-unite" style="font-size:.347rem">
               ￥</span
-            >{{ course.discounts }}
+            >{{course.discounts}}
           </span>
           <span class="current-price price">
             <span class="current-price-unite">￥</span>
-            {{ course.price }}
+             {{course.price}}
           </span>
           <button
             @click="buy(7)"
             type="button"
             class="weui-btn purchase-button weui-btn_mini weui-btn_primary"
-            style="width: 155px; height: 45px; font-size: 17px"
+            style="width:155px;height:45px;font-size:17px;"
           >
             立即购买
             <!-- ::after -->
           </button>
         </div>
-
-        <!-- 留言板 -->
-        <div class="message">
-          <div class="message-topic">
-            <div class="message-topic-title normal-font">精选留言</div>
-          </div>
-          <div>
-            <div class="message-edit">
-              <div
-                contenteditable="true"
-                placeholder="分享学习心得、思考感悟或者给自己一个小鼓励吧！"
-                class="edit-div pcStyle"
-              ></div>
-              <div class="message-edit-count">
-                <span class="message-edit-count-cur">0</span>
-                <span class="message-edit-count-max">/2000</span>
-              </div>
-            </div>
-
-            <div class="message-edit-footer flex">
-              <div class="message-edit-emoji">
-                <img
-                  alt=""
-                  class="message-edit-emoji-icon"
-                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQBAMAAAB8P++eAAAAJ1BMVEVHcEycnJyYmJimpqaXl5eYmJiXl5eYmJiXl5eYmJibm5uXl5eXl5facJpuAAAADHRSTlMAGG8J4pPzTL/PMqpyqtX6AAAC1ElEQVRIx41XO2/TUBS+rolC2yUCWqmIIQjULB5CaFWEGHgIEJKHViCgUhYQDyF5qMJjoQMSYoEMgICpQxESYujABkMWgmuS5vtRHDu+vsev63uHSOf6i8/7O8dCpI/Vu/vJe3TjTashdMd+voP4jO+0y3H122Dn4VYZruMidfxTOtzn1tejZ473NsuR9RB39akU126FyALt1gAIfvGblx4wyTv/gnAb6asFQj7O4lZJ0Ub2coEub2YU94G3eXt+AKO08iVgWOShA3zg8pwLf7cImH1wDHhdHNxzwCVm4Q4mJZm1Bxg3+N/Wy/Ja48q6mJRXygD7SfJKLYzVyUQuwtfUnu3iXvLyA10170nDSHNTB5yRulcw0vaH6ONKnKYDPXBvml4ydl0PrE2dnUGgb01heZETh5KAznx5wrxiUhcX6XdbhimsSVV9XFrEvwj+cyoeDhvvlQRyaT5UansyQ074aMhKNpHqCNr04yfhojMSRZJLL6slvnjho0AUSV2K4GxkaAVwG+/FCfyNpYjIxqJIuoA/EbjKmUitkySwPDzkyJDsbIqqgFOa9ykMW6IqhRTDERm9KyrPHLnlolENtCgrnhkwEEC7GmibA2Gu2tgZ4/CogHvInYAFXKXQzQN9lkJVFP08cMSKQpXZIA+csDJTheuoGpOVNmSFq1pB/YU9Vq2gmms2O2qcxKqwuVS7djLES+zVZO2qCCDmIkagkr0iAlCUkiXK74kpEaUokiLq9VneLTcmWklSivbWUhNySY2NKe0xInXYhKRxOUwTKaPmeWr52HF7GYntMTUzH2hC4nJ0Z5+GmqMx2fPx0QkLofXtfC8skGZ2fPCB9EwVxPXcQOIj7uyyxN1v50Zcamham1Pcx0bB0EyP4SO/rz14d7JwDBsPdu2qsMrVGS8fxuuM+YJkvHKZL3HGa6H5omm+uhovw+brtfnCbv4JYP5RoftM+Q87klAb2rvNhQAAAABJRU5ErkJggg=="
-                />
-                <span>表情</span>
-              </div>
-              <button class="message-edit-btn disableBg">发表留言</button>
-
-              <!-- 留言 开始 -->
-              <div
-                class="message-list"
-                v-for="(comment, index) in commentList"
-                :key="index"
-              >
-                <div class="message-list-title">
-                  <div class="message-list-title-left">
-                    <div class="message-list-title-left-name">
-                      {{ comment.userName }}
-                    </div>
-                    <div class="message-list-title-left-tag"></div>
-                  </div>
-                  <!-- 已赞 data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4BAMAAABaqCYtAAAAJFBMVEVHcEwAuI4AtIsAtIsAtIoAtYwAtIsAtYwAtowAx5kAtIsAs4qd4c1kAAAAC3RSTlMAGMfz3VGnbTYIhXtDq8EAAAETSURBVDjLldWhb8JAFAbwg8CGhGSGzNQtULNkWUioWbJkpmYKAQaBITPLLKZysmLz+xfolUL6/XM72msh9N2X8ImaX17vrq+vVeqU39XTuK/kdEMA01jGDY4ZyYWFIRPxp0S8u+8KeBJ+WDxIGFrMJbQm7qhVYSJgr8JUwNsKtYDtCiHgPavcsDVDstsuyDk7NeYDk6G8pM3bWXNawQUijWq8QyPPpQy+50ET9bF09go5pus3cMV0feFEc2DfieZRBU7Up7fjSkwZZgz3DA8MHxl6DP8YRgxjgokimDHcMdwyfGG4ZPjJMCKoY4KJIpgz3DHcMvQYFuPpk/005t1mffHlOs/ETvxXAA0Ul3oQHsp/xD93wxfHcC4VkwAAAABJRU5ErkJggg== -->
-                  <!-- <div @click="cancelzan(comment)" v-if="JSON.stringify(comment.favoriteRecords).indexOf( user.content.id ) >= 0" class="message-list-title-right">
-                            <img class="message-list-title-right-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4BAMAAABaqCYtAAAAJFBMVEVHcEwAuI4AtIsAtIsAtIoAtYwAtIsAtYwAtowAx5kAtIsAs4qd4c1kAAAAC3RSTlMAGMfz3VGnbTYIhXtDq8EAAAETSURBVDjLldWhb8JAFAbwg8CGhGSGzNQtULNkWUioWbJkpmYKAQaBITPLLKZysmLz+xfolUL6/XM72msh9N2X8ImaX17vrq+vVeqU39XTuK/kdEMA01jGDY4ZyYWFIRPxp0S8u+8KeBJ+WDxIGFrMJbQm7qhVYSJgr8JUwNsKtYDtCiHgPavcsDVDstsuyDk7NeYDk6G8pM3bWXNawQUijWq8QyPPpQy+50ET9bF09go5pus3cMV0feFEc2DfieZRBU7Up7fjSkwZZgz3DA8MHxl6DP8YRgxjgokimDHcMdwyfGG4ZPjJMCKoY4KJIpgz3DHcMvQYFuPpk/005t1mffHlOs/ETvxXAA0Ul3oQHsp/xD93wxfHcC4VkwAAAABJRU5ErkJggg==" alt="">
-                            <div class="message-list-title-right-praise">{{comment.likeCount}}</div>
-                          </div> -->
-                  <!-- 没点过赞 -->
-                  <div @click="zan(comment)" class="message-list-title-right">
-                    <img
-                      class="message-list-title-right-icon"
-                      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4BAMAAABaqCYtAAAAKlBMVEVHcExnZ2dzc3NmZmZqampmZmZmZmZnZ2dnZ2dnZ2dmZmZoaGhmZmZmZmZl+8SAAAAADXRSTlMA/AbsFtilbj5YwSqJPyESoQAAAZxJREFUOMt1lTtLA1EQha8xRhPTBEmhuKCCoNgoIlYLMcRKBG0sxIUgCDaBSDohEO0FEbQyIBZaBazERvAPWCwxPnP+i3tnrlGTmVPswn73NXNm7hrzq9m9kZ2ckTUUABifkOEBrK7liR7BMRFOA/uFc+BUgnV8mFisEW5IsIFi9FzBuwR91KJnAm8S9EIbxSBeBRZHk86MrBQJWjymJUC3nlugSyk+SQyhANfxos+s4krfM0DZvmbw2cuSCHNGi3PAfUygXYiU79ryyw1ibf0xZ9intBsz6SBadx24iiZXz8kPxCiTtYdLPzKTVFkkLQAZO/VikwYW/x/wHohcT/MiPQE8W9frxJrlbpiw4xvA0vbNmWyhj2Nrhmy+B7nEyTsN0rIaJAc0SDWqwX7rhAYfMa/Dui0bDZbwZAwUGNjWUWActnUUyN2hwDTaOkxRaSiwj6pRhjHKgTazSkWlwBK1jgIpBwrkHCgwyZ0oQ86BAjkHCjziG0KE8YBvCA/5KacOm6sgrHFAotouT6J23bkkLbsNDjM9yt7yP+IbQYga5De+eBMAAAAASUVORK5CYII="
-                      alt=""
-                    />
-                    <div class="message-list-title-right-praise">
-                      {{ comment.likeCount }}
-                    </div>
-                  </div>
-                </div>
-                <div class="message-list-content">
-                  {{ comment.comment }}
-                </div>
-                <!--删除留言（必须登录才能删除自己的）-->
-                <!--
-                        <div class="message-delete pointer">
-                          <img class="message-delete-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4BAMAAABaqCYtAAAAD1BMVEWZmZn4+fqysrPu7/DS09OEJUPlAAAAf0lEQVQ4y+3VwQ2AIAwF0C9hAAUHgDgBToD7L2UiUMDiwQMXpQfS9B3ohQ+WVDtibTRCarRJKBzDGVQTQ59RMjSwoVEQDIF4lQYa2Oi6IR6qJ5Yr1Et9ExvnwIGv8A9vxdWmCzRFdMdIF4Se54wkVBwtYQ7/+hMIe643Fcc1PgEbl0u1B0v+VgAAAABJRU5ErkJggg==" alt="">删除
-                        </div>
-                        -->
-              </div>
-              <!-- 留言 结束 -->
-
-              <!-- 表情大全，待完善 -->
-              <div
-                id="myPanel"
-                class="message-edit-emojilist"
-                style="display: none"
-              >
-                <em class="message-edit-emojilist-tip">◆</em>
-                <span class="message-edit-emojilist-tip">◆</span>
-                <img
-                  src="https://www.lgstatic.com/mds-pipline-fed/instantMessaging/common/img/blank.56398e76.gif"
-                  data-src="https://www.lgstatic.com/mds-pipline-fed/instantMessaging/common/img/blank.56398e76.gif"
-                  data-code="1f600"
-                  class="emoji-icon emoji_1f600"
-                  alt=""
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+</div>
+         
     </div>
     <Footer></Footer>
   </div>
 </template>
-
 <script>
 import Header from "./Header/Header"; //顶部登录条
 import Footer from "./Footer/index"; //顶部登录条
@@ -302,10 +260,14 @@ export default {
       course: null,
       totalLessons: 0,
       commentList: null,
-      isLogin: false,
       myCourseList: [],
+      isLogin: false,
       isBuy: false,
       user: null,
+      comment:null, // 待发表的留言内容
+      dialogFormVisible:false, //默认false：隐藏，true：显示
+      time:null,// 计时对象
+      orderNo:"",// 订单编号
     };
   },
   created() {
@@ -328,12 +290,38 @@ export default {
     this.getComment();
   },
   methods: {
-    watchCourse(lessonid) {
-      alert("观看第【" + lessonid + "】节课程视频！");
-      this.$router.push({
-        name: "videoDetail",
-        params: { lessonid: lessonid },
-      });
+    watchCourse(status,lessonid,index,media) {
+      if (media == null || media == "") {
+        this.$message.error("视频地址不存在无法播放");
+        return;
+      }
+      //试看的可以跳转到播放页面
+      //锁上的 先验证是否登录
+      //登录后，再验证是否购买过
+      if (status===1 && index<2) {
+        //观看视频
+            this.$router.push({
+              name: "videoDetail",
+              params: { course: this.course,lessonid: lessonid,isBuy:this.isBuy},
+            });
+      }else{
+        //走验证
+        if (!this.isLogin) {
+          this.$message.error("请登录");
+        }else{
+          if (!this.isBuy) {
+            this.$message.error("请购买");
+          }else{
+            //观看视频
+            this.$router.push({
+              name: "videoDetail",
+              params: { course: this.course,lessonid: lessonid,isBuy:this.isBuy},
+            });
+          }
+        }
+      }
+
+      
     },
     buy(courseid) {
       alert("购买第【" + courseid + "】门课程成功，加油！");
@@ -348,8 +336,8 @@ export default {
           },
         })
         .then((res) => {
-          console.log("comment:", res);
           this.commentList = res.data.content.list;
+          console.log("comment:", this.commentList);
         })
         .catch(() => {
           this.$message.error("获取留言失败");
@@ -377,6 +365,51 @@ export default {
         .catch(() => {
           this.$message.error("获取课程信息失败");
         });
+    },
+        // 发表留言
+    saveComment(){
+       return this.axios
+        .get("http://localhost:80/course/comment/saveCourseComment",{
+          params:{
+            courseid:this.course.id,
+            userid:this.user.content.id,
+            username:this.user.content.name,
+            comment:this.comment,
+          }
+        })
+        .then((result) => {
+          // console.log(result);
+          // 重新获取本门课的全部留言信息
+          this.getComment();
+        }).catch( (error)=>{
+          this.$message.error("发表留言失败！");
+        } ); 
+    },
+    zan(comment){        
+      return this.axios
+      .post("http://localhost:8002/comment/favoriteComment/",{
+          userId:this.user.content.id,
+          commentId:comment.id
+        })
+      .then((result) => {
+        // console.log(result);
+        // 重新获取本门课的全部留言信息
+        this.getComment();
+      }).catch( (error)=>{
+        this.$message.error("点赞失败！");
+      } );
+    },
+    // 取消赞
+    cancelzan(comment){
+      return this.axios
+      .post("http://localhost:8002/comment/favoriteComment/")
+      .then((result) => {
+        // console.log(result);
+        // 重新获取本门课的全部留言信息
+        this.getComment();
+      }).catch( (error)=>{
+        this.$message.error("取消赞失败！");
+      } );
     },
   },
 };
@@ -436,8 +469,7 @@ export default {
 }
 .edit-div {
   width: 100%;
-  height: 3.067rem;
-  line-height: 0.667rem;
+  line-height: 1.267rem;
   margin-top: 0.267rem;
   word-break: break-all;
   outline: none;
@@ -672,11 +704,11 @@ img {
   display: inline-block;
 }
 .content-p {
-  font-size: 0.373rem;
+  font-size: 0.873rem;
   color: #666;
   letter-spacing: 0;
   text-align: justify;
-  line-height: 0.56rem;
+  line-height: 1.1rem;
 }
 .pc-background,
 .public-class-container {
@@ -1017,5 +1049,100 @@ i {
   height: 18px;
   width: 18px;
   display: inline-block;
+}
+.message-list{
+    color: #333;
+    padding: 20px 0 30px;
+}
+.message-list-title-left, .message-list-title {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+}
+.message-list-title-left{
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    text-align: left;
+}
+.message-list-title-left-name{
+    font-size: .373rem;
+    margin-right: .133rem;
+    font-weight: 700;
+}
+.message-list-title-left-tag {
+    min-width: 26px;
+    height: 16px;
+    line-height: 16px;
+    padding: 1px 5px;
+    text-align: center;
+    border-radius: 1px;
+    font-size: 10px;
+    border-radius: 2px;
+    color: #fff;
+}
+.message-list-title-right {
+    overflow: hidden;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+.message-list-title-right-icon{
+    width: 14px;
+    height: 14px;
+    margin-right: 4px;
+}
+
+img {
+    border: 0;
+    vertical-align: top;
+    display: inline-block;
+}
+.message-list-title-right-praise {
+    height: 10px;
+    font-size: 14px;
+    font-family: PingFangSC-Regular,PingFang SC;
+    font-weight: 400;
+    color: #666;
+    line-height: 13px;
+}
+.message-list-content{
+    color: #666;
+    font-size: 16px;
+    margin-top: 10px;
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow: hidden;
+    line-height: 30px;
+    text-align: left;
+}
+.pointer {
+    cursor: pointer;
+}
+.message-delete {
+    color: #999;
+    font-size: 14px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    padding-top: 8px;
+    position: relative;
+    width: 50px;
+}
+
+
+.message-delete-icon{
+    width: 14px;
+    height: 14px;
+    margin-right: 5px;
 }
 </style>
