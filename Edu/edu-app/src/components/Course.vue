@@ -93,12 +93,12 @@
                             <div class="message-list-title-left-tag"></div>
                           </div>
                           <!-- 已赞 data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4BAMAAABaqCYtAAAAJFBMVEVHcEwAuI4AtIsAtIsAtIoAtYwAtIsAtYwAtowAx5kAtIsAs4qd4c1kAAAAC3RSTlMAGMfz3VGnbTYIhXtDq8EAAAETSURBVDjLldWhb8JAFAbwg8CGhGSGzNQtULNkWUioWbJkpmYKAQaBITPLLKZysmLz+xfolUL6/XM72msh9N2X8ImaX17vrq+vVeqU39XTuK/kdEMA01jGDY4ZyYWFIRPxp0S8u+8KeBJ+WDxIGFrMJbQm7qhVYSJgr8JUwNsKtYDtCiHgPavcsDVDstsuyDk7NeYDk6G8pM3bWXNawQUijWq8QyPPpQy+50ET9bF09go5pus3cMV0feFEc2DfieZRBU7Up7fjSkwZZgz3DA8MHxl6DP8YRgxjgokimDHcMdwyfGG4ZPjJMCKoY4KJIpgz3DHcMvQYFuPpk/005t1mffHlOs/ETvxXAA0Ul3oQHsp/xD93wxfHcC4VkwAAAABJRU5ErkJggg== -->
-                          <div @click="cancelzan(comment)" v-if="JSON.stringify(comment.favoriteRecords).indexOf( user.content.id ) >= 0" class="message-list-title-right">
+                          <div @click="cancelzan(comment)" v-if="JSON.stringify(comment.favoriteRecords).indexOf(user.content.id) >= 0" class="message-list-title-right">
                             <img class="message-list-title-right-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4BAMAAABaqCYtAAAAJFBMVEVHcEwAuI4AtIsAtIsAtIoAtYwAtIsAtYwAtowAx5kAtIsAs4qd4c1kAAAAC3RSTlMAGMfz3VGnbTYIhXtDq8EAAAETSURBVDjLldWhb8JAFAbwg8CGhGSGzNQtULNkWUioWbJkpmYKAQaBITPLLKZysmLz+xfolUL6/XM72msh9N2X8ImaX17vrq+vVeqU39XTuK/kdEMA01jGDY4ZyYWFIRPxp0S8u+8KeBJ+WDxIGFrMJbQm7qhVYSJgr8JUwNsKtYDtCiHgPavcsDVDstsuyDk7NeYDk6G8pM3bWXNawQUijWq8QyPPpQy+50ET9bF09go5pus3cMV0feFEc2DfieZRBU7Up7fjSkwZZgz3DA8MHxl6DP8YRgxjgokimDHcMdwyfGG4ZPjJMCKoY4KJIpgz3DHcMvQYFuPpk/005t1mffHlOs/ETvxXAA0Ul3oQHsp/xD93wxfHcC4VkwAAAABJRU5ErkJggg==" alt="">
                             <div class="message-list-title-right-praise">{{comment.likeCount}}</div>
                           </div>
                           <!-- 没点过赞 -->
-                          <div @click="zan(comment)" class="message-list-title-right">
+                          <div @click="zan(comment)"  v-else class="message-list-title-right">
                             <img class="message-list-title-right-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4BAMAAABaqCYtAAAAKlBMVEVHcExnZ2dzc3NmZmZqampmZmZmZmZnZ2dnZ2dnZ2dmZmZoaGhmZmZmZmZl+8SAAAAADXRSTlMA/AbsFtilbj5YwSqJPyESoQAAAZxJREFUOMt1lTtLA1EQha8xRhPTBEmhuKCCoNgoIlYLMcRKBG0sxIUgCDaBSDohEO0FEbQyIBZaBazERvAPWCwxPnP+i3tnrlGTmVPswn73NXNm7hrzq9m9kZ2ckTUUABifkOEBrK7liR7BMRFOA/uFc+BUgnV8mFisEW5IsIFi9FzBuwR91KJnAm8S9EIbxSBeBRZHk86MrBQJWjymJUC3nlugSyk+SQyhANfxos+s4krfM0DZvmbw2cuSCHNGi3PAfUygXYiU79ryyw1ibf0xZ9intBsz6SBadx24iiZXz8kPxCiTtYdLPzKTVFkkLQAZO/VikwYW/x/wHohcT/MiPQE8W9frxJrlbpiw4xvA0vbNmWyhj2Nrhmy+B7nEyTsN0rIaJAc0SDWqwX7rhAYfMa/Dui0bDZbwZAwUGNjWUWActnUUyN2hwDTaOkxRaSiwj6pRhjHKgTazSkWlwBK1jgIpBwrkHCgwyZ0oQ86BAjkHCjziG0KE8YBvCA/5KacOm6sgrHFAotouT6J23bkkLbsNDjM9yt7yP+IbQYga5De+eBMAAAAASUVORK5CYII=" alt="">
                             <div class="message-list-title-right-praise">{{comment.likeCount}}</div>
                           </div>
@@ -271,6 +271,7 @@ export default {
     };
   },
   created() {
+    
     this.course = this.$route.params.course;
     //检查是否登录
     this.user = JSON.parse(localStorage.getItem("user"));
@@ -290,6 +291,112 @@ export default {
     this.getComment();
   },
   methods: {
+     // 生成二维码
+    createCode(){
+      // 去获取支付连接
+      this.axios
+        .get("http://localhost:8002/order/createCode",{
+          params:{
+            courseid: this.course.id,
+            coursename: this.course.courseName,
+            price:1, //测试支付金额固定为1分钱，真实上线环境再改回此真实价钱：this.course.discounts
+          }
+        })
+        .then((result) => {
+          console.log(result);
+          // QRCode(存放二维码的dom元素id，二维码的属性参数)
+          let qrcode = new QRCode('qrcode',{
+            width:200,
+            height:200,
+            text:result.data.code_url  // 将返回的数据嵌入到二维码中
+          });
+
+          this.orderNo = result.data.orderId;
+
+          // 保存订单， 状态为：已创建 0
+          this.saveOrder();
+
+
+          // 检查支付状态
+          this.axios
+            .get("http://localhost:8002/order/checkOrderStatus",{
+              params:{
+                orderId: result.data.orderId // 传递 订单编号 进行查询
+              }
+            })
+            .then((result) => {
+              
+           	  if(result.data.trade_state=="SUCCESS"){
+                document.getElementById("statusText").innerHTML = "<i style='color:#00B38A' class='el-icon-success'></i> 支付成功！";
+                // 支付成功
+                this.updateOrder(20);
+              }
+              /*
+              else if(result.data.trade_state=="NOTPAY"){
+                document.getElementById("statusText").innerHTML = "<i style='color:#00B38A' class='el-icon-success'></i> 未支付！";
+                this.updateOrder(10);
+              }
+              */
+
+              // 3秒后关闭二维码窗口
+              let s = 3;
+              this.closeQRForm(s);
+            })
+            .catch( (error)=>{
+              this.$message.error("查询订单失败！");
+            });
+        })
+        .catch( (error)=>{
+          this.$message.error("生成二维码失败！");
+        });
+    },
+    // 倒计时关闭二维码窗口
+    closeQRForm( s ){
+      let that = this;
+      that.time = setInterval(function(){
+        document.getElementById("closeText").innerHTML = "( "+ s-- +" ) 秒后关闭本窗口";
+        if(s == 0){
+          clearInterval(that.time); // 停止计时器
+          that.dialogFormVisible = false; // 二维码窗口隐藏
+          that.isBuy = true; // 修改购买状态（已购买）
+        }
+      }, 1000);
+    },
+    // 保存订单
+    saveOrder(){
+      return this.axios
+        .get("http://localhost:8002/order/saveOrder",{
+          params:{
+            orderNo:this.orderNo,
+            user_id: this.user.content.id,
+            course_id:this.course.id,
+            activity_course_id:this.course.id,
+            source_type:1,
+          }
+        })
+        .then((result) => {
+          // console.log(result);
+          console.log("保存订单");
+        })
+        .catch( (error)=>{
+          this.$message.error("保存订单失败！");
+      });
+    },
+    // 更新订单的状态
+    updateOrder(statusCode){
+      return this.axios
+        .get("http://localhost:8002/order/updateOrder",{
+          params:{
+            orderNo:this.orderNo,
+            status:statusCode,
+          }
+        })
+        .then((result) => {
+           console.log("更新订单【"+this.orderNo+"】状态：" + statusCode);
+        }).catch( (error)=>{
+           this.$message.error("更新订单失败！");
+        });
+    },
     watchCourse(status,lessonid,index,media) {
       if (media == null || media == "") {
         this.$message.error("视频地址不存在无法播放");
@@ -324,7 +431,13 @@ export default {
       
     },
     buy(courseid) {
-      alert("购买第【" + courseid + "】门课程成功，加油！");
+      //alert("购买第【" + courseid + "】门课程成功，加油！");
+      this.dialogFormVisible = true; //显示提示框
+
+       // 待dom更新之后再用二维码渲染其内容
+      this.$nextTick(function(){
+          this.createCode(); // 直接调用会报错：TypeError: Cannot read property 'appendChild' of null
+      });
     },
     getComment() {
       return this.axios
@@ -369,13 +482,17 @@ export default {
         // 发表留言
     saveComment(){
        return this.axios
-        .get("http://localhost:80/course/comment/saveCourseComment",{
-          params:{
-            courseid:this.course.id,
-            userid:this.user.content.id,
-            username:this.user.content.name,
+        .post("http://localhost:8002/comment/saveCourseComment",{
+            courseId:this.course.id,
+            userId:this.user.content.id,
+            userName:this.user.content.name,
+            sectionId:0,
+            lessonId:0,
+            parentId:0,
+            isReply:0,
+            type:0,
+            lastOperator:this.user.content.id,
             comment:this.comment,
-          }
         })
         .then((result) => {
           // console.log(result);
@@ -402,7 +519,10 @@ export default {
     // 取消赞
     cancelzan(comment){
       return this.axios
-      .post("http://localhost:8002/comment/favoriteComment/")
+      .post("http://localhost:8002/comment/favoriteComment/",{
+          userId:this.user.content.id,
+          commentId:comment.id
+        })
       .then((result) => {
         // console.log(result);
         // 重新获取本门课的全部留言信息

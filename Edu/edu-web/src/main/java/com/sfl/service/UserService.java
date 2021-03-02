@@ -14,14 +14,9 @@ import org.apache.ibatis.annotations.Param;
  * @ClassName: UserService.java
  **/
 public interface UserService {
-    /**
-     * 登录
-     *
-     * @param phone
-     * @param password
-     * @return
-     */
-    ResultDTO<User> login(String phone, String password);
+    ResultDTO<User> login(User user);
+
+    Integer register(String phone, String password, String nickname, String headimage);
 
     /**
      * 检查手机号是否存在
@@ -30,15 +25,6 @@ public interface UserService {
      * @return
      */
     Integer checkPhone(String phone);
-
-    /**
-     * 注册用户
-     *
-     * @param phone
-     * @param password
-     * @return
-     */
-    Integer register(String phone, String password);
 
     /**
      * 更新用户

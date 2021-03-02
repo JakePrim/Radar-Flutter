@@ -1,7 +1,11 @@
 package com.sfl.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSON;
 import com.sfl.FileSystem;
+import com.sfl.Token;
+import com.sfl.WxUser;
+import com.sfl.http.HttpClientUtils;
 import com.sfl.pojo.ResultDTO;
 import com.sfl.pojo.User;
 import com.sfl.service.UserService;
@@ -11,7 +15,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.jws.soap.SOAPBinding;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.IOException;
 import java.util.UUID;
 
 /**
@@ -33,13 +41,11 @@ public class UserController {
     /**
      * 用户登录/注册接口：如果手机号没有注册自动注册。
      *
-     * @param phone
-     * @param password
      * @return
      */
     @GetMapping("/login")
-    public ResultDTO<User> login(String phone, String password) {
-        ResultDTO<User> resultDTO = userService.login(phone, password);
+    public ResultDTO<User> login(User user) {
+        ResultDTO<User> resultDTO = userService.login(user);
         return resultDTO;
     }
 
@@ -98,5 +104,35 @@ public class UserController {
             return ResultDTO.createError("更新信息失败，请稍后再试");
         }
         return ResultDTO.createSuccess("修改成功");
+    }
+
+    @GetMapping("/wxlogin")
+    public ResultDTO<User> wxlogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String code = request.getParameter("code");
+        System.out.println("【临时凭证】code:" + code);
+        // 通过code 去微信官方申请一个正式的token 令牌
+        String getTokenUrl = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxd99431bbff8305a0&secret=60f78681d063590a469f1b297feff3c4&code=" + code + "&grant_type=authorization_code";
+        String access_token = HttpClientUtils.doGet(getTokenUrl);
+        System.out.println("access_token:" + access_token);
+        Token token = JSON.parseObject(access_token, Token.class);
+
+        //通过token获取微信官方的用户信息
+        String getUserByTokenUrl = "https://api.weixin.qq.com/sns/userinfo?access_token=" + token.getAccess_token() + "&openid=" + token.getOpenid();
+        String userInfoString = HttpClientUtils.doGet(getUserByTokenUrl);
+        System.out.println(userInfoString);
+        //获取第三方用户的数据
+        WxUser wxUser = JSON.parseObject(userInfoString, WxUser.class);
+
+        //将用户信息存储到数据库中 当时当前项目的业务登录需要手机号和密码 以unionid作为手机号和密码
+        //头像和昵称
+        User user = new User();
+        user.setPhone(wxUser.getUnionid());
+        user.setPassword(wxUser.getUnionid());
+        user.setName(wxUser.getNickname());
+        user.setPortrait(wxUser.getHeadimgurl());
+
+        ResultDTO<User> login = login(user);
+        response.sendRedirect("http://localhost:8080");
+        return null;
     }
 }

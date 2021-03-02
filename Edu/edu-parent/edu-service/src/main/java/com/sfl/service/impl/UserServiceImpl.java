@@ -28,21 +28,17 @@ public class UserServiceImpl implements UserService {
      * 用户登录/注册接口：如果手机号没有注册则自动注册登录。
      * 注意：复杂的业务逻辑最好写在service中，不要在controller。注意涉及到多个读和写操作一起进行
      * 则必须要使用事务处理
-     *
-     * @param phone
-     * @param password
-     * @return
      */
     @Transactional
     @Override
-    public ResultDTO<User> login(String phone, String password) {
+    public ResultDTO<User> login(User loginUser) {
         ResultDTO<User> dto = new ResultDTO<>();
         User user = null;
         //检查手机号是否注册
-        Integer isCheck = userDao.checkPhone(phone);
+        Integer isCheck = userDao.checkPhone(loginUser.getPhone());
         if (isCheck == 0) {
             //未注册进行注册
-            Integer row = userDao.register(phone, password);
+            Integer row = userDao.register(loginUser.getPhone(), loginUser.getPassword(), loginUser.getName(), loginUser.getPortrait());
             if (row == 0) {
                 //注册失败
                 dto.setState(400);
@@ -51,11 +47,11 @@ public class UserServiceImpl implements UserService {
                 //注册成功
                 dto.setState(200);
                 dto.setMessage("手机号尚未注册，系统已为您自动注册，请牢记密码");
-                user = userDao.login(phone, password);
+                user = userDao.login(loginUser.getPhone(), loginUser.getPassword());
                 user.setPassword("");//将密码隐去 防止密码泄露
             }
         } else {
-            user = userDao.login(phone, password);
+            user = userDao.login(loginUser.getPhone(), loginUser.getPassword());
             if (user != null) {
                 user.setPassword("");//将密码隐去 防止密码泄露
                 dto.setState(200);
@@ -76,8 +72,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Integer register(String phone, String password) {
-        Integer row = userDao.register(phone, password);
+    public Integer register(String phone, String password, String nickname, String headimage) {
+        Integer row = userDao.register(phone, password, nickname, headimage);
         return row;
     }
 

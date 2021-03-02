@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/springbootdata?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: 123456
+  redis: # Redis\u914D\u7F6E
+    host: 172.16.160.130
+    port: 6379
+    database: 0 # #Redis\u6570\u636E\u5E93\u7D22\u5F15(\u9ED8\u8BA4\u4E3A0)
+    jedis:
+      pool: # \u8FDE\u63A5\u6C60\u914D\u7F6E
+        max-active: 50 # \u8FDE\u63A5\u6C60\u6700\u5927\u8FDE\u63A5\u6570(\u4F7F\u7528\u8D1F\u503C\u8868\u793A\u6CA1\u6709\u9650\u5236)
+        max-wait: 3000 # #\u8FDE\u63A5\u6C60\u6700\u5927\u963B\u585E\u7B49\u5F85\u65F6\u95F4(\u4F7F\u7528\u8D1F\u503C\u8868\u793A\u6CA1\u6709\u9650\u5236)
+        max-idle: 20 #\u8FDE\u63A5\u6C60\u4E2D\u7684\u6700\u5927\u7A7A\u95F2\u8FDE\u63A5
+        min-idle: 2 #\u8FDE\u63A5\u6C60\u4E2D\u7684\u6700\u5C0F\u7A7A\u95F2\u8FDE\u63A5
+    timeout: 5000 #\u8FDE\u63A5\u8D85\u65F6\u65F6\u95F4(\u6BEB\u79D2)
+  thymeleaf:
+    cache: false # \u542F\u7528\u6A21\u677F\u7F13\u5B58
+    encoding: UTF-8 # \u6A21\u677F\u7F16\u7801
+    mode: HTML # \u5E94\u7528\u4E8E\u6A21\u677F\u7684\u6A21\u677F\u6A21\u5F0F
+    prefix: classpath:/templates/ # \u6307\u5B9A\u6A21\u677F\u9875\u9762\u7684\u5B58\u50A8\u8DEF\u5F84
+    suffix: .html # \u6307\u5B9A\u9875\u9762\u6A21\u677F\u540D\u79F0\u7684\u540E\u7F00
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true # \u5F00\u542F\u9A7C\u5CF0\u547D\u540D
+  mapper-locations: classpath:mapper/*.xml # \u52A0\u8F7D\u6620\u5C04\u6587\u4EF6
+  type-aliases-package: com.prim.springbootdata.pojo # \u914D\u7F6E\u5B9E\u4F53\u7C7B\u522B\u540D

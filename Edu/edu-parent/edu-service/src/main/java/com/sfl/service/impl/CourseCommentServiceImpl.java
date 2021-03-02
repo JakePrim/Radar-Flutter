@@ -63,10 +63,23 @@ public class CourseCommentServiceImpl implements CourseCommentService {
                 //更新评论表 增加点赞数量
                 courseCommentDao.updateAddLikeCount(record.getCommentId());
                 return favorite;
-            } else {// 用户已经对这条评论点过赞了 点击取消赞 更改状态
-                Integer update = courseCommentDao.updateFavorite(record.getCommentId(), record.getUserId());
-                //更新评论表 减少点赞数量
-                courseCommentDao.updateSubLikeCount(record.getCommentId());
+            } else {// 用户已经对这条评论点过赞了、或者没有点过赞 点击取消赞或点赞 更改状态
+                Integer isDel = courseCommentDao.findIsDel(record.getCommentId(), record.getUserId());
+                if (isDel == 0) {
+                    isDel = 1;
+                } else {
+                    isDel = 0;
+                }
+                Integer update = 0;
+                update = courseCommentDao.updateFavorite(isDel, record.getCommentId(), record.getUserId());
+                if (isDel == 1) {
+                    //更新评论表 减少点赞数量
+                    courseCommentDao.updateSubLikeCount(record.getCommentId());
+                } else {
+                    //更新评论表 增加点赞的数量
+                    courseCommentDao.updateAddLikeCount(record.getCommentId());
+                }
+
                 return update;
             }
         }

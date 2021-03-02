@@ -1,0 +1,18 @@
+server:
+  port: 8081
+person:
+  id: 100
+  name: 郭德纲
+  hobby:
+    - play
+    - 抽烟
+    - 喝酒
+  family:
+    - 郭麒麟
+    - 郭小宝
+  map:
+    k1: v1
+    k2: v2
+  pet:
+    type: dog
+    name: 金毛

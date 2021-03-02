@@ -10,27 +10,98 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="403dd6fe-4175-4b9e-a3d2-31b6961109e2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/java/com/sfl/mapper/CourseCommentFavoriteRecordDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/resources/com/sfl/mapper/CourseCommentFavoriteRecordDao.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../MyBatis/IPersistence/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../MyBatis/IPersistence/src/main/java/com/persistence/io/Resources.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../MyBatis/IPersistence/src/main/java/com/persistence/pojo/MappedStatement.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../MyBatis/PBatis/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../MyBatis/PBatis/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../MyBatis/PBatis/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../MyBatis/PBatis/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../MyBatis/PBatis/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../MyBatis/PBatisTest/src/main/java/com/pbatis/test/IPersistenceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sfl/Token.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sfl/WxUser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sfl/controller/WxPayController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sfl/http/HttpClientUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sfl/pay/PayConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/.idea/libraries/Maven__com_alibaba_druid_1_1_15.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/.idea/libraries/Maven__org_projectlombok_lombok_1_18_18.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springboot-data/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springboot-data/.mvn/wrapper/MavenWrapperDownloader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springboot-data/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springboot-data/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springboot-data/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springboot-data/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springboot-data/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springboot-data/src/main/java/com/prim/springbootdata/SpringbootDataApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springboot-data/src/main/java/com/prim/springbootdata/controller/IndexController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springboot-data/src/main/java/com/prim/springbootdata/mapper/ArticleDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springboot-data/src/main/java/com/prim/springbootdata/mapper/CommentMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springboot-data/src/main/java/com/prim/springbootdata/pojo/Article.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springboot-data/src/main/java/com/prim/springbootdata/pojo/Comment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springboot-data/src/main/java/com/prim/springbootdata/utils/RedisUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springboot-data/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springboot-data/src/main/resources/mapper/ArticleDao.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springboot-data/src/main/resources/static/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springboot-data/src/main/resources/static/login/css/bootstrap.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springboot-data/src/main/resources/static/login/css/signin.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springboot-data/src/main/resources/static/login/img/login.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springboot-data/src/main/resources/templates/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springboot-data/src/test/java/com/prim/springbootdata/SpringbootDataApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome2/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome2/.mvn/wrapper/MavenWrapperDownloader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome2/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome2/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome2/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome2/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome2/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome2/src/main/java/com/prim/Springbootdome2Application.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome2/src/main/java/com/prim/config/MyConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome2/src/main/java/com/prim/controller/HelloController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome2/src/main/java/com/prim/service/MyService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome2/src/main/java/com/prim/springbootdata/pojo/Person.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome2/src/main/java/com/prim/springbootdata/pojo/Pet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome2/src/main/java/com/prim/springbootdata/pojo/Product.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome2/src/main/java/com/prim/springbootdata/pojo/Student.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome2/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome2/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome2/src/main/resources/my.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome2/src/test/java/com/prim/Springbootdome2ApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome5/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome5/.mvn/wrapper/MavenWrapperDownloader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome5/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome5/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome5/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome5/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome5/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome5/src/main/java/com/prim/springbootdemo5/Springbootdemo5Application.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome5/src/main/java/com/prim/springbootdemo5/controller/UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome5/src/main/java/com/prim/springbootdemo5/mapper/TUserMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome5/src/main/java/com/prim/springbootdemo5/pojo/TUser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome5/src/main/java/com/prim/springbootdemo5/service/UserService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome5/src/main/java/com/prim/springbootdemo5/service/impl/UserServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome5/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome5/src/main/resources/mapper/TUserMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/springbootdome5/src/test/java/com/prim/springbootdemo5/Springbootdemo5ApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/src/main/java/com/prim/springbootdemo5/mapper/UserMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/src/main/java/com/prim/springbootdemo5/pojo/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springboot-demo/src/main/resources/mapper/UserMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springbootdemo1/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springbootdemo1/src/main/java/com/prim/SpringBootDemo1Application.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SpringBoot/springbootdemo1/src/main/java/com/prim/controller/HelloController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../edu-app/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-app/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../edu-app/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-app/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../edu-app/src/components/Course.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-app/src/components/Course.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../edu-app/src/components/videoDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-app/src/components/videoDetail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../edu-app/src/components/Header/Header.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-app/src/components/Header/Header.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../edu-app/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-app/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/java/com/sfl/mapper/CourseCommentDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/java/com/sfl/mapper/CourseCommentDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/java/com/sfl/mapper/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/java/com/sfl/mapper/UserDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/resources/com/sfl/mapper/CourseCommentDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/resources/com/sfl/mapper/CourseCommentDao.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-dao/src/test/java/UserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-dao/src/test/java/UserTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-pojo/src/main/java/com/sfl/pojo/CourseComment.java" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-pojo/src/main/java/com/sfl/pojo/CourseComment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-pojo/src/main/java/com/sfl/pojo/CourseCommentFavoriteRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-pojo/src/main/java/com/sfl/pojo/CourseCommentFavoriteRecord.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/resources/com/sfl/mapper/CourseCommentFavoriteRecordDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/resources/com/sfl/mapper/CourseCommentFavoriteRecordDao.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/resources/com/sfl/mapper/UserDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/resources/com/sfl/mapper/UserDao.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/resources/jdbc.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-dao/src/main/resources/jdbc.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-service/src/main/java/com/sfl/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-service/src/main/java/com/sfl/service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../edu-parent/edu-service/src/main/java/com/sfl/service/impl/CourseCommentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-service/src/main/java/com/sfl/service/impl/CourseCommentServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-service/src/main/resources/spring/spring-service.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-service/src/main/resources/spring/spring-service.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../edu-parent/edu-service/src/main/java/com/sfl/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../edu-parent/edu-service/src/main/java/com/sfl/service/impl/UserServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sfl/controller/CommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sfl/controller/CommentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sfl/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sfl/controller/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sfl/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sfl/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sfl/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sfl/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/config/fastdfs-client.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config/fastdfs-client.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,6 +174,7 @@
   </component>
   <component name="RunManager">
     <configuration name="8002" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 8.5.50" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8002/" />
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
         <artifact name="edu-web:war exploded">
@@ -208,6 +280,8 @@
       <workItem from="1614239071257" duration="82000" />
       <workItem from="1614259603985" duration="4242000" />
       <workItem from="1614321020298" duration="147000" />
+      <workItem from="1614348265295" duration="13424000" />
+      <workItem from="1614640762395" duration="2287000" />
     </task>
     <servers />
   </component>

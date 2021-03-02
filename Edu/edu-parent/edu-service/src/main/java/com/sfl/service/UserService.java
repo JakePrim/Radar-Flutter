@@ -14,11 +14,11 @@ import java.util.List;
  * @since 2021-02-04 15:39:46
  */
 public interface UserService {
-    ResultDTO<User> login(String phone, String password);
+    ResultDTO<User> login(User user);
+
+    Integer register(String phone, String password, String nickname, String headimage);
 
     Integer checkPhone(String phone);
-
-    Integer register(String phone, String password);
 
     Integer updateUserInfo(User user);
 

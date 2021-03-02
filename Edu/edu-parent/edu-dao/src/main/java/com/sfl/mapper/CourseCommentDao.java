@@ -21,10 +21,12 @@ public interface CourseCommentDao {
 
     Integer saveFavorite(CourseCommentFavoriteRecord courseCommentFavoriteRecord);
 
-    Integer updateFavorite(@Param("commentId") Integer commentId, @Param("userId") Integer userId);
+    Integer updateFavorite(@Param("isDel") Integer isDel, @Param("commentId") Integer commentId, @Param("userId") Integer userId);
 
     Integer updateAddLikeCount(Integer id);
 
     Integer updateSubLikeCount(Integer id);
+
+    Integer findIsDel(@Param("commentId") Integer commentId, @Param("userId") Integer userId);
 }
 

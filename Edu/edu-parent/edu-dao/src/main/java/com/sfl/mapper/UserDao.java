@@ -23,7 +23,7 @@ public interface UserDao {
      */
     Integer checkPhone(@Param("phone") String phone);
 
-    Integer register(@Param("phone") String phone, @Param("password") String password);
+    Integer register(@Param("phone") String phone, @Param("password") String password,@Param("nickname") String nickname,@Param("headimage") String headimage);
 
     Integer updateUserInfo(User user);
 

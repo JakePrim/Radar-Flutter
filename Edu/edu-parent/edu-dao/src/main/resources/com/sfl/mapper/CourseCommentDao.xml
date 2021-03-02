@@ -52,7 +52,13 @@
         from course_comment_favorite_record
         where comment_id = #{commentId}
           and user_id = #{userId}
-          and is_del = 0
+    </select>
+    <!-- 查询已经存在的评论的点赞状态 -->
+    <select id="findIsDel" resultType="java.lang.Integer">
+        select is_del
+        from course_comment_favorite_record
+        where comment_id = #{commentId}
+          and user_id = #{userId}
     </select>
 
     <!-- 没有点过赞的情况下保存点赞信息 -->
@@ -63,7 +69,7 @@
 
     <update id="updateFavorite" parameterType="integer">
         update course_comment_favorite_record
-        set is_del     = 1,
+        set is_del     = #{isDel},
             update_time=sysdate()
         where comment_id = #{commentId}
           and user_id = #{userId}

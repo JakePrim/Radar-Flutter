@@ -5,28 +5,37 @@
       style="width:800px;margin:0px auto;"
       title=""
       :visible.sync="dialogFormVisible">
-      <el-form>
-        <el-form-item>
-          <h1 style="font-size:30px;color:#00B38A">拉勾</h1>
-        </el-form-item>
-        <el-form-item>
-          <el-input v-model="phone" placeholder="请输入常用手机号..."></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-input v-model="password" placeholder="请输入密码..."></el-input>
-        </el-form-item>
-      </el-form>
-      <el-button
-        style="width:100%;margin:0px auto;background-color: #00B38A;font-size:20px"
-        type="primary"
-        @click="login">确 定</el-button>
-      <p></p>
-      <!-- 微信登录图标 -->
-      <img
-        @click="goToLoginWX"
-        src="http://www.lgstatic.com/lg-passport-fed/static/pc/modules/common/img/icon-wechat@2x_68c86d1.png"
-        alt=""
-      />
+      <div id="loginForm">
+        <el-form>
+          <el-form-item>
+            <h1 style="font-size:30px;color:#00B38A">拉勾</h1>
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model="phone" placeholder="请输入常用手机号..."></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model="password" placeholder="请输入密码..."></el-input>
+          </el-form-item>
+        </el-form>
+        <el-button
+          style="width:100%;margin:0px auto;background-color: #00B38A;font-size:20px"
+          type="primary"
+          @click="login">确 定</el-button>
+        <p></p>
+        <!-- 微信登录图标 -->
+        <img
+          @click="goToLoginWX"
+          src="http://www.lgstatic.com/lg-passport-fed/static/pc/modules/common/img/icon-wechat@2x_68c86d1.png"
+          alt=""
+        />
+      </div>
+       <!-- 二维码 -->
+      <!--
+      <wxlogin id="wxLoginForm" style="display:none" 
+              :appid="appid" :scope="scope" :redirect_uri="redirect_uri">
+      </wxlogin>
+      -->
+      <div id="wxLoginForm"></div>
     </el-dialog>
     <!-- 登录框 结束-->
 
@@ -67,9 +76,12 @@
 </template>
 
 <script>
+import wxlogin from 'vue-wxlogin';
 export default {
   name: "Header",
-
+  components:{
+    wxlogin // 声明引用的组件
+  },
   props: {},
   data() {
     return {
@@ -80,6 +92,10 @@ export default {
       phone: "", // 双向绑定表单 手机号
       password: "", // 双向绑定表单 密码
       userDTO:null,
+      appid:"wxd99431bbff8305a0", // 应用唯一标识，在微信开放平台提交应用审核通过后获得
+      scope:"snsapi_login", // 应用授权作用域，网页应用目前仅填写snsapi_login即可
+      redirect_uri:"http://www.pinzhi365.com/user/wxlogin",  //重定向地址，(回调地址)
+      x:null
     };
   },
   computed: {
@@ -94,17 +110,92 @@ export default {
     console.log("sss:",this.userDTO);
     if(this.userDTO !== null){
       this.isLogin = true;
+    }else{
+      // 去检测微信是否登录过
+      this.axios
+      .get("http://localhost:8002/user/checkWxStatus")
+      .then( (result)=>{
+        this.userDTO = result.data;
+        this.phone = this.userDTO.content.phone;
+        this.password = this.userDTO.content.password;
+        this.login();// 走普通登录
+      })
+      .catch( (error)=>{
+        //this.$message.error("登录失败！");
+      });
     }
+    !(function(a, b, c) {
+      function d(a) {
+        var c = "default";
+        a.self_redirect === !0
+          ? (c = "true")
+          : a.self_redirect === !1 && (c = "false");
+        var d = b.createElement("iframe"),
+          e =
+            "https://open.weixin.qq.com/connect/qrconnect?appid=" +
+            a.appid +
+            "&scope=" +
+            a.scope +
+            "&redirect_uri=" +
+            a.redirect_uri +
+            "&state=" +
+            a.state +
+            "&login_type=jssdk&self_redirect=" +
+            c +
+            "&styletype=" +
+            (a.styletype || "") +
+            "&sizetype=" +
+            (a.sizetype || "") +
+            "&bgcolor=" +
+            (a.bgcolor || "") +
+            "&rst=" +
+            (a.rst || "");
+          (e += a.style ? "&style=" + a.style : ""),
+          (e += a.href ? "&href=" + a.href : ""),
+          (d.src = e),
+          (d.frameBorder = "0"),
+          (d.allowTransparency = "true"),
+          (d.sandbox = "allow-scripts allow-top-navigation allow-same-origin"), // 允许多种请求
+          (d.scrolling = "no"),
+          (d.width = "300px"),
+          (d.height = "400px");
+        var f = b.getElementById(a.id);
+        (f.innerHTML = ""), f.appendChild(d);
+      }
+      a.WxLogin = d;
+    })(window, document);
   },
   methods: {
     goToSetting() {
-      this.$router.push("/setting"); // 跳转个人设置页面
+      this.$router.push({
+          name: "setting",
+          params: { user:this.userDTO },
+      });
     },
     goToLogin() {
       this.dialogFormVisible = true; // 显示登录框
     },
     goToLoginWX() {
-      alert("微信登录");
+      // 普通的登录表单隐藏
+      document.getElementById("loginForm").style.display = "none";
+      // 显示二维码的容器
+      document.getElementById("wxLoginForm").style.display = "block";
+
+      // 生成二维码
+      // 待dom更新之后再用二维码渲染其内容
+      this.$nextTick(function(){
+        this.createCode(); // 直接调用会报错：TypeError: Cannot read property 'appendChild' of null
+      });
+    },
+    // 生成二维码
+    createCode(){
+      var obj = new WxLogin({
+          id:"wxLoginForm", // 挂载点，二维码的容器
+          appid:"wxd99431bbff8305a0", // 应用唯一标识，在微信开放平台提交应用审核通过后获得
+          scope:"snsapi_login", // 应用授权作用域，网页应用目前仅填写snsapi_login即可
+          redirect_uri:"http://www.pinzhi365.com/user/wxlogin",  //重定向地址，(回调地址)
+          href: "data:text/css;base64,LmltcG93ZXJCb3ggLnFyY29kZSB7d2lkdGg6IDIwMHB4O30NCi5pbXBvd2VyQm94IC50aXRsZSB7ZGlzcGxheTogbm9uZTt9DQouaW1wb3dlckJveCAuaW5mbyB7d2lkdGg6IDIwMHB4O30NCi5zdGF0dXNfaWNvbiB7ZGlzcGxheTogbm9uZX1jcw0KLmltcG93ZXJCb3ggLnN0YXR1cyB7dGV4dC1hbGlnbjogY2VudGVyO30=" // 加载修饰二维码的css样式
+      });
     },
     toToIndex() {
       this.$router.push("/"); //回到首页
@@ -132,6 +223,14 @@ export default {
     logout(){
       localStorage.setItem("user",null);
       this.isLogin = false;
+      // 去检测微信是否登录过
+      this.axios
+      .get("http://localhost:8002/user/logout")
+      .then( (result)=>{
+      })
+      .catch( (error)=>{
+        //this.$message.error("登录失败！");
+      });
     }
   },
 };

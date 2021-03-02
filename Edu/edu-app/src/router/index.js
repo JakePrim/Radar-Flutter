@@ -9,6 +9,7 @@ Vue.use(VueRouter)
 Vue.use(Vuex)
 
 const videoDetail = () => import('../components/videoDetail.vue');
+const setting = () => import('../components/Setting.vue');
 
   const routes = [
   {
@@ -34,6 +35,14 @@ const videoDetail = () => import('../components/videoDetail.vue');
     meta: {
         title: '视频播放页'
     }
+},
+{
+  path: '/setting',
+  name: 'setting',
+  component: setting,
+  meta: {
+      title: '用户设置页面'
+  }
 }
   //{
     // path: '/about',

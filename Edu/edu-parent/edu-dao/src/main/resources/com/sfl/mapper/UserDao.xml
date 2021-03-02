@@ -21,8 +21,8 @@
     <!-- 用户注册 -->
     <insert id="register">
         insert into `user`
-            (`name`, phone, password, create_time, update_time)
-        VALUES (#{phone}, #{phone}, #{password}, sysdate(), sysdate())
+            (`name`, phone, password, portrait, create_time, update_time)
+        VALUES (#{nickname}, #{phone}, #{password}, #{headimage}, sysdate(), sysdate())
     </insert>
 
     <!-- 用户登录 -->
@@ -46,6 +46,7 @@
             update_time=sysdate()
         where id = #{id}
     </update>
+    <!-- 更新密码 -->
     <update id="updatePassword" parameterType="User">
         update user
         set password   = #{password},

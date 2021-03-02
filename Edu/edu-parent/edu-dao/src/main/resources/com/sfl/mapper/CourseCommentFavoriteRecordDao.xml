@@ -2,7 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sfl.mapper.CourseCommentFavoriteRecordDao">
 
+    <!-- 查询评论的有点过赞的返回，没有点过赞或者取消赞的不返回 -->
     <select id="findByCommentId" resultType="com.sfl.pojo.CourseCommentFavoriteRecord" parameterType="int">
-        select * from course_comment_favorite_record where comment_id = #{id}
+        select *
+        from course_comment_favorite_record
+        where comment_id = #{id}
+          and is_del = 0
     </select>
 </mapper>
