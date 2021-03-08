@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="lagou-service-page" />
+        <module name="lagou-common" />
+        <module name="lagou-service-product" />
+        <module name="lagou-cloud-eureka" />
+        <module name="lagou-cloud-eureka9201" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="lagou-cloud-eureka" target="8" />
+      <module name="lagou-cloud-eureka (1)" target="8" />
+      <module name="lagou-cloud-eureka-9201" target="8" />
+      <module name="lagou-cloud-eureka9201" target="8" />
+      <module name="lagou-common" target="8" />
+      <module name="lagou-parent" target="8" />
+      <module name="lagou-service-page" target="8" />
+      <module name="lagou-service-product" target="8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="lagou-cloud-eureka" options="-parameters" />
+      <module name="lagou-cloud-eureka (1)" options="-parameters" />
+      <module name="lagou-cloud-eureka-9201" options="-parameters" />
+      <module name="lagou-cloud-eureka9201" options="-parameters" />
+      <module name="lagou-common" options="-parameters" />
+      <module name="lagou-service-page" options="-parameters" />
+      <module name="lagou-service-product" options="-parameters" />
+    </option>
+  </component>
+</project>

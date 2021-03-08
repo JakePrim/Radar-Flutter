@@ -14,8 +14,9 @@ import java.util.List;
 public interface SqlSession {
     /**
      * 根据条件查询单个
+     *
      * @param statementid = namespace.id sql 语句的唯一标识
-     * @param params 参数
+     * @param params      参数
      */
     <E> E selectOne(String statementid, Object... params);
 
@@ -23,7 +24,12 @@ public interface SqlSession {
      * 查询所有
      *
      * @param statementid = namespace.id sql 语句的唯一标识
-     * @param params 参数
+     * @param params      参数
      */
     <E> List<E> selectList(String statementid, Object... params);
+
+    /**
+     * 为dao接口生代理实现类
+     */
+    <T> T getMapper(Class<?> daoClass);
 }

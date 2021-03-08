@@ -3,9 +3,9 @@
     <!-- 数据源配置 -->
     <datasource>
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://172.16.160.130:3306/mybatis_test"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/mybatis_test"/>
         <property name="username" value="root"/>
-        <property name="password" value="Prim@123"/>
+        <property name="password" value="123456"/>
     </datasource>
 
     <!-- mapper配置 -->

@@ -9,6 +9,7 @@ import org.dom4j.DocumentException;
 
 import java.beans.PropertyVetoException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * @program: PBatisTest
@@ -26,9 +27,13 @@ public class IPersistenceTest {
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
         SqlSession sqlSession = sqlSessionFactory.openSession();
         User user = new User();
-        user.setId("1");
+        user.setId(1);
         user.setUsername("lucy");
         User findUser = sqlSession.selectOne("user.findById", user);
         System.out.println(findUser);
+        List<User> list = sqlSession.selectList("user.findAll");
+        for (User user1 : list) {
+            System.out.println(user1);
+        }
     }
 }
