@@ -2,7 +2,9 @@ package com.prim.page;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,6 +20,9 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 //@EnableEurekaClient
 @EnableDiscoveryClient
+
+//启用熔断服务
+@EnableCircuitBreaker
 public class PageApplication {
     public static void main(String[] args) {
         SpringApplication.run(PageApplication.class, args);
@@ -25,6 +30,7 @@ public class PageApplication {
 
     //向容器中注入 RestTemplate 封装了HTTPclient
     @Bean
+    @LoadBalanced //启用请求的负载均衡Ribbon
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }

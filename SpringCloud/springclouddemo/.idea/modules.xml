@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/lagou-parent/lagou-parent.iml" filepath="$PROJECT_DIR$/lagou-parent/lagou-parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/lagou-parent/lagou-service-page/lagou-service-page.iml" filepath="$PROJECT_DIR$/lagou-parent/lagou-service-page/lagou-service-page.iml" />
       <module fileurl="file://$PROJECT_DIR$/lagou-parent/lagou-service-product/lagou-service-product.iml" filepath="$PROJECT_DIR$/lagou-parent/lagou-service-product/lagou-service-product.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lagou-parent/lagou-service-product9001/lagou-service-product9001.iml" filepath="$PROJECT_DIR$/lagou-parent/lagou-service-product9001/lagou-service-product9001.iml" />
     </modules>
   </component>
 </project>

@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>lagou-service-page</artifactId>
+    <artifactId>lagou-service-product9001</artifactId>
 
     <dependencies>
         <dependency>
@@ -17,16 +17,9 @@
             <artifactId>lagou-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <!-- 引入Eureka客户端依赖 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
-        <!-- Hystrix 熔断依赖 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
-        </dependency>
     </dependencies>
-
 </project>

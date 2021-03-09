@@ -12,6 +12,7 @@
         <module name="lagou-service-product" />
         <module name="lagou-cloud-eureka" />
         <module name="lagou-cloud-eureka9201" />
+        <module name="lagou-service-product9001" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -23,6 +24,7 @@
       <module name="lagou-parent" target="8" />
       <module name="lagou-service-page" target="8" />
       <module name="lagou-service-product" target="8" />
+      <module name="lagou-service-product9001" target="8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -34,6 +36,7 @@
       <module name="lagou-common" options="-parameters" />
       <module name="lagou-service-page" options="-parameters" />
       <module name="lagou-service-product" options="-parameters" />
+      <module name="lagou-service-product9001" options="-parameters" />
     </option>
   </component>
 </project>

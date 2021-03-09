@@ -13,6 +13,7 @@
         <module>lagou-service-page</module>
         <module>lagou-cloud-eureka</module>
         <module>lagou-cloud-eureka9201</module>
+        <module>lagou-service-product9001</module>
     </modules>
     <!-- 父工程的打包方式 -->
     <packaging>pom</packaging>
