@@ -153,12 +153,6 @@
 
 - [Dubbo快速入门](https://www.yuque.com/jakeprim/java/eh4w3w)
 
-## 微服务深入剖析
-
-- [SpringCould与微服务架构]()
-- [Spring Cloud核心组件及实战]()
-- [Spring Cloud Alibaba核心组件及实战]()
-
 ## 分布式系统缓存与存储系统架构
 
 ### MySQL 数据库
@@ -177,8 +171,6 @@
 - [Redis快速入门](https://www.yuque.com/jakeprim/java/wmtgr9)
 - [Redis入门实战](https://www.yuque.com/jakeprim/java/sxxf08)
 
-
-
 ### FastDFS
 
 - [FastDFS快速入门](https://www.yuque.com/jakeprim/java/cr8lu7)
@@ -193,3 +185,10 @@
 - [RabbitMQ 入门实战](https://www.yuque.com/jakeprim/java/ln1ikz)
 - [RabbitMQ 集群搭建](https://www.yuque.com/jakeprim/java/lnvmck)
 
+
+
+## 微服务深入剖析
+
+- [SpringCould与微服务架构]()
+- [Spring Cloud核心组件及实战]()
+- [Spring Cloud Alibaba核心组件及实战]()
