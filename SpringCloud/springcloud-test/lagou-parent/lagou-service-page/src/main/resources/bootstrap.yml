@@ -4,11 +4,26 @@ server:
 spring:
   application:
     name: lagou-service-page # 定义一个名称
+  # MQ配置
+  rabbitmq:
+    host: 172.16.160.130
+    port: 5672
+    username: prim
+    password: 123456
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/springclouddata?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
     username: root
     password: 123456
+  # 配置中心服务配置
+  cloud:
+    config:
+      # config客户端配置,和ConfigServer通信，并告知ConfigServer希望获取的配置信息在哪个文
+      #件中
+      name: lagou-page-server-application
+      profile: dev # 后缀名称
+      label: master # 分支名称
+      uri: http://localhost:9400
 
 eureka:
   client: # Eureka server本身也是Eureka的一个客户端，因为在集群下需要与其他Eureka Server 进行数据同步
@@ -67,7 +82,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: refresh # "*" 暴露所有端口
   # 暴露的细节
   endpoint:
     health:
@@ -86,3 +101,4 @@ feign:
       # 最小的压缩的下限
 #      min-request-size: 2048 # 默认值 不需要动
 #      mime-types: 默认值 不需要动
+

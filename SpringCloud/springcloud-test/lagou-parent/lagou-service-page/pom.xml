@@ -32,6 +32,16 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
+        <!-- 配置中心客户端 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-config-client</artifactId>
+        </dependency>
+        <!-- 消息总线支持 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bus-amqp</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

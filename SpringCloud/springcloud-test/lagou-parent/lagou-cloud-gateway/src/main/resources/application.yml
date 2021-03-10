@@ -14,6 +14,8 @@ spring:
           uri: lb://lagou-service-page
           predicates: # 断言 当断言成功后，交给某一个微服务处理，使用的转发
             - Path=/page/**
+          filters:
+            - StripPrefix=1
         - id: service-product-router
 #          uri: http://127.0.0.1:9000
           uri: lb://lagou-service-product

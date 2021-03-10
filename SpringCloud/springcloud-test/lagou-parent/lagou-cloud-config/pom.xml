@@ -16,4 +16,21 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
+    <dependencies>
+        <!--eureka client 客户端依赖引入-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <!--config配置中心服务端-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-config-server</artifactId>
+        </dependency>
+        <!-- 消息总线支持 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bus-amqp</artifactId>
+        </dependency>
+    </dependencies>
 </project>

@@ -9,6 +9,7 @@
         <module name="lagou-cloud-gateway" />
         <module name="lagou-service-product" />
         <module name="lagou-common" />
+        <module name="lagou-cloud-config" />
         <module name="lagou-cloud-eureka9201" />
         <module name="lagou-service-page" />
         <module name="lagou-cloud-eureka" />
@@ -16,6 +17,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="lagou-cloud-config" target="8" />
       <module name="lagou-cloud-eureka" target="8" />
       <module name="lagou-cloud-eureka9201" target="8" />
       <module name="lagou-cloud-gateway" target="8" />
@@ -29,6 +31,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="lagou-cloud-config" options="-parameters" />
       <module name="lagou-cloud-eureka" options="-parameters" />
       <module name="lagou-cloud-eureka9201" options="-parameters" />
       <module name="lagou-cloud-gateway" options="-parameters" />

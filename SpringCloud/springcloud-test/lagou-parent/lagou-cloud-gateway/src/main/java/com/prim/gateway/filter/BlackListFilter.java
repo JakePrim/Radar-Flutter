@@ -44,20 +44,20 @@ public class BlackListFilter implements GlobalFilter, Ordered {
      */
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        System.out.println("----------BlackListFilter-----------");
-        ServerHttpRequest request = exchange.getRequest();
-        ServerHttpResponse response = exchange.getResponse();
-
-        // 从request对象获取客户端IP地址
-        String clienIp = request.getRemoteAddress().getHostString();
-        if (blackList.contains(clienIp)){
-            //存在黑名单中拒绝访问 返回状态数据
-            response.setStatusCode(HttpStatus.UNAUTHORIZED);
-            log.info("=====>IP:"+clienIp+" 在黑名单中，拒绝访问！");
-            String data = "Request be denied!";
-            DataBuffer wrap = response.bufferFactory().wrap(data.getBytes());
-            return response.writeWith(Mono.just(wrap));
-        }
+//        System.out.println("----------BlackListFilter-----------");
+//        ServerHttpRequest request = exchange.getRequest();
+//        ServerHttpResponse response = exchange.getResponse();
+//
+//        // 从request对象获取客户端IP地址
+//        String clienIp = request.getRemoteAddress().getHostString();
+//        if (blackList.contains(clienIp)){
+//            //存在黑名单中拒绝访问 返回状态数据
+//            response.setStatusCode(HttpStatus.UNAUTHORIZED);
+//            log.info("=====>IP:"+clienIp+" 在黑名单中，拒绝访问！");
+//            String data = "Request be denied!";
+//            DataBuffer wrap = response.bufferFactory().wrap(data.getBytes());
+//            return response.writeWith(Mono.just(wrap));
+//        }
         // 合法请求执行 后续的过滤器
         return chain.filter(exchange);
     }
