@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/lagou-parent/lagou-cloud-config/lagou-cloud-config.iml" filepath="$PROJECT_DIR$/lagou-parent/lagou-cloud-config/lagou-cloud-config.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lagou-parent/lagou-cloud-eureka/lagou-cloud-eureka.iml" filepath="$PROJECT_DIR$/lagou-parent/lagou-cloud-eureka/lagou-cloud-eureka.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lagou-parent/lagou-cloud-eureka9301/lagou-cloud-eureka9301.iml" filepath="$PROJECT_DIR$/lagou-parent/lagou-cloud-eureka9301/lagou-cloud-eureka9301.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lagou-parent/lagou-cloud-gateway/lagou-cloud-gateway.iml" filepath="$PROJECT_DIR$/lagou-parent/lagou-cloud-gateway/lagou-cloud-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lagou-parent/lagou-cloud-gateway9001/lagou-cloud-gateway9001.iml" filepath="$PROJECT_DIR$/lagou-parent/lagou-cloud-gateway9001/lagou-cloud-gateway9001.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lagou-parent/lagou-parent.iml" filepath="$PROJECT_DIR$/lagou-parent/lagou-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lagou-parent/lagou-service-goods/lagou-service-goods.iml" filepath="$PROJECT_DIR$/lagou-parent/lagou-service-goods/lagou-service-goods.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lagou-parent/lagou-service-goods9201/lagou-service-goods9201.iml" filepath="$PROJECT_DIR$/lagou-parent/lagou-service-goods9201/lagou-service-goods9201.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lagou-parent/lagou-service-order/lagou-service-order.iml" filepath="$PROJECT_DIR$/lagou-parent/lagou-service-order/lagou-service-order.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lagou-parent/lagou-service-order9101/lagou-service-order9101.iml" filepath="$PROJECT_DIR$/lagou-parent/lagou-service-order9101/lagou-service-order9101.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lagou-parent/laoug-service-common/laoug-service-common.iml" filepath="$PROJECT_DIR$/lagou-parent/laoug-service-common/laoug-service-common.iml" />
+    </modules>
+  </component>
+</project>

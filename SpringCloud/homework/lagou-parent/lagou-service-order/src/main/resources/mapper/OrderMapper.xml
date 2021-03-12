@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prim.order.mapper.OrderMapper">
+    <resultMap id="orderMap" type="com.prim.common.pojo.Order">
+        <result property="id" column="id"/>
+        <result property="payType" column="pay_type"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="totalAmount" column="total_amount"/>
+        <result property="realAmount" column="real_amount"/>
+
+        <association property="orderStatus" column="id"
+                     select="com.prim.order.mapper.OrderStatusMapper.findById"
+                     javaType="com.prim.common.pojo.OrderStatus">
+
+        </association>
+
+        <collection property="orderItems" column="id"
+                    select="com.prim.order.mapper.OrderItemMapper.findByOrderId"
+                    ofType="com.prim.common.pojo.OrderItem">
+
+        </collection>
+    </resultMap>
+    <select id="findById" resultMap="orderMap" parameterType="int">
+        select id,
+               pay_type,
+               create_time,
+               update_time,
+               is_delete,
+               total_amount,
+               real_amount
+        from `order`
+        where id = #{id}
+          and is_delete = 0
+    </select>
+    <select id="selectPageVo" resultMap="orderMap">
+        select id,
+               pay_type,
+               create_time,
+               update_time,
+               is_delete,
+               total_amount,
+               real_amount
+        from `order`
+        where id in (select order_id from order_status where status = #{status})
+          and is_delete = 0
+    </select>
+
+    <select id="selectCreateTimePageVo" resultMap="orderMap">
+        select id,
+               pay_type,
+               create_time,
+               update_time,
+               is_delete,
+               total_amount,
+               real_amount
+        from `order`
+        where is_delete = 0
+          and create_time between #{startTime} and #{endTime}
+    </select>
+
+
+</mapper>

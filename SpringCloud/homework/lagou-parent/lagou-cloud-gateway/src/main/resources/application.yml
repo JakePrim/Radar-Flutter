@@ -1,0 +1,40 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: lagou-cloud-gateway
+  cloud:
+    # 网关的配置
+    gateway:
+      routes: # 配置路由
+        - id: service-order-router
+          #          uri: http://127.0.0.1:9100
+          # 因为我们的网关已经 在eureka服务中心注册了 所以可以使用动态路由 根据微服务的名称调用
+          uri: lb://lagou-service-order
+          predicates: # 断言 当断言成功后，交给某一个微服务处理，使用的转发
+            - Path=/order/**
+          filters:
+            - StripPrefix=1
+        - id: service-goods-router
+          #          uri: http://127.0.0.1:9000
+          uri: lb://lagou-service-goods
+          predicates:
+            - Path=/goods/**
+#          filters: # 过滤器设置
+#            - StripPrefix=1 # 去掉uri中的第一部分例如uri是：http://127.0.0.1:9000/product/service/port
+            # http://localhost:9300/product/product/query/1  controller：product/query/1 例如访问商品的接口要这样写
+            # -> http://127.0.0.1:9000/service/port 这才是真正的uri 在实际开发重要注意在controller中设置的RequestMapping是否和Path有冲突
+
+
+eureka:
+  client: # Eureka server本身也是Eureka的一个客户端，因为在集群下需要与其他Eureka Server 进行数据同步
+    service-url: # 定义eureka server url
+      # 客户端可以配置多个也可以配置一个，因为EurekaServer都是同步注册的
+      defaultZone: http://LagouCloudEurekaServerA:9300/eureka,http://LagouCloudEurekaServerB:9301/eureka
+  instance:
+    #    hostname: localhost # 当前Eureka实例的主机名
+    # 使用IP注册，否则会使用主机名进行注册（此处考虑到对老版本的兼容，新版本经过试验都是IP）
+    prefer-ip-address: true
+    # 自定义实例显示格式，如加上版本号，便于多版本管理，注意是ip-address z=早期版本是ipAddress
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}:@project.version@
