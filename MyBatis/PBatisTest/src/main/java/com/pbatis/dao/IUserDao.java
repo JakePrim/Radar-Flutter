@@ -17,8 +17,14 @@ import java.util.List;
  **/
 public interface IUserDao {
     //查询所有用户
-    public List<User> findAll() throws PropertyVetoException, DocumentException;
+    List<User> findAll();
 
     //根据条件进行用户查询
-    User findById(User user) throws PropertyVetoException, DocumentException;
+    User findById(User user);
+
+    int save(User user);
+
+    int update(User user);
+
+    int delete(User user);
 }

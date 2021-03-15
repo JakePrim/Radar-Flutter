@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+       Copyright 2009-2017 the original author or authors.
+
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+
+-->
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.apache.ibatis.autoconstructor.AutoConstructorMapper">
+
+    <!-- add by 芋艿，用于测试 include 属性 -->
+    <!--<resultMap id="B" type="Map" extends="A" />-->
+    <!--<resultMap id="A" type="Map" />-->
+
+    <!-- add by 芋艿，用于测试 include 属性 -->
+    <!--<sql id="123" lang="${cpu}">-->
+        <!--${cpu}-->
+        <!--aoteman-->
+        <!--qqqq-->
+    <!--</sql>-->
+    <!--<select id="testForInclude">-->
+        <!--SELECT * FROM subject-->
+        <!--<include refid="${target_sql}" />-->
+    <!--</select>-->
+
+    <resultMap id="A" type="Map">
+        <result property="vin" column="vin"/>
+    </resultMap>
+
+    <resultMap id="B" type="Object">
+        <result property="year" column="year"/>
+    </resultMap>
+
+    <select id="testResultMap" parameterType="Integer" resultMap="A,B">
+        SELECT *
+        FROM subject
+        <where>
+            <choose>
+                <when test="${id != null}">
+                    id = ${id}
+                </when>
+            </choose>
+        </where>
+    </select>
+
+    <select id="testParamMap" resultType="org.apache.ibatis.autoconstructor.PrimitiveSubject">
+        SELECT *
+        FROM subject
+    </select>
+
+    <select id="getSubject2" parameterType="Integer" resultType="org.apache.ibatis.autoconstructor.PrimitiveSubject" >
+        SELECT * FROM subject
+        <if test="id != null">
+          WHERE id = #{id}
+        </if>
+
+        <!--WHERE id = #{id}-->
+        <!-- WHERE id = #{id} -->
+   </select>
+
+    <select id="getSubject3" parameterType="Integer" resultType="org.apache.ibatis.autoconstructor.PrimitiveSubject">
+        SELECT * FROM subject
+        WHERE id = #{id}
+    </select>
+
+    <select id="getSubject4" parameterType="Integer" resultType="org.apache.ibatis.autoconstructor.PrimitiveSubject">
+        SELECT * FROM subject
+        <if test="id != null">
+            WHERE id = #{id}
+        </if>
+    </select>
+
+    <select id="getSubject5" resultType="org.apache.ibatis.autoconstructor.PrimitiveSubject">
+        SELECT * FROM subject
+        WHERE name = #{param1} AND age = #{param2}
+    </select>
+
+   <select id="getSubjectList" parameterType="List" resultType="List">
+       SELECT id FROM subject
+       WHERE id IN
+         <foreach collection="ids" index="idx" item="item" open="("  close=")" separator=",">
+             #{item}
+         </foreach>
+   </select>
+
+</mapper>

@@ -1,0 +1,107 @@
+/**
+ * Copyright 2009-2018 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.ibatis.type;
+
+import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+/**
+ * Enum 类型的 TypeHandler 实现类
+ *
+ * @author Clinton Begin
+ */
+@SuppressWarnings("Duplicates")
+public class EnumOrdinalTypeHandler<E extends Enum<E>> extends BaseTypeHandler<E> {
+
+    /**
+     * 枚举类
+     */
+    private final Class<E> type;
+    /**
+     * {@link #type} 下所有的枚举
+     *
+     * @see Class#getEnumConstants()
+     */
+    private final E[] enums;
+
+    public EnumOrdinalTypeHandler(Class<E> type) {
+        if (type == null) {
+            throw new IllegalArgumentException("Type argument cannot be null");
+        }
+        this.type = type;
+        this.enums = type.getEnumConstants();
+        if (this.enums == null) {
+            throw new IllegalArgumentException(type.getSimpleName() + " does not represent an enum type.");
+        }
+    }
+
+    @Override
+    public void setNonNullParameter(PreparedStatement ps, int i, E parameter, JdbcType jdbcType) throws SQLException {
+        // 将 Enum 转换成 int 类型
+        ps.setInt(i, parameter.ordinal());
+    }
+
+    @Override
+    public E getNullableResult(ResultSet rs, String columnName) throws SQLException {
+        // 获得 int 的值
+        int i = rs.getInt(columnName);
+        // 将 int 转换成 Enum 类型
+        if (i == 0 && rs.wasNull()) {
+            return null;
+        } else {
+            try {
+                return enums[i];
+            } catch (Exception ex) {
+                throw new IllegalArgumentException("Cannot convert " + i + " to " + type.getSimpleName() + " by ordinal value.", ex);
+            }
+        }
+    }
+
+    @Override
+    public E getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
+        // 获得 int 的值
+        int i = rs.getInt(columnIndex);
+        // 将 int 转换成 Enum 类型
+        if (i == 0 && rs.wasNull()) {
+            return null;
+        } else {
+            try {
+                return enums[i];
+            } catch (Exception ex) {
+                throw new IllegalArgumentException("Cannot convert " + i + " to " + type.getSimpleName() + " by ordinal value.", ex);
+            }
+        }
+    }
+
+    @Override
+    public E getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
+        // 获得 int 的值
+        int i = cs.getInt(columnIndex);
+        // 将 int 转换成 Enum 类型
+        if (i == 0 && cs.wasNull()) {
+            return null;
+        } else {
+            try {
+                return enums[i];
+            } catch (Exception ex) {
+                throw new IllegalArgumentException("Cannot convert " + i + " to " + type.getSimpleName() + " by ordinal value.", ex);
+            }
+        }
+    }
+
+}

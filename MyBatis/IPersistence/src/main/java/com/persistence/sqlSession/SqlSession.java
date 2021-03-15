@@ -29,7 +29,25 @@ public interface SqlSession {
     <E> List<E> selectList(String statementid, Object... params);
 
     /**
-     * 为dao接口生代理实现类
+     * 添加
+     */
+    int insert(String statement, Object params);
+
+    /**
+     * 修改
+     */
+    int update(String statement, Object params);
+
+
+    /**
+     * 删除
+     */
+    int delete(String statement, Object params);
+
+    /**
+     * 为dao接口生成代理实现类
+     *
+     * @param daoClass dao接口类
      */
     <T> T getMapper(Class<?> daoClass);
 }

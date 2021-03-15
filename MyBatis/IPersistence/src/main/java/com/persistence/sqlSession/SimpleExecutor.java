@@ -94,6 +94,48 @@ public class SimpleExecutor implements Executor {
         return (List<E>) results;
     }
 
+    @Override
+    public int update(Configuration configuration, MappedStatement mappedStatement, Object params) {
+        try {
+            // 执行jdbc代码
+            // 1. 注册驱动，获取连接 直接从configuration获取DataSource拿到连接
+            Connection connection = configuration.getDataSource().getConnection();
+            // 2. 获取SQL语句
+            // select * from user where id = #{id} and username=#{username}
+            // jdbc 识别的占位符只能是？号，为什么使用#{}呢？ 可以根据里面的参数名称 来找到传递参数实体类型的属性的值
+            String sql = mappedStatement.getSql();
+            //转换SQL语句 select * from user where id = ？ and username=？
+            //还需要对#{}的值进行解析存储，找到实体对象对应属性的值进行添加
+            BoundSql boundSql = getBoundSql(sql);
+            // 3. 获取预处理对象 preparedStatement,传递解析过后的sql
+            PreparedStatement preparedStatement = connection.prepareStatement(boundSql.getSqlText());
+            //参数的全类名
+            String parameterType = mappedStatement.getParameterType();
+            //获取参数的Class
+            if (parameterType != null) {
+                Class<?> parameterClass = getClassType(parameterType);
+                List<ParameterMapping> parameterMappingList = boundSql.getParameterMappingList();
+                for (int i = 0; i < parameterMappingList.size(); i++) {
+                    ParameterMapping parameterMapping = parameterMappingList.get(i);
+                    String content = parameterMapping.getContent();
+                    //反射根据参数名称 获取到实体对象中的属性值
+                    Field field = parameterClass.getDeclaredField(content);
+                    //暴力访问
+                    field.setAccessible(true);
+                    Object o = field.get(params);
+                    //设置参数值
+                    preparedStatement.setObject(i + 1, o);
+                }
+            }
+            //执行SQL
+            int row = preparedStatement.executeUpdate();
+            return row;
+        } catch (Exception throwables) {
+            throwables.printStackTrace();
+        }
+        return 0;
+    }
+
     private Class<?> getClassType(String parameterType) throws ClassNotFoundException {
         if (parameterType != null) {
             Class<?> aClass = Class.forName(parameterType);

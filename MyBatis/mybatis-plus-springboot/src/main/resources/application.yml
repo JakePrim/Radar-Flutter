@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mybatis_test
+    username: root
+    password: 123456
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  # mybatis的配置文件
+#  config-location: classpath*:mybatis-config.xml
+  type-aliases-package: com.prim.mybatisplusspringboot.pojo
+  global-config:
+    db-config:
+      id-type: auto # auto主键自增策略
+      table-prefix: tb_ # 全局表名的前缀
+      logic-delete-value: 1 # 逻辑已删除
+      logic-not-delete-value: 0 # 逻辑未删除
+  configuration:
+    cache-enabled: true
+#    map-underscore-to-camel-case: true # 开启自动驼峰命名映射 默认是自动开启的 不能和config-location参数同时存在

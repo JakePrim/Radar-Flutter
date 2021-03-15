@@ -2,6 +2,7 @@ package com.persistence.config;
 
 import com.persistence.pojo.Configuration;
 import com.persistence.pojo.MappedStatement;
+import com.persistence.pojo.MappedType;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -30,9 +31,24 @@ public class XMLMapperBuilder {
         Document document = new SAXReader().read(inputStream);
         Element rootElement = document.getRootElement();
         String namespace = rootElement.attributeValue("namespace");
-
         //select标签
         List<Element> selectNodes = rootElement.selectNodes("//select");
+        extracted(namespace, selectNodes, MappedType.SELECT);
+
+        //insert标签
+        List<Element> insertNodes = rootElement.selectNodes("//insert");
+        extracted(namespace, insertNodes, MappedType.INSERT);
+
+        //update标签
+        List<Element> updateNodes = rootElement.selectNodes("//update");
+        extracted(namespace, updateNodes, MappedType.UPDATE);
+
+        //delete标签
+        List<Element> deleteNodes = rootElement.selectNodes("//delete");
+        extracted(namespace, deleteNodes, MappedType.DELETE);
+    }
+
+    private void extracted(String namespace, List<Element> selectNodes, MappedType mappedType) {
         for (Element selectNode : selectNodes) {
             String id = selectNode.attributeValue("id");
             String resultType = selectNode.attributeValue("resultType");
@@ -45,6 +61,7 @@ public class XMLMapperBuilder {
             mappedStatement.setResultType(resultType);
             mappedStatement.setParameterType(parameterType);
             mappedStatement.setSql(sql);
+            mappedStatement.setMappedType(mappedType);
             //存储数据到configuration
             configuration.getMapper().put(statementid, mappedStatement);
         }

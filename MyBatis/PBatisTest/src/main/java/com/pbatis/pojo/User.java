@@ -14,6 +14,24 @@ public class User {
     private String username;
     private String password;
     private String birthday;
+    private Integer version;
+    private Integer is_delete;
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
+    public Integer getIs_delete() {
+        return is_delete;
+    }
+
+    public void setIs_delete(Integer is_delete) {
+        this.is_delete = is_delete;
+    }
 
     public Integer getId() {
         return id;

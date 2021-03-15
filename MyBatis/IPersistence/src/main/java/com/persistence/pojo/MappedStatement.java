@@ -20,6 +20,16 @@ public class MappedStatement implements Serializable {
     private String parameterType;
     //SQL语句
     private String sql;
+    //mapped 的类型
+    private MappedType mappedType;
+
+    public MappedType getMappedType() {
+        return mappedType;
+    }
+
+    public void setMappedType(MappedType mappedType) {
+        this.mappedType = mappedType;
+    }
 
     public String getId() {
         return id;
@@ -58,8 +68,9 @@ public class MappedStatement implements Serializable {
         return "MappedStatement{" +
                 "id='" + id + '\'' +
                 ", resultType='" + resultType + '\'' +
-                ", paramterType='" + parameterType + '\'' +
+                ", parameterType='" + parameterType + '\'' +
                 ", sql='" + sql + '\'' +
+                ", mappedType=" + mappedType +
                 '}';
     }
 }

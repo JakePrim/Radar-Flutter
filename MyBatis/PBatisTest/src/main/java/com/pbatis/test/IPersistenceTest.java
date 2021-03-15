@@ -1,5 +1,6 @@
 package com.pbatis.test;
 
+import com.pbatis.dao.IUserDao;
 import com.pbatis.pojo.User;
 import com.persistence.io.Resources;
 import com.persistence.sqlSession.SqlSession;
@@ -23,17 +24,34 @@ import java.util.List;
 public class IPersistenceTest {
     public static void main(String[] args) throws DocumentException, PropertyVetoException {
         InputStream inputStream = Resources.getResourceAsSteam("sqlMapConfig.xml");
-        System.out.println("inputstream:" + inputStream);
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
         SqlSession sqlSession = sqlSessionFactory.openSession();
+//        User user = new User();
+//        user.setId(3);
+//        user.setUsername("jake");
+        // 存在硬编码的问题，如果statementid发生变化则会发生错误
+//        User findUser = sqlSession.selectOne("user.findById", user);
+//        System.out.println(findUser);
+//        List<User> list = sqlSession.selectList("user.findAll");
+//        for (User user1 : list) {
+//            System.out.println(user1);
+//        }
+        IUserDao iUserDao = sqlSession.getMapper(IUserDao.class);
+//        List<User> users = iUserDao.findAll();
+//        for (User user1 : users) {
+//            System.out.println(user1);
+//        }
+//        User user1 = iUserDao.findById(user);
+//        System.out.println(user1);
         User user = new User();
-        user.setId(1);
-        user.setUsername("lucy");
-        User findUser = sqlSession.selectOne("user.findById", user);
-        System.out.println(findUser);
-        List<User> list = sqlSession.selectList("user.findAll");
-        for (User user1 : list) {
-            System.out.println(user1);
-        }
+//        user.setUsername("tom");
+        user.setId(12);
+//        user.setPassword("12312");
+//        user.setVersion(1);
+//        user.setBirthday("2021-1-1");
+//        user.setIs_delete(0);
+        //插入操作
+        int save = iUserDao.delete(user);
+        System.out.println(save);
     }
 }

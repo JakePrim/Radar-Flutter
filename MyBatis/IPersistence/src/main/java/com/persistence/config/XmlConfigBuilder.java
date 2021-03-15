@@ -65,6 +65,7 @@ public class XmlConfigBuilder {
         List<Element> mapperElement = rootElement.selectNodes("//mapper");
         for (Element element : mapperElement) {
             String resource = element.attributeValue("resource");
+            System.out.println("resource:" + resource);
             //获取mapper.xml的输入流
             InputStream resourceAsSteam = Resources.getResourceAsSteam(resource);
             //解析mapper.xml

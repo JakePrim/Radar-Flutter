@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lagou.mapper.IUserMapper">
+
+    <resultMap id="userMap" type="com.lagou.pojo.User">
+        <id property="id" column="id"></id>
+        <result property="username" column="username"></result>
+
+        <!-- fetchType 延迟加载策略
+            lazy : 懒加载策略
+            eager : 立即加载策略
+         -->
+        <collection property="orderList" ofType="com.lagou.pojo.Order"
+                    select="com.lagou.mapper.IOrderMapper.findOrderByUid" column="id" fetchType="lazy">
+
+            <id property="id" column="oid"/>
+            <result property="orderTime" column="ordertime"/>
+            <result property="total" column="total"/>
+        </collection>
+    </resultMap>
+
+   <select id="findAll" resultMap="userMap" >
+       select u.*,o.id oid,o.ordertime,o.total,o.uid from user u left join orders o on o.uid = u.id
+   </select>
+
+
+
+   <select id="findById" resultMap="userMap"  >
+       select * from user where id = #{id}
+   </select>
+
+
+    <update id="updateById" parameterType="com.lagou.pojo.User">
+        update user set username = #{username} where id = #{id}
+    </update>
+
+</mapper>
