@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.lagou.mapper.IUserMapper">
+    <cache></cache>
 
     <resultMap id="userMap" type="com.lagou.pojo.User">
         <id property="id" column="id"></id>
@@ -14,7 +15,8 @@
             eager : 立即加载策略
          -->
         <collection property="orderList" ofType="com.lagou.pojo.Order"
-                    select="com.lagou.mapper.IOrderMapper.findOrderByUid" column="id" fetchType="lazy">
+                    select="com.lagou.mapper.IOrderMapper.findOrderByUid" column="id"
+                    fetchType="lazy">
 
             <id property="id" column="oid"/>
             <result property="orderTime" column="ordertime"/>
@@ -28,7 +30,7 @@
 
 
 
-   <select id="findById" resultMap="userMap"  >
+   <select id="findById" resultMap="userMap" useCache="true" >
        select * from user where id = #{id}
    </select>
 

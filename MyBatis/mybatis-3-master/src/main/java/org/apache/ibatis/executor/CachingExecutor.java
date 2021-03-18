@@ -45,6 +45,10 @@ public class CachingExecutor implements Executor {
      */
     private final TransactionalCacheManager tcm = new TransactionalCacheManager();
 
+    /**
+     * delegate : SimpleExecutor
+     * @param delegate
+     */
     public CachingExecutor(Executor delegate) {
         this.delegate = delegate;
         // 设置 delegate 被当前执行器所包装

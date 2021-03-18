@@ -1,8 +1,6 @@
 package com.lagou.test;
 
-import com.lagou.mapper.IOrderMapper;
 import com.lagou.mapper.IUserMapper;
-import com.lagou.pojo.Order;
 import com.lagou.pojo.User;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -24,11 +22,14 @@ public class MybatisTest {
         InputStream resourceAsStream = Resources.getResourceAsStream("sqlMapConfig.xml");
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
         SqlSession sqlSession = sqlSessionFactory.openSession();
-        IOrderMapper mapper = sqlSession.getMapper(IOrderMapper.class);
-        List<Order> orderAndUser = mapper.findOrderAndUser();
-        for (Order order : orderAndUser) {
-            System.out.println(order);
-        }
+        IUserMapper mapper = sqlSession.getMapper(IUserMapper.class);
+        User user = mapper.findById(3);
+        System.out.println(user);
+
+//        List<Order> orderAndUser = mapper.findOrderAndUser();
+//        for (Order order : orderAndUser) {
+//            System.out.println(order);
+//        }
     }
 
     /*
@@ -53,9 +54,7 @@ public class MybatisTest {
     }
 
 
-
-
-    }
+}
 
 
 

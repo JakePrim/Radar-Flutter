@@ -105,6 +105,8 @@
 
 - [持久层框架设计](https://www.yuque.com/jakeprim/java/nq37dd)
 - [Mybatis架构原理](https://www.yuque.com/jakeprim/java/cgmxf5)
+- [Mybatis缓存原理分析](https://www.yuque.com/jakeprim/java/hgult7)
+- [Mybatis-Plus的使用](https://www.yuque.com/jakeprim/java/lmmmsm)
 
 ## 剖析Spring源码 :dash:
 
