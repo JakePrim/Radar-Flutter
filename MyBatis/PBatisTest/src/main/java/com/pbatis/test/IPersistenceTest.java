@@ -26,32 +26,35 @@ public class IPersistenceTest {
         InputStream inputStream = Resources.getResourceAsSteam("sqlMapConfig.xml");
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
         SqlSession sqlSession = sqlSessionFactory.openSession();
-//        User user = new User();
-//        user.setId(3);
-//        user.setUsername("jake");
-        // 存在硬编码的问题，如果statementid发生变化则会发生错误
-//        User findUser = sqlSession.selectOne("user.findById", user);
+        IUserDao iUserDao = sqlSession.getMapper(IUserDao.class);
+        //查询所有数据
+        List<User> users = iUserDao.findAll();
+        for (User user1 : users) {
+            System.out.println(user1);
+        }
+        //根据条件查询
+        User user = new User();
+        user.setId(3);
+        user.setUsername("jake");
+        User user1 = iUserDao.findById(user);
+        System.out.println(user1);
+//        User findUser = sqlSession.selectOne("com.pbatis.dao.IUserDao.findById", user);
 //        System.out.println(findUser);
-//        List<User> list = sqlSession.selectList("user.findAll");
+//        List<User> list = sqlSession.selectList("com.pbatis.dao.IUserDao.findAll");
 //        for (User user1 : list) {
 //            System.out.println(user1);
 //        }
-        IUserDao iUserDao = sqlSession.getMapper(IUserDao.class);
-//        List<User> users = iUserDao.findAll();
-//        for (User user1 : users) {
-//            System.out.println(user1);
-//        }
-//        User user1 = iUserDao.findById(user);
-//        System.out.println(user1);
-        User user = new User();
+
+
+//        User user = new User();
 //        user.setUsername("tom");
-        user.setId(12);
+//        user.setId(12);
 //        user.setPassword("12312");
 //        user.setVersion(1);
 //        user.setBirthday("2021-1-1");
 //        user.setIs_delete(0);
         //插入操作
-        int save = iUserDao.delete(user);
-        System.out.println(save);
+//        int save = iUserDao.delete(user);
+//        System.out.println(save);
     }
 }

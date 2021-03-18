@@ -103,7 +103,8 @@
 
 ### MyBatis 原理剖析 【必看】
 
-- [持久层框架设计]()
+- [持久层框架设计](https://www.yuque.com/jakeprim/java/nq37dd)
+- [Mybatis架构原理](https://www.yuque.com/jakeprim/java/cgmxf5)
 
 ## 剖析Spring源码 :dash:
 
@@ -185,10 +186,22 @@
 - [RabbitMQ 入门实战](https://www.yuque.com/jakeprim/java/ln1ikz)
 - [RabbitMQ 集群搭建](https://www.yuque.com/jakeprim/java/lnvmck)
 
+### Kafka
 
+- [Kafka快速入门]()
 
 ## 微服务深入剖析
 
 - [SpringCould与微服务架构](https://www.yuque.com/jakeprim/java/amhe7s)
 - [Spring Cloud核心组件及实战](https://www.yuque.com/jakeprim/java/rriw53)
 - [Spring Cloud Alibaba核心组件及实战]()
+
+
+
+## 分布式搜索引擎进阶
+
+- [Lucene & ElasticSeach](https://www.yuque.com/jakeprim/java/wb5m31)
+
+## 容器虚拟化技术和自动化部署
+
+- [Docker技术入门]()
