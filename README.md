@@ -2,9 +2,38 @@
 
 ![images](README.assets/images.jpeg)
 
-> Superman是什么：构建Java 高级开发技术的知识体系，Java项目最佳实践，从基础不断打怪升级成为超人之路。编程基础、JVM深度剖析、并发编程、 Spring全家桶、高并发、分布式、高性能存储、性能调优、容器化、微服务。只要你掌握这些知识就可以成为Java界的Superman。
+> Superman是什么：构建Java Android 高级开发技术的知识体系，Android 系统原理的深入剖析，Java项目最佳实践，从基础不断打怪升级成为超人之路。编程基础、JVM深度剖析、并发编程、 Spring全家桶、高并发、分布式、高性能存储、性能调优、容器化、微服务。只要你掌握这些知识就可以成为Superman。
 
-👍 推荐阅读: 所有文章都整理在了语雀:https://www.yuque.com/jakeprim/java 可直接从语雀查看.
+👍 推荐阅读: 所有文章都整理在了语雀:https://www.yuque.com/jakeprim/ 可直接从语雀查看.
+
+# Android 技术专题
+
+| 技术专题             | 状态     | 记录    |
+| -------------------- | -------- | ------- |
+| Framework 深入剖析   | [写作中] | Handler |
+| Android 架构深入剖析 | [写作中] |         |
+| Flutter 深入剖析     | [写作中] |         |
+
+
+
+## FrameWork
+
+- [彻底搞定Handler源码](https://www.yuque.com/jakeprim/android/nvidxz)
+- [彻底搞定Binder原理]()
+- [AMS核心原理分析01]()
+- [AMS核心原理分析02]()
+- [AMS核心原理分析03]()
+
+
+
+## Android 架构深入剖析
+
+- [热修复技术探索]()
+- [Android 网络框架探索]()
+- [Android 图片加载框架探索]()
+- [jetpack-探索]()
+
+# Java 技术专题
 
 | 技术专题                                           | 状态       | 历史记录        |
 | -------------------------------------------------- | ---------- | --------------- |
