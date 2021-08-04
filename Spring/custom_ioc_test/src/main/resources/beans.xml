@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<beans>
-    <!-- id:表示  class:要生成的实例类的全路径 -->
-    <bean id="userDao" class="com.example.ioc.dao.impl.UserDaoImpl">
-
-    </bean>
-</beans>

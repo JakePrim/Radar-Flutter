@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="mysql-connector-java-5.1.37-bin">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/task04/src/main/webapp/WEB-INF/lib/mysql-connector-java-5.1.37-bin.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
