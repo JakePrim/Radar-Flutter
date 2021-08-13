@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>并集选择器</title>
+    <style>
+        h2,.demo{
+            color: red;
+        }
+        /* 避免使用通配符选择效率过低的问题 */
+        body,h2,div,ul,li,p{
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <h2>标题</h2>
+    <div class="box1">
+        <ul>
+            <li><p>段落</p></li>
+            <li><p class="demo">段落</p></li>
+            <li><p>段落</p></li>
+            <li><p>段落</p></li>
+        </ul>
+        <p>dsds</p>
+    </div>
+</body>
+</html>

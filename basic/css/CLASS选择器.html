@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLASS选择器</title>
+    <style>
+        .demo{
+            color: red;
+        }
+        .bg{
+            background-color: #000;
+        }
+        /*提前设置一些原子类*/
+        .fs12{
+            font-size: 12px;
+        }
+        .fs14{
+            font-size: 14px;
+        }
+        .fs16{
+            font-size: 16px;
+        }
+        /*常用的颜色*/
+        .red{
+            color: red;
+        }
+        .blue{
+            color: blue;
+        }    
+    </style>
+</head>
+<body>
+    <p class="fs16 blue">段落标签</p>
+    <h3>三级标题内容</h3>
+    <p class="demo bg">段落标签</p>
+    <h3>三级标题内容</h3>
+    <div>
+        <div>
+            <p class="fs12 red">嵌套段落</p>
+        </div>
+    </div>
+</body>
+</html>

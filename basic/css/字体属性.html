@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .ps {
+            /*font-weight: bold;!*normal 正常显示 , bold加粗*!*/
+            font-weight: 700;/* 400 = normal,700 = bold*/
+            font-style: normal;/*normal:正规字体
+            italic:斜体文字 针对英文
+            oblique:倾斜文字 只是将文字倾斜显示*/
+        }
+        .normal{
+            font-style: normal;
+        }
+        .italic{
+            font-style: italic;
+        }
+        .oblique{
+            font-style: oblique;
+        }
+        .box{
+            font-size:14px;
+            line-height: 14px;/* 行高 */
+        }
+        .ps1{
+            font: bold italic 16px/18px "宋体";/*综合书写字体属性：加粗 斜体 字号/行高 字体*/
+        }
+    </style>
+</head>
+<body>
+<p class="ps">文字的样式</p>
+<b>这是加粗标签b</b> <!-- b标签的默认样式font-weight: bold; 注意：标签只是语义，样式都是由css控制
+ 只不过一些标签 被浏览器添加了默认样式
+ -->
+<p class="normal">查看文字显示 normal</p>
+<p class="italic">查看文字显示 italic</p>
+<p class="oblique">查看文字显示 oblique</p>
+<i>这是i标签</i> <!-- i标签的默认样式 font-style: italic; -->
+<div class="box">看文字的高度</div>
+<p class="ps1">font字体综合属性</p>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>层叠性-祖先级</title>
+    <style>
+        #box1{
+            color:red;
+        }
+        .box2{
+            color:green;
+        }
+        /* 1. 组先级距离不一样，就近原则，而不是比较权重了  */
+        .box3{
+            color:blue;
+        }
+        /* 2. 组先级距离一样，比较权重*/
+        #box3{
+            color:yellow;
+        }
+        /* 3. 距离相同的祖先级，权重也相同 根据书写顺序，后写的层叠到先写的*/
+        .box3 #ps{
+            color:coral;
+        }
+        #box3 .demo{
+            color:orangered;
+        }
+
+        /* 4. 遇到important，会将权重提高到最大,在就近原则中，所有important会失效*/
+        body p{
+            color:darkorchid !important;
+        }
+    </style>
+</head>
+<body>
+<div class="box1" id="box1">
+    <div class="box2" id="box2">
+        <div class="box3" id="box3">
+            <p class="demo" id="ps" style="color: black">文字的颜色</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

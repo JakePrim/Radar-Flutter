@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .ps {
+            width: 300px;
+            height: 300px;
+            background-color: pink;
+            text-align: center; /* 文字的水平对齐：left center right */
+            text-decoration: none;
+            /*
+                            none 没有修饰
+                            overline 上划线
+                            line-through 中划线
+                            underline 下划线
+                            可以通过该属性设置none,使a标签没有下划线
+                        */
+        }
+
+        .indent {
+            text-indent: 2em; /*首行缩进:px 缩进多少像素，em缩进几个字符,%父级标签width的宽度百分比*/
+        }
+    </style>
+</head>
+<body>
+<p class="ps">这是一段文字</p>
+<p style="text-decoration: none">没有线条</p>
+<p style="text-decoration: overline">上划线</p>
+<p style="text-decoration: line-through">中划线</p>
+<p style="text-decoration: underline">下划线</p>
+<a href="#" style="text-decoration: none">没有下划线的超级链接</a>
+<p class="indent">圣诞节设计思路可及时了解多少了肯定就是</p>
+</body>
+</html>
