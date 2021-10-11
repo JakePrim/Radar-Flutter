@@ -1,0 +1,3 @@
+D:/developer/workspace/cworkspace/cbase/cmake-build-debug/CMakeFiles/cbase.dir
+D:/developer/workspace/cworkspace/cbase/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/developer/workspace/cworkspace/cbase/cmake-build-debug/CMakeFiles/rebuild_cache.dir
