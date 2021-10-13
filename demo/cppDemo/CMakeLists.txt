@@ -3,4 +3,4 @@ project(cppDemo)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(cppDemo main.cpp ArrayList.cpp ArrayList.h friendFun.cpp friendClass.cpp)
+add_executable(cppDemo ArrayList.h virtualT.cpp)

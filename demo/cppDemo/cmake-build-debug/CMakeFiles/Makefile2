@@ -92,12 +92,12 @@ clean: CMakeFiles/cppDemo.dir/clean
 CMakeFiles/cppDemo.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\cppDemo.dir\build.make CMakeFiles/cppDemo.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\cppDemo.dir\build.make CMakeFiles/cppDemo.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\cmake-build-debug\CMakeFiles --progress-num=1,2,3,4,5 "Built target cppDemo"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\cmake-build-debug\CMakeFiles --progress-num=1,2 "Built target cppDemo"
 .PHONY : CMakeFiles/cppDemo.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/cppDemo.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\cmake-build-debug\CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\cmake-build-debug\CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/cppDemo.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\cmake-build-debug\CMakeFiles 0
 .PHONY : CMakeFiles/cppDemo.dir/rule

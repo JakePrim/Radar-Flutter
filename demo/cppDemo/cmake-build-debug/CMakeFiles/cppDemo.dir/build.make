@@ -75,77 +75,32 @@ include CMakeFiles/cppDemo.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/cppDemo.dir/flags.make
 
-CMakeFiles/cppDemo.dir/main.cpp.obj: CMakeFiles/cppDemo.dir/flags.make
-CMakeFiles/cppDemo.dir/main.cpp.obj: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/cppDemo.dir/main.cpp.obj"
-	D:\developer\tool\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\cppDemo.dir\main.cpp.obj -c D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\main.cpp
+CMakeFiles/cppDemo.dir/virtualT.cpp.obj: CMakeFiles/cppDemo.dir/flags.make
+CMakeFiles/cppDemo.dir/virtualT.cpp.obj: ../virtualT.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/cppDemo.dir/virtualT.cpp.obj"
+	D:\developer\tool\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\cppDemo.dir\virtualT.cpp.obj -c D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\virtualT.cpp
 
-CMakeFiles/cppDemo.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cppDemo.dir/main.cpp.i"
-	D:\developer\tool\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\main.cpp > CMakeFiles\cppDemo.dir\main.cpp.i
+CMakeFiles/cppDemo.dir/virtualT.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cppDemo.dir/virtualT.cpp.i"
+	D:\developer\tool\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\virtualT.cpp > CMakeFiles\cppDemo.dir\virtualT.cpp.i
 
-CMakeFiles/cppDemo.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cppDemo.dir/main.cpp.s"
-	D:\developer\tool\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\main.cpp -o CMakeFiles\cppDemo.dir\main.cpp.s
-
-CMakeFiles/cppDemo.dir/ArrayList.cpp.obj: CMakeFiles/cppDemo.dir/flags.make
-CMakeFiles/cppDemo.dir/ArrayList.cpp.obj: ../ArrayList.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/cppDemo.dir/ArrayList.cpp.obj"
-	D:\developer\tool\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\cppDemo.dir\ArrayList.cpp.obj -c D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\ArrayList.cpp
-
-CMakeFiles/cppDemo.dir/ArrayList.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cppDemo.dir/ArrayList.cpp.i"
-	D:\developer\tool\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\ArrayList.cpp > CMakeFiles\cppDemo.dir\ArrayList.cpp.i
-
-CMakeFiles/cppDemo.dir/ArrayList.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cppDemo.dir/ArrayList.cpp.s"
-	D:\developer\tool\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\ArrayList.cpp -o CMakeFiles\cppDemo.dir\ArrayList.cpp.s
-
-CMakeFiles/cppDemo.dir/friendFun.cpp.obj: CMakeFiles/cppDemo.dir/flags.make
-CMakeFiles/cppDemo.dir/friendFun.cpp.obj: ../friendFun.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/cppDemo.dir/friendFun.cpp.obj"
-	D:\developer\tool\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\cppDemo.dir\friendFun.cpp.obj -c D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\friendFun.cpp
-
-CMakeFiles/cppDemo.dir/friendFun.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cppDemo.dir/friendFun.cpp.i"
-	D:\developer\tool\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\friendFun.cpp > CMakeFiles\cppDemo.dir\friendFun.cpp.i
-
-CMakeFiles/cppDemo.dir/friendFun.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cppDemo.dir/friendFun.cpp.s"
-	D:\developer\tool\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\friendFun.cpp -o CMakeFiles\cppDemo.dir\friendFun.cpp.s
-
-CMakeFiles/cppDemo.dir/friendClass.cpp.obj: CMakeFiles/cppDemo.dir/flags.make
-CMakeFiles/cppDemo.dir/friendClass.cpp.obj: ../friendClass.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/cppDemo.dir/friendClass.cpp.obj"
-	D:\developer\tool\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\cppDemo.dir\friendClass.cpp.obj -c D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\friendClass.cpp
-
-CMakeFiles/cppDemo.dir/friendClass.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cppDemo.dir/friendClass.cpp.i"
-	D:\developer\tool\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\friendClass.cpp > CMakeFiles\cppDemo.dir\friendClass.cpp.i
-
-CMakeFiles/cppDemo.dir/friendClass.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cppDemo.dir/friendClass.cpp.s"
-	D:\developer\tool\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\friendClass.cpp -o CMakeFiles\cppDemo.dir\friendClass.cpp.s
+CMakeFiles/cppDemo.dir/virtualT.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cppDemo.dir/virtualT.cpp.s"
+	D:\developer\tool\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\virtualT.cpp -o CMakeFiles\cppDemo.dir\virtualT.cpp.s
 
 # Object files for target cppDemo
 cppDemo_OBJECTS = \
-"CMakeFiles/cppDemo.dir/main.cpp.obj" \
-"CMakeFiles/cppDemo.dir/ArrayList.cpp.obj" \
-"CMakeFiles/cppDemo.dir/friendFun.cpp.obj" \
-"CMakeFiles/cppDemo.dir/friendClass.cpp.obj"
+"CMakeFiles/cppDemo.dir/virtualT.cpp.obj"
 
 # External object files for target cppDemo
 cppDemo_EXTERNAL_OBJECTS =
 
-cppDemo.exe: CMakeFiles/cppDemo.dir/main.cpp.obj
-cppDemo.exe: CMakeFiles/cppDemo.dir/ArrayList.cpp.obj
-cppDemo.exe: CMakeFiles/cppDemo.dir/friendFun.cpp.obj
-cppDemo.exe: CMakeFiles/cppDemo.dir/friendClass.cpp.obj
+cppDemo.exe: CMakeFiles/cppDemo.dir/virtualT.cpp.obj
 cppDemo.exe: CMakeFiles/cppDemo.dir/build.make
 cppDemo.exe: CMakeFiles/cppDemo.dir/linklibs.rsp
 cppDemo.exe: CMakeFiles/cppDemo.dir/objects1.rsp
 cppDemo.exe: CMakeFiles/cppDemo.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable cppDemo.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=D:\developer\workspace\mediaspace\summer-player\demo\cppDemo\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable cppDemo.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\cppDemo.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

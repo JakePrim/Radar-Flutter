@@ -80,19 +80,10 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="D:/developer/workspace/mediaspace/summer-player/demo/cppDemo/ArrayList.cpp">
-			<Option target="cppDemo"/>
-		</Unit>
 		<Unit filename="D:/developer/workspace/mediaspace/summer-player/demo/cppDemo/ArrayList.h">
 			<Option target="cppDemo"/>
 		</Unit>
-		<Unit filename="D:/developer/workspace/mediaspace/summer-player/demo/cppDemo/friendClass.cpp">
-			<Option target="cppDemo"/>
-		</Unit>
-		<Unit filename="D:/developer/workspace/mediaspace/summer-player/demo/cppDemo/friendFun.cpp">
-			<Option target="cppDemo"/>
-		</Unit>
-		<Unit filename="D:/developer/workspace/mediaspace/summer-player/demo/cppDemo/main.cpp">
+		<Unit filename="D:/developer/workspace/mediaspace/summer-player/demo/cppDemo/virtualT.cpp">
 			<Option target="cppDemo"/>
 		</Unit>
 		<Unit filename="D:/developer/workspace/mediaspace/summer-player/demo/cppDemo/CMakeLists.txt">

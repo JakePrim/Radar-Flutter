@@ -4,10 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "D:/developer/workspace/mediaspace/summer-player/demo/cppDemo/ArrayList.cpp" "D:/developer/workspace/mediaspace/summer-player/demo/cppDemo/cmake-build-debug/CMakeFiles/cppDemo.dir/ArrayList.cpp.obj"
-  "D:/developer/workspace/mediaspace/summer-player/demo/cppDemo/friendClass.cpp" "D:/developer/workspace/mediaspace/summer-player/demo/cppDemo/cmake-build-debug/CMakeFiles/cppDemo.dir/friendClass.cpp.obj"
-  "D:/developer/workspace/mediaspace/summer-player/demo/cppDemo/friendFun.cpp" "D:/developer/workspace/mediaspace/summer-player/demo/cppDemo/cmake-build-debug/CMakeFiles/cppDemo.dir/friendFun.cpp.obj"
-  "D:/developer/workspace/mediaspace/summer-player/demo/cppDemo/main.cpp" "D:/developer/workspace/mediaspace/summer-player/demo/cppDemo/cmake-build-debug/CMakeFiles/cppDemo.dir/main.cpp.obj"
+  "D:/developer/workspace/mediaspace/summer-player/demo/cppDemo/virtualT.cpp" "D:/developer/workspace/mediaspace/summer-player/demo/cppDemo/cmake-build-debug/CMakeFiles/cppDemo.dir/virtualT.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

@@ -1,8 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/cppDemo.dir/ArrayList.cpp.obj"
-  "CMakeFiles/cppDemo.dir/friendClass.cpp.obj"
-  "CMakeFiles/cppDemo.dir/friendFun.cpp.obj"
-  "CMakeFiles/cppDemo.dir/main.cpp.obj"
+  "CMakeFiles/cppDemo.dir/virtualT.cpp.obj"
   "cppDemo.exe"
   "cppDemo.exe.manifest"
   "cppDemo.pdb"

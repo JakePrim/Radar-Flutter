@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+D:/developer/workspace/mediaspace/summer-player/demo/cppDemo/ArrayList.h
+iostream
+-
+
+D:/developer/workspace/mediaspace/summer-player/demo/cppDemo/virtualT.cpp
+iostream
+-
+ArrayList.h
+D:/developer/workspace/mediaspace/summer-player/demo/cppDemo/ArrayList.h
+

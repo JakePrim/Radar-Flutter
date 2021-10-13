@@ -141,113 +141,32 @@ cppDemo/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\cppDemo.dir\build.make CMakeFiles/cppDemo.dir/build
 .PHONY : cppDemo/fast
 
-ArrayList.obj: ArrayList.cpp.obj
+virtualT.obj: virtualT.cpp.obj
 
-.PHONY : ArrayList.obj
-
-# target to build an object file
-ArrayList.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\cppDemo.dir\build.make CMakeFiles/cppDemo.dir/ArrayList.cpp.obj
-.PHONY : ArrayList.cpp.obj
-
-ArrayList.i: ArrayList.cpp.i
-
-.PHONY : ArrayList.i
-
-# target to preprocess a source file
-ArrayList.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\cppDemo.dir\build.make CMakeFiles/cppDemo.dir/ArrayList.cpp.i
-.PHONY : ArrayList.cpp.i
-
-ArrayList.s: ArrayList.cpp.s
-
-.PHONY : ArrayList.s
-
-# target to generate assembly for a file
-ArrayList.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\cppDemo.dir\build.make CMakeFiles/cppDemo.dir/ArrayList.cpp.s
-.PHONY : ArrayList.cpp.s
-
-friendClass.obj: friendClass.cpp.obj
-
-.PHONY : friendClass.obj
+.PHONY : virtualT.obj
 
 # target to build an object file
-friendClass.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\cppDemo.dir\build.make CMakeFiles/cppDemo.dir/friendClass.cpp.obj
-.PHONY : friendClass.cpp.obj
+virtualT.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cppDemo.dir\build.make CMakeFiles/cppDemo.dir/virtualT.cpp.obj
+.PHONY : virtualT.cpp.obj
 
-friendClass.i: friendClass.cpp.i
+virtualT.i: virtualT.cpp.i
 
-.PHONY : friendClass.i
-
-# target to preprocess a source file
-friendClass.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\cppDemo.dir\build.make CMakeFiles/cppDemo.dir/friendClass.cpp.i
-.PHONY : friendClass.cpp.i
-
-friendClass.s: friendClass.cpp.s
-
-.PHONY : friendClass.s
-
-# target to generate assembly for a file
-friendClass.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\cppDemo.dir\build.make CMakeFiles/cppDemo.dir/friendClass.cpp.s
-.PHONY : friendClass.cpp.s
-
-friendFun.obj: friendFun.cpp.obj
-
-.PHONY : friendFun.obj
-
-# target to build an object file
-friendFun.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\cppDemo.dir\build.make CMakeFiles/cppDemo.dir/friendFun.cpp.obj
-.PHONY : friendFun.cpp.obj
-
-friendFun.i: friendFun.cpp.i
-
-.PHONY : friendFun.i
+.PHONY : virtualT.i
 
 # target to preprocess a source file
-friendFun.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\cppDemo.dir\build.make CMakeFiles/cppDemo.dir/friendFun.cpp.i
-.PHONY : friendFun.cpp.i
+virtualT.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cppDemo.dir\build.make CMakeFiles/cppDemo.dir/virtualT.cpp.i
+.PHONY : virtualT.cpp.i
 
-friendFun.s: friendFun.cpp.s
+virtualT.s: virtualT.cpp.s
 
-.PHONY : friendFun.s
-
-# target to generate assembly for a file
-friendFun.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\cppDemo.dir\build.make CMakeFiles/cppDemo.dir/friendFun.cpp.s
-.PHONY : friendFun.cpp.s
-
-main.obj: main.cpp.obj
-
-.PHONY : main.obj
-
-# target to build an object file
-main.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\cppDemo.dir\build.make CMakeFiles/cppDemo.dir/main.cpp.obj
-.PHONY : main.cpp.obj
-
-main.i: main.cpp.i
-
-.PHONY : main.i
-
-# target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\cppDemo.dir\build.make CMakeFiles/cppDemo.dir/main.cpp.i
-.PHONY : main.cpp.i
-
-main.s: main.cpp.s
-
-.PHONY : main.s
+.PHONY : virtualT.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\cppDemo.dir\build.make CMakeFiles/cppDemo.dir/main.cpp.s
-.PHONY : main.cpp.s
+virtualT.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cppDemo.dir\build.make CMakeFiles/cppDemo.dir/virtualT.cpp.s
+.PHONY : virtualT.cpp.s
 
 # Help Target
 help:
@@ -258,18 +177,9 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... cppDemo
-	@echo ... ArrayList.obj
-	@echo ... ArrayList.i
-	@echo ... ArrayList.s
-	@echo ... friendClass.obj
-	@echo ... friendClass.i
-	@echo ... friendClass.s
-	@echo ... friendFun.obj
-	@echo ... friendFun.i
-	@echo ... friendFun.s
-	@echo ... main.obj
-	@echo ... main.i
-	@echo ... main.s
+	@echo ... virtualT.obj
+	@echo ... virtualT.i
+	@echo ... virtualT.s
 .PHONY : help
 
 
