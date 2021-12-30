@@ -1,3 +1,0 @@
-"D:\developer\tool\CLion 2021.1.3\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\cbase.dir/objects.a
-D:\developer\tool\mingw64\bin\ar.exe cr CMakeFiles\cbase.dir/objects.a @CMakeFiles\cbase.dir\objects1.rsp
-D:\developer\tool\mingw64\bin\gcc.exe -g -Wl,--whole-archive CMakeFiles\cbase.dir/objects.a -Wl,--no-whole-archive -o cbase.exe -Wl,--out-implib,libcbase.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\cbase.dir\linklibs.rsp

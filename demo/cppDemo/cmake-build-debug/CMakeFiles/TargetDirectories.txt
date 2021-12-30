@@ -1,3 +1,0 @@
-D:/developer/workspace/mediaspace/summer-player/demo/cppDemo/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-D:/developer/workspace/mediaspace/summer-player/demo/cppDemo/cmake-build-debug/CMakeFiles/cppDemo.dir
-D:/developer/workspace/mediaspace/summer-player/demo/cppDemo/cmake-build-debug/CMakeFiles/edit_cache.dir
