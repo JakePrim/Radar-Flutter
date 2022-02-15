@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/wizardx-common" />
             <option value="$PROJECT_DIR$/wizardx-net" />
             <option value="$PROJECT_DIR$/wizardx-player" />
+            <option value="$PROJECT_DIR$/wizardx-ui" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
