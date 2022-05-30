@@ -1,0 +1,22 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "AbstergoAndroid"
+include ':app'
+include ':abstergo-core'
+include ':abstergo-http'
+include ':abstergo-cache'
+include ':abstergo-ui'
+include ':abstergo-player'
+include ':abstergo-utils'
