@@ -11,13 +11,13 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/abstergo-cache" />
-            <option value="$PROJECT_DIR$/abstergo-core" />
-            <option value="$PROJECT_DIR$/abstergo-http" />
-            <option value="$PROJECT_DIR$/abstergo-player" />
-            <option value="$PROJECT_DIR$/abstergo-ui" />
-            <option value="$PROJECT_DIR$/abstergo-utils" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/fbe-cache" />
+            <option value="$PROJECT_DIR$/fbe-core" />
+            <option value="$PROJECT_DIR$/fbe-http" />
+            <option value="$PROJECT_DIR$/fbe-share" />
+            <option value="$PROJECT_DIR$/fbe-ui" />
+            <option value="$PROJECT_DIR$/fbe-utils" />
           </set>
         </option>
       </GradleProjectSettings>

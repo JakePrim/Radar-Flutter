@@ -12,11 +12,11 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "AbstergoAndroid"
+rootProject.name = "FBEAndroid"
 include ':app'
-include ':abstergo-core'
-include ':abstergo-http'
-include ':abstergo-cache'
-include ':abstergo-ui'
-include ':abstergo-player'
-include ':abstergo-utils'
+include ':fbe-core'
+include ':fbe-http'
+include ':fbe-cache'
+include ':fbe-ui'
+include ':fbe-share'
+include ':fbe-utils'
