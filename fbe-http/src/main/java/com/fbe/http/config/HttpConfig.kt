@@ -1,11 +1,12 @@
 package com.fbe.http.config
 
 import android.content.Context
-import com.fbe.http.exception.DefaultDefineException
-import com.fbe.http.exception.DefaultHandleException
-import com.fbe.http.exception.IException
-import com.fbe.http.exception.IHandleException
+import com.fbe.http.exception.*
 import com.fbe.http.ssl.SSLContextUtil
+import com.fbe.http.transformer.FactoryRegistry
+import com.fbe.http.transformer.ResponseTransformer
+import com.fbe.http.transformer.ThrowableResolver
+import com.fbe.http.transformer.TransformConverterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
@@ -50,10 +51,6 @@ class HttpConfig : IConfig {
         okhttpBuilder.writeTimeout(DEFAULT_READ_TIMEOUT.toLong(), TimeUnit.SECONDS)
         //支持https
         val sslContext: SSLContext = SSLContextUtil.getDefaultSLLContext()
-        if (sslContext != null) {
-            val socketFactory = sslContext.socketFactory
-//            okhttpBuilder.sslSocketFactory(socketFactory)
-        }
         okhttpBuilder.hostnameVerifier(SSLContextUtil.HOSTNAME_VERIFIER)
     }
 
@@ -74,11 +71,13 @@ class HttpConfig : IConfig {
 
     override fun setDefineException(exception: IException): IConfig {
         this.defineException = exception
+        RegistryException.registerDefineException(exception)
         return this
     }
 
     override fun setHandleException(handle: IHandleException): IConfig {
         this.handleException = handle
+        RegistryException.registerHandleException(handle)
         return this
     }
 
@@ -97,18 +96,31 @@ class HttpConfig : IConfig {
         return this
     }
 
+    override fun registerResponseTransformer(factory: ResponseTransformer.Factory): IConfig {
+        FactoryRegistry.registerResponseTransformer(factory)
+        return this
+    }
+
+    override fun registerThrowableResolver(factory: ThrowableResolver.Factory<*>): IConfig {
+        FactoryRegistry.registerThrowableResolver(factory)
+        return this
+    }
+
     override fun build(context: Context) {
         this.context = context
         if (this.defineException == null) {
             this.defineException = DefaultDefineException(context)
+            RegistryException.registerDefineException(this.defineException!!)
         }
         if (this.handleException == null) {
             this.handleException = DefaultHandleException()
+            RegistryException.registerHandleException(this.handleException!!)
         }
         this.okHttpClient = okhttpBuilder.build()
         this.retrofit = retrofitBuilder
             .client(okHttpClient)
             .addConverterFactory(NullOnEmptyConverterFactory())
+            .addConverterFactory(TransformConverterFactory())
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(baseUrl)
             .build()

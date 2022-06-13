@@ -1,11 +1,16 @@
 package com.fbe.http
 
+import com.fbe.http.exception.RegistryException
+import com.fbe.http.exception.ResponseThrowable
+
 /**
  * 框架内部不会对 BaseResponse进行封装处理，而是交给框架的使用者
  * 框架内部提供转换接口，这样框架可以对任何返回的数据进行处理
  */
 interface APIResult<T, F : APIResult.Failure> {
-    interface Failure
+    interface Failure {
+        fun getThrowable(): ResponseThrowable
+    }
 
     val isSuccess: Boolean
 
