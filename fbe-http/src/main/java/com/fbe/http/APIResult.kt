@@ -24,13 +24,13 @@ interface APIResult<T, F : APIResult.Failure> {
     val failure: F?
 }
 
-inline fun <T, F, R : APIResult<T, F>> R.onSuccess(block: (data: T) -> Unit): R {
-    data?.takeIf { isSuccess }?.let(block)
+inline fun <T, F, R : APIResult<T, F>> R.onSuccess(block: (data: T?) -> Unit): R {
+    data.takeIf { isSuccess }.let(block)
     return this
 }
 
-inline fun <T, F, R : APIResult<T, F>> R.onFailure(block: (failure: F) -> Unit): R {
-    failure?.takeIf { isFailure }?.let(block)
+inline fun <T, F, R : APIResult<T, F>> R.onFailure(block: (failure: F?) -> Unit): R {
+    failure.takeIf { isFailure }.let(block)
     return this
 }
 
